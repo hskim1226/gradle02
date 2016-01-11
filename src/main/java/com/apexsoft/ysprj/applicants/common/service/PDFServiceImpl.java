@@ -9,7 +9,6 @@ import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.exception.YSBizNoticeException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
-import com.apexsoft.framework.persistence.file.exception.FileNoticeException;
 import com.apexsoft.framework.persistence.file.exception.NotFoundInS3Exception;
 import com.apexsoft.framework.persistence.file.exception.PDFMergeException;
 import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
@@ -20,14 +19,15 @@ import com.apexsoft.ysprj.applicants.common.domain.ParamForPDFDocument;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import org.apache.commons.io.FileUtils;
-import org.apache.pdfbox.exceptions.COSVisitorException;
+import org.apache.pdfbox.io.MemoryUsageSetting;
+import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.PDPageTree;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
-import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
-import org.apache.pdfbox.util.PDFMergerUtility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,10 +37,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by hanmomhanda on 15. 2. 22.
@@ -154,7 +151,7 @@ public class PDFServiceImpl implements PDFService {
                         mergerUtility.addSource(mergeSamplePdf);
                         try {
                             mergerUtility.addSource(new ByteArrayInputStream(baos.toByteArray()));
-                            mergerUtility.mergeDocuments();
+                            mergerUtility.mergeDocuments(MemoryUsageSetting.setupMixed(500*1024*1024));
                         } catch (Exception e) {
                             logger.debug("merging PDF files fails, in PDFServiceImpl.getPdfListFromS3(), FileName : " + orgFileName);
                             ec.setResult(ExecutionContext.FAIL);
@@ -227,7 +224,7 @@ public class PDFServiceImpl implements PDFService {
 
         try {
             mergerUtil.setIgnoreAcroFormErrors(true);
-            mergerUtil.mergeDocuments();
+            mergerUtil.mergeDocuments(MemoryUsageSetting.setupMixed(500*1024*1024));
         } catch (IOException e) {
             logger.error("merge files from S3 failed, applNo : " + applNo + ", destFileName : " + mergerUtil.getDestinationFileName());
             logger.error(e.getMessage());
@@ -238,14 +235,14 @@ public class PDFServiceImpl implements PDFService {
             errorInfo.put("applNo", String.valueOf(applNo));
             ec.setErrorInfo(new ErrorInfo(errorInfo));
             throw new YSBizNoticeException(ec);
-        } catch (COSVisitorException e) {
-            ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(MessageResolver.getMessage("U801"));
-            ec.setErrCode("ERR1101");
-            Map<String, String> errorInfo = new HashMap<String, String>();
-            errorInfo.put("applNo", String.valueOf(applNo));
-            ec.setErrorInfo(new ErrorInfo(errorInfo));
-            throw new YSBizException(ec);
+//        } catch (COSVisitorException e) {
+//            ec.setResult(ExecutionContext.FAIL);
+//            ec.setMessage(MessageResolver.getMessage("U801"));
+//            ec.setErrCode("ERR1101");
+//            Map<String, String> errorInfo = new HashMap<String, String>();
+//            errorInfo.put("applNo", String.valueOf(applNo));
+//            ec.setErrorInfo(new ErrorInfo(errorInfo));
+//            throw new YSBizException(ec);
         } catch (Throwable t) {
             logger.debug("merging PDF files fails, in PDFServiceImpl.getRawMergedFile(), applNo : " + applNo);
             ec.setResult(ExecutionContext.FAIL);
@@ -266,8 +263,6 @@ public class PDFServiceImpl implements PDFService {
      * @param applicationFilePath    원서 파일 경로
      * @param applNo
      * @return
-     * @throws IOException
-     * @throws COSVisitorException
      */
     private File getPageNumberedPDF(File rawMergedFile, String applicationFilePath, int applNo) {
 
@@ -278,15 +273,40 @@ public class PDFServiceImpl implements PDFService {
         try {
             mergedPDDocument = PDDocument.load(rawMergedFile);
 
-            List allPages = mergedPDDocument.getDocumentCatalog().getAllPages();
-            int length = allPages.size();
+//            List allPages = mergedPDDocument.getDocumentCatalog().getAllPages();
+//            int length = allPages.size();
+//            PDFont font = PDType1Font.HELVETICA;
+//            float fontSize = 15.0f;
+//
+//            for ( int i = 0 ; i < length ; i++ ) {
+//                PDPage page = (PDPage)allPages.get(i);
+//                PDRectangle pageSize = page.findMediaBox();
+//                String strPage = new StringBuilder().append(i+1).append("/").append(length).toString();
+//                float stringWidth = font.getStringWidth(strPage)*fontSize/1000f;
+//                float pageWidth = pageSize.getWidth();
+//                float pageHeight = pageSize.getHeight();
+//                PDPageContentStream contentStream = new PDPageContentStream(mergedPDDocument, page, true, true, true);
+//                contentStream.beginText();
+//                contentStream.setFont(font, fontSize);
+//                contentStream.setTextTranslation(pageWidth - stringWidth - 15, pageHeight - 20);
+//                contentStream.drawString(strPage);
+//                contentStream.endText();
+//                contentStream.close();
+//            }
+//
+//            mergedPDDocument.save(numberedMergedFileFullPath);
+
+
             PDFont font = PDType1Font.HELVETICA;
             float fontSize = 15.0f;
-
-            for ( int i = 0 ; i < length ; i++ ) {
-                PDPage page = (PDPage)allPages.get(i);
-                PDRectangle pageSize = page.findMediaBox();
-                String strPage = new StringBuilder().append(i+1).append("/").append(length).toString();
+            PDPageTree pageTree = mergedPDDocument.getPages();
+            int length = mergedPDDocument.getNumberOfPages();
+            Iterator<PDPage> it = pageTree.iterator();
+            int i = 0;
+            while (it.hasNext()) {
+                PDPage page = it.next();
+                PDRectangle pageSize = page.getMediaBox();
+                String strPage = new StringBuilder().append(++i).append("/").append(length).toString();
                 float stringWidth = font.getStringWidth(strPage)*fontSize/1000f;
                 float pageWidth = pageSize.getWidth();
                 float pageHeight = pageSize.getHeight();
@@ -307,14 +327,14 @@ public class PDFServiceImpl implements PDFService {
             errorInfo.put("applNo", String.valueOf(applNo));
             ec.setErrorInfo(new ErrorInfo(errorInfo));
             throw new YSBizException(ec);
-        } catch (COSVisitorException e) {
-            ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(MessageResolver.getMessage("U801"));
-            ec.setErrCode("ERR1101");
-            Map<String, String> errorInfo = new HashMap<String, String>();
-            errorInfo.put("applNo", String.valueOf(applNo));
-            ec.setErrorInfo(new ErrorInfo(errorInfo));
-            throw new YSBizException(ec);
+//        } catch (COSVisitorException e) {
+//            ec.setResult(ExecutionContext.FAIL);
+//            ec.setMessage(MessageResolver.getMessage("U801"));
+//            ec.setErrCode("ERR1101");
+//            Map<String, String> errorInfo = new HashMap<String, String>();
+//            errorInfo.put("applNo", String.valueOf(applNo));
+//            ec.setErrorInfo(new ErrorInfo(errorInfo));
+//            throw new YSBizException(ec);
         } finally {
             if (mergedPDDocument != null) {
                 try {
@@ -352,7 +372,7 @@ public class PDFServiceImpl implements PDFService {
             lastMergeUtil.addSource(applicationFormFile);
             lastMergeUtil.addSource(numberedMergedFile);
             lastMergeUtil.setDestinationFileName(mergedApplicationFormFilePath);
-            lastMergeUtil.mergeDocuments();
+            lastMergeUtil.mergeDocuments(MemoryUsageSetting.setupMixed(500*1024*1024));
             logger.debug("All Merge 성공, applNo : " + applNo);
         } catch (IOException e) {
             ec.setResult(ExecutionContext.FAIL);
@@ -362,15 +382,16 @@ public class PDFServiceImpl implements PDFService {
             errorInfo.put("applNo", String.valueOf(applNo));
             ec.setErrorInfo(new ErrorInfo(errorInfo));
             throw new YSBizException(ec);
-        } catch (COSVisitorException e) {
-            ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(MessageResolver.getMessage("U801"));
-            ec.setErrCode("ERR1101");
-            Map<String, String> errorInfo = new HashMap<String, String>();
-            errorInfo.put("applNo", String.valueOf(applNo));
-            ec.setErrorInfo(new ErrorInfo(errorInfo));
-            throw new YSBizException(ec);
         }
+//        catch (COSVisitorException e) {
+//            ec.setResult(ExecutionContext.FAIL);
+//            ec.setMessage(MessageResolver.getMessage("U801"));
+//            ec.setErrCode("ERR1101");
+//            Map<String, String> errorInfo = new HashMap<String, String>();
+//            errorInfo.put("applNo", String.valueOf(applNo));
+//            ec.setErrorInfo(new ErrorInfo(errorInfo));
+//            throw new YSBizException(ec);
+//        }
         return new File(mergedApplicationFormFilePath);
     }
 

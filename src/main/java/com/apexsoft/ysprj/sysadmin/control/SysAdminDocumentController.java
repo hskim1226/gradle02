@@ -31,7 +31,8 @@ import com.apexsoft.ysprj.applicants.common.util.WebUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.pdfbox.util.PDFMergerUtility;
+import org.apache.pdfbox.io.MemoryUsageSetting;
+import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -212,9 +213,11 @@ public class SysAdminDocumentController {
      * 파일 업로드
      * 개별 파일 단위로 물리적 업로드 및 파일 업로드 테이블에도 저장
      *
-     * @param document
+     * @param application
      * @param binding
      * @param principal
+     * @param request
+     * @param multipartHttpServletRequest
      * @param fileHandler
      * @return
      */
@@ -317,7 +320,7 @@ public class SysAdminDocumentController {
                             mergerUtility.addSource(mergeSamplePdf);
                             try {
                                 mergerUtility.addSource(new ByteArrayInputStream(baos.toByteArray()));
-                                mergerUtility.mergeDocuments();
+                                mergerUtility.mergeDocuments(MemoryUsageSetting.setupMixed(500*1024*1024));
                             } catch (Exception e) {
                                 logger.debug("merging PDF files fails, in DocumentController.handleEvent(), FileName : " + fileItem.getOriginalFileName());
                                 ExecutionContext ec1 = new ExecutionContext(ExecutionContext.FAIL);

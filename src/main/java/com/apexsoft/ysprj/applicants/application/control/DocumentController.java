@@ -8,7 +8,6 @@ import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
-import com.apexsoft.framework.exception.GlobalExceptionHandler;
 import com.apexsoft.framework.exception.StackTraceFilter;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
@@ -31,10 +30,8 @@ import com.apexsoft.ysprj.applicants.common.util.WebUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.util.PDFMergerUtility;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
+import org.apache.pdfbox.io.MemoryUsageSetting;
+import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +44,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -497,7 +493,7 @@ public class DocumentController {
                             mergerUtility.addSource(mergeSamplePdf);
                             try {
                                 mergerUtility.addSource(new ByteArrayInputStream(baos.toByteArray()));
-                                mergerUtility.mergeDocuments();
+                                mergerUtility.mergeDocuments(MemoryUsageSetting.setupMixed(500*1024*1024));
                             } catch (Exception e) {
                                 logger.debug("merging PDF files fails, in DocumentController.handleEvent(), FileName : " + fileItem.getOriginalFileName());
                                 ExecutionContext ec1 = new ExecutionContext(ExecutionContext.FAIL);

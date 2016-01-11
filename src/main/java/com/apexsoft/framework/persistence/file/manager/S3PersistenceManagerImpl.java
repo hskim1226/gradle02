@@ -112,7 +112,8 @@ public class S3PersistenceManagerImpl implements FilePersistenceManager {
                 meta.setContentType("application/pdf");
                 PDDocument pdfFile = null;
                 try {
-                    pdfFile = PDDocument.loadNonSeq(new ByteArrayInputStream(baos.toByteArray()), null);
+//                    pdfFile = PDDocument.loadNonSeq(new ByteArrayInputStream(baos.toByteArray()), null);
+                    pdfFile = PDDocument.load(new ByteArrayInputStream(baos.toByteArray()));
                     pageCnt = pdfFile.getNumberOfPages();
 //                    AccessPermission pdfPermission = pdfFile.getCurrentAccessPermission();
                     if (pdfFile.isEncrypted()) {
