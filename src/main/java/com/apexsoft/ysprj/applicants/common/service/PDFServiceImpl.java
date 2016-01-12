@@ -14,6 +14,7 @@ import com.apexsoft.framework.persistence.file.exception.PDFMergeException;
 import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
+import com.apexsoft.ysprj.applicants.application.domain.ApplicationStatus;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.common.domain.ParamForPDFDocument;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
@@ -95,25 +96,25 @@ public class PDFServiceImpl implements PDFService {
         List<ApplicationDocument> pdfList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectPDFByApplNo", param, ApplicationDocument.class);
 
         // 첨부 파일 정보를 토대로 S3에서 각 첨부 파일 다운로드 하고 암호화 여부 체크
-
         List<ByteArrayOutputStream> unencryptedPdfFromS3List = getPdfListFromS3(s3, pdfList);
 
         // 페이지 넘버링을 위해 첨부 파일 머지
         File rawMergedFile = getRawMergedFile(unencryptedPdfFromS3List, application);
 
-        // 페이지 넘버링 파일
+        // 페이지 넘버링 적용
         File numberedMergedFile = getPageNumberedPDF(rawMergedFile, application);
 
-        // 로컬에 저장된 지원서 파일과 페이지 넘버링 된 첨부 파일 묶음을 또 머지
-        String uploadDirFullPath = FilePathUtil.getUploadDirectoryFullPath(fileBaseDir, s3MidPath, application.getAdmsNo(), userId, applNo);
-        String applicationFormFileFullPath = uploadDirFullPath + "/" + FilePathUtil.getApplicationFormFileName(userId);
-        File applicationFormFile = new File(applicationFormFileFullPath);
-        File mergedApplicationFormFile = getMergedApplicationFormFile(applicationFormFile, numberedMergedFile, uploadDirFullPath, applNo);
+        // 로컬에 생성된 지원서 파일
+        File applicationFormFile = new File(getPdfDirFullPath(application), FilePathUtil.getApplicationFormFileName(userId));
 
-        // 머지된 파일은 결제 전, 후에 S3에 업로드
+        // 로컬에 생성된 지원서 파일과 넘버링 된 합친 PDF를 또 합치기
+        File mergedApplicationFormFile = getMergedApplicationFormFile(applicationFormFile, numberedMergedFile, application);
+
+        // 최종 머지된 파일은 결제 전, 후에 S3에 업로드
         uploadToS3(s3, mergedApplicationFormFile, applNo);
 
-        if ("00020".equals(application.getApplStsCode())) { // 결제 완료 시
+        // 결제 완료 시
+        if (ApplicationStatus.COMPLETED.codeVal().equals(application.getApplStsCode())) {
             // 수험표 파일
             File applicationSlipFile = getApplicationSlipFile(application);
             uploadToS3(s3, applicationSlipFile, applNo); // 수험표는 결제 완료 후에 생성 및 업로드
@@ -367,13 +368,14 @@ public class PDFServiceImpl implements PDFService {
      *
      * @param applicationFormFile    원서 파일
      * @param numberedMergedFile    넘버링 된 첨부 파일 묶음 파일
-     * @param uploadDirFullPath    원서 파일 경로
-     * @param applNo
+     * @param application    원서 정보
      * @return
      */
-    private File getMergedApplicationFormFile(File applicationFormFile, File numberedMergedFile, String uploadDirFullPath, int applNo) {
+    private File getMergedApplicationFormFile(File applicationFormFile, File numberedMergedFile, Application application) {
         ExecutionContext ec = new ExecutionContext();
-        String mergedApplicationFormFilePath = FilePathUtil.getFinalMergedFileFullPath(uploadDirFullPath, applNo);
+        String downloadedPdfDirFullPath = getPdfDirFullPath(application);
+        int applNo = application.getApplNo();
+        String mergedApplicationFormFilePath = FilePathUtil.getFinalMergedFileFullPath(downloadedPdfDirFullPath, applNo);
         try {
             PDFMergerUtility lastMergeUtil = new PDFMergerUtility();
             lastMergeUtil.addSource(applicationFormFile);
@@ -387,6 +389,7 @@ public class PDFServiceImpl implements PDFService {
         return new File(mergedApplicationFormFilePath);
     }
 
+    // PDF 처리 관련 예외 처리
     private void exceptionThrower(int applNo, ExecutionContext ec) {
         ec.setResult(ExecutionContext.FAIL);
         ec.setMessage(MessageResolver.getMessage("U801"));
