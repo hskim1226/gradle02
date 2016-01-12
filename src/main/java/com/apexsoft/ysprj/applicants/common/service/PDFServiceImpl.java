@@ -28,6 +28,7 @@ import org.apache.pdfbox.pdmodel.PDPageTree;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.util.Matrix;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -310,11 +311,13 @@ public class PDFServiceImpl implements PDFService {
                 float stringWidth = font.getStringWidth(strPage)*fontSize/1000f;
                 float pageWidth = pageSize.getWidth();
                 float pageHeight = pageSize.getHeight();
+                Matrix m4Position = new Matrix();
+                m4Position.translate(pageWidth - stringWidth - 15, pageHeight - 20);
                 PDPageContentStream contentStream = new PDPageContentStream(mergedPDDocument, page, true, true, true);
                 contentStream.beginText();
                 contentStream.setFont(font, fontSize);
-                contentStream.setTextTranslation(pageWidth - stringWidth - 15, pageHeight - 20);
-                contentStream.drawString(strPage);
+                contentStream.setTextMatrix(m4Position);
+                contentStream.showText(strPage);
                 contentStream.endText();
                 contentStream.close();
             }
