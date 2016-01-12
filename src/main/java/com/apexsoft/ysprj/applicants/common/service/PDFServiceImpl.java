@@ -20,7 +20,6 @@ import com.apexsoft.ysprj.applicants.common.domain.ParamForPDFDocument;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import com.apexsoft.ysprj.applicants.common.util.StreamUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
-import org.apache.commons.io.FileUtils;
 import org.apache.pdfbox.io.MemoryUsageSetting;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -35,7 +34,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -96,7 +94,7 @@ public class PDFServiceImpl implements PDFService {
         List<ApplicationDocument> pdfList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectPDFByApplNo", param, ApplicationDocument.class);
 
         // 첨부 파일 정보를 토대로 S3에서 각 첨부 파일 다운로드 하고 암호화 여부 체크
-        List<ByteArrayOutputStream> unencryptedPdfFromS3List = getPdfListFromS3(s3, pdfList);
+        List<ByteArrayOutputStream> unencryptedPdfFromS3List = getByteArrayOutputStreamedPdfListFromS3(s3, pdfList);
 
         // 페이지 넘버링을 위해 첨부 파일 머지
         File rawMergedFile = getRawMergedFile(unencryptedPdfFromS3List, application);
@@ -113,7 +111,7 @@ public class PDFServiceImpl implements PDFService {
         // 최종 머지된 파일은 결제 전, 후에 S3에 업로드
         uploadToS3(s3, mergedApplicationFormFile, applNo);
 
-        // 결제 완료 시
+        // 결제 완료 시 수험번호 채번된 수험표와 지원서를 S3에 업로드
         if (ApplicationStatus.COMPLETED.codeVal().equals(application.getApplStsCode())) {
             // 수험표 파일
             File applicationSlipFile = getApplicationSlipFile(application);
@@ -137,111 +135,53 @@ public class PDFServiceImpl implements PDFService {
 
     /**
      * S3에서 PDF 파일을 다운로드 하고
-     * 암호화 되지 않은 PDF 파일은 BAOS에 담아 리스트로 반환하고,
-     * 암호화 된 PDF 파일은 encryptedPdfList에 추가한다.
+     * 암호화 되지 않은 PDF 파일은 BAOS에 담아 리스트로 반환
      *
      * @param s3
      * @param pdfList
      * @return
      */
-    private List<ByteArrayOutputStream> getPdfListFromS3(AmazonS3 s3, List<ApplicationDocument> pdfList) {
+    private List<ByteArrayOutputStream> getByteArrayOutputStreamedPdfListFromS3(AmazonS3 s3, List<ApplicationDocument> pdfList) {
         List<ByteArrayOutputStream> unencryptedPdfBaosList = new ArrayList<ByteArrayOutputStream>();
-        List<ApplicationDocument> encryptedPdfList = new ArrayList<ApplicationDocument>();
-        ExecutionContext ec = new ExecutionContext();
-
-        Map<String, String> notFoundInS3Map = new HashMap<String, String>();
 
         for (ApplicationDocument aDoc : pdfList) {
             String filePath = FilePathUtil.recoverAmpersand(aDoc.getFilePath());
-            String orgFileName = FilePathUtil.recoverAmpersand(aDoc.getOrgFileName());
-            String docItemName = aDoc.getDocItemName();
-            if (!"지원서".equals(docItemName) &&
-                !"수험표".equals(docItemName) &&
-                !StringUtil.getEmptyIfNull(aDoc.getDocItemCode()).equals(StringUtil.EMPTY_STRING)) {
+
+            // 사용자가 직접 입력한 파일이면 다운로드
+            if (isUserUploadedFile(aDoc)) {
 
                 // S3에 업로드 되어 있는 첨부 파일 다운로드
-                S3Object object = null;
-                try {
-                    object = s3.getObject(new GetObjectRequest(s3BucketName, filePath));
-                } catch (Exception e) {
-                    ExecutionContext ec1 = new ExecutionContext(ExecutionContext.FAIL);
-                    logger.error("Err in s3.getObject in PDFServiceImpl.genAndUploadPDFByApplicants, bucketName : [" +
-                            s3BucketName + "], objectKey : [" + filePath +"]" + e.getMessage());
-                    notFoundInS3Map.put("docItemName", docItemName);
-                    notFoundInS3Map.put("orgFileName", orgFileName);
-
-                    throw new NotFoundInS3Exception(ec1, "messageCode", "errorCode");
-                }
-
-                InputStream inputStream = object.getObjectContent();
+                S3Object object = getS3Object(s3, filePath);
 
                 // 다운로드 한 PDF 파일 내용을 스트림 형태로 여러번 사용하기 위해 BAOS에 담아둔다.
+                InputStream inputStream = object.getObjectContent();
                 ByteArrayOutputStream baos = StreamUtil.getBaosFromInputStream(inputStream);
-
-                // PDF 암호화 여부 확인
-                String tmpFileFullPath = "/opt/ysproject/temp/pdf-test-" + aDoc.getApplNo() + ".pdf";
-                PDDocument tPdf = null;
-                try {
-                    tPdf = PDDocument.load(new ByteArrayInputStream(baos.toByteArray()));
-                    if (tPdf.isEncrypted()) {
-                        logger.error("file from S3 is encrypted, filePath : " + filePath);
-                        ec.setResult(ExecutionContext.FAIL);
-                        ec.setMessage(MessageResolver.getMessage("U06101"));
-                        ec.setErrCode("ERR1101");
-                        encryptedPdfList.add(aDoc);
-//                        throw new YSBizNoticeException(ec);
-                    } else { // 암호화 안되었더라도 합치는 데 문제 생기는 파일 찾기
-                        PDFMergerUtility mergerUtility = new PDFMergerUtility();
-                        mergerUtility.setDestinationFileName(tmpFileFullPath);
-                        org.springframework.core.io.Resource pdfResource = new ClassPathResource("pdf/merge-sample.pdf");
-                        InputStream mergeSamplePdf = null;
-                        try {
-                            mergeSamplePdf = pdfResource.getInputStream();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        mergerUtility.addSource(mergeSamplePdf);
-                        try {
-                            mergerUtility.addSource(new ByteArrayInputStream(baos.toByteArray()));
-                            mergerUtility.mergeDocuments(MemoryUsageSetting.setupMixed(500*1024*1024));
-                        } catch (Exception e) {
-                            logger.debug("merging PDF files fails, in PDFServiceImpl.getPdfListFromS3(), FileName : " + orgFileName);
-                            ec.setResult(ExecutionContext.FAIL);
-                            ec.setMessage(MessageResolver.getMessage("U06102"));
-                            ec.setErrCode("ERR1104");
-                            Map<String, String> errorInfo = new HashMap<String, String>();
-                            errorInfo.put("applNo", String.valueOf(aDoc.getApplNo()));
-                            errorInfo.put("fileName", orgFileName);
-                            ec.setErrorInfo(new ErrorInfo(errorInfo));
-                            throw new PDFMergeException(ec, "U06105", "ERR1104");
-                        } finally {
-                            FileUtils.deleteQuietly(new File(tmpFileFullPath));
-                        }
-
-                    }
-                } catch ( IOException e ) {
-                    // 여기까지 왔으면 S3에서 받아온 inputStream이 문제가 없는 것이므로 IOException 발생할 일 없음
-                } finally {
-                    if (tPdf != null) {
-                        try {
-                            tPdf.close();
-                        } catch ( IOException e ) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
 
                 unencryptedPdfBaosList.add(baos);
             }
         }
 
-        // 암호화 된 파일 목록을 YSBizNoticeException에 보내서 예외 처리
-        if (encryptedPdfList.size() > 0) {
-            ec.setData(encryptedPdfList);
-            throw new YSBizNoticeException(ec);
-        }
-
         return unencryptedPdfBaosList;
+    }
+
+    private boolean isUserUploadedFile(ApplicationDocument aDoc) {
+        String docItemName = aDoc.getDocItemName();
+        return !"지원서".equals(docItemName) &&
+               !"수험표".equals(docItemName) &&
+               !StringUtil.getEmptyIfNull(aDoc.getDocItemCode()).equals(StringUtil.EMPTY_STRING);
+    }
+
+    private S3Object getS3Object(AmazonS3 s3, String filePath) {
+        S3Object object;
+        try {
+            object = s3.getObject(new GetObjectRequest(s3BucketName, filePath));
+        } catch (Exception e) {
+            ExecutionContext ec1 = new ExecutionContext(ExecutionContext.FAIL);
+            logger.error("Err in " + Thread.currentThread().getStackTrace()[1] +
+                    ", bucketName : [" + s3BucketName + "], objectKey : [" + filePath +"]" + e.getMessage());
+            throw new NotFoundInS3Exception(ec1, "messageCode", "errorCode");
+        }
+        return object;
     }
 
     /**
