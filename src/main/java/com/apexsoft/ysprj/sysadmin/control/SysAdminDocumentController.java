@@ -25,7 +25,8 @@ import com.apexsoft.ysprj.applicants.application.validator.DocumentValidator;
 import com.apexsoft.ysprj.applicants.common.domain.BirtRequest;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
-import com.apexsoft.ysprj.applicants.common.util.FileUtil;
+import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
+import com.apexsoft.ysprj.applicants.common.util.StreamUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import com.apexsoft.ysprj.applicants.common.util.WebUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -249,7 +250,7 @@ public class SysAdminDocumentController {
 //                    String userId = principal.getName();
                     String applNo = fileMetaForm.getApplNo();
 
-                    return FileUtil.getUploadDirectory(admsNo, userId, Integer.parseInt(applNo));
+                    return FilePathUtil.getUploadDirectory(admsNo, userId, Integer.parseInt(applNo));
                 }
 
                 /**
@@ -295,18 +296,7 @@ public class SysAdminDocumentController {
                                 e.printStackTrace();
                             }
 
-                            ByteArrayOutputStream baos = null;
-                            try {
-                                baos = new ByteArrayOutputStream();
-                                byte[] buffer = new byte[1024];
-                                int len;
-                                while ((len = fis.read(buffer)) != -1) {
-                                    baos.write(buffer, 0, len);
-                                }
-                                baos.flush();
-                            } catch (IOException e) {
-                                throw new YSBizException(e);
-                            }
+                            ByteArrayOutputStream baos = StreamUtil.getBaosFromInputStream(fis);
 
                             PDFMergerUtility mergerUtility = new PDFMergerUtility();
                             mergerUtility.setDestinationFileName(tmpFileFullPath);
@@ -642,11 +632,11 @@ public class SysAdminDocumentController {
                 documentService.retrieveApplicationPaperInfo(applNo); // DB에서 filePath가져온다
         if (applPaperInfosList.size() == 1) {
             String uploadDirPath = applPaperInfosList.get(0).getFilePath();
-            String s3UploadDirPath = FileUtil.getS3PathFromLocalFullPath(uploadDirPath, fileBaseDir);
+            String s3UploadDirPath = FilePathUtil.getS3PathFromLocalFullPath(uploadDirPath, fileBaseDir);
             AmazonS3 s3 = new AmazonS3Client();
             S3Object object = null;
             try {
-                object = s3.getObject(new GetObjectRequest(s3BucketName, FileUtil.getFinalMergedFileFullPath(s3UploadDirPath, applNo)));
+                object = s3.getObject(new GetObjectRequest(s3BucketName, FilePathUtil.getFinalMergedFileFullPath(s3UploadDirPath, applNo)));
             } catch (Exception e) {
                 logger.error("Err in s3.getObject FiledDownload in PDFController");
                 logger.error(e.getMessage());
@@ -656,7 +646,7 @@ public class SysAdminDocumentController {
                 ecMap.put("s3BucketName", "[" + s3BucketName + "]");
                 ecMap.put("admsNo", "[" + admsNo + "]");
                 ecMap.put("userId", "[" + userId + "]");
-                ecMap.put("objectKey", "[" + FileUtil.getFinalMergedFileFullPath(s3UploadDirPath, applNo) + "]");
+                ecMap.put("objectKey", "[" + FilePathUtil.getFinalMergedFileFullPath(s3UploadDirPath, applNo) + "]");
                 ec.setErrorInfo(new ErrorInfo(ecMap));
                 throw new YSBizException(ec);
             }
@@ -686,7 +676,7 @@ public class SysAdminDocumentController {
             response.setHeader("Last-Modified", meta.getLastModified().toString());
 //            아래 헤더 추가하면 파일명은 지정할 수 있으나 미리 보기는 안되고 다운로드만 됨
             try {
-                response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(FileUtil.getFinalUserDownloadFileName(userId), "UTF-8") + "\"");
+                response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(FilePathUtil.getFinalUserDownloadFileName(userId), "UTF-8") + "\"");
             } catch (UnsupportedEncodingException e) {
                 throw new YSBizException(MessageResolver.getMessage("U04516"));  /*지원하지 않는 인코딩 방식입니다.*/
             }

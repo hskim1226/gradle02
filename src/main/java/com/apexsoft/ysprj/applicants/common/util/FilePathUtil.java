@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  * Created by hanmomhanda on 15. 2. 24.
  */
 @Component
-public class FileUtil {
+public class FilePathUtil {
 
     private static final String SLASH = "/";
     private static final String DOUBLE_SLASH = "//";

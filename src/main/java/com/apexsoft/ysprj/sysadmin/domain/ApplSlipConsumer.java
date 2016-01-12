@@ -1,9 +1,6 @@
 package com.apexsoft.ysprj.sysadmin.domain;
 
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.apexsoft.framework.common.vo.ExecutionContext;
-import com.apexsoft.framework.exception.YSBizException;
-import com.apexsoft.ysprj.applicants.common.util.FileUtil;
+import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,15 +24,15 @@ public class ApplSlipConsumer extends AbstractS3Consumer {
 
     @Override
     protected String getFilePath(BackUpApplDoc backUpApplDoc) {
-        String uploadDirFullPath = FileUtil.getUploadDirectoryFullPath(baseDir, s3MidPath, backUpApplDoc.getAdmsNo(), backUpApplDoc.getUserId(), backUpApplDoc.getApplNo());
-        String fullPath = FileUtil.getApplicationSlipFileFullPath(uploadDirFullPath, backUpApplDoc.getUserId());
+        String uploadDirFullPath = FilePathUtil.getUploadDirectoryFullPath(baseDir, s3MidPath, backUpApplDoc.getAdmsNo(), backUpApplDoc.getUserId(), backUpApplDoc.getApplNo());
+        String fullPath = FilePathUtil.getApplicationSlipFileFullPath(uploadDirFullPath, backUpApplDoc.getUserId());
         String filePath = fullPath.substring(baseDir.length() + 1);
         return filePath;
     }
 
     @Override
     protected String getTargetFilePath(BackUpApplDoc backUpApplDoc) {
-        String slipFileName = FileUtil.getApplicationSlipFileName(backUpApplDoc.getUserId());
+        String slipFileName = FilePathUtil.getApplicationSlipFileName(backUpApplDoc.getUserId());
         StringBuilder sb = new StringBuilder();
         sb.append(s3MidPath).append("/")
             .append(slipFileName);

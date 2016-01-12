@@ -24,7 +24,8 @@ import com.apexsoft.ysprj.applicants.application.validator.DocumentValidator;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
-import com.apexsoft.ysprj.applicants.common.util.FileUtil;
+import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
+import com.apexsoft.ysprj.applicants.common.util.StreamUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import com.apexsoft.ysprj.applicants.common.util.WebUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -379,7 +380,7 @@ public class DocumentController {
                     String userId = principal.getName();
                     String applNo = fileMetaForm.getApplNo();
 
-                    return FileUtil.getUploadDirectory(admsNo, userId, Integer.parseInt(applNo));
+                    return FilePathUtil.getUploadDirectory(admsNo, userId, Integer.parseInt(applNo));
                 }
 
                 /**
@@ -468,18 +469,7 @@ public class DocumentController {
                                 e.printStackTrace();
                             }
 
-                            ByteArrayOutputStream baos = null;
-                            try {
-                                baos = new ByteArrayOutputStream();
-                                byte[] buffer = new byte[1024];
-                                int len;
-                                while ((len = fis.read(buffer)) != -1) {
-                                    baos.write(buffer, 0, len);
-                                }
-                                baos.flush();
-                            } catch (IOException e) {
-                                throw new YSBizException(e);
-                            }
+                            ByteArrayOutputStream baos = StreamUtil.getBaosFromInputStream(fis);
 
                             PDFMergerUtility mergerUtility = new PDFMergerUtility();
                             mergerUtility.setDestinationFileName(tmpFileFullPath);

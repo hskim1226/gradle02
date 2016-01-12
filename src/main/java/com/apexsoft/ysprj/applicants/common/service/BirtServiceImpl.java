@@ -14,7 +14,7 @@ import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.application.service.LangCareerService;
 import com.apexsoft.ysprj.applicants.common.domain.CommonCode;
 import com.apexsoft.ysprj.applicants.common.domain.Country;
-import com.apexsoft.ysprj.applicants.common.util.FileUtil;
+import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.birt.report.engine.api.IReportEngine;
@@ -147,10 +147,10 @@ public class BirtServiceImpl implements BirtService {
         String userId = application.getUserId();
         String admsTypeCode = application.getAdmsTypeCode();
         String pdfFileName = StringUtils.indexOf(birtRptFileName, "appl") > 0 ?
-                FileUtil.getApplicationFormFileName(userId) :
-                FileUtil.getApplicationSlipFileName(userId);
+                FilePathUtil.getApplicationFormFileName(userId) :
+                FilePathUtil.getApplicationSlipFileName(userId);
 
-        rptInfoMap.put("pdfDirectoryFullPath", FileUtil.getUploadDirectoryFullPath(BASE_DIR, s3MidPath, admsNo, userId, applNo));
+        rptInfoMap.put("pdfDirectoryFullPath", FilePathUtil.getUploadDirectoryFullPath(BASE_DIR, s3MidPath, admsNo, userId, applNo));
         rptInfoMap.put("pdfFileName", pdfFileName);
 
         CommonCode commonCode;

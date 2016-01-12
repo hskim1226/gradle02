@@ -3,64 +3,44 @@ package com.apexsoft.ysprj.admin.control;
 import java.io.*;
 import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
-import java.util.*;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.GetObjectRequest;
-import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3Object;
 import com.apexsoft.framework.common.vo.ExecutionContext;
-import com.apexsoft.framework.exception.ErrorInfo;
-import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
-import com.apexsoft.ysprj.admin.control.form.CourseSearchGridForm;
 import com.apexsoft.ysprj.admin.control.form.CourseSearchPageForm;
-import com.apexsoft.ysprj.admin.domain.ApplicantCnt;
 import com.apexsoft.ysprj.admin.domain.ApplicantInfo;
 
-import com.apexsoft.ysprj.admin.domain.ApplicantInfoEntire;
 import com.apexsoft.ysprj.admin.service.AdminService;
-import com.apexsoft.ysprj.admin.service.ChangeService;
 import com.apexsoft.ysprj.admin.service.PostApplicationService;
-import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.common.domain.AdmsNo;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
-import com.apexsoft.ysprj.applicants.test.EntireApplication;
-import com.apexsoft.ysprj.user.domain.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.encrypt.Encryptors;
-import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
-import com.apexsoft.ysprj.applicants.common.util.FileUtil;
-import org.springframework.web.bind.ServletRequestUtils;
+import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 
 
 /**
@@ -308,15 +288,15 @@ public class AdminController {
         String applPaperLocalFilePath = applPaperInfosList.get(0).getFilePath();
         String tmpFileName = applPaperInfosList.get(0).getFileName();
         String applicantId = tmpFileName.substring(tmpFileName.lastIndexOf('_') + 1, tmpFileName.indexOf(".pdf"));
-        String s3FilePath = FileUtil.getS3PathFromLocalFullPath(applPaperLocalFilePath, fileBaseDir);
+        String s3FilePath = FilePathUtil.getS3PathFromLocalFullPath(applPaperLocalFilePath, fileBaseDir);
         String filePath = null;
 
         if ("slip".equals(type))
-            filePath = FileUtil.getApplicationSlipFileFullPath(s3FilePath, applicantId);
+            filePath = FilePathUtil.getApplicationSlipFileFullPath(s3FilePath, applicantId);
         if ("form".equals(type))
-            filePath = FileUtil.getApplicationFormFileFullPath(s3FilePath, applicantId);
+            filePath = FilePathUtil.getApplicationFormFileFullPath(s3FilePath, applicantId);
         if ("merged".equals(type))
-            filePath = FileUtil.getFinalMergedFileFullPath(s3FilePath, applNo);
+            filePath = FilePathUtil.getFinalMergedFileFullPath(s3FilePath, applNo);
 
         AmazonS3 s3 = new AmazonS3Client();
         S3Object object = s3.getObject(new GetObjectRequest(s3BucketName, filePath));

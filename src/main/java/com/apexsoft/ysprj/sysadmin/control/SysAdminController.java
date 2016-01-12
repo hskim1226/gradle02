@@ -10,7 +10,7 @@ import com.apexsoft.ysprj.applicants.application.domain.CustomMyList;
 import com.apexsoft.ysprj.applicants.application.domain.ParamForApplication;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
-import com.apexsoft.ysprj.applicants.common.util.FileUtil;
+import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPaymentTransaction;
 import com.apexsoft.ysprj.applicants.payment.domain.CustomApplicationDocumentResult;
 import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
@@ -130,7 +130,7 @@ public class SysAdminController {
         int fileWithApplId = 0, fileWithoutApplId = 0, fileNotFound = 0;
         List<CustomApplicationDocumentResult> docRsltList = new ArrayList<CustomApplicationDocumentResult>();
         for (Application appl : paidApplList) {
-            String pdfFileFulPath = FileUtil.getFinalMergedFileFullPath(MERGE_TEST_DIR, MID_PATH, appl);
+            String pdfFileFulPath = FilePathUtil.getFinalMergedFileFullPath(MERGE_TEST_DIR, MID_PATH, appl);
             File mergedPdfFile = new File(pdfFileFulPath);
             FileInputStream fis = null;
 

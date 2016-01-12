@@ -7,7 +7,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3Object;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.common.domain.BirtRequest;
-import com.apexsoft.ysprj.applicants.common.util.FileUtil;
+import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -58,18 +58,18 @@ public class PostApplicationController {
         String userId = application.getUserId();
         int applNo = application.getApplNo();
 
-        String uploadDirPath = FileUtil.getUploadDirectoryFullPath(fileBaseDir, s3MidPath, admsNo, userId, applNo);
+        String uploadDirPath = FilePathUtil.getUploadDirectoryFullPath(fileBaseDir, s3MidPath, admsNo, userId, applNo);
         String fileName = null;
 
         switch(docType) {
             case "appl":
-                fileName = FileUtil.getApplicationFormFileName(userId);
+                fileName = FilePathUtil.getApplicationFormFileName(userId);
                 break;
             case "adms":
-                fileName = FileUtil.getApplicationSlipFileName(userId);
+                fileName = FilePathUtil.getApplicationSlipFileName(userId);
                 break;
             case "merged":
-                fileName = FileUtil.getFinalMergedFileName(applNo);
+                fileName = FilePathUtil.getFinalMergedFileName(applNo);
                 break;
         }
 
@@ -81,7 +81,7 @@ public class PostApplicationController {
             mimeType = "application/octet-stream";
         }
 
-        S3Object object = s3.getObject(new GetObjectRequest(bucketName, FileUtil.getS3PathFromLocalFullPath(fileFullPath, fileBaseDir)));
+        S3Object object = s3.getObject(new GetObjectRequest(bucketName, FilePathUtil.getS3PathFromLocalFullPath(fileFullPath, fileBaseDir)));
         InputStream inputStream = object.getObjectContent();
         ObjectMetadata objMeta = object.getObjectMetadata();
         byte[] bytes = IOUtils.toByteArray(inputStream);

@@ -1,10 +1,7 @@
 package com.apexsoft.ysprj.sysadmin.domain;
 
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.apexsoft.framework.common.vo.ExecutionContext;
-import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
-import com.apexsoft.ysprj.applicants.common.util.FileUtil;
+import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +28,7 @@ public class ApplAllConsumer extends AbstractS3Consumer {
         appl.setApplNo(backUpApplDoc.getApplNo());
         appl.setUserId(backUpApplDoc.getUserId());
         appl.setAdmsNo(backUpApplDoc.getAdmsNo());
-        String fullPath = FileUtil.getFinalMergedFileFullPath(s3BucketName, s3MidPath, appl);
+        String fullPath = FilePathUtil.getFinalMergedFileFullPath(s3BucketName, s3MidPath, appl);
         String filePath = fullPath.substring(s3BucketName.length() + 1);
         return filePath;
     }

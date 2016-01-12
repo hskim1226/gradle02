@@ -11,8 +11,6 @@ import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
-import com.apexsoft.ysprj.applicants.common.util.FileUtil;
-import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import com.apexsoft.ysprj.sysadmin.domain.*;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -23,13 +21,10 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Created by hanmomhanda on 15. 4. 16.

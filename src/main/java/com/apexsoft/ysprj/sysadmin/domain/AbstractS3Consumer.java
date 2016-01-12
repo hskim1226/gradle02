@@ -4,11 +4,6 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3Object;
-import com.apexsoft.framework.common.vo.ExecutionContext;
-import com.apexsoft.framework.exception.YSBizException;
-import com.apexsoft.ysprj.applicants.application.domain.Application;
-import com.apexsoft.ysprj.applicants.common.util.FileUtil;
-import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;

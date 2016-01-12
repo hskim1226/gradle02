@@ -9,8 +9,6 @@ import com.apexsoft.framework.mail.SESMailService;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.framework.persistence.file.exception.EncryptedPDFException;
-import com.apexsoft.framework.persistence.file.exception.FileNoticeException;
-import com.apexsoft.framework.persistence.file.exception.PasswordedPDFException;
 import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
 import com.apexsoft.framework.persistence.file.model.FileInfo;
 import com.apexsoft.ysprj.applicants.application.domain.*;
@@ -18,9 +16,8 @@ import com.apexsoft.ysprj.applicants.common.domain.MailContentsParamKey;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.applicants.common.util.CryptoUtil;
-import com.apexsoft.ysprj.applicants.common.util.FileUtil;
+import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import com.apexsoft.ysprj.applicants.common.util.MailFactory;
-import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,9 +28,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
 import java.util.zip.DataFormatException;
@@ -351,7 +345,7 @@ public class RecommendationServiceImpl implements RecommendationService {
         Locale locale = new Locale(multipartHttpServletRequest.getParameter("lang"));
 
         // 파일 업로드
-        String uploadDir = FileUtil.getUploadDirectory(admsNo, userId, applNo);
+        String uploadDir = FilePathUtil.getUploadDirectory(admsNo, userId, applNo);
         String uploadFileName = "file-recommendation-" + recNo + "-" + multipartFile.getOriginalFilename();
         String originalFileName = multipartFile.getOriginalFilename();
         FileInfo fileInfo = null;

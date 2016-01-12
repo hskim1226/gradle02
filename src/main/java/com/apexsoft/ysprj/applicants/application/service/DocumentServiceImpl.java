@@ -11,7 +11,7 @@ import com.apexsoft.framework.exception.YSBizNoticeException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
-import com.apexsoft.ysprj.applicants.common.util.FileUtil;
+import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -439,10 +439,10 @@ public class DocumentServiceImpl implements DocumentService {
         aDoc.setApplNo(applNo);
         aDoc.setFileExt("pdf");
         aDoc.setImgYn("N");
-        aDoc.setFilePath(FileUtil.getUploadDirectoryFullPath(BASE_DIR, s3MidPath, admsNo, userId, applNo));
+        aDoc.setFilePath(FilePathUtil.getUploadDirectoryFullPath(BASE_DIR, s3MidPath, admsNo, userId, applNo));
         aDoc.setDocItemName("지원서");
-        aDoc.setFileName(FileUtil.getApplicationFormFileName(userId));
-        aDoc.setOrgFileName(FileUtil.getApplicationFormFileName(userId));
+        aDoc.setFileName(FilePathUtil.getApplicationFormFileName(userId));
+        aDoc.setOrgFileName(FilePathUtil.getApplicationFormFileName(userId));
         aDoc.setPageCnt(2);
         // 지원서 정보가 이미 저장 되어 있으면(즉 원서 작성 단계에서 미리보기를 했으면) true
         List<ApplicationDocument> applPaperInfosList = retrieveApplicationPaperInfo(applNo);
@@ -492,11 +492,11 @@ public class DocumentServiceImpl implements DocumentService {
         aDoc.setApplNo(applNo);
         aDoc.setFileExt("pdf");
         aDoc.setImgYn("N");
-        aDoc.setFilePath(FileUtil.getUploadDirectoryFullPath(BASE_DIR, s3MidPath, admsNo, userId, applNo));
+        aDoc.setFilePath(FilePathUtil.getUploadDirectoryFullPath(BASE_DIR, s3MidPath, admsNo, userId, applNo));
         aDoc.setDocItemName("수험표");
         aDoc.setDocItemNameXxen("Application Slip");
-        aDoc.setFileName(FileUtil.getApplicationSlipFileName(userId));
-        aDoc.setOrgFileName(FileUtil.getApplicationSlipFileName(userId));
+        aDoc.setFileName(FilePathUtil.getApplicationSlipFileName(userId));
+        aDoc.setOrgFileName(FilePathUtil.getApplicationSlipFileName(userId));
         aDoc.setPageCnt(1);
         aDoc.setFileUploadFg(false);
 
