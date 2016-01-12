@@ -4,10 +4,7 @@ import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
-import com.apexsoft.ysprj.applicants.application.domain.Application;
-import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
-import com.apexsoft.ysprj.applicants.application.domain.CustomMyList;
-import com.apexsoft.ysprj.applicants.application.domain.ParamForApplication;
+import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
@@ -125,7 +122,7 @@ public class SysAdminController {
         String strY = "Y";
         String strN = "N";
 
-        List<Application> paidApplList = paymentService.retrieveApplByApplStsCode("00020");
+        List<Application> paidApplList = paymentService.retrieveApplByApplStsCode(ApplicationStatus.COMPLETED.codeVal());
         commonDAO.delete("com.apexsoft.ysprj.applicants.payment.sqlmap.CustomApplicationDocumentResultMapper.deleteAllRowsFromApplDocRslt");
         int fileWithApplId = 0, fileWithoutApplId = 0, fileNotFound = 0;
         List<CustomApplicationDocumentResult> docRsltList = new ArrayList<CustomApplicationDocumentResult>();

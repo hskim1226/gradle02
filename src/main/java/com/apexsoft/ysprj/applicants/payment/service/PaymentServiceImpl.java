@@ -8,8 +8,8 @@ import com.apexsoft.framework.mail.MailType;
 import com.apexsoft.framework.mail.SESMailService;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
-import com.apexsoft.framework.unused.xpay.service.TransactionVO;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
+import com.apexsoft.ysprj.applicants.application.domain.ApplicationStatus;
 import com.apexsoft.ysprj.applicants.application.domain.CustomNewSeq;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.common.domain.Department;
@@ -368,7 +368,7 @@ public class PaymentServiceImpl implements PaymentService {
         application.setApplId(getApplId(application, customNewSeq.getNewSeq()));
         Date date = new Date();
         application.setApplDate(date);
-        application.setApplStsCode("00020");
+        application.setApplStsCode(ApplicationStatus.COMPLETED.codeVal());
         commonDAO.updateItem(application, "com.apexsoft.ysprj.applicants.application.sqlmap.", "ApplicationMapper");
 
         //결제 트랜젝션 정보 처리 (APPL_PAY_TR)
@@ -448,7 +448,7 @@ public class PaymentServiceImpl implements PaymentService {
                                                            applPay.getApplNo(), Application.class);
         application.setApplId(getApplId(application, customNewSeq.getNewSeq()));
         application.setApplDate(date);
-        application.setApplStsCode("00020");
+        application.setApplStsCode(ApplicationStatus.COMPLETED.codeVal());
         commonDAO.updateItem(application, "com.apexsoft.ysprj.applicants.application.sqlmap.", "ApplicationMapper");
 
         //결제 트랜젝션 정보 처리 (APPL_PAY_TR)
@@ -584,7 +584,7 @@ public class PaymentServiceImpl implements PaymentService {
                                                            payment.getApplNo(), Application.class);
         application.setApplId(getApplId(application, customNewSeq.getNewSeq()));
         application.setApplDate(new Date());
-        application.setApplStsCode("00020");
+        application.setApplStsCode(ApplicationStatus.COMPLETED.codeVal());
         r2 = commonDAO.updateItem(application, "com.apexsoft.ysprj.applicants.application.sqlmap.", "ApplicationMapper");
 
         //결제 정보 처리 (APPL_PAY_CS)

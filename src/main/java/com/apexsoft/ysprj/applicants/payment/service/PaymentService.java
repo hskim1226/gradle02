@@ -1,11 +1,11 @@
 package com.apexsoft.ysprj.applicants.payment.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
-import com.apexsoft.framework.unused.xpay.service.TransactionVO;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPaymentCurStat;
 import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPaymentTransaction;
 import com.apexsoft.ysprj.applicants.payment.domain.Payment;
+import com.apexsoft.ysprj.applicants.payment.domain.TransactionVO;
 
 import java.util.List;
 

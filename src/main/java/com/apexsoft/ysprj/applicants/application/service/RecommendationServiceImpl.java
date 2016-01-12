@@ -478,7 +478,7 @@ public class RecommendationServiceImpl implements RecommendationService {
             // 작성 완료 단계이면 원서 수정모드로 갈 수 없으므로 이메일 추천서 합침 여부 확인은 결제 이후에나 가능. 여기서 합쳐줄 필요 없음
             // 입금 대기의 경우도 작성 완료와 같으므로 여기서 합쳐줄 필요 없음
             // 결국 이미 결제가 완료된 상태에서만 추천서 등록 시마다 다시 합쳐주면 됨.
-            if ("00020".equals(application.getApplStsCode())) {
+            if (application.isCompleted()) {
                 genAndUploadApplicationFormAndSlipFile(application);
             }
 

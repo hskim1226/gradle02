@@ -3,28 +3,26 @@ package com.apexsoft.framework.unused.xpay;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.framework.security.UserSessionVO;
-import com.apexsoft.framework.unused.xpay.service.PaymentVO;
-import com.apexsoft.framework.unused.xpay.service.TransactionVO;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.Basis;
 import com.apexsoft.ysprj.applicants.application.domain.CustomNewSeq;
+import com.apexsoft.ysprj.applicants.payment.domain.PaymentVO;
+import com.apexsoft.ysprj.applicants.payment.domain.TransactionVO;
 import com.apexsoft.ysprj.unused.ApplicationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lgdacom.XPayClient.XPayClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
-import lgdacom.XPayClient.XPayClient;
 
 //@Controller
 @RequestMapping("/pay")

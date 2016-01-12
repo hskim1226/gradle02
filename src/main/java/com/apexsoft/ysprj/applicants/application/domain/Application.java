@@ -1321,8 +1321,11 @@ public class Application {
      * 새터민 여부
      * @return
      */
-
     public boolean isApplicantNKDefector() {
         return "00004".equals(getApplAttrCode());
+    }
+
+    public boolean isCompleted() {
+        return ApplicationStatus.COMPLETED.codeVal().equals(getApplStsCode());
     }
 }
