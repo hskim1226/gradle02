@@ -236,14 +236,6 @@ public class PDFServiceImpl implements PDFService {
             errorInfo.put("applNo", String.valueOf(applNo));
             ec.setErrorInfo(new ErrorInfo(errorInfo));
             throw new YSBizNoticeException(ec);
-//        } catch (COSVisitorException e) {
-//            ec.setResult(ExecutionContext.FAIL);
-//            ec.setMessage(MessageResolver.getMessage("U801"));
-//            ec.setErrCode("ERR1101");
-//            Map<String, String> errorInfo = new HashMap<String, String>();
-//            errorInfo.put("applNo", String.valueOf(applNo));
-//            ec.setErrorInfo(new ErrorInfo(errorInfo));
-//            throw new YSBizException(ec);
         } catch (Throwable t) {
             logger.debug("merging PDF files fails, in PDFServiceImpl.getRawMergedFile(), applNo : " + applNo);
             ec.setResult(ExecutionContext.FAIL);
@@ -273,30 +265,6 @@ public class PDFServiceImpl implements PDFService {
 
         try {
             mergedPDDocument = PDDocument.load(rawMergedFile);
-
-//            List allPages = mergedPDDocument.getDocumentCatalog().getAllPages();
-//            int length = allPages.size();
-//            PDFont font = PDType1Font.HELVETICA;
-//            float fontSize = 15.0f;
-//
-//            for ( int i = 0 ; i < length ; i++ ) {
-//                PDPage page = (PDPage)allPages.get(i);
-//                PDRectangle pageSize = page.findMediaBox();
-//                String strPage = new StringBuilder().append(i+1).append("/").append(length).toString();
-//                float stringWidth = font.getStringWidth(strPage)*fontSize/1000f;
-//                float pageWidth = pageSize.getWidth();
-//                float pageHeight = pageSize.getHeight();
-//                PDPageContentStream contentStream = new PDPageContentStream(mergedPDDocument, page, true, true, true);
-//                contentStream.beginText();
-//                contentStream.setFont(font, fontSize);
-//                contentStream.setTextTranslation(pageWidth - stringWidth - 15, pageHeight - 20);
-//                contentStream.drawString(strPage);
-//                contentStream.endText();
-//                contentStream.close();
-//            }
-//
-//            mergedPDDocument.save(numberedMergedFileFullPath);
-
 
             PDFont font = PDType1Font.HELVETICA;
             float fontSize = 15.0f;
@@ -330,14 +298,6 @@ public class PDFServiceImpl implements PDFService {
             errorInfo.put("applNo", String.valueOf(applNo));
             ec.setErrorInfo(new ErrorInfo(errorInfo));
             throw new YSBizException(ec);
-//        } catch (COSVisitorException e) {
-//            ec.setResult(ExecutionContext.FAIL);
-//            ec.setMessage(MessageResolver.getMessage("U801"));
-//            ec.setErrCode("ERR1101");
-//            Map<String, String> errorInfo = new HashMap<String, String>();
-//            errorInfo.put("applNo", String.valueOf(applNo));
-//            ec.setErrorInfo(new ErrorInfo(errorInfo));
-//            throw new YSBizException(ec);
         } finally {
             if (mergedPDDocument != null) {
                 try {
@@ -368,7 +328,6 @@ public class PDFServiceImpl implements PDFService {
      */
     private File getMergedApplicationFormFile(File applicationFormFile, File numberedMergedFile, String uploadDirFullPath, int applNo) {
         ExecutionContext ec = new ExecutionContext();
-//        String mergedApplicationFormFilePath = FileUtil.encodeSlash(FileUtil.getFinalMergedFileFullPath(uploadDirFullPath, applNo), "_");
         String mergedApplicationFormFilePath = FileUtil.getFinalMergedFileFullPath(uploadDirFullPath, applNo);
         try {
             PDFMergerUtility lastMergeUtil = new PDFMergerUtility();
@@ -386,15 +345,6 @@ public class PDFServiceImpl implements PDFService {
             ec.setErrorInfo(new ErrorInfo(errorInfo));
             throw new YSBizException(ec);
         }
-//        catch (COSVisitorException e) {
-//            ec.setResult(ExecutionContext.FAIL);
-//            ec.setMessage(MessageResolver.getMessage("U801"));
-//            ec.setErrCode("ERR1101");
-//            Map<String, String> errorInfo = new HashMap<String, String>();
-//            errorInfo.put("applNo", String.valueOf(applNo));
-//            ec.setErrorInfo(new ErrorInfo(errorInfo));
-//            throw new YSBizException(ec);
-//        }
         return new File(mergedApplicationFormFilePath);
     }
 
