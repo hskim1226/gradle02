@@ -6,11 +6,9 @@ import com.amazonaws.services.s3.model.*;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
-import com.apexsoft.framework.exception.YSBizNoticeException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.framework.persistence.file.exception.NotFoundInS3Exception;
-import com.apexsoft.framework.persistence.file.exception.PDFMergeException;
 import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
@@ -93,23 +91,21 @@ public class PDFServiceImpl implements PDFService {
         // DB에서 첨부 파일 정보 조회
         List<ApplicationDocument> pdfList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectPDFByApplNo", param, ApplicationDocument.class);
 
-        // 첨부 파일 정보를 토대로 S3에서 각 첨부 파일 다운로드 하고 암호화 여부 체크
-        List<ByteArrayOutputStream> unencryptedPdfFromS3List = getByteArrayOutputStreamedPdfListFromS3(s3, pdfList);
+        // 첨부 파일 정보를 토대로 사용자가 업로드한 첨부 파일을 S3에서 다운로드
+        List<ByteArrayOutputStream> userUploadedPdfStreamFromS3List = getByteArrayOutputStreamedPdfListFromS3(s3, pdfList);
 
-        // 페이지 넘버링을 위해 첨부 파일 머지
-        File rawMergedFile = getRawMergedFile(unencryptedPdfFromS3List, application);
-
-        // 페이지 넘버링 적용
-        File numberedMergedFile = getPageNumberedPDF(rawMergedFile, application);
-
-        // 로컬에 생성된 지원서 파일
+        // 원서 미리보기 또는 결제 완료를 통해 로컬에 생성된 지원서 파일 쪽수 계산
         File applicationFormFile = new File(getPdfDirFullPath(application), FilePathUtil.getApplicationFormFileName(userId));
+        int applicationFormPageCounts = getPdfPageCount(applicationFormFile);
 
-        // 로컬에 생성된 지원서 파일과 넘버링 된 합친 PDF를 또 합치기
-        File mergedApplicationFormFile = getMergedApplicationFormFile(applicationFormFile, numberedMergedFile, application);
+        // 로컬에 생성된 지원서 파일과 사용자가 업로드 한 PDF 합치기
+        File mergedFile = getMergedApplicationFormFile(applicationFormFile, userUploadedPdfStreamFromS3List, application);
 
-        // 최종 머지된 파일은 결제 전, 후에 S3에 업로드
-        uploadToS3(s3, mergedApplicationFormFile, applNo);
+        // 합친 파일에 페이지 넘버링 적용
+        File numberedMergedFile = getPageNumberedPDF(mergedFile, application, applicationFormPageCounts);
+
+        // 최종 파일은 결제 전, 후에 S3에 업로드
+        uploadToS3(s3, numberedMergedFile, applNo);
 
         // 결제 완료 시 수험번호 채번된 수험표와 지원서를 S3에 업로드
         if (ApplicationStatus.COMPLETED.codeVal().equals(application.getApplStsCode())) {
@@ -125,12 +121,39 @@ public class PDFServiceImpl implements PDFService {
         // 중간 작업 파일 삭제
         // 여기서 지우면 파일 지우기 위한 I/O 추가 발생하지만 저장 공간은 절약
         // 나중에 batch로 지우면 I/O 는 절약하지만 지우기 전까지 저장 공간은 낭비
-        rawMergedFile.delete();
         applicationFormFile.delete();
+        mergedFile.delete();
         numberedMergedFile.delete();
-        mergedApplicationFormFile.delete();
 
         return ec;
+    }
+
+    /**
+     * pdf 파일의 페이지수 계산
+     *
+     * @param pdfFile
+     * @return
+     */
+    private int getPdfPageCount(File pdfFile) {
+        int pageCounts = -1;
+        PDDocument mergedPDDocument = null;
+        ExecutionContext ec = new ExecutionContext();
+        try {
+            mergedPDDocument = PDDocument.load(pdfFile);
+            pageCounts = mergedPDDocument.getNumberOfPages();
+        } catch (IOException e) {
+            exceptionThrower("applicationFormFileName", pdfFile.getName(), ec);
+        } finally {
+            if (mergedPDDocument != null) {
+                try {
+                    mergedPDDocument.close();
+                } catch (IOException e) {
+                    exceptionThrower("applicationFormFileName", pdfFile.getName(), ec);
+                }
+            }
+        }
+
+        return pageCounts;
     }
 
     /**
@@ -164,6 +187,7 @@ public class PDFServiceImpl implements PDFService {
         return unencryptedPdfBaosList;
     }
 
+    // 사용자가 직접 업로드 한 파일인지 판별
     private boolean isUserUploadedFile(ApplicationDocument aDoc) {
         String docItemName = aDoc.getDocItemName();
         return !"지원서".equals(docItemName) &&
@@ -171,6 +195,7 @@ public class PDFServiceImpl implements PDFService {
                !StringUtil.getEmptyIfNull(aDoc.getDocItemCode()).equals(StringUtil.EMPTY_STRING);
     }
 
+    // S3에서 파일 다운로드
     private S3Object getS3Object(AmazonS3 s3, String filePath) {
         S3Object object;
         try {
@@ -185,76 +210,48 @@ public class PDFServiceImpl implements PDFService {
     }
 
     /**
-     * 암호화 되지 않은 PDF 파일들에 대한 BAOS 리스트를 받아
-     * 한 파일로 합친다.
+     * 지원서 파일과 사용자가 업로드한 PDF 파일 합치기
      *
-     * @param unencryptedPdfFromS3List    암호화 되지 않은 pdf 파일의 BAOS 리스트
-     * @param application    원서 정보
+     * @param applicationFormFile
+     * @param userUploadedPdfStreamList
+     * @param application
      * @return
      */
-    private File getRawMergedFile(List<ByteArrayOutputStream> unencryptedPdfFromS3List, Application application) {
+    private File getMergedApplicationFormFile(File applicationFormFile, List<ByteArrayOutputStream> userUploadedPdfStreamList, Application application) {
         ExecutionContext ec = new ExecutionContext();
-
-        // S3에 대한 OutputStream을 가져올 방법이 없어서
-        // mergerUtil.setDestinationStream() 를 사용할 수 없고,
-        // 머지된 파일을 APP 로컬에 저장 후 다시 S3로 보내는 방법 밖에 없음
-        // 성능 상으로 PDF numbering을 하기 위한 파일 저장은 로컬에 하는 것이 맞을 듯
-        String tempSlashReplacer = "_";
-
-
-        String uploadDirFullPath = getPdfDirFullPath(application);
-        String rawMergedFileFullPath = FilePathUtil.encodeColonSlash(FilePathUtil.getRawMergedFileFullPath(uploadDirFullPath, application.getApplNo()), tempSlashReplacer);
-
-
-        // 파일 넘버링을 위한 첨부 파일 합치기
-        PDFMergerUtility mergerUtil = new PDFMergerUtility();
-        mergerUtil.setDestinationFileName(rawMergedFileFullPath);
-        //TODO : S3를 향한 OutputStream을 가져올 수 있다면 아래 방식 가능
-        //mergerUtil.setDestinationStream(OutputStream to S3);
-
-        for (ByteArrayOutputStream baos : unencryptedPdfFromS3List) {
-            mergerUtil.addSource(new ByteArrayInputStream(baos.toByteArray()));
-        }
-
+        String downloadedPdfDirFullPath = getPdfDirFullPath(application);
+        int applNo = application.getApplNo();
+        String mergedApplicationFormFilePath = FilePathUtil.getFinalMergedFileFullPath(downloadedPdfDirFullPath, applNo);
         try {
-            mergerUtil.setIgnoreAcroFormErrors(true);
-            mergerUtil.mergeDocuments(MemoryUsageSetting.setupMixed(500*1024*1024));
+            PDFMergerUtility lastMergeUtil = new PDFMergerUtility();
+            lastMergeUtil.addSource(applicationFormFile);
+            for (ByteArrayOutputStream baos : userUploadedPdfStreamList) {
+                lastMergeUtil.addSource(new ByteArrayInputStream(baos.toByteArray()));
+            }
+            lastMergeUtil.setDestinationFileName(mergedApplicationFormFilePath);
+            lastMergeUtil.setIgnoreAcroFormErrors(true);
+            lastMergeUtil.mergeDocuments(MemoryUsageSetting.setupMixed(500*1024*1024));
+            logger.debug("All Merge 성공, applNo : " + applNo);
         } catch (IOException e) {
-            logger.error("merge files from S3 failed, applNo : " + application.getApplNo() + ", destFileName : " + mergerUtil.getDestinationFileName());
-            logger.error(e.getMessage());
-            ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(MessageResolver.getMessage("U06101"));
-            ec.setErrCode("ERR1101");
-            Map<String, String> errorInfo = new HashMap<String, String>();
-            errorInfo.put("applNo", String.valueOf(application.getApplNo()));
-            ec.setErrorInfo(new ErrorInfo(errorInfo));
-            throw new YSBizNoticeException(ec);
-        } catch (Throwable t) {
-            logger.debug("merging PDF files fails, in PDFServiceImpl.getRawMergedFile(), applNo : " + application.getApplNo());
-            ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(MessageResolver.getMessage("U06102"));
-            ec.setErrCode("ERR1104");
-            Map<String, String> errorInfo = new HashMap<String, String>();
-            errorInfo.put("applNo", String.valueOf(application.getApplNo()));
-            ec.setErrorInfo(new ErrorInfo(errorInfo));
-            throw new PDFMergeException(ec, "U06102", "ERR1104");
+            exceptionThrower("applNo", String.valueOf(applNo), ec);
         }
-        return new File(rawMergedFileFullPath);
+        return new File(mergedApplicationFormFilePath);
     }
 
     /**
      * 합쳐진 첨부 파일 우상단에 '현재 페이지/전체 페이지' 텍스트를 추가한다.
      *
-     * @param rawMergedFile  쪽수 안 매겨진 합친 pdf 파일
-     * @param application    원서 정보
+     * @param rawMergedFile 쪽수 안 매겨진 파일
+     * @param application   원서 정보
+     * @param unNumberedPage  쪽수가 매겨지면 안되는 지원서 파일의 페이지 수
      * @return
      */
-    private File getPageNumberedPDF(File rawMergedFile, Application application) {
+    private File getPageNumberedPDF(File rawMergedFile, Application application, int unNumberedPage) {
 
         ExecutionContext ec = new ExecutionContext();
         PDDocument mergedPDDocument = null;
         String applicationFilePath = getPdfDirFullPath(application);
-        String numberedMergedFileFullPath = FilePathUtil.encodeColonSlash(FilePathUtil.getNumberedMergedFileFullPath(applicationFilePath, application.getApplNo()), "_");
+        String numberedMergedFileFullPath = FilePathUtil.encodeColonSlash(FilePathUtil.getFinalMergedFileFullPath(applicationFilePath, application.getApplNo()), "_");
 
         try {
             mergedPDDocument = PDDocument.load(rawMergedFile);
@@ -265,10 +262,14 @@ public class PDFServiceImpl implements PDFService {
             int length = mergedPDDocument.getNumberOfPages();
             Iterator<PDPage> it = pageTree.iterator();
             int i = 0;
+            while (i < unNumberedPage && it.hasNext()) {
+                it.next();
+                i++;
+            }
             while (it.hasNext()) {
                 PDPage page = it.next();
                 PDRectangle pageSize = page.getMediaBox();
-                String strPage = new StringBuilder().append(++i).append("/").append(length).toString();
+                String strPage = new StringBuilder().append(++i - unNumberedPage).append("/").append(length - unNumberedPage).toString();
                 float stringWidth = font.getStringWidth(strPage)*fontSize/1000f;
                 float pageWidth = pageSize.getWidth();
                 float pageHeight = pageSize.getHeight();
@@ -284,13 +285,13 @@ public class PDFServiceImpl implements PDFService {
             }
             mergedPDDocument.save(numberedMergedFileFullPath);
         } catch (IOException e) {
-            exceptionThrower(application.getApplNo(), ec);
+            exceptionThrower("applNo", String.valueOf(application.getApplNo()), ec);
         } finally {
             if (mergedPDDocument != null) {
                 try {
                     mergedPDDocument.close();
                 } catch (IOException e) {
-                    exceptionThrower(application.getApplNo(), ec);
+                    exceptionThrower("applNo", String.valueOf(application.getApplNo()), ec);
                 }
             }
         }
@@ -303,43 +304,18 @@ public class PDFServiceImpl implements PDFService {
         return FilePathUtil.getUploadDirectoryFullPath(fileBaseDir, s3MidPath, application.getAdmsNo(), application.getUserId(), application.getApplNo());
     }
 
-    /**
-     * 원서 파일과 넘버링 된 첨부 파일을 합쳐 최종 파일을 반환한다.
-     *
-     * @param applicationFormFile    원서 파일
-     * @param numberedMergedFile    넘버링 된 첨부 파일 묶음 파일
-     * @param application    원서 정보
-     * @return
-     */
-    private File getMergedApplicationFormFile(File applicationFormFile, File numberedMergedFile, Application application) {
-        ExecutionContext ec = new ExecutionContext();
-        String downloadedPdfDirFullPath = getPdfDirFullPath(application);
-        int applNo = application.getApplNo();
-        String mergedApplicationFormFilePath = FilePathUtil.getFinalMergedFileFullPath(downloadedPdfDirFullPath, applNo);
-        try {
-            PDFMergerUtility lastMergeUtil = new PDFMergerUtility();
-            lastMergeUtil.addSource(applicationFormFile);
-            lastMergeUtil.addSource(numberedMergedFile);
-            lastMergeUtil.setDestinationFileName(mergedApplicationFormFilePath);
-            lastMergeUtil.mergeDocuments(MemoryUsageSetting.setupMixed(500*1024*1024));
-            logger.debug("All Merge 성공, applNo : " + applNo);
-        } catch (IOException e) {
-            exceptionThrower(applNo, ec);
-        }
-        return new File(mergedApplicationFormFilePath);
-    }
-
     // PDF 처리 관련 예외 처리
-    private void exceptionThrower(int applNo, ExecutionContext ec) {
+    private void exceptionThrower(String infoKey, String infoValue, ExecutionContext ec) {
         ec.setResult(ExecutionContext.FAIL);
         ec.setMessage(MessageResolver.getMessage("U801"));
         ec.setErrCode("ERR1101");
         Map<String, String> errorInfo = new HashMap<String, String>();
-        errorInfo.put("applNo", String.valueOf(applNo));
+        errorInfo.put(infoKey, infoValue);
         ec.setErrorInfo(new ErrorInfo(errorInfo));
         throw new YSBizException(ec);
     }
 
+    // 결제 완료 후 로컬에 생성된 수험표 파일
     private File getApplicationSlipFile(Application application) {
         String applicationSlipFileFullPath = FilePathUtil.getUploadDirectoryFullPath(
                 fileBaseDir, s3MidPath, application.getAdmsNo(), application.getUserId(), application.getApplNo()) + "/" +
@@ -347,8 +323,9 @@ public class PDFServiceImpl implements PDFService {
         return new File(applicationSlipFileFullPath);
     }
 
+    // S3에 파일 업로드
     private void uploadToS3(AmazonS3 s3, File file, int applNo) {
-        // 머지된 최종 파일을 S3에 업로드
+
         ObjectMetadata meta = createS3ObjMetaData(file);
         String s3FilePath = getS3FilePath(file);
         try {
@@ -379,6 +356,5 @@ public class PDFServiceImpl implements PDFService {
         String s3FilePath = FilePathUtil.getS3PathFromLocalFullPath(applPaperLocalFilePath, fileBaseDir);
         return s3FilePath;
     }
-
 
 }
