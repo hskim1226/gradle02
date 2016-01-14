@@ -1171,7 +1171,7 @@
             event.preventDefault();
 
             var form = document.forms[0],
-                formData, isSpecialCharactersInFileName
+                formData, isSpecialCharactersInFileName,
                 saveType = this.getAttribute('data-saveType');
             if (saveType == 'document') {
                 $('#overlay').show();
