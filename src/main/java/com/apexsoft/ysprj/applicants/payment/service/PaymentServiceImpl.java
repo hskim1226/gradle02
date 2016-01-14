@@ -404,7 +404,7 @@ public class PaymentServiceImpl implements PaymentService {
         int r1 = commonDAO.updateItem(customNewSeq, "com.apexsoft.ysprj.applicants.application.sqlmap.", "CustomApplicationMapper.", "updateApplIdSeqIdByNewSeq");
 
         if (r1 != 1) {
-            throw new YSBizException("결제는 완료되었으나 수험 번호 생성에 문제가 있습니다. 관리자에게 문의하십시오.");
+            exceptionThrower("U05204", "ERR0303", payment.getApplNo());
         }
         return customNewSeq;
     }
@@ -415,7 +415,7 @@ public class PaymentServiceImpl implements PaymentService {
         application.setApplStsCode(ApplicationStatus.COMPLETED.codeVal());
         int r2 = commonDAO.updateItem(application, "com.apexsoft.ysprj.applicants.application.sqlmap.", "ApplicationMapper");
         if (r2 != 1) {
-            throw new YSBizException("결제는 완료되었으나 지원 상태 변경에 문제가 있습니다. 관리자에게 문의하십시오.");
+            exceptionThrower("U05204", "ERR0304", application.getApplNo());
         }
     }
 
@@ -426,15 +426,13 @@ public class PaymentServiceImpl implements PaymentService {
         applPay.setModDate(new Date());
         int r3 = commonDAO.updateItem(applPay, NAME_SPACE, "ApplicationPaymentCurStatMapper");
         if (r3 != 1) {
-            throw new YSBizException("결제는 완료되었으나 결제 상태 변경에 문제가 있습니다. 관리자에게 문의하십시오.");
+            exceptionThrower("U05204", "ERR0305", application.getApplNo());
         }
         return applPay;
     }
 
 
     private void registerPaymentTransaction(ApplicationPaymentCurStat applPayCS) {
-
-        ExecutionContext ec = new ExecutionContext();
         int r1 = 0;
 
         ApplicationPaymentTransaction applPayTr = new ApplicationPaymentTransaction();
@@ -452,13 +450,20 @@ public class PaymentServiceImpl implements PaymentService {
 
         r1 = commonDAO.insertItem(applPayTr, NAME_SPACE, "ApplicationPaymentTransactionMapper");
 
-        if( r1>0 ) {
-            ec.setResult(ExecutionContext.SUCCESS);
-        } else {
-            throw new YSBizException("결제는 완료 되었으나 결제 트랜잭션 정보 처리에 문제가 있습니다. 관리자에게 문의하십시오.");
+        if( r1 == 0 ) {
+            exceptionThrower("U05204", "ERR0306", applPayCS.getApplNo());
         }
     }
 
+    private void exceptionThrower(String userMsgCode, String errCode, int applNo) {
+        ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+        ec.setMessage(MessageResolver.getMessage(userMsgCode));
+        ec.setErrCode(errCode);
+        Map<String, String> errorInfo = new HashMap<String, String>();
+        errorInfo.put("applNo", String.valueOf(applNo));
+        ec.setErrorInfo(new ErrorInfo(errorInfo));
+        throw new YSBizException(ec);
+    }
 
     @Override
     // 원서 수험표, 생성, S3 업로드
