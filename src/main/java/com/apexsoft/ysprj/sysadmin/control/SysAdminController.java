@@ -480,6 +480,12 @@ public class SysAdminController {
         // 필요한 데이터 처리 (상태, 수험번호, 결제정보)
         paymentService.registerManualPay(applPayTr);
 
+        // BIRT 생성, PDF 업로드
+        paymentService.processFiles(application);
+
+        // 지원 완료 알림 메일 발송
+        paymentService.sendNotification(application);
+
 //        // 수험표, 지원서 생성 및 Merge
 //        // 타 대학원 확장 시 TODO - 학교 이름을 파라미터로 받도록
 //        String admsTypeCode = application.getAdmsTypeCode();

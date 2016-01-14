@@ -81,6 +81,12 @@ public class PaymentAdminController {
         // 필요한 데이터 처리 (상태, 수험번호, 결제정보)
         paymentService.registerManualPay(applPayTr);
 
+        // BIRT 생성, PDF 업로드
+        paymentService.processFiles(application);
+
+        // 지원 완료 알림 메일 발송
+        paymentService.sendNotification(application);
+
         return "xpay/resultmanual";
     }
 

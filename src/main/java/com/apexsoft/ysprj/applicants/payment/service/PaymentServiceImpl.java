@@ -706,7 +706,14 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    /**
+     * 수동 결제 처리는 LG U+ 결제 완료 확인된 건에 한해 수행하므로
+     * DB 처리만 이 메서드에서 담당한다.
+     */
     public ExecutionContext registerManualPay( ApplicationPaymentTransaction applPayTr ) {
+
+        Application application = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.ApplicationMapper.selectByPrimaryKey",
+                applPayTr.getApplNo(), Application.class);
 
         ExecutionContext ec = new ExecutionContext();
         Date date = new Date();
@@ -723,41 +730,58 @@ public class PaymentServiceImpl implements PaymentService {
 
         commonDAO.updateItem(applPay, NAME_SPACE, "ApplicationPaymentCurStatMapper");
 
-        //수헙번호 순번 조회
-        CustomNewSeq customNewSeq = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.CustomApplicationMapper.selectNewSeq",
-                                                             applPay.getApplNo(), CustomNewSeq.class);
-        //수험번호 순번 갱신
-        commonDAO.updateItem(customNewSeq, "com.apexsoft.ysprj.applicants.application.sqlmap.", "CustomApplicationMapper.", "updateApplIdSeqIdByNewSeq");
+//        //수헙번호 순번 조회
+//        CustomNewSeq customNewSeq = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.CustomApplicationMapper.selectNewSeq",
+//                                                             applPay.getApplNo(), CustomNewSeq.class);
+//        //수험번호 순번 갱신
+//        commonDAO.updateItem(customNewSeq, "com.apexsoft.ysprj.applicants.application.sqlmap.", "CustomApplicationMapper.", "updateApplIdSeqIdByNewSeq");
+
+
+        //수험번호 채번 및 적용
+        CustomNewSeq customNewSeq = updateApplId(applPay.getApplNo());
+
+
+//        //수험번호, 결제완료 상태 적용
+//        application.setApplId(getApplId(application, customNewSeq.getNewSeq()));
+//        application.setApplDate(date);
+//        application.setApplStsCode(ApplicationStatus.COMPLETED.codeVal());
+//        commonDAO.updateItem(application, "com.apexsoft.ysprj.applicants.application.sqlmap.", "ApplicationMapper");
+
 
         //수험번호, 결제완료 상태 적용
-        Application application = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.ApplicationMapper.selectByPrimaryKey",
-                                                           applPay.getApplNo(), Application.class);
-        application.setApplId(getApplId(application, customNewSeq.getNewSeq()));
-        application.setApplDate(date);
-        application.setApplStsCode(ApplicationStatus.COMPLETED.codeVal());
-        commonDAO.updateItem(application, "com.apexsoft.ysprj.applicants.application.sqlmap.", "ApplicationMapper");
+        PaymentResult paymentResult = new PaymentResult();
+        // updateApplSts()에서 상태를 ApplicationStatus.COMPLETED로 하도록
+        // fake로 "SC0010" 설정
+        paymentResult.setPayType("SC0010");
+        updateApplSts(application, customNewSeq, paymentResult);
+
+
+//        //결제 트랜젝션 정보 처리 (APPL_PAY_TR)
+//        applPayTr.setPayDate(applPay.getPayDate());
+//        applPayTr.setPayStsCode(applPay.getPayStsCode());
+//        applPayTr.setCreId(applPay.getModId());
+//        applPayTr.setCreDate(date);
+//
+//        int lastSeq = 0;
+//        lastSeq = commonDAO.queryForInt(NAME_SPACE + "CustomApplicationPaymentTransactionMapper.selectMaxSeqByApplNo", applPayTr.getApplNo());
+//        applPayTr.setPaySeq(lastSeq + 1);
+//
+//        commonDAO.insertItem(applPayTr, NAME_SPACE, "ApplicationPaymentTransactionMapper");
+
 
         //결제 트랜젝션 정보 처리 (APPL_PAY_TR)
-        applPayTr.setPayDate(applPay.getPayDate());
-        applPayTr.setPayStsCode(applPay.getPayStsCode());
-        applPayTr.setCreId(applPay.getModId());
-        applPayTr.setCreDate(date);
+        registerPaymentTransaction(applPay);
 
-        int lastSeq = 0;
-        lastSeq = commonDAO.queryForInt(NAME_SPACE + "CustomApplicationPaymentTransactionMapper.selectMaxSeqByApplNo", applPayTr.getApplNo());
-        applPayTr.setPaySeq(lastSeq + 1);
-
-        commonDAO.insertItem(applPayTr, NAME_SPACE, "ApplicationPaymentTransactionMapper");
 
         //APPL_DOC에 수험번호가 채번된 원서, 수험표 정보 저장
         documentService.saveApplicationPaperInfo(application);
         documentService.saveAdmissionSlipPaperInfo(application);
 
-        // 원서 수험표, 생성, S3 업로드
-        genAndUploadApplicationFormAndSlipFile(application);
-
-        // 입학 신청 완료 메일 발송
-        sendMail(application);
+//        // 원서 수험표, 생성, S3 업로드
+//        genAndUploadApplicationFormAndSlipFile(application);
+//
+//        // 입학 신청 완료 메일 발송
+//        sendMail(application);
 
         return ec;
     }
