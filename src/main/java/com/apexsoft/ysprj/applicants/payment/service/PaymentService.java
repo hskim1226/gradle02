@@ -26,7 +26,7 @@ public interface PaymentService {
 
     void sendNotification(Application application);
 
-    int registerCasNote( ApplicationPaymentCurStat applPay );
+    Application registerCasNote( ApplicationPaymentCurStat applPay );
 
     ExecutionContext saveApplicationPayment(Application application);
 

@@ -8,6 +8,7 @@ import com.apexsoft.ysprj.applicants.common.domain.BirtRequest;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPaymentCurStat;
+import com.apexsoft.ysprj.applicants.payment.domain.PaymentResult;
 import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
 import com.apexsoft.ysprj.applicants.payment.service.PaymentServiceImpl;
 import org.apache.commons.httpclient.HttpClient;
@@ -132,8 +133,14 @@ public class CasNoteController {
 
         if( "I".equals(LGD_CASFLAG) ) {
 
-            //가상계좌 입금내역에 대한 DB 처리 후 원서, 수험표 생성 및 S3 업로드
-            int applNo = paymentService.registerCasNote(applPay);
+            // 이미 LG U+ 측에서 입금 확인이 되어 결제 완료되었으므로 DB 처리만 한다.
+            Application application = paymentService.registerCasNote(applPay);
+
+            // BIRT 생성, PDF 업로드
+            paymentService.processFiles(application);
+
+            // 지원 완료 알림 메일 발송
+            paymentService.sendNotification(application);
 
             //수험표, 지원서 생섬 및 Merge
 //            String urlHead = "http://localhost:" + Integer.toString(request.getLocalPort()) + request.getContextPath();
