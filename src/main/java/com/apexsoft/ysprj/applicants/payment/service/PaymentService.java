@@ -2,10 +2,8 @@ package com.apexsoft.ysprj.applicants.payment.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
-import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPaymentCurStat;
-import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPaymentTransaction;
-import com.apexsoft.ysprj.applicants.payment.domain.Payment;
-import com.apexsoft.ysprj.applicants.payment.domain.TransactionVO;
+import com.apexsoft.ysprj.applicants.payment.domain.*;
+import lgdacom.XPayClient.XPayClient;
 
 import java.util.List;
 
@@ -20,7 +18,13 @@ public interface PaymentService {
 
     ExecutionContext registerPaymentCertifyLog( Payment payment );
 
-    String executePayment( Payment payment, TransactionVO transactionVO );
+    <T> ExecutionContext<T> executePayment( Payment payment, TransactionVO transactionVO );
+
+    void updateStatus(Payment payment, PaymentResult paymentResult);
+
+    void processFiles(Application application);
+
+    void sendNotification(Application application);
 
     int registerCasNote( ApplicationPaymentCurStat applPay );
 

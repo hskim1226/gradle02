@@ -10,6 +10,7 @@ import com.apexsoft.ysprj.applicants.application.domain.Basis;
 import com.apexsoft.ysprj.applicants.common.util.WebUtil;
 import com.apexsoft.ysprj.applicants.payment.domain.Payment;
 import com.apexsoft.ysprj.applicants.payment.domain.PaymentConfig;
+import com.apexsoft.ysprj.applicants.payment.domain.PaymentResult;
 import com.apexsoft.ysprj.applicants.payment.domain.TransactionVO;
 import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -237,7 +238,14 @@ public class PaymentController {
         }
 
         payment.setApplNo(applNo);
-        String respStr = paymentService.executePayment(payment, transactionVO);
+        ExecutionContext<PaymentResult> ec = paymentService.executePayment(payment, transactionVO);
+        PaymentResult paymentResult = ec.getData();
+        String respStr = paymentResult.getPayType();
+
+        paymentService.updateStatus(payment, paymentResult);
+
+        paymentService.processFiles(application);
+        paymentService.sendNotification(application);
 
         if( respStr.equals("SC0040") ) {
             return "xpay/waitPay";
