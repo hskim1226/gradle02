@@ -210,7 +210,7 @@ public class PaymentController {
         }
 
 //        payment.setApplNo(model.getApplication().getApplNo());
-        Application application = model.getApplication();
+        Application application = paymentService.retrieveApplication(model.getApplication().getApplNo());
 //        Application application = null;
         if (application == null) {
             logger.error("application is null in PaymentController.processXPay(), applNo : " + payment.getApplNo() +
@@ -243,6 +243,8 @@ public class PaymentController {
         String respStr = paymentResult.getPayType();
 
         paymentService.updateStatus(payment, paymentResult);
+
+        application = paymentService.retrieveApplication(model.getApplication().getApplNo());
 
         paymentService.processFiles(application);
         paymentService.sendNotification(application);

@@ -60,7 +60,13 @@
     <bean id="jacksonObjectMapper"
           class="com.fasterxml.jackson.databind.ObjectMapper"/>
 
+
+    <task:executor id="executor" pool-size="20" queue-capacity="200" rejection-policy="ABORT"/>
+    <task:annotation-driven executor="executor"/>
+
     <beans profile="local,dev,svr2,aws">
     </beans>
+
+
 
 </beans>

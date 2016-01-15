@@ -18,6 +18,8 @@ public interface PaymentService {
 
     ExecutionContext registerPaymentCertifyLog( Payment payment );
 
+    Application retrieveApplication(int applNo);
+
     <T> ExecutionContext<T> executePayment( Payment payment, TransactionVO transactionVO );
 
     void updateStatus(Payment payment, PaymentResult paymentResult);

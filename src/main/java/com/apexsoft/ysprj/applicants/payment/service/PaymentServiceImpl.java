@@ -25,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
@@ -205,6 +206,14 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    public Application retrieveApplication(int applNo) {
+        Application application = commonDAO.queryForObject(
+                "com.apexsoft.ysprj.applicants.application.sqlmap.ApplicationMapper.selectByPrimaryKey",
+                applNo, Application.class);
+        return application;
+    }
+
+    @Override
     public ExecutionContext<PaymentResult> executePayment( Payment payment, TransactionVO transactionVO ) {
 
         String rtnStr;
@@ -381,8 +390,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public void updateStatus(Payment payment, PaymentResult paymentResult) {
-        Application application = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.ApplicationMapper.selectByPrimaryKey",
-                payment.getApplNo(), Application.class);
+        Application application = retrieveApplication(payment.getApplNo());
 
         //수험번호 채번 및 적용
         CustomNewSeq customNewSeq = updateApplId(payment.getApplNo());
@@ -483,6 +491,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     // 원서 수험표, 생성, S3 업로드
+    @Async
     public void processFiles(Application application) {
         // 예외 발생 시 throw 하지 않고 정상 흐름으로 복귀시켜야 함
         genAndUploadApplicationFormAndSlipFile(application);
@@ -490,6 +499,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     // 결제 완료 메일 발송
+    @Async
     public void sendNotification(Application application) {
         // 예외 발생 시 throw 하지 않고 정상 흐름으로 복귀시켜야 함
         sendMail(application);
@@ -643,8 +653,7 @@ public class PaymentServiceImpl implements PaymentService {
      */
     public Application registerCasNote(ApplicationPaymentCurStat applPay) {
 
-        Application application = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.ApplicationMapper.selectByPrimaryKey",
-                applPay.getApplNo(), Application.class);
+        Application application = retrieveApplication(applPay.getApplNo());
 
         //LGD_OID로 해당 결제 조회
         ApplicationPaymentCurStatExample param = new ApplicationPaymentCurStatExample();
@@ -712,8 +721,7 @@ public class PaymentServiceImpl implements PaymentService {
      */
     public ExecutionContext registerManualPay( ApplicationPaymentTransaction applPayTr ) {
 
-        Application application = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.ApplicationMapper.selectByPrimaryKey",
-                applPayTr.getApplNo(), Application.class);
+        Application application = retrieveApplication(applPayTr.getApplNo());
 
         ExecutionContext ec = new ExecutionContext();
         Date date = new Date();
