@@ -210,6 +210,9 @@ public class PaymentController {
         }
 
 //        payment.setApplNo(model.getApplication().getApplNo());
+
+//        Application application = model.getApplication();
+
         Application application = paymentService.retrieveApplication(model.getApplication().getApplNo());
 //        Application application = null;
         if (application == null) {

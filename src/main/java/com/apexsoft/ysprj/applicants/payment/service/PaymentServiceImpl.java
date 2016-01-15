@@ -493,16 +493,25 @@ public class PaymentServiceImpl implements PaymentService {
     // 원서 수험표, 생성, S3 업로드
     @Async
     public void processFiles(Application application) {
-        // 예외 발생 시 throw 하지 않고 정상 흐름으로 복귀시켜야 함
-        genAndUploadApplicationFormAndSlipFile(application);
+        // 비동기이므로 예외 발생 시 로그처리만 수행
+        try {
+            genAndUploadApplicationFormAndSlipFile(application);
+        } catch (Exception e) {
+            exceptionThrower("U05204", "ERR0307", application.getApplNo());
+        }
     }
 
     @Override
     // 결제 완료 메일 발송
     @Async
     public void sendNotification(Application application) {
-        // 예외 발생 시 throw 하지 않고 정상 흐름으로 복귀시켜야 함
-        sendMail(application);
+        // 비동기이므로 예외 발생 시 로그처리만 수행
+        try {
+            sendMail(application);
+        } catch (Exception e) {
+            exceptionThrower("U05204", "ERR0308", application.getApplNo());
+        }
+
     }
 
 //    private ExecutionContext registerPaymentSuccess(Payment payment, XPayClient xpay ) {
