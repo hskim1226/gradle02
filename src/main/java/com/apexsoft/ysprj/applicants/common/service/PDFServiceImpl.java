@@ -97,7 +97,7 @@ public class PDFServiceImpl implements PDFService {
         List<ByteArrayOutputStream> userUploadedPdfStreamFromS3List = getByteArrayOutputStreamedPdfListFromS3(s3, pdfList);
 
         // 원서 미리보기 또는 결제 완료를 통해 로컬에 생성된 지원서 파일 쪽수 계산
-        File applicationFormFile = new File(getPdfDirFullPath(application), FilePathUtil.getApplicationFormFileName(userId));
+//        File applicationFormFile = new File(getPdfDirFullPath(application), FilePathUtil.getApplicationFormFileName(userId));
 //        int applicationFormPageCounts = getPdfPageCount(applicationFormFile);
 
 
@@ -130,14 +130,16 @@ public class PDFServiceImpl implements PDFService {
             uploadToS3(s3, applicationSlipFile, applNo); // 수험표는 결제 완료 후에 생성 및 업로드
             applicationSlipFile.delete();
 
-            // 지원서 파일
+            // 결제 완료를 통해 로컬에 생성된 지원서
+            File applicationFormFile = getApplicationFormFile(application);
             uploadToS3(s3, applicationFormFile, applNo);
+            applicationFormFile.delete();
         }
 
         // 중간 작업 파일 삭제
         // 여기서 지우면 파일 지우기 위한 I/O 추가 발생하지만 저장 공간은 절약
         // 나중에 batch로 지우면 I/O 는 절약하지만 지우기 전까지 저장 공간은 낭비
-        applicationFormFile.delete();
+
 //        mergedFile.delete();
 //        numberedMergedFile.delete();
         for (File file: numberedFiles) {
@@ -146,6 +148,8 @@ public class PDFServiceImpl implements PDFService {
 
         return ec;
     }
+
+
 
     /**
      * pdf 파일의 페이지수 계산
@@ -163,17 +167,13 @@ public class PDFServiceImpl implements PDFService {
             pdDocument = gradnetPDDocument.getPdDocument();
             pageCounts = pdDocument.getNumberOfPages();
         } catch (IOException e) {
-            exceptionThrower("applNo", String.valueOf(application.getApplNo()), ec);
-            Map<String, String> metaDataMap = gradnetPDDocument.getMetaDataMap();
-            Map<String, String> errInfo = new HashMap<>();
-            errInfo.put("applNo", String.valueOf(application.getApplNo()));
-            errInfo.putAll(metaDataMap);
+            exceptionThrower(gradnetPDDocument.getMetaDataMap(), ec);
         } finally {
             if (pdDocument != null) {
                 try {
                     pdDocument.close();
                 } catch (IOException e) {
-                    exceptionThrower("applNo", String.valueOf(application.getApplNo()), ec);
+                    exceptionThrower(gradnetPDDocument.getMetaDataMap(), ec);
                 }
             }
         }
@@ -437,6 +437,11 @@ public class PDFServiceImpl implements PDFService {
                 fileBaseDir, s3MidPath, application.getAdmsNo(), application.getUserId(), application.getApplNo()) + "/" +
                 FilePathUtil.getApplicationSlipFileName(application.getUserId());
         return new File(applicationSlipFileFullPath);
+    }
+
+    // 결제 완료 후 로컬에 생성된 지원서 파일
+    private File getApplicationFormFile(Application application) {
+        return new File(getPdfDirFullPath(application), FilePathUtil.getApplicationFormFileName(application.getUserId()));
     }
 
     // S3에 파일 업로드
