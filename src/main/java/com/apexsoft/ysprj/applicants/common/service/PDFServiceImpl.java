@@ -19,7 +19,13 @@ import com.apexsoft.ysprj.applicants.common.domain.ParamForPDFDocument;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import com.apexsoft.ysprj.applicants.common.util.StreamUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
+import org.apache.commons.compress.archivers.zip.ZipEncoding;
+import org.apache.commons.compress.archivers.zip.ZipEncodingHelper;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOExceptionWithCause;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.pdfbox.io.MemoryUsageSetting;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -38,6 +44,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.util.*;
 
 /**
@@ -117,10 +125,13 @@ public class PDFServiceImpl implements PDFService {
         List<File> userUploadedFiles = getFileListFromS3(s3, pdfList);
         List<File> numberedFiles = getPageNumberedPDFs(userUploadedFiles, application);
 
+        // 페이지 넘버링 된 개별 파일을 zip으로 압축
+        File zippedFile = getZippedFile(numberedFiles, application);
+
         // 파일 목록 루프돌며 S3에 업로드
-        for (File file : numberedFiles) {
-            uploadToS3(s3, file, applNo);
-        }
+//        for (File file : numberedFiles) {
+//            uploadToS3(s3, file, applNo);
+//        }
 
 
         // 결제 완료 시 수험번호 채번된 수험표와 지원서를 S3에 업로드
@@ -148,8 +159,6 @@ public class PDFServiceImpl implements PDFService {
 
         return ec;
     }
-
-
 
     /**
      * pdf 파일의 페이지수 계산
@@ -304,16 +313,18 @@ public class PDFServiceImpl implements PDFService {
      */
     private File getPageNumberedPDF(Object fileOrInputStream, int startPage, int startNo, int endNo, Application application) {
         ExecutionContext ec = new ExecutionContext();
-        GradnetPDDocument pDDocument = null;
+        GradnetPDDocument gradnetPDDocument = null;
 //        String applicationFileDirPath = getPdfDirFullPath(application);
 //        String targetFilePath = FilePathUtil.encodeColonSlash(FilePathUtil.getFinalMergedFileFullPath(applicationFileDirPath, application.getApplNo()), "_");
         String targetFilePath = getTargetFilePath(fileOrInputStream, application);
+        PDDocument pdDocument = null;
         try {
-            pDDocument = getPDDocument(fileOrInputStream, application);
+            gradnetPDDocument = getPDDocument(fileOrInputStream, application);
+            pdDocument = gradnetPDDocument.getPdDocument();
             PDFont font = PDType1Font.HELVETICA;
             float fontSize = 15.0f;
-            PDPageTree pageTree = pDDocument.getPages();
-            int length = (endNo > 0) ? endNo : pDDocument.getNumberOfPages() - startPage + 1;
+            PDPageTree pageTree = pdDocument.getPages();
+            int length = (endNo > 0) ? endNo : pdDocument.getNumberOfPages() - startPage + 1;
             Iterator<PDPage> it = pageTree.iterator();
             int i = 1;
             while (i < startPage && it.hasNext()) {
@@ -329,7 +340,7 @@ public class PDFServiceImpl implements PDFService {
                 float pageHeight = pageSize.getHeight();
                 Matrix m4Position = new Matrix();
                 m4Position.translate(pageWidth - stringWidth - 15, pageHeight - 20);
-                PDPageContentStream contentStream = new PDPageContentStream(pDDocument, page, true, true, true);
+                PDPageContentStream contentStream = new PDPageContentStream(pdDocument, page, true, true, true);
                 contentStream.beginText();
                 contentStream.setFont(font, fontSize);
                 contentStream.setTextMatrix(m4Position);
@@ -337,15 +348,15 @@ public class PDFServiceImpl implements PDFService {
                 contentStream.endText();
                 contentStream.close();
             }
-            pDDocument.save(targetFilePath);
+            pdDocument.save(targetFilePath);
         } catch (IOException e) {
             exceptionThrower("applNo", String.valueOf(application.getApplNo()), ec);
         } finally {
-            if (pDDocument != null) {
+            if (pdDocument != null) {
                 try {
-                    pDDocument.close();
+                    pdDocument.close();
                 } catch (IOException e) {
-                    exceptionThrower("applNo", String.valueOf(application.getApplNo()), ec);
+                    exceptionThrower(gradnetPDDocument.getMetaDataMap(), ec);
                 }
             }
         }
@@ -412,6 +423,14 @@ public class PDFServiceImpl implements PDFService {
         throw new YSBizException(ec);
     }
 
+    private void exceptionThrower(Map<String, String> errInfo, String msgCode, String errCode) {
+        ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+        ec.setMessage(MessageResolver.getMessage(msgCode));
+        ec.setErrCode(errCode);
+        ec.setErrorInfo(new ErrorInfo(errInfo));
+        throw new YSBizException(ec);
+    }
+
     // 합치지 않고 개별 파일에 페이지 수 넘버링
     private List<File> getPageNumberedPDFs(List<File> userUploadedFiles, Application application) {
         int totalPageCounts = 0;
@@ -442,6 +461,163 @@ public class PDFServiceImpl implements PDFService {
     // 결제 완료 후 로컬에 생성된 지원서 파일
     private File getApplicationFormFile(Application application) {
         return new File(getPdfDirFullPath(application), FilePathUtil.getApplicationFormFileName(application.getUserId()));
+    }
+
+    // 페이지 넘버링 된 파일들의 압축 파일 반환
+    private File getZippedFile(List<File> numberedFiles, Application application) {
+        String targetPath = getPdfDirFullPath(application);
+        String applId = application.getApplId();
+        String zipFileName = (StringUtils.isEmpty(applId) ? String.valueOf(application.getApplNo()) : applId) + ".zip";
+        File zippedFile = new File(targetPath, zipFileName);
+        OutputStream os = null;
+
+        try {
+            os = new FileOutputStream(zippedFile);
+        } catch (FileNotFoundException e) {
+            Map<String, String> errMap = new HashMap<>();
+            errMap.put("applNo", String.valueOf(application.getApplNo()));
+            errMap.put("zip error", zippedFile.getName());
+            exceptionThrower(errMap, new ExecutionContext<>());
+        }
+
+        ZipArchiveOutputStream zos = new ZipArchiveOutputStream(os);
+//        String defaultCharsetName = Charset.defaultCharset().name();
+//        zos.setEncoding(defaultCharsetName);
+//        zos.setFallbackToUTF8(true);
+//        zos.setUseLanguageEncodingFlag(true);
+        ZipArchiveEntry ze;
+        int length;
+        byte[] buf = new byte[8 * 1024];
+        FileInputStream fis = null;
+
+        File file = numberedFiles.get(0);
+        String[] encoding = {"utf-8", "euc-kr", "ksc5601", "x-windows-949", "iso-8859-1"};
+        try {
+            for (int i = 0 ; i < encoding.length ; i++) {
+//                for (int j = 0 ; j < encoding.length ; j++) {
+                    String word = file.getName();
+//                    ze = new ZipArchiveEntry(new String(word.getBytes(encoding[i]), encoding[j]));
+
+                    ZipEncoding zipEncoding = ZipEncodingHelper.getZipEncoding(encoding[i]);
+                    System.out.println(zipEncoding.canEncode(word));
+                    ByteBuffer byteBuffer = zipEncoding.encode(word);
+                    String decoded = zipEncoding.decode(byteBuffer.array());
+                    ze = new ZipArchiveEntry(decoded + encoding[i]);
+                    zos.putArchiveEntry(ze);
+                    fis = new FileInputStream(file);
+                    while ((length = fis.read(buf, 0, buf.length)) >= 0) {
+                        zos.write(buf, 0, length);
+                    }
+                    fis.close();
+                    zos.closeArchiveEntry();
+//                }
+            }
+//            String word = file.getName();
+//            System.out.println("*************************************************");
+//            System.out.println(file.getName());
+//            System.out.println("utf-8 -> euc-kr        : " + new String(word.getBytes("utf-8"), "euc-kr"));
+//            System.out.println("utf-8 -> ksc5601       : " + new String(word.getBytes("utf-8"), "ksc5601"));
+//            System.out.println("utf-8 -> x-windows-949 : " + new String(word.getBytes("utf-8"), "x-windows-949"));
+//            System.out.println("utf-8 -> iso-8859-1    : " + new String(word.getBytes("utf-8"), "iso-8859-1"));
+//            System.out.println("iso-8859-1 -> euc-kr        : " + new String(word.getBytes("iso-8859-1"), "euc-kr"));
+//            System.out.println("iso-8859-1 -> ksc5601       : " + new String(word.getBytes("iso-8859-1"), "ksc5601"));
+//            System.out.println("iso-8859-1 -> x-windows-949 : " + new String(word.getBytes("iso-8859-1"), "x-windows-949"));
+//            System.out.println("iso-8859-1 -> utf-8         : " + new String(word.getBytes("iso-8859-1"), "utf-8"));
+//            System.out.println("euc-kr -> utf-8         : " + new String(word.getBytes("euc-kr"), "utf-8"));
+//            System.out.println("euc-kr -> ksc5601       : " + new String(word.getBytes("euc-kr"), "ksc5601"));
+//            System.out.println("euc-kr -> x-windows-949 : " + new String(word.getBytes("euc-kr"), "x-windows-949"));
+//            System.out.println("euc-kr -> iso-8859-1    : " + new String(word.getBytes("euc-kr"), "iso-8859-1"));
+//            System.out.println("ksc5601 -> euc-kr        : " + new String(word.getBytes("ksc5601"), "euc-kr"));
+//            System.out.println("ksc5601 -> utf-8         : " + new String(word.getBytes("ksc5601"), "utf-8"));
+//            System.out.println("ksc5601 -> x-windows-949 : " + new String(word.getBytes("ksc5601"), "x-windows-949"));
+//            System.out.println("ksc5601 -> iso-8859-1    : " + new String(word.getBytes("ksc5601"), "iso-8859-1"));
+//            System.out.println("x-windows-949 -> euc-kr     : " + new String(word.getBytes("x-windows-949"), "euc-kr"));
+//            System.out.println("x-windows-949 -> utf-8      : " + new String(word.getBytes("x-windows-949"), "utf-8"));
+//            System.out.println("x-windows-949 -> ksc5601    : " + new String(word.getBytes("x-windows-949"), "ksc5601"));
+//            System.out.println("x-windows-949 -> iso-8859-1 : " + new String(word.getBytes("x-windows-949"), "iso-8859-1"));
+//
+//
+//            ze = new ZipArchiveEntry(new String(word.getBytes("iso-8859-1"), "euc-kr"));
+//            zos.putArchiveEntry(ze);
+//            fis = new FileInputStream(file);
+//            while ((length = fis.read(buf, 0, buf.length)) >= 0) {
+//                zos.write(buf, 0, length);
+//            }
+//            fis.close();
+//            zos.closeArchiveEntry();
+        } catch (UnsupportedEncodingException e) {
+
+        } catch (IOException e) {
+            Map<String, String> errMap = new HashMap<>();
+            errMap.put("applNo", String.valueOf(application.getApplNo()));
+            errMap.put("fileName", file.getName());
+            exceptionThrower(errMap, "U04528", "ERR1105");
+        } finally {
+            if (fis != null)
+                try { fis.close(); } catch (IOException e) {}
+        }
+
+//        for (File file : numberedFiles) {
+//            try {
+//                String word = file.getName();
+//                System.out.println("*************************************************");
+//                System.out.println(file.getName());
+//                System.out.println("utf-8 -> euc-kr        : " + new String(word.getBytes("utf-8"), "euc-kr"));
+//                System.out.println("utf-8 -> ksc5601       : " + new String(word.getBytes("utf-8"), "ksc5601"));
+//                System.out.println("utf-8 -> x-windows-949 : " + new String(word.getBytes("utf-8"), "x-windows-949"));
+//                System.out.println("utf-8 -> iso-8859-1    : " + new String(word.getBytes("utf-8"), "iso-8859-1"));
+//                System.out.println("iso-8859-1 -> euc-kr        : " + new String(word.getBytes("iso-8859-1"), "euc-kr"));
+//                System.out.println("iso-8859-1 -> ksc5601       : " + new String(word.getBytes("iso-8859-1"), "ksc5601"));
+//                System.out.println("iso-8859-1 -> x-windows-949 : " + new String(word.getBytes("iso-8859-1"), "x-windows-949"));
+//                System.out.println("iso-8859-1 -> utf-8         : " + new String(word.getBytes("iso-8859-1"), "utf-8"));
+//                System.out.println("euc-kr -> utf-8         : " + new String(word.getBytes("euc-kr"), "utf-8"));
+//                System.out.println("euc-kr -> ksc5601       : " + new String(word.getBytes("euc-kr"), "ksc5601"));
+//                System.out.println("euc-kr -> x-windows-949 : " + new String(word.getBytes("euc-kr"), "x-windows-949"));
+//                System.out.println("euc-kr -> iso-8859-1    : " + new String(word.getBytes("euc-kr"), "iso-8859-1"));
+//                System.out.println("ksc5601 -> euc-kr        : " + new String(word.getBytes("ksc5601"), "euc-kr"));
+//                System.out.println("ksc5601 -> utf-8         : " + new String(word.getBytes("ksc5601"), "utf-8"));
+//                System.out.println("ksc5601 -> x-windows-949 : " + new String(word.getBytes("ksc5601"), "x-windows-949"));
+//                System.out.println("ksc5601 -> iso-8859-1    : " + new String(word.getBytes("ksc5601"), "iso-8859-1"));
+//                System.out.println("x-windows-949 -> euc-kr     : " + new String(word.getBytes("x-windows-949"), "euc-kr"));
+//                System.out.println("x-windows-949 -> utf-8      : " + new String(word.getBytes("x-windows-949"), "utf-8"));
+//                System.out.println("x-windows-949 -> ksc5601    : " + new String(word.getBytes("x-windows-949"), "ksc5601"));
+//                System.out.println("x-windows-949 -> iso-8859-1 : " + new String(word.getBytes("x-windows-949"), "iso-8859-1"));
+//
+//
+//                ze = new ZipArchiveEntry(new String(word.getBytes("iso-8859-1"), "euc-kr"));
+//                zos.putArchiveEntry(ze);
+//                fis = new FileInputStream(file);
+//                while ((length = fis.read(buf, 0, buf.length)) >= 0) {
+//                    zos.write(buf, 0, length);
+//                }
+//                fis.close();
+//                zos.closeArchiveEntry();
+//            } catch (UnsupportedEncodingException e) {
+//
+//            } catch (IOException e) {
+//                Map<String, String> errMap = new HashMap<>();
+//                errMap.put("applNo", String.valueOf(application.getApplNo()));
+//                errMap.put("fileName", file.getName());
+//                exceptionThrower(errMap, "U04528", "ERR1105");
+//            } finally {
+//                if (fis != null)
+//                    try { fis.close(); } catch (IOException e) {}
+//            }
+//        }
+
+        try {
+            zos.close();
+        } catch (IOException e) {
+            Map<String, String> errMap = new HashMap<>();
+            errMap.put("applNo", String.valueOf(application.getApplNo()));
+            errMap.put("fileName", zipFileName);
+            exceptionThrower(errMap, "U04529", "ERR1106");
+        } finally {
+            if (zos != null)
+                try { zos.close(); } catch (IOException e) {}
+        }
+
+        return zippedFile;
     }
 
     // S3에 파일 업로드

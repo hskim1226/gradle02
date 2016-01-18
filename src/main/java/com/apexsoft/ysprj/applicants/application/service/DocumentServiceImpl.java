@@ -212,7 +212,7 @@ public class DocumentServiceImpl implements DocumentService {
 //        application.setModId(userId);
         application.setModId(modId);
         application.setDocChckYn("on".equals(application.getDocChckYn())?"Y":"N");
-        application.setApplStsCode(APPLICATION_SUBMITTED);
+//        application.setApplStsCode(APPLICATION_SUBMITTED);
 
         r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
 
