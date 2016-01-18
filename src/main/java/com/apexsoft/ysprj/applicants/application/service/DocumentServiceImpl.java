@@ -216,9 +216,7 @@ public class DocumentServiceImpl implements DocumentService {
 
         r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
 
-        ExecutionContext ecPay = paymentService.saveApplicationPayment(application);
-
-        if (r1 == 1 && ExecutionContext.SUCCESS.equals(ecPay.getResult())) {
+        if (r1 == 1) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(MessageResolver.getMessage("U327"));
         } else {
@@ -227,9 +225,6 @@ public class DocumentServiceImpl implements DocumentService {
             if (r1 != 1 ) {
                 ec.setData(application);
                 ec.setErrCode("ERR0041");
-            } else if (ExecutionContext.FAIL.equals(ecPay.getResult())) {
-                ec.setData(applNo);
-                ec.setErrCode(ec.getErrCode());
             }
             Map<String, String> errorInfo = new HashMap<String, String>();
             errorInfo.put("applNo", String.valueOf(applNo));

@@ -209,16 +209,14 @@ public class PaymentController {
             }
         }
 
-//        payment.setApplNo(model.getApplication().getApplNo());
-
-//        Application application = model.getApplication();
+        ExecutionContext ec = new ExecutionContext();
 
         Application application = paymentService.retrieveApplication(model.getApplication().getApplNo());
-//        Application application = null;
+
         if (application == null) {
             logger.error("application is null in PaymentController.processXPay(), applNo : " + payment.getApplNo() +
                     ", LGD_BUYERID : " + payment.getLGD_BUYERID() + ", LGD_OID : " + payment.getLGD_OID());
-            ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+            ec.setResult(ExecutionContext.FAIL);
             Map<String, String> errorMap = new HashMap<String, String>();
             errorMap.put("payment.applNo", String.valueOf(payment.getApplNo()));
             errorMap.put("payment.LGD_BUYERID", String.valueOf(payment.getLGD_BUYERID()));
@@ -240,9 +238,27 @@ public class PaymentController {
             throw new YSBizException(e);
         }
 
+        ExecutionContext ecPay = paymentService.saveApplicationPayment(application);
+
+        if (ExecutionContext.SUCCESS.equals(ecPay.getResult())) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setMessage(MessageResolver.getMessage("U327"));
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(MessageResolver.getMessage("U328"));
+            if (ExecutionContext.FAIL.equals(ecPay.getResult())) {
+                ec.setData(applNo);
+                ec.setErrCode(ec.getErrCode());
+            }
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("applNo", String.valueOf(applNo));
+            ec.setErrorInfo(new ErrorInfo(errorInfo));
+            throw new YSBizException(ec);
+        }
+
         payment.setApplNo(applNo);
-        ExecutionContext<PaymentResult> ec = paymentService.executePayment(payment, transactionVO);
-        PaymentResult paymentResult = ec.getData();
+        ExecutionContext<PaymentResult> ecPayResult = paymentService.executePayment(payment, transactionVO);
+        PaymentResult paymentResult = ecPayResult.getData();
         String respStr = paymentResult.getPayType();
 
         paymentService.updateStatus(payment, paymentResult);
