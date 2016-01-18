@@ -80,12 +80,27 @@ public class PaymentController {
                                         ModelAndView mv) throws NoSuchAlgorithmException {
 
         webUtil.blockGetMethod(request, model.getApplication());
-        SecurityContext sc = (SecurityContext)httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
-        Authentication auth = sc.getAuthentication();
-        UserSessionVO userSessionVO = (UserSessionVO)auth.getPrincipal();
 
-//        payment.setLGD_BUYERID(userSessionVO.getUsername());
-        payment.setLGD_BUYERID(model.getApplication().getUserId());
+        Application application = model.getApplication();
+        ExecutionContext ecPay = paymentService.saveApplicationPayment(application);
+        ExecutionContext ec = new ExecutionContext();
+        if (ExecutionContext.SUCCESS.equals(ecPay.getResult())) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setMessage(MessageResolver.getMessage("U327"));
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(MessageResolver.getMessage("U328"));
+            if (ExecutionContext.FAIL.equals(ecPay.getResult())) {
+                ec.setData(application.getApplNo());
+                ec.setErrCode(ec.getErrCode());
+            }
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("applNo", String.valueOf(application.getApplNo()));
+            ec.setErrorInfo(new ErrorInfo(errorInfo));
+            throw new YSBizException(ec);
+        }
+
+        payment.setLGD_BUYERID(application.getUserId());
         if (payment.getApplNo() == 0) {
             logger.error("payment.applNo is 0 in PaymentController.confirmPayment(), payment.applNo : " + payment.getApplNo() +
                     ", application.applNo : " + model.getApplication().getApplNo() +
@@ -236,24 +251,6 @@ public class PaymentController {
                     ", LGD_OID : " + payment.getLGD_OID()
             );
             throw new YSBizException(e);
-        }
-
-        ExecutionContext ecPay = paymentService.saveApplicationPayment(application);
-
-        if (ExecutionContext.SUCCESS.equals(ecPay.getResult())) {
-            ec.setResult(ExecutionContext.SUCCESS);
-            ec.setMessage(MessageResolver.getMessage("U327"));
-        } else {
-            ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(MessageResolver.getMessage("U328"));
-            if (ExecutionContext.FAIL.equals(ecPay.getResult())) {
-                ec.setData(applNo);
-                ec.setErrCode(ec.getErrCode());
-            }
-            Map<String, String> errorInfo = new HashMap<String, String>();
-            errorInfo.put("applNo", String.valueOf(applNo));
-            ec.setErrorInfo(new ErrorInfo(errorInfo));
-            throw new YSBizException(ec);
         }
 
         payment.setApplNo(applNo);
