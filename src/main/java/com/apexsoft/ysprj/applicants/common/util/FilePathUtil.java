@@ -101,6 +101,10 @@ public class FilePathUtil {
         return localFullPath.substring(baseDir.length() + 1);
     }
 
+    public static String getLocalFullPathFromS3Path(String baseDir, String s3FullPath) {
+        return baseDir + "/" + s3FullPath;
+    }
+
     public static String removeSlash(String path) {
         return path.replace('/', '-');
     }
