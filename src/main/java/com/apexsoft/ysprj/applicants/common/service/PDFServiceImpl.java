@@ -13,6 +13,7 @@ import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationStatus;
+import com.apexsoft.ysprj.applicants.application.domain.GradnetPDDocument;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.common.domain.ParamForPDFDocument;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
@@ -97,7 +98,7 @@ public class PDFServiceImpl implements PDFService {
 
         // 원서 미리보기 또는 결제 완료를 통해 로컬에 생성된 지원서 파일 쪽수 계산
         File applicationFormFile = new File(getPdfDirFullPath(application), FilePathUtil.getApplicationFormFileName(userId));
-        int applicationFormPageCounts = getPdfPageCount(applicationFormFile);
+//        int applicationFormPageCounts = getPdfPageCount(applicationFormFile);
 
 
 
@@ -152,23 +153,27 @@ public class PDFServiceImpl implements PDFService {
      * @param pdfFile
      * @return
      */
-    private int getPdfPageCount(Object pdfFile) {
+    private int getPdfPageCount(Object pdfFile, Application application) {
         int pageCounts = -1;
         PDDocument pdDocument = null;
+        GradnetPDDocument gradnetPDDocument = null;
         ExecutionContext ec = new ExecutionContext();
         try {
-            pdDocument = getPDDocument(pdfFile);
+            gradnetPDDocument = getPDDocument(pdfFile, application);
+            pdDocument = gradnetPDDocument.getPdDocument();
             pageCounts = pdDocument.getNumberOfPages();
         } catch (IOException e) {
-            // TODO 파일 카운트 에러 처리
-//            exceptionThrower("applNo", pdfFile.getName(), ec);
+            exceptionThrower("applNo", String.valueOf(application.getApplNo()), ec);
+            Map<String, String> metaDataMap = gradnetPDDocument.getMetaDataMap();
+            Map<String, String> errInfo = new HashMap<>();
+            errInfo.put("applNo", String.valueOf(application.getApplNo()));
+            errInfo.putAll(metaDataMap);
         } finally {
             if (pdDocument != null) {
                 try {
                     pdDocument.close();
                 } catch (IOException e) {
-                    // TODO 파일 카운트 에러 처리
-//                    exceptionThrower("applicationFormFileName", pdfFile.getName(), ec);
+                    exceptionThrower("applNo", String.valueOf(application.getApplNo()), ec);
                 }
             }
         }
@@ -299,12 +304,12 @@ public class PDFServiceImpl implements PDFService {
      */
     private File getPageNumberedPDF(Object fileOrInputStream, int startPage, int startNo, int endNo, Application application) {
         ExecutionContext ec = new ExecutionContext();
-        PDDocument pDDocument = null;
+        GradnetPDDocument pDDocument = null;
 //        String applicationFileDirPath = getPdfDirFullPath(application);
 //        String targetFilePath = FilePathUtil.encodeColonSlash(FilePathUtil.getFinalMergedFileFullPath(applicationFileDirPath, application.getApplNo()), "_");
         String targetFilePath = getTargetFilePath(fileOrInputStream, application);
         try {
-            pDDocument = getPDDocument(fileOrInputStream);
+            pDDocument = getPDDocument(fileOrInputStream, application);
             PDFont font = PDType1Font.HELVETICA;
             float fontSize = 15.0f;
             PDPageTree pageTree = pDDocument.getPages();
@@ -365,16 +370,26 @@ public class PDFServiceImpl implements PDFService {
         return targetFilePath;
     }
 
-    private PDDocument getPDDocument(Object obj) throws IOException {
+    private GradnetPDDocument getPDDocument(Object obj, Application application) throws IOException {
         PDDocument pddocument = null;
+        GradnetPDDocument gradnetPDDocument = new GradnetPDDocument();
+        Map<String, String> metadataMap = gradnetPDDocument.getMetaDataMap();
         if (obj instanceof File) {
-            pddocument = PDDocument.load((File)obj);
+            File file = (File)obj;
+            pddocument = PDDocument.load(file);
+            metadataMap.put("applNo", String.valueOf(application.getApplNo()));
+            metadataMap.put("filePath", file.getAbsolutePath());
         } else if (obj instanceof InputStream) {
-            pddocument = PDDocument.load((InputStream)obj);
+            InputStream is = (InputStream)obj;
+            pddocument = PDDocument.load(is);
+            metadataMap.put("applNo", String.valueOf(application.getApplNo()));
+            metadataMap.put("filePath", is.toString());
         } else {
             throw new IOException();
         }
-        return pddocument;
+        gradnetPDDocument.setPdDocument(pddocument);
+
+        return gradnetPDDocument;
     }
 
 
@@ -405,13 +420,13 @@ public class PDFServiceImpl implements PDFService {
         List<File> fileList = new ArrayList<>();
 
         for (File item : userUploadedFiles) {
-            int pageCounts = getPdfPageCount(item);
+            int pageCounts = getPdfPageCount(item, application);
             totalPageCounts += pageCounts;
         }
 
         for (File item : userUploadedFiles) {
             fileList.add(getPageNumberedPDF(item, 1, accumulatedPages, totalPageCounts, application));
-            accumulatedPages += getPdfPageCount(item);
+            accumulatedPages += getPdfPageCount(item, application);
         }
         return fileList;
     }
