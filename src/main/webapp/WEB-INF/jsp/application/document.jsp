@@ -1282,7 +1282,8 @@
 
             } else if (saveType == 'preview') {
                 alert('<spring:message code="U04525"/>'); // 원서 미리보기 생성 및 원서 미리 보기에서 오류 발생 시 업로드 된 파일 이름에서 특수 문자를 제거한 후 다시 시도해 주십시오.
-                form.action = <c:choose><c:when test="${isSYSADMIN}">'${contextPath}/sysadmin/document/download/tempMergedApplicationForm'</c:when><c:otherwise>"${contextPath}/pdf/download/tempMergedApplicationForm"</c:otherwise></c:choose>;
+                <%--form.action = <c:choose><c:when test="${isSYSADMIN}">'${contextPath}/sysadmin/document/download/tempMergedApplicationForm'</c:when><c:otherwise>"${contextPath}/pdf/download/tempMergedApplicationForm"</c:otherwise></c:choose>;--%>
+                form.action = <c:choose><c:when test="${isSYSADMIN}">'${contextPath}/sysadmin/document/download/tempMergedApplicationForm'</c:when><c:otherwise>"${contextPath}/pdf/download/applForm"</c:otherwise></c:choose>;
                 form.submit();
             } else if (saveType == 'submit') {
                 $('#overlay').show();

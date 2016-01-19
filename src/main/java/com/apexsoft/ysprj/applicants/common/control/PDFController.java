@@ -180,4 +180,100 @@ public class PDFController {
 
         return bytes;
     }
+
+    /**
+     * DB에 저장된 원서 정보를 토대로 S3에서 원서 PDF 파일 다운로드
+     *
+     * @param basis
+     * @param principal
+     * @param response
+     * @return
+     * @throws java.io.IOException
+     */
+    @RequestMapping(value="/download/applForm", produces = "application/pdf")
+    @ResponseBody
+    public byte[] downLoadZip(Basis basis,
+                               Principal principal,
+                               HttpServletRequest request,
+                               HttpServletResponse response) {
+        webUtil.blockGetMethod(request, basis.getApplication());
+        Application application = basis.getApplication();
+        String dirFullPath = FilePathUtil.getUploadDirectoryFullPath(fileBaseDir, s3MidPath, application.getAdmsNo(), application.getUserId(), application.getApplNo());
+        String s3DirPath = FilePathUtil.getS3PathFromLocalFullPath(dirFullPath, fileBaseDir);
+        String fileName = FilePathUtil.getApplicationFormFileName(application.getUserId());
+        byte[] bytes = downLoadFile(application, response, s3DirPath+"/"+fileName);
+        // 아래 헤더 추가하면 파일명은 지정할 수 있으나 미리 보기는 안되고 다운로드만 됨
+        try {
+            response.setHeader("Content-Disposition", "attachment; filename=\"" +
+                URLEncoder.encode(FilePathUtil.getApplicationFormFileName(application.getUserId()), "UTF-8") + "\"");
+        } catch (UnsupportedEncodingException e) {
+            throw new YSBizException(MessageResolver.getMessage("U04516"));  /*지원하지 않는 인코딩 방식입니다.*/
+        }
+        return bytes;
+    }
+
+    private byte[] downLoadFile(Application application,
+                                HttpServletResponse response,
+                                String s3Key) {
+
+        String admsNo = application.getAdmsNo();
+        int applNo = application.getApplNo();
+        byte[] bytes = null;
+        List<ApplicationDocument> applPaperInfosList =
+                documentService.retrieveApplicationPaperInfo(applNo); // DB에서 filePath가져온다
+        if (applPaperInfosList.size() == 1) {
+            AmazonS3 s3 = new AmazonS3Client();
+            S3Object object = null;
+            try {
+                object = s3.getObject(new GetObjectRequest(s3BucketName, s3Key));
+            } catch (Exception e) {
+                logger.error("Err in s3.getObject FiledDownload in PDFController");
+                logger.error(e.getMessage());
+                ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+                ec.setMessage(MessageResolver.getMessage("U00242"));
+                Map<String, Object> ecMap = new HashMap<String, Object>();
+                ecMap.put("bucketName", "[" + s3BucketName + "]");
+                ecMap.put("admsNo", "[" + admsNo + "]");
+                ecMap.put("objectKey", "[" + s3Key + "]");
+                ec.setErrorInfo(new ErrorInfo(ecMap));
+                throw new YSBizException(ec);
+            }
+
+            InputStream inputStream = object.getObjectContent();
+            ObjectMetadata meta = object.getObjectMetadata();
+            try {
+                bytes = IOUtils.toByteArray(inputStream);
+            } catch (IOException e) {
+                ExecutionContext ecError = new ExecutionContext(ExecutionContext.FAIL);
+
+                ecError.setMessage(MessageResolver.getMessage("U350"));
+                ecError.setErrCode("ERR0062");
+
+                Map<String, String> errorInfo = new HashMap<String, String>();
+                errorInfo.put("applNo", String.valueOf(applNo));
+
+                ecError.setErrorInfo(new ErrorInfo(errorInfo));
+                throw new YSBizException(ecError);
+            }
+
+            response.setContentType(meta.getContentType());
+            response.setHeader("Content-Length", String.valueOf(meta.getContentLength()));
+            response.setHeader("Content-Encoding", meta.getContentEncoding());
+            response.setHeader("ETag", meta.getETag());
+            response.setHeader("Last-Modified", meta.getLastModified().toString());
+        } else {
+            ExecutionContext ecError = new ExecutionContext(ExecutionContext.FAIL);
+
+            ecError.setMessage(MessageResolver.getMessage("U349"));
+            ecError.setErrCode("ERR0061");
+
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("applNo", String.valueOf(applNo));
+
+            ecError.setErrorInfo(new ErrorInfo(errorInfo));
+            throw new YSBizException(ecError);
+        }
+
+        return bytes;
+    }
 }
