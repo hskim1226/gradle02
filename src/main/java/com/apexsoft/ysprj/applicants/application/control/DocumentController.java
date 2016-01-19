@@ -743,9 +743,19 @@ public class DocumentController {
         String lang = application.isForeignAppl() ? "en" : "kr";
         String reportName = "yonsei-" + reqType + "-" + lang;
         ExecutionContext ecGenerate = birtService.generateBirtFile(application.getApplNo(), reportName);
+        Map<String, Object> map = (Map<String, Object>)ecGenerate.getData();
+        String fileDir = (String)map.get("pdfDirectoryFullPath");
+        String fileName = (String)map.get("pdfFileName");
+        File file = new File(fileDir, fileName);
+        ExecutionContext ecUpload = pdfService.uploadToS3(
+                FilePathUtil.getS3PathFromLocalFullPath(fileDir, fileBaseDir),
+                fileName,
+                file,
+                true);
 
         if (ExecutionContext.SUCCESS.equals(ecSaveInfo.getResult()) &&
-            ExecutionContext.SUCCESS.equals(ecGenerate.getResult()) )
+            ExecutionContext.SUCCESS.equals(ecGenerate.getResult()) &&
+                ExecutionContext.SUCCESS.equals(ecUpload.getResult()))
             return ecSaveInfo;
         else
             return new ExecutionContext(ExecutionContext.FAIL);

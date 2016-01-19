@@ -8,25 +8,16 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.apexsoft.framework.common.vo.ExecutionContext;
-import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
-import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.file.exception.EncryptedPDFException;
-import com.apexsoft.framework.persistence.file.exception.FileNoticeException;
 import com.apexsoft.framework.persistence.file.exception.WrongFileFormatException;
 import com.apexsoft.framework.persistence.file.model.FileInfo;
-import com.apexsoft.framework.web.file.exception.UploadException;
-import com.apexsoft.ysprj.applicants.application.domain.ApplicationIdentifier;
 import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.encryption.AccessPermission;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by hanmomhanda on 15. 4. 3.
@@ -91,7 +82,7 @@ public class S3PersistenceManagerImpl implements FilePersistenceManager {
     @Override
     public FileInfo save(String folder, String fileName, String orgFileName, InputStream inputStream) throws IOException {
 
-        String filePath = s3MidPath + "/" + folder + "/" + fileName;
+        String filePath = folder.startsWith(s3MidPath) ? folder + "/" + fileName : s3MidPath + "/" + folder + "/" + fileName;
         int pageCnt = 0;
         long fileSize = 0;
         InputStream uplaodFileInputStream = null;
@@ -99,7 +90,7 @@ public class S3PersistenceManagerImpl implements FilePersistenceManager {
         try {
             fileSize = inputStream.available();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[8 * 1024];
             int len;
             while ((len = inputStream.read(buffer)) != -1) {
                 baos.write(buffer, 0, len);

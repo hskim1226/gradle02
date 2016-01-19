@@ -8,8 +8,10 @@ import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
+import com.apexsoft.framework.persistence.file.exception.EncryptedPDFException;
 import com.apexsoft.framework.persistence.file.exception.NotFoundInS3Exception;
 import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
+import com.apexsoft.framework.persistence.file.model.FileInfo;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationStatus;
@@ -39,6 +41,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.io.*;
 import java.util.*;
+import java.util.zip.DataFormatException;
 
 /**
  * Created by hanmomhanda on 15. 2. 22.
@@ -125,6 +128,9 @@ public class PDFServiceImpl implements PDFService {
 
         // zip파일 S3에 업로드
         uploadToS3(s3, zippedFile, applNo);
+
+        // 업로드 후 삭제
+        zippedFile.delete();
 
         // 파일 목록 루프돌며 S3에 업로드
 //        for (File file : numberedFiles) {
@@ -493,4 +499,40 @@ public class PDFServiceImpl implements PDFService {
         return s3FilePath;
     }
 
+    @Override
+    public ExecutionContext uploadToS3(String uploadDir, String uploadFileName, File file, boolean isDelete) {
+        ExecutionContext ec = new ExecutionContext();
+        String originalFileName = uploadFileName;
+        FileInfo fileInfo = null;
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(file);
+            fileInfo = s3PersistenceManager.save(uploadDir, uploadFileName, originalFileName, fis);
+            if (isDelete)
+                file.delete();
+        } catch (EncryptedPDFException e) {
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("uploadDir", uploadDir);
+            errorInfo.put("originalFileName", originalFileName);
+            exceptionThrower(errorInfo, "U04514", "ERR0052");
+        } catch (IOException ioe) {
+            if (ioe.getCause().getCause() instanceof DataFormatException) {
+                Map<String, String> errorInfo = new HashMap<String, String>();
+                errorInfo.put("uploadDir", uploadDir);
+                errorInfo.put("originalFileName", originalFileName);
+                exceptionThrower(errorInfo, "U04515", "ERR0052");
+            } else {
+                logger.error("Upload PDF is NOT loaded to PDDocument in " + Thread.currentThread().getStackTrace()[1]);
+                Map<String, String> errorInfo = new HashMap<String, String>();
+                errorInfo.put("uploadDir", uploadDir);
+                errorInfo.put("originalFileName", originalFileName);
+                exceptionThrower(errorInfo, "U04518", "ERR0052");
+            }
+        } finally {
+            if (fis != null)
+                try { fis.close(); } catch (IOException e) {}
+        }
+        ec.setData(fileInfo);
+        return ec;
+    }
 }
