@@ -60,6 +60,8 @@
     <bean id="jacksonObjectMapper"
           class="com.fasterxml.jackson.databind.ObjectMapper"/>
 
+    <bean id="zipService"
+          class="com.apexsoft.ysprj.applicants.common.service.CommonsZipServiceImpl"/>
 
     <task:executor id="executor" pool-size="20" queue-capacity="200" rejection-policy="ABORT"/>
     <task:annotation-driven executor="executor"/>
