@@ -71,23 +71,27 @@ public class PDFController {
      * D파일을 S3에 업로드(v03 - 원서 미리보기 시 서버 로컬에서의 다운로드 부하를 S3로 이전)
      * 중간 작업 파일인 A파일, B파일, C파일 삭제
      *
+     * 2016-01-19
+     * 원서 미리보기 생성 시 파일 합치지 않고,
+     * 원서만 생성 해서 S3에 업로드하므로 아래 로직 사용 안함
+     *
      * @param birtRequest
      * @param request
      * @return
      */
-    @RequestMapping(value="/generate/tempMergedApplicationForm")
-    @ResponseBody
-    public String generateTempMergedApplicationForm(BirtRequest birtRequest, Principal principal, HttpServletRequest request) {
-
-        Application application = birtRequest.getApplication();
-//        application.setUserId(principal.getName());
-        ExecutionContext ec = pdfService.genAndUploadPDFByApplicants(application);
-        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
-            return ExecutionContext.SUCCESS;
-        } else {
-            return ExecutionContext.FAIL;
-        }
-    }
+//    @RequestMapping(value="/generate/tempMergedApplicationForm")
+//    @ResponseBody
+//    public String generateTempMergedApplicationForm(BirtRequest birtRequest, Principal principal, HttpServletRequest request) {
+//
+//        Application application = birtRequest.getApplication();
+////        application.setUserId(principal.getName());
+//        ExecutionContext ec = pdfService.genAndUploadPDFByApplicants(application);
+//        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
+//            return ExecutionContext.SUCCESS;
+//        } else {
+//            return ExecutionContext.FAIL;
+//        }
+//    }
 
     /**
      * DB에 저장된 원서 정보를 토대로 S3에서 원서+첨부파일 PDF 파일 다운로드

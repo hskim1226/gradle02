@@ -1245,29 +1245,29 @@
                             if (console) {
                                 console.log('원서 파일 정보 저장 및 원서 파일 생성 완료');
                             }
+                            <%-- 원서 파일 생성 및 업로드는 /document/generate/appl에서 모두 처리함 --%>
                             <%-- 파일 생성 --%>
-
-                            $.ajax({
-                                type: 'POST',
-                                url: <c:choose><c:when test="${isSYSADMIN}">'${contextPath}/sysadmin/document/generate/tempMergedApplicationForm'</c:when><c:otherwise>'${contextPath}/pdf/generate/tempMergedApplicationForm'</c:otherwise></c:choose>,
-                                data: formData,
-                                success: function (data) {
-                                    var result = JSON.parse(data);
-                                    if (result.result === 'FAIL') { // 파일 합치기 실패
-                                        document.getElementById('spinner').style.display = 'none';
-                                        alert(result.message);
-                                    } else { //
-                                        document.getElementById('spinner').style.display = 'none';
-                                        document.getElementById('previewApplication').style.display = 'block';
-                                    }
-                                    $('#overlay').hide();
-                                },
-                                error: function (data, status, e) {
-                                    document.getElementById('spinner').style.display = 'none';
-//                                    alert(result.message);
-                                    $('#overlay').hide();
-                                }
-                            });
+                            <%--$.ajax({--%>
+                                <%--type: 'POST',--%>
+                                <%--url: <c:choose><c:when test="${isSYSADMIN}">'${contextPath}/sysadmin/document/generate/tempMergedApplicationForm'</c:when><c:otherwise>'${contextPath}/pdf/generate/tempMergedApplicationForm'</c:otherwise></c:choose>,--%>
+                                <%--data: formData,--%>
+                                <%--success: function (data) {--%>
+                                    <%--var result = JSON.parse(data);--%>
+                                    <%--if (result.result === 'FAIL') { // 파일 합치기 실패--%>
+                                        <%--document.getElementById('spinner').style.display = 'none';--%>
+                                        <%--alert(result.message);--%>
+                                    <%--} else { //--%>
+                                        <%--document.getElementById('spinner').style.display = 'none';--%>
+                                        <%--document.getElementById('previewApplication').style.display = 'block';--%>
+                                    <%--}--%>
+                                    <%--$('#overlay').hide();--%>
+                                <%--},--%>
+                                <%--error: function (data, status, e) {--%>
+                                    <%--document.getElementById('spinner').style.display = 'none';--%>
+<%--//                                    alert(result.message);--%>
+                                    <%--$('#overlay').hide();--%>
+                                <%--}--%>
+                            <%--});--%>
                             <%-- 파일 생성 --%>
                         }
                     },
