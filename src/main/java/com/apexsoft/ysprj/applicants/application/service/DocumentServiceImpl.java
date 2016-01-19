@@ -282,8 +282,6 @@ public class DocumentServiceImpl implements DocumentService {
         int update=0, insert =0;
 
         Date date = new Date();
-//        String userId = oneDocument.getCreId();
-        // controller에서 principal에 있는 아이디를 ModId에 담아 넘겨줌
         String modId = oneDocument.getModId();
 
         // applStsCode 수정 - TODO 적용할까말까
@@ -303,7 +301,7 @@ public class DocumentServiceImpl implements DocumentService {
         if( oneDocument.isFileUploadFg()){
             rUpdate++;
             oneDocument.setModDate(date);
-            oneDocument.setModId(modId);
+//            oneDocument.setModId(modId);
             update = update + commonDAO.updateItem(oneDocument, NAME_SPACE, "ApplicationDocumentMapper");
 
         }else{
@@ -313,6 +311,7 @@ public class DocumentServiceImpl implements DocumentService {
             oneDocument.setFileUploadFg(true);
             oneDocument.setDocSeq(++maxSeq);
             oneDocument.setCreId(modId);
+            oneDocument.setModId(null);
             oneDocument.setCreDate(date);
             insert = insert + commonDAO.insertItem(oneDocument, NAME_SPACE, "ApplicationDocumentMapper");
 

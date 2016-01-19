@@ -371,7 +371,6 @@ public class DocumentController {
                 protected String getDirectory(FileMetaForm fileMetaForm) {
 
                     String admsNo = fileMetaForm.getAdmsNo();
-//                    String userId = principal.getName();
                     String userId = fileMetaForm.getUserId();
                     String applNo = fileMetaForm.getApplNo();
 
@@ -548,8 +547,7 @@ public class DocumentController {
                             document.setOrgFileName(originalFileName);
                             document.setFileExt(originalFileName.substring(originalFileName.lastIndexOf('.') + 1));
                             document.setPageCnt(fileInfo.getPageCnt());
-//                            document.setCreId(principal.getName());
-                            document.setModId(principal.getName());
+                            document.setModId(fileMetaForm.getUserId());
                             ec = documentService.saveOneDocument(document);
 
                             if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
@@ -566,7 +564,7 @@ public class DocumentController {
                             ec.setMessage(MessageResolver.getMessage("U339"));
                             ec.setErrCode("ERR0052");
                             Map<String, String> errorInfo = new HashMap<String, String>();
-//                            errorInfo.put("userId", String.valueOf(principal.getName()));
+                            errorInfo.put("userId", String.valueOf(fileMetaForm.getUserId()));
                             errorInfo.put("applNo", String.valueOf(document.getApplNo()));
                             errorInfo.put("docSeq", String.valueOf(document.getDocSeq()));
                             errorInfo.put("AWS Error Message", ase.getMessage());
@@ -773,10 +771,8 @@ public class DocumentController {
         String docSeq = String.valueOf(document.getDocSeq());
         String docItemCode = document.getDocItemCode();
         String docItemName = document.getDocItemName();
-        String userId = principal.getName();
         Map<String, String> eInfo = new HashMap<String, String>();
         eInfo.put("applNo", applNo);
-        eInfo.put("userId", userId);
         eInfo.put("docSeq", docSeq);
         eInfo.put("docItemCode", docItemCode);
         eInfo.put("docItemName", docItemName);

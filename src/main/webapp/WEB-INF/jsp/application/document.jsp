@@ -1319,7 +1319,7 @@
             document.getElementById('previewApplication').setAttribute('disabled', 'disabled');
             // 원서 제출 비활성화
             document.getElementById('submitApplication').setAttribute('disabled', 'disabled');
-            var actionUrl = "${contextPath}/application/document/fileUpload"
+            var actionUrl = "${contextPath}/application/document/fileUpload",
                     docItemName = document.getElementById(this.getAttribute('data-doc-prop-docItemName')),
                     fileInputId = this.getAttribute('data-file-input-id'),
                     fileInput = document.getElementById(fileInputId),
