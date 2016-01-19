@@ -13,19 +13,12 @@ import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationStatus;
-import com.apexsoft.ysprj.applicants.application.domain.GradnetPDDocument;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.common.domain.ParamForPDFDocument;
-import com.apexsoft.ysprj.applicants.common.util.CompressionUtil;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import com.apexsoft.ysprj.applicants.common.util.StreamUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
-import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
-import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
-import org.apache.commons.compress.archivers.zip.ZipEncoding;
-import org.apache.commons.compress.archivers.zip.ZipEncodingHelper;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOExceptionWithCause;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.pdfbox.io.MemoryUsageSetting;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
@@ -45,8 +38,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.*;
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
 import java.util.*;
 
 /**
@@ -173,23 +164,27 @@ public class PDFServiceImpl implements PDFService {
      * @param pdfFile
      * @return
      */
-    private int getPdfPageCount(Object pdfFile, Application application) {
+    private int getPdfPageCount(File pdfFile, Application application) {
         int pageCounts = -1;
         PDDocument pdDocument = null;
-        GradnetPDDocument gradnetPDDocument = null;
         ExecutionContext ec = new ExecutionContext();
         try {
-            gradnetPDDocument = getPDDocument(pdfFile, application);
-            pdDocument = gradnetPDDocument.getPdDocument();
+            pdDocument = PDDocument.load(pdfFile);
             pageCounts = pdDocument.getNumberOfPages();
         } catch (IOException e) {
-            exceptionThrower(gradnetPDDocument.getMetaDataMap(), ec);
+            Map<String, String> errMap = new HashMap<>();
+            errMap.put("applNo", String.valueOf(application.getApplNo()));
+            errMap.put("filePath", pdfFile.getAbsolutePath());
+            exceptionThrower(errMap, ec);
         } finally {
             if (pdDocument != null) {
                 try {
                     pdDocument.close();
                 } catch (IOException e) {
-                    exceptionThrower(gradnetPDDocument.getMetaDataMap(), ec);
+                    Map<String, String> errMap = new HashMap<>();
+                    errMap.put("applNo", String.valueOf(application.getApplNo()));
+                    errMap.put("filePath", pdfFile.getAbsolutePath());
+                    exceptionThrower(errMap, ec);
                 }
             }
         }
@@ -308,23 +303,21 @@ public class PDFServiceImpl implements PDFService {
 
     /**
      * PDF 파일 우상단에 '현재 페이지/전체 페이지' 텍스트를 추가한다.
-     * @param fileOrInputStream  쪽수를 매길 파일
+     * @param file  쪽수를 매길 파일
      * @param startPage  쪽수를 매기기 시작할 페이지(0이 아니라 1부터 시작하는 숫자)
      * @param startNo  시작 쪽수 번호
      * @param endNo  전체 쪽수 번호, 0이나 음수를 입력하면 해당 파일의 페이지수를 기준으로 startPage를 고려해서 자동 계산
      * @param application  원서 정보
      * @return
      */
-    private File getPageNumberedPDF(Object fileOrInputStream, int startPage, int startNo, int endNo, Application application) {
+    private File getPageNumberedPDF(File file, int startPage, int startNo, int endNo, Application application) {
         ExecutionContext ec = new ExecutionContext();
-        GradnetPDDocument gradnetPDDocument = null;
 //        String applicationFileDirPath = getPdfDirFullPath(application);
 //        String targetFilePath = FilePathUtil.encodeColonSlash(FilePathUtil.getFinalMergedFileFullPath(applicationFileDirPath, application.getApplNo()), "_");
-        String targetFilePath = getTargetFilePath(fileOrInputStream, application);
+        String targetFilePath = getTargetFilePath(file);
         PDDocument pdDocument = null;
         try {
-            gradnetPDDocument = getPDDocument(fileOrInputStream, application);
-            pdDocument = gradnetPDDocument.getPdDocument();
+            pdDocument = PDDocument.load(file);
             PDFont font = PDType1Font.HELVETICA;
             float fontSize = 15.0f;
             PDPageTree pageTree = pdDocument.getPages();
@@ -354,13 +347,19 @@ public class PDFServiceImpl implements PDFService {
             }
             pdDocument.save(targetFilePath);
         } catch (IOException e) {
-            exceptionThrower("applNo", String.valueOf(application.getApplNo()), ec);
+            Map<String, String> errMap = new HashMap<>();
+            errMap.put("applNo", String.valueOf(application.getApplNo()));
+            errMap.put("filePath", targetFilePath);
+            exceptionThrower(errMap, ec);
         } finally {
             if (pdDocument != null) {
                 try {
                     pdDocument.close();
                 } catch (IOException e) {
-                    exceptionThrower(gradnetPDDocument.getMetaDataMap(), ec);
+                    Map<String, String> errMap = new HashMap<>();
+                    errMap.put("applNo", String.valueOf(application.getApplNo()));
+                    errMap.put("filePath", targetFilePath);
+                    exceptionThrower(errMap, ec);
                 }
             }
         }
@@ -374,41 +373,9 @@ public class PDFServiceImpl implements PDFService {
     }
 
     // 생성할 파일 전체 경로 반환
-    private String getTargetFilePath(Object obj, Application application) {
-        String targetFilePath = null;
-        if (obj instanceof File) {
-            File file = (File)obj;
-            targetFilePath = file.getAbsolutePath();
-        } else if (obj instanceof InputStream) {
-            String fileDirPath = getPdfDirFullPath(application);
-            targetFilePath = FilePathUtil.encodeColonSlash(FilePathUtil.getFinalMergedFileFullPath(fileDirPath, application.getApplNo()), "_");
-        }
-        return targetFilePath;
+    private String getTargetFilePath(File file) {
+        return file.getAbsolutePath();
     }
-
-    // 예외 처리를 위한 정보를 추가한 PDDocument Wrapper
-    private GradnetPDDocument getPDDocument(Object obj, Application application) throws IOException {
-        PDDocument pddocument = null;
-        GradnetPDDocument gradnetPDDocument = new GradnetPDDocument();
-        Map<String, String> metadataMap = gradnetPDDocument.getMetaDataMap();
-        if (obj instanceof File) {
-            File file = (File)obj;
-            pddocument = PDDocument.load(file);
-            metadataMap.put("applNo", String.valueOf(application.getApplNo()));
-            metadataMap.put("filePath", file.getAbsolutePath());
-        } else if (obj instanceof InputStream) {
-            InputStream is = (InputStream)obj;
-            pddocument = PDDocument.load(is);
-            metadataMap.put("applNo", String.valueOf(application.getApplNo()));
-            metadataMap.put("filePath", is.toString());
-        } else {
-            throw new IOException();
-        }
-        gradnetPDDocument.setPdDocument(pddocument);
-
-        return gradnetPDDocument;
-    }
-
 
     // PDF 처리 관련 예외 처리
     private void exceptionThrower(String infoKey, String infoValue, ExecutionContext ec) {
