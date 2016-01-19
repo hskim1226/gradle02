@@ -1079,7 +1079,7 @@
 
             <div class="btn-group btn-group-justified">
                 <div class="btn-group">
-                    <button id="previewApplication" type="button" style="display: none;" class="btn btn-info btn-lg btn-save" data-saveType="preview" <c:if test="${document.application.applStsCode != '00004'}">disabled</c:if> ><spring:message code="L04203"/><%--원서 미리보기--%></button>
+                    <button id="previewApplication" type="button" style="display: none;" class="btn btn-info btn-lg btn-save" data-saveType="preview" <c:if test="${document.application.applStsCode != '00004'}">disabled</c:if> ><spring:message code="L04203"/><%--원서 미리보기 다운로드--%></button>
                 </div>
             </div>
             <div class="spacer-tiny"></div>
