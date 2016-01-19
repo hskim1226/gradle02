@@ -96,94 +96,97 @@ public class PDFController {
     /**
      * DB에 저장된 원서 정보를 토대로 S3에서 원서+첨부파일 PDF 파일 다운로드
      *
+     * 2016-01-19
+     * 원서 합치지 않는 것으로 수정하여 아래 로직 불필요
+     *
      * @param basis
      * @param principal
      * @param response
      * @return
      * @throws java.io.IOException
      */
-    @RequestMapping(value="/download/tempMergedApplicationForm", produces = "application/pdf")
-    @ResponseBody
-    public byte[] fileDownload(Basis basis,
-                               Principal principal,
-                               HttpServletRequest request,
-                               HttpServletResponse response) {
-        webUtil.blockGetMethod(request, basis.getApplication());
-        String userId = principal.getName();
-        Application application = basis.getApplication();
-        String admsNo = application.getAdmsNo();
-        int applNo = application.getApplNo();
-        byte[] bytes = null;
-
-        List<ApplicationDocument> applPaperInfosList =
-                documentService.retrieveApplicationPaperInfo(applNo); // DB에서 filePath가져온다
-        if (applPaperInfosList.size() == 1) {
-            String uploadDirPath = applPaperInfosList.get(0).getFilePath();
-            String s3UploadDirPath = FilePathUtil.getS3PathFromLocalFullPath(uploadDirPath, fileBaseDir);
-            AmazonS3 s3 = new AmazonS3Client();
-            S3Object object = null;
-            try {
-                object = s3.getObject(new GetObjectRequest(s3BucketName, FilePathUtil.getFinalMergedFileFullPath(s3UploadDirPath, applNo)));
-            } catch (Exception e) {
-                logger.error("Err in s3.getObject FiledDownload in PDFController");
-                logger.error(e.getMessage());
-                ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
-                ec.setMessage(MessageResolver.getMessage("U00242"));
-                Map<String, Object> ecMap = new HashMap<String, Object>();
-                ecMap.put("bucketName", "[" + s3BucketName + "]");
-                ecMap.put("admsNo", "[" + admsNo + "]");
-                ecMap.put("userId", "[" + userId + "]");
-                ecMap.put("objectKey", "[" + FilePathUtil.getFinalMergedFileFullPath(s3UploadDirPath, applNo) + "]");
-                ec.setErrorInfo(new ErrorInfo(ecMap));
-                throw new YSBizException(ec);
-            }
-
-            InputStream inputStream = object.getObjectContent();
-            ObjectMetadata meta = object.getObjectMetadata();
-            try {
-                bytes = IOUtils.toByteArray(inputStream);
-            } catch (IOException e) {
-                ExecutionContext ecError = new ExecutionContext(ExecutionContext.FAIL);
-
-                ecError.setMessage(MessageResolver.getMessage("U350"));
-                ecError.setErrCode("ERR0062");
-
-                Map<String, String> errorInfo = new HashMap<String, String>();
-                errorInfo.put("applNo", String.valueOf(applNo));
-                errorInfo.put("userId", basis.getApplication().getUserId());
-
-                ecError.setErrorInfo(new ErrorInfo(errorInfo));
-                throw new YSBizException(ecError);
-            }
-
-            response.setContentType(meta.getContentType());
-            response.setHeader("Content-Length", String.valueOf(meta.getContentLength()));
-            response.setHeader("Content-Encoding", meta.getContentEncoding());
-            response.setHeader("ETag", meta.getETag());
-            response.setHeader("Last-Modified", meta.getLastModified().toString());
-//            아래 헤더 추가하면 파일명은 지정할 수 있으나 미리 보기는 안되고 다운로드만 됨
-            try {
-                response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(FilePathUtil.getFinalUserDownloadFileName(userId), "UTF-8") + "\"");
-            } catch (UnsupportedEncodingException e) {
-                throw new YSBizException(MessageResolver.getMessage("U04516"));  /*지원하지 않는 인코딩 방식입니다.*/
-            }
-
-        } else {
-            ExecutionContext ecError = new ExecutionContext(ExecutionContext.FAIL);
-
-            ecError.setMessage(MessageResolver.getMessage("U349"));
-            ecError.setErrCode("ERR0061");
-
-            Map<String, String> errorInfo = new HashMap<String, String>();
-            errorInfo.put("applNo", String.valueOf(applNo));
-            errorInfo.put("userId", basis.getApplication().getUserId());
-
-            ecError.setErrorInfo(new ErrorInfo(errorInfo));
-            throw new YSBizException(ecError);
-        }
-
-        return bytes;
-    }
+//    @RequestMapping(value="/download/tempMergedApplicationForm", produces = "application/pdf")
+//    @ResponseBody
+//    public byte[] fileDownload(Basis basis,
+//                               Principal principal,
+//                               HttpServletRequest request,
+//                               HttpServletResponse response) {
+//        webUtil.blockGetMethod(request, basis.getApplication());
+//        String userId = principal.getName();
+//        Application application = basis.getApplication();
+//        String admsNo = application.getAdmsNo();
+//        int applNo = application.getApplNo();
+//        byte[] bytes = null;
+//
+//        List<ApplicationDocument> applPaperInfosList =
+//                documentService.retrieveApplicationPaperInfo(applNo); // DB에서 filePath가져온다
+//        if (applPaperInfosList.size() == 1) {
+//            String uploadDirPath = applPaperInfosList.get(0).getFilePath();
+//            String s3UploadDirPath = FilePathUtil.getS3PathFromLocalFullPath(uploadDirPath, fileBaseDir);
+//            AmazonS3 s3 = new AmazonS3Client();
+//            S3Object object = null;
+//            try {
+//                object = s3.getObject(new GetObjectRequest(s3BucketName, FilePathUtil.getFinalMergedFileFullPath(s3UploadDirPath, applNo)));
+//            } catch (Exception e) {
+//                logger.error("Err in s3.getObject FiledDownload in PDFController");
+//                logger.error(e.getMessage());
+//                ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+//                ec.setMessage(MessageResolver.getMessage("U00242"));
+//                Map<String, Object> ecMap = new HashMap<String, Object>();
+//                ecMap.put("bucketName", "[" + s3BucketName + "]");
+//                ecMap.put("admsNo", "[" + admsNo + "]");
+//                ecMap.put("userId", "[" + userId + "]");
+//                ecMap.put("objectKey", "[" + FilePathUtil.getFinalMergedFileFullPath(s3UploadDirPath, applNo) + "]");
+//                ec.setErrorInfo(new ErrorInfo(ecMap));
+//                throw new YSBizException(ec);
+//            }
+//
+//            InputStream inputStream = object.getObjectContent();
+//            ObjectMetadata meta = object.getObjectMetadata();
+//            try {
+//                bytes = IOUtils.toByteArray(inputStream);
+//            } catch (IOException e) {
+//                ExecutionContext ecError = new ExecutionContext(ExecutionContext.FAIL);
+//
+//                ecError.setMessage(MessageResolver.getMessage("U350"));
+//                ecError.setErrCode("ERR0062");
+//
+//                Map<String, String> errorInfo = new HashMap<String, String>();
+//                errorInfo.put("applNo", String.valueOf(applNo));
+//                errorInfo.put("userId", basis.getApplication().getUserId());
+//
+//                ecError.setErrorInfo(new ErrorInfo(errorInfo));
+//                throw new YSBizException(ecError);
+//            }
+//
+//            response.setContentType(meta.getContentType());
+//            response.setHeader("Content-Length", String.valueOf(meta.getContentLength()));
+//            response.setHeader("Content-Encoding", meta.getContentEncoding());
+//            response.setHeader("ETag", meta.getETag());
+//            response.setHeader("Last-Modified", meta.getLastModified().toString());
+////            아래 헤더 추가하면 파일명은 지정할 수 있으나 미리 보기는 안되고 다운로드만 됨
+//            try {
+//                response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(FilePathUtil.getFinalUserDownloadFileName(userId), "UTF-8") + "\"");
+//            } catch (UnsupportedEncodingException e) {
+//                throw new YSBizException(MessageResolver.getMessage("U04516"));  /*지원하지 않는 인코딩 방식입니다.*/
+//            }
+//
+//        } else {
+//            ExecutionContext ecError = new ExecutionContext(ExecutionContext.FAIL);
+//
+//            ecError.setMessage(MessageResolver.getMessage("U349"));
+//            ecError.setErrCode("ERR0061");
+//
+//            Map<String, String> errorInfo = new HashMap<String, String>();
+//            errorInfo.put("applNo", String.valueOf(applNo));
+//            errorInfo.put("userId", basis.getApplication().getUserId());
+//
+//            ecError.setErrorInfo(new ErrorInfo(errorInfo));
+//            throw new YSBizException(ecError);
+//        }
+//
+//        return bytes;
+//    }
 
     /**
      * DB에 저장된 원서 정보를 토대로 S3에서 원서 PDF 파일 다운로드

@@ -278,7 +278,6 @@ public class DocumentController {
         Application application = formData.getApplication();
         int applNo = application.getApplNo();
 
-        application.setUserId(principal.getName());
         ExecutionContext ecSaveInfo = documentService.saveApplicationPaperInfo(application);
         // 타 대학원 확장 시 TODO - 학교 이름을 파라미터로 받도록
         String admsTypeCode = application.getAdmsTypeCode();
@@ -661,30 +660,6 @@ public class DocumentController {
 
         return bytes;
     }
-//    public byte[] fileDownload(@PathVariable("applNo") int applNo,
-//                               @PathVariable("docSeq") int docSeq,
-//                               HttpServletResponse response)
-//            throws IOException {
-//        ExecutionContext ec;
-//
-//        ApplicationDocumentKey appDocKey = new ApplicationDocumentKey();
-//        appDocKey.setApplNo(applNo);
-//        appDocKey.setDocSeq(docSeq);
-//        ec = documentService.retrieveOneDocument(appDocKey);
-//        TotalApplicationDocument totalDoc = (TotalApplicationDocument)ec.getData();
-//        File file = new File(totalDoc.getFilePath(), totalDoc.getFileName());
-//        byte[] bytes = org.springframework.util.FileCopyUtils.copyToByteArray(file);
-//
-//        response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(totalDoc.getOrgFileName(), "UTF-8") + "\"");
-//        response.setHeader("Content-Transfer-Encoding", "binary;");
-//        response.setHeader("Pragma", "no-cache;");
-//        response.setHeader("Expires", "-1;");
-//        response.setHeader("Content-Type", "application/octet-stream");
-////        response.setHeader("Content-Type", "application/pdf");
-//        response.setContentLength(bytes.length);
-//
-//        return bytes;
-//    }
 
     /**
      * 원서 첨부 파일 삭제
@@ -739,7 +714,6 @@ public class DocumentController {
         application.setUserId(principal.getName());
         ExecutionContext ecSaveInfo = documentService.saveApplicationPaperInfo(application);
         // 타 대학원 확장 시 TODO - 학교 이름을 파라미터로 받도록
-        String admsTypeCode = application.getAdmsTypeCode();
         String lang = application.isForeignAppl() ? "en" : "kr";
         String reportName = "yonsei-" + reqType + "-" + lang;
         ExecutionContext ecGenerate = birtService.generateBirtFile(application.getApplNo(), reportName);

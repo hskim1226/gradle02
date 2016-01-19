@@ -1223,9 +1223,6 @@
                     if (!isSpecialCharactersInFileName) {
                         checkDocChckYn.value = "Y";
                         form.action = "${contextPath}/application/document/save";
-                        <c:if test="${isSYSADMIN}">
-                        form.action = "${contextPath}/sysadmin/document/save";
-                        </c:if>
                         form.submit();
                     }
                 }
@@ -1237,7 +1234,7 @@
                 <%-- 지원서 파일 정보 DB 저장 --%>
                 $.ajax({
                     type: 'POST',
-                    url: <c:choose><c:when test="${isSYSADMIN}">'${contextPath}/sysadmin/document/generate/appl'</c:when><c:otherwise>'${contextPath}/application/document/generate/appl'</c:otherwise></c:choose>,
+                    url: '${contextPath}/application/document/generate/appl',
                     data: formData,
                     success: function (data) {
                         var ec = JSON.parse(data);
@@ -1245,6 +1242,10 @@
                             if (console) {
                                 console.log('원서 파일 정보 저장 및 원서 파일 생성 완료');
                             }
+                            document.getElementById('spinner').style.display = 'none';
+                            document.getElementById('previewApplication').style.display = 'block';
+
+                            $('#overlay').hide();
                             <%-- 원서 파일 생성 및 업로드는 /document/generate/appl에서 모두 처리함 --%>
                             <%-- 파일 생성 --%>
                             <%--$.ajax({--%>
@@ -1282,17 +1283,13 @@
 
             } else if (saveType == 'preview') {
                 alert('<spring:message code="U04525"/>'); // 원서 미리보기 생성 및 원서 미리 보기에서 오류 발생 시 업로드 된 파일 이름에서 특수 문자를 제거한 후 다시 시도해 주십시오.
-                <%--form.action = <c:choose><c:when test="${isSYSADMIN}">'${contextPath}/sysadmin/document/download/tempMergedApplicationForm'</c:when><c:otherwise>"${contextPath}/pdf/download/tempMergedApplicationForm"</c:otherwise></c:choose>;--%>
-                form.action = <c:choose><c:when test="${isSYSADMIN}">'${contextPath}/sysadmin/document/download/tempMergedApplicationForm'</c:when><c:otherwise>"${contextPath}/pdf/download/applForm"</c:otherwise></c:choose>;
+                form.action = "${contextPath}/pdf/download/applForm";
                 form.submit();
             } else if (saveType == 'submit') {
                 $('#overlay').show();
                 if (confirm('<spring:message code="U04526"/>\n\n<spring:message code="U04509"/>')) {// 원서 제출에서 오류 발생 시 업로드 된 파일 이름에서 특수 문자를 제거한 후 다시 시도해 주십시오. 원서 제출 후에는 원서 내용을 수정할 수 없습니다.\n\n계속하시겠습니까?
                     document.getElementById('spinner2').style.display = 'block';
                     form.action = "${contextPath}/application/document/submit";
-                    <c:if test="${isSYSADMIN}">
-                    form.action = "${contextPath}/sysadmin/document/submit";
-                    </c:if>
                     form.target = "_self";
                     form.submit();
                 } else {
@@ -1322,11 +1319,7 @@
             document.getElementById('previewApplication').setAttribute('disabled', 'disabled');
             // 원서 제출 비활성화
             document.getElementById('submitApplication').setAttribute('disabled', 'disabled');
-            var actionUrl =
-                    <c:choose>
-                        <c:when test="${isSYSADMIN}">"${contextPath}/sysadmin/document/fileUpload"</c:when>
-                        <c:otherwise>"${contextPath}/application/document/fileUpload"</c:otherwise>
-                    </c:choose>,
+            var actionUrl = "${contextPath}/application/document/fileUpload"
                     docItemName = document.getElementById(this.getAttribute('data-doc-prop-docItemName')),
                     fileInputId = this.getAttribute('data-file-input-id'),
                     fileInput = document.getElementById(fileInputId),
