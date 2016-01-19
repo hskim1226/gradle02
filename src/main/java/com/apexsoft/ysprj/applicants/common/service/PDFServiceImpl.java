@@ -468,7 +468,8 @@ public class PDFServiceImpl implements PDFService {
                     s3FilePath,
                     file)
                     .withMetadata(meta)
-                    .withCannedAcl(CannedAccessControlList.AuthenticatedRead.PublicRead));
+                    .withCannedAcl(CannedAccessControlList.AuthenticatedRead));
+//                    .withCannedAcl(CannedAccessControlList.AuthenticatedRead.PublicRead));
         } catch (Exception e) {
             logger.error("Err in uploading final file to S3, s3BucketName : [" + s3BucketName + "], applNo : [" + applNo + "], ObjectKey : [" + FilePathUtil.getS3PathFromLocalFullPath(file.getAbsolutePath(), fileBaseDir) + "]");
             logger.error(e.getMessage());

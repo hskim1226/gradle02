@@ -157,7 +157,8 @@ public class S3PersistenceManagerImpl implements FilePersistenceManager {
             uplaodFileInputStream = new ByteArrayInputStream(baos.toByteArray());
 
             s3.putObject(new PutObjectRequest(s3BucketName, filePath, uplaodFileInputStream, meta)
-                    .withCannedAcl(CannedAccessControlList.AuthenticatedRead.PublicRead));
+//                    .withCannedAcl(CannedAccessControlList.AuthenticatedRead.PublicRead));
+                    .withCannedAcl(CannedAccessControlList.AuthenticatedRead));
         } catch (IOException e) {
             throw e;
         } catch (AmazonServiceException ase) {
