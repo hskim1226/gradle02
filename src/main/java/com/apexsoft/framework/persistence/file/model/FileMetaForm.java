@@ -21,7 +21,7 @@ public class FileMetaForm {
     private String applNo;
     private String admsNo;
     private String recKey;
-    private String applicantId;
+    private String userId;
     private String fileUploadedYn;
     private String resultMessage;
     private TotalApplicationDocument totalApplicationDocument;
@@ -106,12 +106,12 @@ public class FileMetaForm {
         this.recKey = recKey;
     }
 
-    public String getApplicantId() {
-        return applicantId;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setApplicantId(String applicantId) {
-        this.applicantId = applicantId;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getFileUploadedYn() {
@@ -155,7 +155,7 @@ public class FileMetaForm {
                 ", applNo='" + applNo + '\'' +
                 ", admsNo='" + admsNo + '\'' +
                 ", recKey='" + recKey + '\'' +
-                ", applicantId='" + applicantId + '\'' +
+                ", userId='" + userId + '\'' +
                 ", resultMessage='" + resultMessage + '\'' +
                 ", totalApplicationDocument=" + totalApplicationDocument +
                 '}';

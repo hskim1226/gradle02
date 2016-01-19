@@ -190,12 +190,6 @@ public class DocumentController {
         }
 
         ExecutionContext ec = null;
-        String userId = principal.getName();
-
-        Application application = formData.getApplication();
-        int applNo = application.getApplNo();
-//        application.setUserId(userId);
-        application.setModId(userId);
 
         ec = documentService.saveDocument(formData);
 
@@ -298,7 +292,7 @@ public class DocumentController {
                 if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
 
                     ParamForApplication p = new ParamForApplication();
-                    p.setUserId(principal.getName());
+                    p.setUserId(userId);
                     ExecutionContext ecRetrieve = documentService.retrieveInfoListByParamObj(p, "CustomApplicationMapper.selectApplByUserId", CustomMyList.class);
 
                     if (ExecutionContext.SUCCESS.equals(ecRetrieve.getResult())) {
@@ -362,6 +356,7 @@ public class DocumentController {
                                        FileHandler fileHandler) {
 
         ExecutionContext ec = new ExecutionContext();
+
         String returnFileMetaForm = "";
         try {
             returnFileMetaForm = fileHandler.handleMultiPartRequest(new FileUploadEventCallbackHandler<String, FileMetaForm, TotalApplicationDocument>() {
@@ -376,7 +371,8 @@ public class DocumentController {
                 protected String getDirectory(FileMetaForm fileMetaForm) {
 
                     String admsNo = fileMetaForm.getAdmsNo();
-                    String userId = principal.getName();
+//                    String userId = principal.getName();
+                    String userId = fileMetaForm.getUserId();
                     String applNo = fileMetaForm.getApplNo();
 
                     return FilePathUtil.getUploadDirectory(admsNo, userId, Integer.parseInt(applNo));
@@ -570,7 +566,7 @@ public class DocumentController {
                             ec.setMessage(MessageResolver.getMessage("U339"));
                             ec.setErrCode("ERR0052");
                             Map<String, String> errorInfo = new HashMap<String, String>();
-                            errorInfo.put("userId", String.valueOf(principal.getName()));
+//                            errorInfo.put("userId", String.valueOf(principal.getName()));
                             errorInfo.put("applNo", String.valueOf(document.getApplNo()));
                             errorInfo.put("docSeq", String.valueOf(document.getDocSeq()));
                             errorInfo.put("AWS Error Message", ase.getMessage());
@@ -711,7 +707,7 @@ public class DocumentController {
     public ExecutionContext generateApplicationFiles(Document document, Principal principal,
                                                      @PathVariable(value = "reqType") String reqType) {
         Application application = document.getApplication();
-        application.setUserId(principal.getName());
+
         ExecutionContext ecSaveInfo = documentService.saveApplicationPaperInfo(application);
         // 타 대학원 확장 시 TODO - 학교 이름을 파라미터로 받도록
         String lang = application.isForeignAppl() ? "en" : "kr";

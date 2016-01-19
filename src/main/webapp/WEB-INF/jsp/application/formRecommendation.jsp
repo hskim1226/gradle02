@@ -226,7 +226,7 @@ $(document).ready(function() {
                         <%--applNo: document.getElementById('applNo').value,--%>
                         <%--admsNo: document.getElementById('admsNo').value,--%>
                         <%--recKey: '${recKey}',--%>
-                        <%--applicantId: '${applicantId}'--%>
+                        <%--pplicantId: '${applicantId}'--%>
                     <%--},--%>
                     <%--success: function (data, status) {--%>
                         <%--var d = JSON.parse(data.data);--%>

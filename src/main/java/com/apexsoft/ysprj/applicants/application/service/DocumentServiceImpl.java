@@ -13,6 +13,7 @@ import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,8 +119,7 @@ public class DocumentServiceImpl implements DocumentService {
         ExecutionContext ec = new ExecutionContext();
         Application application = document.getApplication();
         int applNo = application.getApplNo();
-//        String userId = application.getUserId();
-        String modId = application.getModId();
+        String modId = StringUtils.isEmpty(application.getModId()) ? application.getUserId() : application.getModId();
 
         int r1 = 0, rSave = 0;
 
