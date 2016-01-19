@@ -932,14 +932,15 @@ public class PaymentServiceImpl implements PaymentService {
             stage = "before generate ApplSlip";
             ExecutionContext ecGenAdms = birtService.generateBirtFile(application.getApplNo(), reportName);
             stage = "before generate PDF and Upload";
-            ExecutionContext ecPdfMerge = pdfService.genAndUploadPDFByApplicants(application);
+//            ExecutionContext ecUpload = pdfService.genAndUploadPDFByApplicants(application);
+            ExecutionContext ecUpload = pdfService.processApplicationFileWithApplId(application);
 
             if ( ExecutionContext.FAIL.equals(ecGenAppl.getResult()))
                 throw new YSBizException(ecGenAppl);
             if ( ExecutionContext.FAIL.equals(ecGenAdms.getResult()))
                 throw new YSBizException(ecGenAdms);
-            if ( ExecutionContext.FAIL.equals(ecPdfMerge.getResult()))
-                throw new YSBizException(ecPdfMerge);
+            if ( ExecutionContext.FAIL.equals(ecUpload.getResult()))
+                throw new YSBizException(ecUpload);
 
         } catch (Exception e) {
             // TODO YSBizException을 던지지 말고, 로그나 DB에 남긴 후 정상 흐름 타서 사용자에게 결제 완료 알림가도록 처리 필요

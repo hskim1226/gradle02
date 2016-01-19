@@ -78,10 +78,8 @@ public class PDFServiceImpl implements PDFService {
     private final static String NAME_SPACE = "com.apexsoft.ysprj.applicants.application.sqlmap.";
 
     /**
-     * 지원자 별 PDF 묶음 파일 생성
-     * 첨부 파일을 S3로부터 서버 로컬에 내려받아 먼저 합치고, 페이지를 먹인 후,
-     * 이미 생성되어 있는 지원서 파일과 합쳐서 최종 파일을 생성하고,
-     * S3에 업로드
+     * 첨부 파일을 S3로부터 서버 로컬에 내려받아 합치지 않고 쪽수 넘버링 한 후
+     * ZIP으로 압축해서 S3에 업로드
      *
      * @param application
      * @return
@@ -138,18 +136,7 @@ public class PDFServiceImpl implements PDFService {
 //        }
 
 
-        // 결제 완료 시 수험번호 채번된 수험표와 지원서를 S3에 업로드
-        if (ApplicationStatus.COMPLETED.codeVal().equals(application.getApplStsCode())) {
-            // 수험표 파일
-            File applicationSlipFile = getApplicationSlipFile(application);
-            uploadToS3(s3, applicationSlipFile, applNo); // 수험표는 결제 완료 후에 생성 및 업로드
-            applicationSlipFile.delete();
 
-            // 결제 완료를 통해 로컬에 생성된 지원서
-            File applicationFormFile = getApplicationFormFile(application);
-            uploadToS3(s3, applicationFormFile, applNo);
-            applicationFormFile.delete();
-        }
 
         // 중간 작업 파일 삭제
         // 여기서 지우면 파일 지우기 위한 I/O 추가 발생하지만 저장 공간은 절약
@@ -427,6 +414,27 @@ public class PDFServiceImpl implements PDFService {
             accumulatedPages += getPdfPageCount(item, application);
         }
         return fileList;
+    }
+
+    // 결제 완료 시 수험번호 채번된 수험표와 지원서를 S3에 업로드
+    @Override
+    public ExecutionContext processApplicationFileWithApplId(Application application) {
+        ExecutionContext ec = new ExecutionContext();
+        AmazonS3 s3 = new AmazonS3Client();
+        int applNo = application.getApplNo();
+
+        if (ApplicationStatus.COMPLETED.codeVal().equals(application.getApplStsCode())) {
+            // 수험표 파일
+            File applicationSlipFile = getApplicationSlipFile(application);
+            uploadToS3(s3, applicationSlipFile, applNo); // 수험표는 결제 완료 후에 생성 및 업로드
+            applicationSlipFile.delete();
+
+            // 결제 완료를 통해 로컬에 생성된 지원서
+            File applicationFormFile = getApplicationFormFile(application);
+            uploadToS3(s3, applicationFormFile, applNo);
+            applicationFormFile.delete();
+        }
+        return ec;
     }
 
     // 결제 완료 후 로컬에 생성된 수험표 파일
