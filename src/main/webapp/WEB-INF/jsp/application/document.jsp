@@ -463,7 +463,7 @@
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].filePath" value="${lv2Container.filePath}" />
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].fileName" value="${lv2Container.fileName}"
                                                  class="hidden-file-name"
-                                                 data-file-input-id="file-input-name${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
+                                                 data-file-input-id="${filePrefix}${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
                                                  data-doc-item-name="${lv2Container.docItemName}"/>
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].orgFileName" value="${lv2Container.orgFileName}" />
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docItemNameXxen" value="${lv2Container.docItemNameXxen}" />
@@ -515,7 +515,7 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-5 nopadding">
-                                        <div class="col-sm-12 nopadding"><input type="file" class="btn btn-file" id="file-input-${lv1Status.index}-${lv2Status.index}" name="file-input-name-${lv1Status.index}-${lv2Status.index}" data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}"/></div>
+                                        <div class="col-sm-12 nopadding"><input type="file" class="btn btn-file" id="file-input-${lv1Status.index}-${lv2Status.index}" name="${filePrefix}${lv1Status.index}-${lv2Status.index}" data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}"/></div>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="col-sm-4 nopadding">
@@ -612,7 +612,7 @@
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].filePath" value="${lv3Container.filePath}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].fileName" value="${lv3Container.fileName}"
                                                          class="hidden-file-name"
-                                                         data-file-input-id="file-input-name-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
+                                                         data-file-input-id="${filePrefix}${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
                                                          data-doc-item-name="${lv3Container.docItemName}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].orgFileName" value="${lv3Container.orgFileName}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docItemNameXxen" value="${lv3Container.docItemNameXxen}" />
@@ -652,7 +652,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-5 nopadding">
-                                                <div class="col-sm-12 nopadding"><input type="file" class="btn btn-file" id="file-input-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}" name="file-input-name-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}" data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"/></div>
+                                                <div class="col-sm-12 nopadding"><input type="file" class="btn btn-file" id="file-input-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}" name="${filePrefix}${lv1Status.index}-${lv2Status.index}-${lv3Status.index}" data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"/></div>
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="col-sm-4 nopadding">
@@ -751,7 +751,7 @@
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].filePath" value="${lv4Container.filePath}" />
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].fileName" value="${lv4Container.fileName}"
                                                                  class="hidden-file-name"
-                                                                 data-file-input-id="file-input-name-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
+                                                                 data-file-input-id="${filePrefix}${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
                                                                  data-doc-item-name="${lv4Container.docItemName}" />
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].orgFileName" value="${lv4Container.orgFileName}" />
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].docItemNameXxen" value="${lv4Container.docItemNameXxen}" />
@@ -791,7 +791,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-5 nopadding">
-                                                        <div class="col-sm-12 nopadding"><input type="file" class="btn btn-file" id="file-input-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}" name="file-input-name-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}" data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"/></div>
+                                                        <div class="col-sm-12 nopadding"><input type="file" class="btn btn-file" id="file-input-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}" name="${filePrefix}${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}" data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"/></div>
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <div class="col-sm-4 nopadding">
@@ -930,7 +930,7 @@
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].filePath" />
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].fileName"
                                                      class="hidden-file-name"
-                                                     data-file-input-id="file-input-name-${lv1Status.index}-${lv2EtcStatus.index}"
+                                                     data-file-input-id="${filePrefix}${lv1Status.index}-${lv2EtcStatus.index}"
                                                      data-doc-item-name="${documentContainerList[lv1Status.index].subContainer[lv2EtcStatus.index].docItemName}"/>
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].orgFileName" />
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].docItemNameXxen" />
@@ -971,7 +971,7 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-5 nopadding">
-                                            <div class="col-sm-12 nopadding"><input type="file" class="btn btn-file" id="file-input-${lv1Status.index}-${lv2EtcStatus.index}" name="file-input-name-${lv1Status.index}-${lv2EtcStatus.index}" data-upload-button-id="upload-button-${lv1Status.index}-${lv2EtcStatus.index}"/></div>
+                                            <div class="col-sm-12 nopadding"><input type="file" class="btn btn-file" id="file-input-${lv1Status.index}-${lv2EtcStatus.index}" name="${filePrefix}${lv1Status.index}-${lv2EtcStatus.index}" data-upload-button-id="upload-button-${lv1Status.index}-${lv2EtcStatus.index}"/></div>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="col-sm-4 nopadding">

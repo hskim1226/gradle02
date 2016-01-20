@@ -94,6 +94,9 @@ public class DocumentController {
     @Value("#{app['constraint.dueTime.yyyyMMddhhmmss']}")
     private String dueTime;
 
+    @Value("#{app['file.prefix']}")
+    private String filePrefix;
+
     @Autowired
     WebUtil webUtil;
 
@@ -159,7 +162,7 @@ public class DocumentController {
 
         Map<String, Object> map = (Map<String, Object>)ec.getData();
         addObjectToMV(mv, map, ec);
-
+        mv.addObject("filePrefix", filePrefix);
         return mv;
     }
 
