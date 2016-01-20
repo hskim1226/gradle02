@@ -338,6 +338,15 @@ public class PDFServiceImpl implements PDFService {
                 contentStream.endText();
                 contentStream.close();
             }
+            // 암호화 제거
+            // PDF 파일이 합쳐지지 않는 유형은 2가지
+            // 1. pdDocument.isEncrypted() == true 인 경우 : 외국 ETSN 등 증빙
+            // 2. pdDocument.isEncrypted() == false 임에도 합쳐지지 않는 경우 : 국내 대학 증빙
+            // 넘버링은 pdDocument.isEncrypted() == false이면 가능
+            // 넘버링은 pdDocument.isEncrypted() == true이면 기본적으로는 pdDocument.save()에서 예외가 발생하지만
+            // 아래와 같이 pdDocument.setAllSecurityToBeRemoved(true); 해주면
+            // pdDocument.isEncrypted() == true 인 PDF에도 넘버링이 가능해진다.
+            pdDocument.setAllSecurityToBeRemoved(true);
             pdDocument.save(targetFilePath);
         } catch (IOException e) {
             Map<String, String> errMap = new HashMap<>();

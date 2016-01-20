@@ -453,46 +453,49 @@ public class DocumentController {
 
                         String ext = originalFileName.substring(originalFileName.lastIndexOf('.')+1).toLowerCase();
                         FileInputStream fis = null;
-                        if ("pdf".equals(ext)) {
-                            // 합침 가능 여부 확인
-                            String tmpFileFullPath = "/opt/ysproject/temp/pdf-test-" + document.getApplNo() + ".pdf";
 
-                            try {
-                                fis = new FileInputStream(fileItem.getFile());
-                            } catch (FileNotFoundException e) {
-                                e.printStackTrace();
-                            }
-
-                            ByteArrayOutputStream baos = StreamUtil.getBaosFromInputStream(fis);
-
-                            PDFMergerUtility mergerUtility = new PDFMergerUtility();
-                            mergerUtility.setDestinationFileName(tmpFileFullPath);
-                            org.springframework.core.io.Resource pdfResource = new ClassPathResource("pdf/merge-sample.pdf");
-                            InputStream mergeSamplePdf = null;
-                            try {
-                                mergeSamplePdf = pdfResource.getInputStream();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            mergerUtility.addSource(mergeSamplePdf);
-                            try {
-                                mergerUtility.addSource(new ByteArrayInputStream(baos.toByteArray()));
-                                mergerUtility.mergeDocuments(MemoryUsageSetting.setupMixed(500*1024*1024));
-                            } catch (Exception e) {
-                                logger.debug("merging PDF files fails, in DocumentController.handleEvent(), FileName : " + fileItem.getOriginalFileName());
-                                ExecutionContext ec1 = new ExecutionContext(ExecutionContext.FAIL);
-                                ec1.setResult(ExecutionContext.FAIL);
-                                ec1.setMessage(MessageResolver.getMessage("U06102"));
-                                ec1.setErrCode("ERR1104");
-                                Map<String, String> errorInfo = new HashMap<String, String>();
-                                errorInfo.put("applNo", String.valueOf(document.getApplNo()));
-                                errorInfo.put("fileName", fileItem.getOriginalFileName());
-                                ec1.setErrorInfo(new ErrorInfo(errorInfo));
-                                throw new PDFMergeException(ec1, "U06105", "ERR1104");
-                            } finally {
-                                FileUtils.deleteQuietly(new File(tmpFileFullPath));
-                            }
-                        }
+//                        // PDF 합치지 않고 넘버링만 하기로 하여 주석 처리
+//                        if ("pdf".equals(ext)) {
+//                            // 국내 대학 증빙은 pdDocument.isEncrypted() == false이지만 합칠 때 오류 발생하므로
+//                            // 아래와 같이 직접 합쳐보는 방식으로 확인
+//                            String tmpFileFullPath = "/opt/ysproject/temp/pdf-test-" + document.getApplNo() + ".pdf";
+//
+//                            try {
+//                                fis = new FileInputStream(fileItem.getFile());
+//                            } catch (FileNotFoundException e) {
+//                                e.printStackTrace();
+//                            }
+//
+//                            ByteArrayOutputStream baos = StreamUtil.getBaosFromInputStream(fis);
+//
+//                            PDFMergerUtility mergerUtility = new PDFMergerUtility();
+//                            mergerUtility.setDestinationFileName(tmpFileFullPath);
+//                            org.springframework.core.io.Resource pdfResource = new ClassPathResource("pdf/merge-sample.pdf");
+//                            InputStream mergeSamplePdf = null;
+//                            try {
+//                                mergeSamplePdf = pdfResource.getInputStream();
+//                            } catch (IOException e) {
+//                                e.printStackTrace();
+//                            }
+//                            mergerUtility.addSource(mergeSamplePdf);
+//                            try {
+//                                mergerUtility.addSource(new ByteArrayInputStream(baos.toByteArray()));
+//                                mergerUtility.mergeDocuments(MemoryUsageSetting.setupMixed(500*1024*1024));
+//                            } catch (Exception e) {
+//                                logger.debug("merging PDF files fails, in DocumentController.handleEvent(), FileName : " + fileItem.getOriginalFileName());
+//                                ExecutionContext ec1 = new ExecutionContext(ExecutionContext.FAIL);
+//                                ec1.setResult(ExecutionContext.FAIL);
+//                                ec1.setMessage(MessageResolver.getMessage("U06102"));
+//                                ec1.setErrCode("ERR1104");
+//                                Map<String, String> errorInfo = new HashMap<String, String>();
+//                                errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+//                                errorInfo.put("fileName", fileItem.getOriginalFileName());
+//                                ec1.setErrorInfo(new ErrorInfo(errorInfo));
+//                                throw new PDFMergeException(ec1, "U06105", "ERR1104");
+//                            } finally {
+//                                FileUtils.deleteQuietly(new File(tmpFileFullPath));
+//                            }
+//                        }
 
 
                         try{
