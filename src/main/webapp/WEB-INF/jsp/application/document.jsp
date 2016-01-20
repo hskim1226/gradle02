@@ -1363,11 +1363,11 @@
                 $('#overlay').hide();
                 return false;
             }
-             if (fileSize > 1024 * 1024 * 30) {
-                 alert('<spring:message code="U04524" arguments="30"/>');
-                 $('#overlay').hide();
-                 return false;
-             }
+            if (fileSize > 1024 * 1024 * 30) {
+                alert('<spring:message code="U04524" arguments="30"/>');
+                $('#overlay').hide();
+                return false;
+            }
             if (docItemName && !docItemName.value.length > 0) {
                 alert('<spring:message code="U04502"/>');//서류명을 직접 입력해 주세요.
                 $('#overlay').hide();
@@ -1473,7 +1473,8 @@
                             } else {
                                 alert(data.message);
                                 document.getElementById(checkboxId).checked = false;
-                                docItemName.value = '';
+                                if (docItemName.type == 'text')
+                                    docItemName.value = '';
                             }
 
                             $('#overlay').hide();
