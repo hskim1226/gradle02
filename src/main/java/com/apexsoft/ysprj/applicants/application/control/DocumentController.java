@@ -31,6 +31,7 @@ import com.apexsoft.ysprj.applicants.common.util.WebUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.pdfbox.io.MemoryUsageSetting;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -736,6 +737,7 @@ public class DocumentController {
         String reportName = "yonsei-" + reqType + "-" + lang;
         ExecutionContext ecGenerate = birtService.generateBirtFile(application.getApplNo(), reportName);
         Map<String, Object> map = (Map<String, Object>)ecGenerate.getData();
+
         String fileDir = (String)map.get("pdfDirectoryFullPath");
         String fileName = (String)map.get("pdfFileName");
         File file = new File(fileDir, fileName);

@@ -72,8 +72,7 @@ public class BirtServiceImpl implements BirtService {
     @Value("#{app['s3.midPath']}")
     private String s3MidPath;
 
-    private String ADMS_FORN_1 = "C";
-    private String ADMS_FORN_2 = "D";
+    private Application application;
 
     /**
      * Birt로 파일 생성 및 서버 로컬에 저장
@@ -90,7 +89,6 @@ public class BirtServiceImpl implements BirtService {
         map.put("reportFormat", REPORT_FORMAT);
         map.put("reportName", birtRptFileName);
         String pathToRptdesignFile = "/reports/" +  birtRptFileName + ".rptdesign";
-//        String fullPathToRptdesignFile = STATIC_PATH + pathToRptdesignFile;
         String fullPathToRptdesignFile = servletContext.getRealPath(pathToRptdesignFile);
         map.put("rptdesignFullPath", fullPathToRptdesignFile);
 
@@ -120,49 +118,58 @@ public class BirtServiceImpl implements BirtService {
     @Override
     public ExecutionContext processBirt(int applNo, String birtRptFileName) {
         Map<String, Object> rptInfoMap = new HashMap<String, Object>();
-        ExecutionContext ecResult = new ExecutionContext();
+
         ExecutionContext ecBasis = basisService.retrieveBasis(applNo);
-        ExecutionContext ecAcademy = academyService.retrieveAcademy(applNo);
-        ExecutionContext ecLangCareer = langCareerService.retrieveLangCareer(applNo);
-        ExecutionContext ecDocument = documentService.retrieveDocument(applNo);
-
         Basis basis = ((Map<String, Basis>)ecBasis.getData()).get("basis");
-        Academy academy = ((Map<String, Academy>)ecAcademy.getData()).get("academy");
-        LangCareer langCareer = ((Map<String, LangCareer>)ecLangCareer.getData()).get("langCareer");
-        Document document = ((Map<String, Document>)ecDocument.getData()).get("document");
-
-        List<LanguageGroup> langGrpList = langCareer.getLanguageGroupList();
-        List<CustomApplicationExperience> expList = langCareer.getApplicationExperienceList();
-        Application application = basis.getApplication();
-        ApplicationGeneral applicationGeneral = basis.getApplicationGeneral();
-        ApplicationForeigner applicationForeigner = basis.getApplicationForeigner();
-        List<CustomApplicationAcademy> collegeList = academy.getCollegeList();
-        List<CustomApplicationAcademy> graduateList = academy.getGraduateList();
-        List<CustomApplicationAcademy> academyList = new ArrayList<CustomApplicationAcademy>();
-        academyList.addAll(collegeList);
-        academyList.addAll(graduateList);
-        List<TotalApplicationDocumentContainer> documentContainerList = document.getDocumentContainerList();
-
-        String admsNo = application.getAdmsNo();
+        application = basis.getApplication();
         String userId = application.getUserId();
-        String admsTypeCode = application.getAdmsTypeCode();
+
+        Map<String, Object> basisInfo = getBasisInfo(basis);
+        rptInfoMap.putAll(basisInfo);
+
+        Map<String, Object> academyInfo = getAcademyInfo(applNo);
+        rptInfoMap.putAll(academyInfo);
+
+        Map<String, Object> langCareerInfo = getLangCareerInfo(applNo);
+        rptInfoMap.putAll(langCareerInfo);
+
+        Map<String, Object> documentInfo = getDocumentInfo(applNo);
+        rptInfoMap.putAll(documentInfo);
+
+        ExecutionContext ecResult = new ExecutionContext();
+
         String pdfFileName = StringUtils.indexOf(birtRptFileName, "appl") > 0 ?
                 FilePathUtil.getApplicationFormFileName(userId) :
                 FilePathUtil.getApplicationSlipFileName(userId);
 
-        rptInfoMap.put("pdfDirectoryFullPath", FilePathUtil.getUploadDirectoryFullPath(BASE_DIR, s3MidPath, admsNo, userId, applNo));
+        rptInfoMap.put("pdfDirectoryFullPath", FilePathUtil.getUploadDirectoryFullPath(BASE_DIR, s3MidPath, application.getAdmsNo(), userId, applNo));
         rptInfoMap.put("pdfFileName", pdfFileName);
 
+        String applId = application.isApplIdIssued() ? application.getApplId() : "지원 미완료";
+        rptInfoMap.put("applId", applId);
+
+        ecResult.setData(rptInfoMap);
+
+        return ecResult;
+    }
+
+    private Map<String,Object> getBasisInfo(Basis basis) {
+        Map<String, Object> basisInfo = new HashMap<String, Object>();
+
+        ApplicationGeneral applicationGeneral = basis.getApplicationGeneral();
+        ApplicationForeigner applicationForeigner = basis.getApplicationForeigner();
+
+        // 지원 과정 정보
         CommonCode commonCode;
         commonCode = commonService.retrieveCommonCodeByCodeGroupCode("ADMS_TYPE", application.getAdmsTypeCode());
         String admsTypeName = commonCode != null ? commonCode.getCodeVal() : null;
         String[] admsTypeNames = admsTypeName.split(" ");
-        rptInfoMap.put("entrYear", application.getEntrYear());
+        basisInfo.put("entrYear", application.getEntrYear());
         if( admsTypeNames.length > 1) {
-            rptInfoMap.put("admsTypeName1", admsTypeNames[0]);
-            rptInfoMap.put("admsTypeName2", admsTypeNames[1]);
+            basisInfo.put("admsTypeName1", admsTypeNames[0]);
+            basisInfo.put("admsTypeName2", admsTypeNames[1]);
         }
-        rptInfoMap.put("title", application.getEntrYear() + " 학년도 " + admsTypeNames[0] + " " + admsTypeNames[1] + " 대학원 입학원서");
+        basisInfo.put("title", application.getEntrYear() + " 학년도 " + admsTypeNames[0] + " " + admsTypeNames[1] + " 대학원 입학원서");
 
         String campName = "-- 해당사항 없음 -- ";
         if(application.getCampCode() !=null && !StringUtil.EMPTY_STRING.equals(application.getCampCode())) {
@@ -180,15 +187,16 @@ public class BirtServiceImpl implements BirtService {
         String deptName = commonService.retrieveDeptNameByCode(application.getDeptCode()).getDeptName();
         String deptCode = application.getDeptCode();
         String detlMajName = "99999".equals(application.getDetlMajCode()) ? application.getInpDetlMaj()
-                                        : commonService.retrieveDetlMajNameByCode(application.getDetlMajCode()).getDetlMajName();
-        rptInfoMap.put("campName", campName);
-        rptInfoMap.put("semester", application.getEntrYear() + "-" + admsTypeNames[0]);
-        rptInfoMap.put("corsTypeName", corsTypeName);
-        rptInfoMap.put("ariInstName", ariInstName);
-        rptInfoMap.put("deptName", deptName);
-        rptInfoMap.put("deptCode", deptCode);
-        rptInfoMap.put("detlMajName", detlMajName);
+                : commonService.retrieveDetlMajNameByCode(application.getDetlMajCode()).getDetlMajName();
+        basisInfo.put("campName", campName);
+        basisInfo.put("semester", application.getEntrYear() + "-" + admsTypeNames[0]);
+        basisInfo.put("corsTypeName", corsTypeName);
+        basisInfo.put("ariInstName", ariInstName);
+        basisInfo.put("deptName", deptName);
+        basisInfo.put("deptCode", deptCode);
+        basisInfo.put("detlMajName", detlMajName);
 
+        // 지원자 정보
         String korName = application.getKorName();
         String engName = application.getEngName();
         String engSur = application.getEngSur();
@@ -201,44 +209,34 @@ public class BirtServiceImpl implements BirtService {
         String addr = application.getAddr();
         String detlAddr = application.getDetlAddr();
 
-        rptInfoMap.put("korName", StringUtil.getEmptyIfNull(korName));
-        rptInfoMap.put("engName", StringUtil.getEmptyIfNull(engName));
-        rptInfoMap.put("engSur", StringUtil.getEmptyIfNull(engSur));
-        rptInfoMap.put("gend", StringUtil.getEmptyIfNull(gend));
-        rptInfoMap.put("engFullName", StringUtil.getEmptyIfNull(engName) + " " + StringUtil.getEmptyIfNull(engSur));
+        basisInfo.put("korName", StringUtil.getEmptyIfNull(korName));
+        basisInfo.put("engName", StringUtil.getEmptyIfNull(engName));
+        basisInfo.put("engSur", StringUtil.getEmptyIfNull(engSur));
+        basisInfo.put("gend", StringUtil.getEmptyIfNull(gend));
+        basisInfo.put("engFullName", StringUtil.getEmptyIfNull(engName) + " " + StringUtil.getEmptyIfNull(engSur));
 
         String generalAdmsGender = StringUtil.EMPTY_STRING;
-        if ( !"C".equals(admsTypeCode) && !"D".equals(admsTypeCode) ) {
+        if ( !application.isForeignAppl() ) {
             generalAdmsGender = "m".equals(StringUtil.getEmptyIfNull(gend).toLowerCase()) ? "(1******)" :
                     "f".equals(StringUtil.getEmptyIfNull(gend).toLowerCase()) ? "(2******)" : StringUtil.EMPTY_STRING;
         }
-        rptInfoMap.put("rgstBornDate", StringUtil.getEmptyIfNull(rgstBornDate) + " " + generalAdmsGender);
-//        rptInfoMap.put("rgstNo", StringUtil.insertHyphenAt(rgstNo, 6));
+        basisInfo.put("rgstBornDate", StringUtil.getEmptyIfNull(rgstBornDate) + " " + generalAdmsGender);
 
-
-
-
-
-
-//        Country tmpCountry = commonService.retrieveCountryByCode(StringUtil.getEmptyIfNull(applicationForeigner.getBornCntrCode()));
-//        rptInfoMap.put("bornCntrName", tmpCountry == null ? StringUtil.EMPTY_STRING : tmpCountry.getEngCntrName());
         Country tmpCountry = commonService.retrieveCountryByCode(StringUtil.getEmptyIfNull(application.getCitzCntrCode()));
-        rptInfoMap.put("citzCntrName", tmpCountry == null ? StringUtil.EMPTY_STRING : tmpCountry.getEngCntrName());
-//        rptInfoMap.put("bornDay", StringUtil.getEmptyIfNull(application.getBornDay()));  // rgstBornDate로 대체
-//        rptInfoMap.put("paspNo", StringUtil.getEmptyIfNull(applicationForeigner.getPaspNo()));
+        basisInfo.put("citzCntrName", tmpCountry == null ? StringUtil.EMPTY_STRING : tmpCountry.getEngCntrName());
 
-        if ( "C".equals(admsTypeCode) || "D".equals(admsTypeCode)) {
+        if ( application.isForeignAppl()) {
             try {
                 String fornRgstNoEncr = applicationForeigner.getFornRgstNoEncr();
                 String fornRgstNo = fornRgstNoEncr != null && !StringUtil.EMPTY_STRING.equals(fornRgstNoEncr) ? getEncryptedString(fornRgstNoEncr, false) : StringUtil.EMPTY_STRING;
                 if (fornRgstNo != null && fornRgstNo.length() > 0) {
-                    rptInfoMap.put("fornRgstNo", StringUtil.insertHyphenAt(fornRgstNo, 6));
+                    basisInfo.put("fornRgstNo", StringUtil.insertHyphenAt(fornRgstNo, 6));
                 } else {
-                    rptInfoMap.put("fornRgstNo", "미등록"+"\n"+"(Not Registered)");
+                    basisInfo.put("fornRgstNo", "미등록"+"\n"+"(Not Registered)");
                 }
                 String paspNoEncr = applicationForeigner.getPaspNoEncr();
                 String paspNo = paspNoEncr != null && !StringUtil.EMPTY_STRING.equals(paspNoEncr) ? getEncryptedString(paspNoEncr, false) : StringUtil.EMPTY_STRING;
-                rptInfoMap.put("paspNo", paspNo);
+                basisInfo.put("paspNo", paspNo);
 //                String visaNoEncr = applicationForeigner.getVisaNoEncr();
 //                String visaNo = visaNoEncr != null && !StringUtil.EMPTY_STRING.equals(visaNoEncr) ? getEncryptedString(visaNoEncr, false) : StringUtil.EMPTY_STRING;
             } catch (IOException e) {
@@ -246,91 +244,79 @@ public class BirtServiceImpl implements BirtService {
                 ecEncr.setMessage(MessageResolver.getMessage("U347"));
                 ecEncr.setErrCode("ERR0043");
                 Map<String, Object> errMap = new HashMap<String, Object>();
-                errMap.put("applNo", basis.getApplication().getApplNo());
-                errMap.put("userId", userId);
+                errMap.put("applNo", application.getApplNo());
+                errMap.put("userId", application.getUserId());
                 errMap.put("situation", "Error while loading props for En/Decryption");
                 ecEncr.setErrorInfo(new ErrorInfo(errMap));
                 throw new YSBizException(ecEncr);
             }
         }
 
-        rptInfoMap.put("visaTypeName", StringUtil.getEmptyIfNull(applicationForeigner.getVisaTypeCode()) + StringUtil.getEmptyIfNull(applicationForeigner.getVisaTypeEtc()));
-//        rptInfoMap.put("fornRgstNo", StringUtil.getEmptyIfNull(applicationForeigner.getFornRgstNo()).length() > 0 ? "등록"+"\n"+"(Registered)" : "미등록"+"\n"+"(Not Registered)");
-        rptInfoMap.put("homeAddr", StringUtil.getEmptyIfNull(applicationForeigner.getHomeAddr()));
-        rptInfoMap.put("korAddr", StringUtil.getEmptyIfNull(addr) + " " + StringUtil.getEmptyIfNull(detlAddr));
-        rptInfoMap.put("mailAddr", StringUtil.getEmptyIfNull(mailAddr));
-        rptInfoMap.put("homeTel", StringUtil.getEmptyIfNull(applicationForeigner.getHomeTel()));
-        rptInfoMap.put("telNum", StringUtil.getEmptyIfNull(telNum));
-        rptInfoMap.put("mobiNum", StringUtil.getEmptyIfNull(mobiNum));
-        rptInfoMap.put("addr", StringUtil.getEmptyIfNull(addr));
-        rptInfoMap.put("detlAddr", StringUtil.getEmptyIfNull(detlAddr));
-        rptInfoMap.put("homeEmrgName", StringUtil.getEmptyIfNull(applicationForeigner.getHomeEmrgName()));
-        rptInfoMap.put("homeEmrgTel", StringUtil.getEmptyIfNull(applicationForeigner.getHomeEmrgTel()));
+        basisInfo.put("visaTypeName", StringUtil.getEmptyIfNull(applicationForeigner.getVisaTypeCode()) + StringUtil.getEmptyIfNull(applicationForeigner.getVisaTypeEtc()));
+//        basisInfo.put("fornRgstNo", StringUtil.getEmptyIfNull(applicationForeigner.getFornRgstNo()).length() > 0 ? "등록"+"\n"+"(Registered)" : "미등록"+"\n"+"(Not Registered)");
+        basisInfo.put("homeAddr", StringUtil.getEmptyIfNull(applicationForeigner.getHomeAddr()));
+        basisInfo.put("korAddr", StringUtil.getEmptyIfNull(addr) + " " + StringUtil.getEmptyIfNull(detlAddr));
+        basisInfo.put("mailAddr", StringUtil.getEmptyIfNull(mailAddr));
+        basisInfo.put("homeTel", StringUtil.getEmptyIfNull(applicationForeigner.getHomeTel()));
+        basisInfo.put("telNum", StringUtil.getEmptyIfNull(telNum));
+        basisInfo.put("mobiNum", StringUtil.getEmptyIfNull(mobiNum));
+        basisInfo.put("addr", StringUtil.getEmptyIfNull(addr));
+        basisInfo.put("detlAddr", StringUtil.getEmptyIfNull(detlAddr));
+        basisInfo.put("homeEmrgName", StringUtil.getEmptyIfNull(applicationForeigner.getHomeEmrgName()));
+        basisInfo.put("homeEmrgTel", StringUtil.getEmptyIfNull(applicationForeigner.getHomeEmrgTel()));
         CommonCode homeEmrgRela = commonService.retrieveCommonCodeByCodeGroupCode("EMER_CONT", StringUtil.getEmptyIfNull(applicationForeigner.getHomeEmrgRela()));
         String homeEmrgRelaVal = homeEmrgRela != null ? homeEmrgRela.getCodeVal() : StringUtil.EMPTY_STRING;
-        rptInfoMap.put("homeEmrgRela", homeEmrgRelaVal);
-        rptInfoMap.put("korEmrgName", StringUtil.getEmptyIfNull(applicationForeigner.getKorEmrgName()));
-        rptInfoMap.put("korEmrgTel", StringUtil.getEmptyIfNull(applicationForeigner.getKorEmrgTel()));
+        basisInfo.put("homeEmrgRela", homeEmrgRelaVal);
+        basisInfo.put("korEmrgName", StringUtil.getEmptyIfNull(applicationForeigner.getKorEmrgName()));
+        basisInfo.put("korEmrgTel", StringUtil.getEmptyIfNull(applicationForeigner.getKorEmrgTel()));
         CommonCode korEmrgRela = commonService.retrieveCommonCodeByCodeGroupCode("EMER_CONT", StringUtil.getEmptyIfNull(applicationForeigner.getKorEmrgRela()));
         String korEmrgRelaVal = korEmrgRela != null ? korEmrgRela.getCodeVal() : StringUtil.EMPTY_STRING;
-        rptInfoMap.put("korEmrgRela", korEmrgRelaVal);
+        basisInfo.put("korEmrgRela", korEmrgRelaVal);
 
-        rptInfoMap.put("photoUri", documentService.retrievePhotoUri(applNo));
+        basisInfo.put("photoUri", documentService.retrievePhotoUri(application.getApplNo()));
 
         String currWrkpName = StringUtil.getEmptyIfNull(applicationGeneral.getCurrWrkpName());
         String currWrkpTel = StringUtil.getEmptyIfNull(applicationGeneral.getCurrWrkpTel());
 
+        basisInfo.put("currWrkpName", currWrkpName);
+        basisInfo.put("currWrkpTel", currWrkpTel);
+
+        String hndcGrad = StringUtil.getEmptyIfNull(applicationGeneral.getHndcGrad());
+        String hndcType = StringUtil.getEmptyIfNull(applicationGeneral.getHndcType());
+
+        basisInfo.put("hndcGrad", hndcGrad);
+        basisInfo.put("hndcType", hndcType);
+
+        return basisInfo;
+    }
+
+    private Map<String,Object> getAcademyInfo(int applNo) {
+        Map<String, Object> academyInfo = new HashMap<String, Object>();
+        ExecutionContext ecAcademy = academyService.retrieveAcademy(applNo);
+        Academy academy = ((Map<String, Academy>)ecAcademy.getData()).get("academy");
+
+        List<CustomApplicationAcademy> collegeList = academy.getCollegeList();
+        List<CustomApplicationAcademy> graduateList = academy.getGraduateList();
+        List<CustomApplicationAcademy> academyList = new ArrayList<CustomApplicationAcademy>();
+        academyList.addAll(collegeList);
+        academyList.addAll(graduateList);
+
+        boolean collLastFg = false;
         String lastCollegeScore = StringUtil.EMPTY_STRING;
         String lastGraduateScore = StringUtil.EMPTY_STRING;
-        String toeflScore = StringUtil.EMPTY_STRING;
-        String toeicScore = StringUtil.EMPTY_STRING;
-        String tepsScore = StringUtil.EMPTY_STRING;
-        String ieltsScore = StringUtil.EMPTY_STRING;
-        String greScore = StringUtil.EMPTY_STRING;
-        String topikScore = StringUtil.EMPTY_STRING;
-
-//        int collCnt = 0;
-        boolean collLastFg = false;
-
-
-//        for(CustomApplicationAcademy aColl : collegeList ){
-//            collCnt++;
-//            if( collCnt ==1){
-//                academy0 = "(대학) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
-//            }
-//            else if( collCnt ==2){
-//                academy1 =  "(대학) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
-//            }
-//            else if( collCnt ==3){
-//                academy2 =  "(대학) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
-//            }
-//            else if( collCnt ==4){
-//                academy3 =  "(대학) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
-//            }
-//            else if( collCnt ==5){
-//                academy4 =  "(대학) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
-//            }
-//            if( !collLastFg ) {
-//                lastCollegeScore = aColl.getGradAvr() + "/" + aColl.getGradFull();
-//            }
-//            if( "Y".equals(aColl.getLastSchlYn())){
-//                collLastFg = true;
-//            }
-//
-//        }
 
         int collegeListL = collegeList.size();
         int i;
         for(i = 0 ; i < collegeListL ; i++) {
             CustomApplicationAcademy aColl = collegeList.get(i);
 
-            if ("C".equals(admsTypeCode) || "D".equals(admsTypeCode)) {
-                rptInfoMap.put("acadPeriod" + i, aColl.getEntrDay() + "~" + aColl.getGrdaDay());
-                rptInfoMap.put("academy" + i, "(대학) "+ aColl.getSchlName() + " " + aColl.getCollName());
-                rptInfoMap.put("majName" + i, aColl.getMajName());
-                rptInfoMap.put("gpaFull" + i, aColl.getGradAvr() + " / " + aColl.getGradFull());
+            if (application.isForeignAppl()) {
+                academyInfo.put("acadPeriod" + i, aColl.getEntrDay() + "~" + aColl.getGrdaDay());
+                academyInfo.put("academy" + i, "(대학) "+ aColl.getSchlName() + " " + aColl.getCollName());
+                academyInfo.put("majName" + i, aColl.getMajName());
+                academyInfo.put("gpaFull" + i, aColl.getGradAvr() + " / " + aColl.getGradFull());
             } else {
-                rptInfoMap.put("academy" + i, "(대학) "+ aColl.getSchlName() + " " + aColl.getCollName() + " " + aColl.getMajName());
+                academyInfo.put("academy" + i, "(대학) "+ aColl.getSchlName() + " " + aColl.getCollName() + " " + aColl.getMajName());
             }
             if( !collLastFg ) {
                 lastCollegeScore = aColl.getGradAvr() + " / " + aColl.getGradFull();
@@ -346,13 +332,13 @@ public class BirtServiceImpl implements BirtService {
         for(j = 0 ; j < graduateListL ; j++) {
             CustomApplicationAcademy aGrad = graduateList.get(j);
 
-            if ("C".equals(admsTypeCode) || "D".equals(admsTypeCode)) {
-                rptInfoMap.put("acadPeriod" + (i+j), aGrad.getEntrDay() + "~" + aGrad.getGrdaDay());
-                rptInfoMap.put("academy" + (i+j), "(대학원) " + aGrad.getSchlName() + " " + aGrad.getCollName());
-                rptInfoMap.put("majName" + (i+j), aGrad.getMajName());
-                rptInfoMap.put("gpaFull" + (i+j), aGrad.getGradAvr() + " / " + aGrad.getGradFull());
+            if (application.isForeignAppl()) {
+                academyInfo.put("acadPeriod" + (i+j), aGrad.getEntrDay() + "~" + aGrad.getGrdaDay());
+                academyInfo.put("academy" + (i+j), "(대학원) " + aGrad.getSchlName() + " " + aGrad.getCollName());
+                academyInfo.put("majName" + (i+j), aGrad.getMajName());
+                academyInfo.put("gpaFull" + (i+j), aGrad.getGradAvr() + " / " + aGrad.getGradFull());
             } else {
-                rptInfoMap.put("academy" + (i+j), "(대학원) "+ aGrad.getSchlName() + " " + aGrad.getCollName() + " " + aGrad.getMajName());
+                academyInfo.put("academy" + (i+j), "(대학원) "+ aGrad.getSchlName() + " " + aGrad.getCollName() + " " + aGrad.getMajName());
             }
             if( !gradLastFg ) {
                 lastGraduateScore = aGrad.getGradAvr() + " / " + aGrad.getGradFull();
@@ -363,59 +349,36 @@ public class BirtServiceImpl implements BirtService {
         }
 
         for (int k = i+j ; k < 5 ; k++) {
-            rptInfoMap.put("academy" + k, "");
-            if ("C".equals(admsTypeCode) || "D".equals(admsTypeCode)) {
-                rptInfoMap.put("acadPeriod" + k, "");
-                rptInfoMap.put("academy" + k, "");
-                rptInfoMap.put("majName" + k, "");
-                rptInfoMap.put("gpaFull" + k, "");
+            academyInfo.put("academy" + k, "");
+            if (application.isForeignAppl()) {
+                academyInfo.put("acadPeriod" + k, "");
+                academyInfo.put("academy" + k, "");
+                academyInfo.put("majName" + k, "");
+                academyInfo.put("gpaFull" + k, "");
             } else {
-                rptInfoMap.put("academy" + k, "");
+                academyInfo.put("academy" + k, "");
             }
         }
 
+        academyInfo.put("lastCollegeScore", lastCollegeScore);
+        academyInfo.put("lastGraduateScore", lastGraduateScore);
 
-//        for(CustomApplicationAcademy aColl : graduateList ){
-//            collCnt++;
-//            if( collCnt ==1){
-//                academy0 = "(대학원) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
-//            }
-//            else if( collCnt ==2){
-//                academy1 =  "(대학원) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
-//            }
-//            else if( collCnt ==3){
-//                academy2 =  "(대학원) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
-//            }
-//            else if( collCnt ==4){
-//                academy3 =  "(대학원) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
-//            }
-//            else if( collCnt ==5){
-//                academy4 =  "(대학원) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
-//            }
-//
-//            if( !gradLastFg ) {
-//                lastGraduateScore = aColl.getGradAvr() + "/" + aColl.getGradFull();
-//            }
-//            if( "Y".equals(aColl.getLastSchlYn())){
-//                gradLastFg = true;
-//            }
-//        }
+        return academyInfo;
+    }
 
-        rptInfoMap.put("currWrkpName", currWrkpName);
-        rptInfoMap.put("currWrkpTel", currWrkpTel);
+    private Map<String,Object> getLangCareerInfo(int applNo) {
+        Map<String, Object> langCareerInfo = new HashMap<String, Object>();
+        ExecutionContext ecLangCareer = langCareerService.retrieveLangCareer(applNo);
+        LangCareer langCareer = ((Map<String, LangCareer>)ecLangCareer.getData()).get("langCareer");
+        List<LanguageGroup> langGrpList = langCareer.getLanguageGroupList();
+        List<CustomApplicationExperience> expList = langCareer.getApplicationExperienceList();
 
-
-        String hndcGrad = StringUtil.getEmptyIfNull(applicationGeneral.getHndcGrad());
-        String hndcType = StringUtil.getEmptyIfNull(applicationGeneral.getHndcType());
-
-        rptInfoMap.put("hndcGrad", hndcGrad);
-        rptInfoMap.put("hndcType", hndcType);
-
-        // TODO
-
-
-        rptInfoMap.put("lastCollegeScore", lastCollegeScore);
-        rptInfoMap.put("lastGraduateScore", lastGraduateScore);
+        String toeflScore = StringUtil.EMPTY_STRING;
+        String toeicScore = StringUtil.EMPTY_STRING;
+        String tepsScore = StringUtil.EMPTY_STRING;
+        String ieltsScore = StringUtil.EMPTY_STRING;
+        String greScore = StringUtil.EMPTY_STRING;
+        String topikScore = StringUtil.EMPTY_STRING;
 
         String forlExmp = StringUtil.EMPTY_STRING;
 
@@ -506,101 +469,43 @@ public class BirtServiceImpl implements BirtService {
             }
         }
 
-        rptInfoMap.put("toeflScore", toeflScore);
-        rptInfoMap.put("toeicScore", toeicScore);
-        rptInfoMap.put("tepsScore", tepsScore);
-        rptInfoMap.put("ieltsScore", ieltsScore);
-        rptInfoMap.put("greScore", greScore);
-        rptInfoMap.put("forlExmp", forlExmp.length() > 0 ? "O" : StringUtil.EMPTY_STRING);
-        rptInfoMap.put("topikScore", topikScore);
+        langCareerInfo.put("toeflScore", toeflScore);
+        langCareerInfo.put("toeicScore", toeicScore);
+        langCareerInfo.put("tepsScore", tepsScore);
+        langCareerInfo.put("ieltsScore", ieltsScore);
+        langCareerInfo.put("greScore", greScore);
+        langCareerInfo.put("forlExmp", forlExmp.length() > 0 ? "O" : StringUtil.EMPTY_STRING);
+        langCareerInfo.put("topikScore", topikScore);
 
-        // TODO
-        String range0 = StringUtil.EMPTY_STRING;
-        String corpName0 = StringUtil.EMPTY_STRING;
-        String exprDesc0 = StringUtil.EMPTY_STRING;
-        String range1 = StringUtil.EMPTY_STRING;
-        String corpName1 = StringUtil.EMPTY_STRING;
-        String exprDesc1 = StringUtil.EMPTY_STRING;
-        String range2 = StringUtil.EMPTY_STRING;
-        String corpName2 = StringUtil.EMPTY_STRING;
-        String exprDesc2 = StringUtil.EMPTY_STRING;
-        String range3 = StringUtil.EMPTY_STRING;
-        String corpName3 = StringUtil.EMPTY_STRING;
-        String exprDesc3 = StringUtil.EMPTY_STRING;
-        String range4 = StringUtil.EMPTY_STRING;
-        String corpName4 = StringUtil.EMPTY_STRING;
-        String exprDesc4 = StringUtil.EMPTY_STRING;
-
-        int exprCnt =0;
-        for(CustomApplicationExperience aExpr : expList ){
-            exprCnt++;
-            if( exprCnt ==1){
-                range0 =aExpr.getJoinDay() +"~"+aExpr.getRetrDay();
-                corpName0 =aExpr.getCorpName();
-                exprDesc0 =aExpr.getExprDesc();
-            }
-            else if( exprCnt ==2){
-                range1 =aExpr.getJoinDay() +"~"+aExpr.getRetrDay();
-                corpName1 =aExpr.getCorpName();
-                exprDesc1 =aExpr.getExprDesc();
-            }
-            else if( exprCnt ==3){
-                range2 =aExpr.getJoinDay() +"~"+aExpr.getRetrDay();
-                corpName2 =aExpr.getCorpName();
-                exprDesc2=aExpr.getExprDesc();
-            }
-            else if( exprCnt ==4){
-                range3 =aExpr.getJoinDay() +"~"+aExpr.getRetrDay();
-                corpName3 =aExpr.getCorpName();
-                exprDesc3 =aExpr.getExprDesc();
-            }
-            else if( exprCnt ==5){
-                range4 =aExpr.getJoinDay() +"~"+aExpr.getRetrDay();
-                corpName4 =aExpr.getCorpName();
-                exprDesc4 =aExpr.getExprDesc();
-            }
-
+        // 경력
+        for (int i = 0, len = expList.size() ; i < len ; i++) {
+            CustomApplicationExperience aExpr = expList.get(i);
+            langCareerInfo.put("range" + i, aExpr.getJoinDay() +"~"+aExpr.getRetrDay());
+            langCareerInfo.put("corpName" + i, aExpr.getCorpName());
+            langCareerInfo.put("exprDesc" + i, aExpr.getExprDesc());
         }
 
-        rptInfoMap.put("range0", range0);
-        rptInfoMap.put("corpName0", corpName0);
-        rptInfoMap.put("exprDesc0", exprDesc0);
-        rptInfoMap.put("range1", range1);
-        rptInfoMap.put("corpName1", corpName1);
-        rptInfoMap.put("exprDesc1", exprDesc1);
-        rptInfoMap.put("range2", range2);
-        rptInfoMap.put("corpName2", corpName2);
-        rptInfoMap.put("exprDesc2", exprDesc2);
-        rptInfoMap.put("range3", range3);
-        rptInfoMap.put("corpName3", corpName3);
-        rptInfoMap.put("exprDesc3", exprDesc3);
-        rptInfoMap.put("range4", range4);
-        rptInfoMap.put("corpName4", corpName4);
-        rptInfoMap.put("exprDesc4", exprDesc4);
+        // 군경력 - rpt 파일에서 사용하지 않고 있음
+        langCareerInfo.put("mltrServName", StringUtil.EMPTY_STRING);
+        langCareerInfo.put("mltrJoinDay", StringUtil.EMPTY_STRING);
+        langCareerInfo.put("mltrDschDay", StringUtil.EMPTY_STRING);
+        langCareerInfo.put("mltrRankName", StringUtil.EMPTY_STRING);
 
-        // TODO
-        rptInfoMap.put("mltrServName", StringUtil.EMPTY_STRING);
-        rptInfoMap.put("mltrJoinDay", StringUtil.EMPTY_STRING);
-        rptInfoMap.put("mltrDschDay", StringUtil.EMPTY_STRING);
-        rptInfoMap.put("mltrRankName", StringUtil.EMPTY_STRING);
 
-        // TODO
+        return langCareerInfo;
+    }
 
+    private Map<String,Object> getDocumentInfo(int applNo) {
+        Map<String, Object> documentInfo = new HashMap<String, Object>();
+        ExecutionContext ecDocument = documentService.retrieveDocument(applNo);
+        Document document = ((Map<String, Document>)ecDocument.getData()).get("document");
+        List<TotalApplicationDocumentContainer> documentContainerList = document.getDocumentContainerList();
         List<TotalApplicationDocument> docList = new ArrayList<TotalApplicationDocument>();
         getDocList(documentContainerList, docList);
-        rptInfoMap.put("documents", docList);
-
-        String appId = "지원 미완료";
-
-        if( application.getApplId() != null && !application.getApplId().equals(StringUtil.EMPTY_STRING)){
-            appId = application.getApplId();
-        }
-        rptInfoMap.put("applId", appId);
-
-        ecResult.setData(rptInfoMap);
-
-        return ecResult;
+        documentInfo.put("documents", docList);
+        return documentInfo;
     }
+
 
     private void getDocList(List<TotalApplicationDocumentContainer> list,
                             List<TotalApplicationDocument> docList) {

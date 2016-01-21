@@ -1,5 +1,7 @@
 package com.apexsoft.ysprj.applicants.application.domain;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Date;
 
 public class Application {
@@ -1327,5 +1329,9 @@ public class Application {
 
     public boolean isCompleted() {
         return ApplicationStatus.COMPLETED.codeVal().equals(getApplStsCode());
+    }
+
+    public boolean isApplIdIssued() {
+        return !StringUtils.isEmpty(getApplId());
     }
 }
