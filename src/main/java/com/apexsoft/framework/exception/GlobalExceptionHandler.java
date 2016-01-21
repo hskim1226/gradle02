@@ -134,6 +134,24 @@ public class GlobalExceptionHandler {
         return ec;
     }
 
+    @ExceptionHandler(PDFNotNumberedException.class)
+    @ResponseBody
+    public ExecutionContext handlePDFNotFoundPDFException(HttpServletRequest request,
+                                                          PDFNotNumberedException e){
+        ExecutionContext ec = e.getExecutionContext();
+        ErrorInfo eInfo = ec.getErrorInfo();
+        logger.error("EncryptedPDFException Occured :: URL=" + request.getRequestURL());
+        logger.error("Message:: " + StringUtil.getEmptyIfNull(ec.getMessage()));
+        logger.error("ErrorCode:: " + StringUtil.getEmptyIfNull(e.getErrorCode()));
+        logger.error("Cause:: " + e.getCause());
+        logger.error("ErrorInfo :: " + (eInfo != null ? eInfo.toString() : ""));
+        logger.error("ErrorType :: " + e.toString());
+        logger.error("FilteredStackTrace ::" +
+                StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
+
+        return ec;
+    }
+
     @ExceptionHandler(FileNoticeException.class)
     @ResponseBody
     public ExecutionContext handleFileNoticeException(HttpServletRequest request,

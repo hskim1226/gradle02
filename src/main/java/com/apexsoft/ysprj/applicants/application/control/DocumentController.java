@@ -33,6 +33,9 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.pdfbox.io.MemoryUsageSetting;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageTree;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +54,7 @@ import java.io.*;
 import java.net.URLEncoder;
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.DataFormatException;
@@ -500,6 +504,9 @@ public class DocumentController {
 //                            }
 //                        }
 
+                        // 넘버링 테스트
+                        File aFile = fileItem.getFile(); // tomcat의 temp 폴더에 있는 임시 파일
+                        pdfService.getPageNumberedPDF(aFile, Integer.parseInt(fileMetaForm.getApplNo()));
 
                         try{
                             uploadDir = getDirectory(fileMetaForm);
@@ -612,9 +619,18 @@ public class DocumentController {
                 }
             }, FileMetaForm.class, TotalApplicationDocument.class);
         } catch (YSBizException ybe) {
-            logger.error("ErrorInfo :: " + ybe.getExecutionContext().getErrorInfo().toString() + ", ErrorType :: " + ybe.toString() + ", SimpleStackTrace ::" +
-                    StackTraceFilter.getFilteredCallStack(ybe.getStackTrace(), "com.apexsoft", false));
+//            logger.error("ErrorInfo :: " + ybe.getExecutionContext().getErrorInfo().toString() + ", ErrorType :: " + ybe.toString() + ", SimpleStackTrace ::" +
+//                    StackTraceFilter.getFilteredCallStack(ybe.getStackTrace(), "com.apexsoft", false));
             ec = ybe.getExecutionContext();
+//            ec.setMessage(MessageResolver.getMessage("U339"));
+//            ec.setErrCode("ERR0052");
+//            Map<String, String> errorInfo = new HashMap<String, String>();
+//            errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+//            errorInfo.put("docSeq", String.valueOf(document.getDocSeq()));
+//            errorInfo.put("AWS Error Message", ace.getMessage());
+//            ec.setErrorInfo(new ErrorInfo(errorInfo));
+            throw new PDFNotNumberedException(ec);
+//            throw new YSBizException(ec);
         }
 
         ec.setData(returnFileMetaForm);

@@ -73,6 +73,12 @@ public class PDFServiceImpl implements PDFService {
     @Value("#{app['s3.storageClass']}")
     private String s3StorageClass;
 
+    @Value("#{app['site.tel']}")
+    private String siteTel;
+
+    @Value("#{app['site.helpdesk']}")
+    private String helpdeskMail;
+
     private static final Logger logger = LoggerFactory.getLogger(PDFServiceImpl.class);
 
     private final static String NAME_SPACE = "com.apexsoft.ysprj.applicants.application.sqlmap.";
@@ -297,13 +303,32 @@ public class PDFServiceImpl implements PDFService {
     /**
      * PDF 파일 우상단에 '현재 페이지/전체 페이지' 텍스트를 추가한다.
      * @param file  쪽수를 매길 파일
+     * @param applNo  원서 키
+     * @return
+     */
+    @Override
+    public File getPageNumberedPDF(File file, int applNo) {
+        return getPageNumberedPDF(file, 1, 1, -1, applNo);
+    }
+
+    @Override
+    public void deletePageNumberedPDF(File file) {
+        String targetFilePath = getTargetFilePath(file);
+        File numberedFile = new File(targetFilePath);
+        if (numberedFile.exists())
+            numberedFile.delete();
+    }
+
+    /**
+     * PDF 파일 우상단에 '현재 페이지/전체 페이지' 텍스트를 추가한다.
+     * @param file  쪽수를 매길 파일
      * @param startPage  쪽수를 매기기 시작할 페이지(0이 아니라 1부터 시작하는 숫자)
      * @param startNo  시작 쪽수 번호
      * @param endNo  전체 쪽수 번호, 0이나 음수를 입력하면 해당 파일의 페이지수를 기준으로 startPage를 고려해서 자동 계산
-     * @param application  원서 정보
+     * @param applNo  원서 키
      * @return
      */
-    private File getPageNumberedPDF(File file, int startPage, int startNo, int endNo, Application application) {
+    private File getPageNumberedPDF(File file, int startPage, int startNo, int endNo, int applNo) {
         ExecutionContext ec = new ExecutionContext();
 //        String applicationFileDirPath = getPdfDirFullPath(application);
 //        String targetFilePath = FilePathUtil.encodeColonSlash(FilePathUtil.getFinalMergedFileFullPath(applicationFileDirPath, application.getApplNo()), "_");
@@ -348,20 +373,28 @@ public class PDFServiceImpl implements PDFService {
             // pdDocument.isEncrypted() == true 인 PDF에도 넘버링이 가능해진다.
             pdDocument.setAllSecurityToBeRemoved(true);
             pdDocument.save(targetFilePath);
-        } catch (IOException e) {
+        } catch (Exception e) {
             Map<String, String> errMap = new HashMap<>();
-            errMap.put("applNo", String.valueOf(application.getApplNo()));
+            errMap.put("applNo", String.valueOf(applNo));
             errMap.put("filePath", targetFilePath);
-            exceptionThrower(errMap, ec);
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(MessageResolver.getMessage("U04530", new Object[]{siteTel, helpdeskMail}));
+            ec.setErrCode("ERR1108");
+            ec.setErrorInfo(new ErrorInfo(errMap));
+            throw new YSBizException(ec);
         } finally {
             if (pdDocument != null) {
                 try {
                     pdDocument.close();
                 } catch (IOException e) {
                     Map<String, String> errMap = new HashMap<>();
-                    errMap.put("applNo", String.valueOf(application.getApplNo()));
+                    errMap.put("applNo", String.valueOf(applNo));
                     errMap.put("filePath", targetFilePath);
-                    exceptionThrower(errMap, ec);
+                    ec.setResult(ExecutionContext.FAIL);
+                    ec.setMessage(MessageResolver.getMessage("U04530", new Object[]{siteTel, helpdeskMail}));
+                    ec.setErrCode("ERR1107");
+                    ec.setErrorInfo(new ErrorInfo(errMap));
+                    throw new YSBizException(ec);
                 }
             }
         }
@@ -419,7 +452,7 @@ public class PDFServiceImpl implements PDFService {
         }
 
         for (File item : userUploadedFiles) {
-            fileList.add(getPageNumberedPDF(item, 1, accumulatedPages, totalPageCounts, application));
+            fileList.add(getPageNumberedPDF(item, 1, accumulatedPages, totalPageCounts, application.getApplNo()));
             accumulatedPages += getPdfPageCount(item, application);
         }
         return fileList;

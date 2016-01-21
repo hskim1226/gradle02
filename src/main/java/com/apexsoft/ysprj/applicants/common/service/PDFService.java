@@ -12,6 +12,10 @@ public interface PDFService {
 
     ExecutionContext genAndUploadPDFByApplicants(Application application);
 
+    File getPageNumberedPDF(File file, int applNo);
+
+    void deletePageNumberedPDF(File file);
+
     ExecutionContext processApplicationFileWithApplId(Application application);
 
     ExecutionContext uploadToS3(String uploadDir, String uploadFileName, File file, boolean isDelete);
