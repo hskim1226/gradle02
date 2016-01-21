@@ -5,6 +5,7 @@ import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
 
 import java.io.*;
 import java.util.List;
+import java.util.zip.Deflater;
 
 /**
  * Created by hanmomhanda on 16. 1. 19.
@@ -22,6 +23,9 @@ public class CommonsZipServiceImpl implements ZipService {
 
         ZipArchiveOutputStream zos = new ZipArchiveOutputStream(os);
         zos.setEncoding("UTF-8");
+        zos.setUseLanguageEncodingFlag(true);
+        zos.setFallbackToUTF8(true);
+        zos.setLevel(Deflater.NO_COMPRESSION);
         ZipArchiveEntry ze;
         int length;
         byte[] buf = new byte[8 * 1024];
