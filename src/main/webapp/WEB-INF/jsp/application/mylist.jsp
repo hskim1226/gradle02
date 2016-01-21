@@ -94,7 +94,7 @@
                                                                 <ul class="dropdown-menu" role="menu">
                                                                     <li><a class="print" data-userid="${item.userId}" data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-admsTypeCode="${item.admsTypeCode}" data-reqType="appl"><spring:message code="L00312"/><%--지원서(PDF)--%></a></li>
                                                                     <li><a class="print" data-userid="${item.userId}" data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-admsTypeCode="${item.admsTypeCode}" data-reqType="adms"><spring:message code="L00313"/><%--수험표(PDF)--%></a></li>
-                                                                    <li><a class="print" data-userid="${item.userId}" data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-admsTypeCode="${item.admsTypeCode}" data-reqType="merged" data-format="pdf"><spring:message code="L00314"/><%--전체 파일(PDF)--%></a></li>
+                                                                    <%--<li><a class="print" data-userid="${item.userId}" data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-admsTypeCode="${item.admsTypeCode}" data-reqType="merged" data-format="pdf"><spring:message code="L00314"/>&lt;%&ndash;전체 파일(PDF)&ndash;%&gt;</a></li>--%>
                                                                 </ul>
                                                             </div>
                                                         </div>
