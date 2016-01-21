@@ -1,5 +1,7 @@
 package com.apexsoft.ysprj.applicants.common.service;
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.S3Object;
 import com.apexsoft.framework.birt.spring.core.BirtEngineFactory;
 import com.apexsoft.framework.birt.spring.core.CustomAbstractSingleFormatBirtProcessor;
 import com.apexsoft.framework.birt.spring.core.CustomPdfSingleFormatBirtSaveToFile;
@@ -7,6 +9,7 @@ import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
+import com.apexsoft.framework.persistence.file.exception.PhotoDownloadException;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.AcademyService;
 import com.apexsoft.ysprj.applicants.application.service.BasisService;
@@ -16,6 +19,7 @@ import com.apexsoft.ysprj.applicants.common.domain.CommonCode;
 import com.apexsoft.ysprj.applicants.common.domain.Country;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.slf4j.Logger;
@@ -27,8 +31,10 @@ import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.ServletContext;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLEncoder;
 import java.util.*;
 
 /**
@@ -69,8 +75,17 @@ public class BirtServiceImpl implements BirtService {
     @Value("#{app['path.static']}")
     private String STATIC_PATH;
 
+    @Value("#{app['s3.bucketName']}")
+    private String s3BucketName;
+
     @Value("#{app['s3.midPath']}")
     private String s3MidPath;
+
+    @Value("#{app['site.tel']}")
+    private String siteTel;
+
+    @Value("#{app['site.helpdesk']}")
+    private String helpdeskMail;
 
     private Application application;
 
@@ -92,6 +107,9 @@ public class BirtServiceImpl implements BirtService {
         String fullPathToRptdesignFile = servletContext.getRealPath(pathToRptdesignFile);
         map.put("rptdesignFullPath", fullPathToRptdesignFile);
 
+        File photoFile = getPhotoFromS3(application.getApplNo());
+        map.put("photoUri", photoFile.getAbsolutePath());
+
         IReportEngine reportEngine = birtEngineFactory.getObject();
         CustomAbstractSingleFormatBirtProcessor birtProcessor = new CustomPdfSingleFormatBirtSaveToFile();
         birtProcessor.setBirtEngine(reportEngine);
@@ -109,10 +127,32 @@ public class BirtServiceImpl implements BirtService {
 
             ecError.setErrorInfo(new ErrorInfo(errorInfo));
             throw new YSBizException(ecError);
+        } finally {
+            if (photoFile.exists()) {
+                photoFile.delete();
+            }
         }
         return ec;
     }
 
+    private File getPhotoFromS3(Integer applNo) {
+        File photo = null;
+        String s3FullPath = documentService.retrievePhotoUri(applNo);
+        try {
+            String s3objectKey = s3FullPath.substring(s3FullPath.indexOf(s3MidPath));
+            AmazonS3Client s3Client = new AmazonS3Client();
+            S3Object object = s3Client.getObject(s3BucketName, s3objectKey);
+            InputStream inputStream = object.getObjectContent();
+            photo = new File(BASE_DIR, s3objectKey);
+            FileUtils.copyInputStreamToFile(inputStream, photo);
+        } catch (Exception e) {
+            ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+            ec.setMessage(MessageResolver.getMessage("U06107", new Object[]{siteTel, helpdeskMail}));
+            ec.setErrCode("ERR1109");
+            throw new PhotoDownloadException(ec);
+        }
+        return photo;
+    }
 
     //원서 정보 수험표 정보 모두 여기서 추출
     @Override
@@ -272,8 +312,6 @@ public class BirtServiceImpl implements BirtService {
         CommonCode korEmrgRela = commonService.retrieveCommonCodeByCodeGroupCode("EMER_CONT", StringUtil.getEmptyIfNull(applicationForeigner.getKorEmrgRela()));
         String korEmrgRelaVal = korEmrgRela != null ? korEmrgRela.getCodeVal() : StringUtil.EMPTY_STRING;
         basisInfo.put("korEmrgRela", korEmrgRelaVal);
-
-        basisInfo.put("photoUri", documentService.retrievePhotoUri(application.getApplNo()));
 
         String currWrkpName = StringUtil.getEmptyIfNull(applicationGeneral.getCurrWrkpName());
         String currWrkpTel = StringUtil.getEmptyIfNull(applicationGeneral.getCurrWrkpTel());

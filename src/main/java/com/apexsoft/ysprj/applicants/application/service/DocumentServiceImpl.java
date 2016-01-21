@@ -1041,15 +1041,16 @@ public class DocumentServiceImpl implements DocumentService {
 
         rList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectApplicationDocumentByDocumentType", aParam, TotalApplicationDocument.class );
         if( rList != null && rList.size()>0 ) {
-            try {
+//            try { // 사진을 S3링크로 가져오지 않고 로컬로 직접 다운로드해서 사용하는 방식으로 변경 - URLEncoding 불필요
                 urlEncodedPhotoURL =  new StringBuilder()
                         .append(s3URL).append('/')
                         .append(s3BucketName).append('/')
-                        .append(URLEncoder.encode(rList.get(0).getFilePath(), "UTF-8"))
+//                        .append(URLEncoder.encode(rList.get(0).getFilePath(), "UTF-8"))
+                        .append(rList.get(0).getFilePath())
                         .toString();
-            } catch (UnsupportedEncodingException e) {
-
-            }
+//            } catch (UnsupportedEncodingException e) {
+//
+//            }
         }
 
         return urlEncodedPhotoURL;

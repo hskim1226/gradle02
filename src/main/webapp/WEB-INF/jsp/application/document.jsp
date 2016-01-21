@@ -1237,7 +1237,16 @@
                     url: '${contextPath}/application/document/generate/appl',
                     data: formData,
                     success: function (data) {
-                        var ec = JSON.parse(data);
+
+                        var ec;
+                        try {
+                            ec = JSON.parse(data);
+                        } catch(Error) {
+                            alert('<spring:message code="U06108" arguments="${app.getProperty(\"site.tel\")}, ${app.getProperty(\"site.helpdesk\")}"/>'); <%-- 원서 생성에 실패했습니다. 관리자에게 문의해주세요. --%>
+                            $('#overlay').hide();
+                            document.getElementById('spinner').style.display = 'none';
+                            throw "GenFail";
+                        }
                         if (ec.result == 'SUCCESS') {
                             if (console) {
                                 console.log('원서 파일 정보 저장 및 원서 파일 생성 완료');
@@ -1273,10 +1282,10 @@
                         }
                     },
                     error: function (data, status, e) {
+                        $('#overlay').hide();
                         if (console) {
                             console.log('원서 파일 정보 저장 및 원서 파일 생성 실패');
                         }
-                        $('#overlay').hide();
                     }
                 });
                 <%-- 지원서 파일 정보 DB 저장 --%>
