@@ -505,8 +505,10 @@ public class DocumentController {
 //                        }
 
                         // 넘버링 테스트
-                        File aFile = fileItem.getFile(); // tomcat의 temp 폴더에 있는 임시 파일
-                        pdfService.getPageNumberedPDF(aFile, Integer.parseInt(fileMetaForm.getApplNo()));
+                        if ("pdf".equals(ext)) {
+                            File aFile = fileItem.getFile(); // tomcat의 temp 폴더에 있는 임시 파일
+                            pdfService.getPageNumberedPDF(aFile, Integer.parseInt(fileMetaForm.getApplNo()));
+                        }
 
                         try{
                             uploadDir = getDirectory(fileMetaForm);
