@@ -1,16 +1,23 @@
 package com.apexsoft.ysprj.user;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.user.domain.User;
 import com.apexsoft.ysprj.user.service.UserAccountService;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
+
+import static org.mockito.Mockito.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,20 +27,34 @@ import java.util.List;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-        "file:src/main/webapp/WEB-INF/config/context-mvc.xml",
-        "classpath*:/spring/context-persistence.xml"
+//        "file:src/main/webapp/WEB-INF/config/context-mvc.xml",
+        "classpath:/spring/test-config.xml"
+//        "classpath*:/spring/context-persistence.xml"
 })
 public class UsersAccountServiceTest {
 
+    @Mock
+    CommonDAO dao;
+
     @Autowired
+    @InjectMocks
     private UserAccountService userAccountService;
+
+    @Before
+    public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
+
+    }
 
     @Test
     public void testRetrieveUserId() {
         User user = new User();
-        user.setName("홍길동");
-//        user.setMailAddr("go2zo@apexsoft.co.kr");
-        ExecutionContext c = userAccountService.retrieveUserIds(user, 3);
+        user.setName("삼돌이");
+
+        ExecutionContext<Object> ec = new ExecutionContext<>();
+
+        when(dao.queryForObject(any(String.class), user, String.class)).thenReturn();
+        ExecutionContext c = userAccountService.retrieveUserId(user);
         Assert.assertNotNull(c.getData());
         printObject(c.getData());
     }

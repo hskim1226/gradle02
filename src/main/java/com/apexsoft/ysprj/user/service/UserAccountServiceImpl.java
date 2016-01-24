@@ -101,27 +101,6 @@ public class UserAccountServiceImpl implements UserAccountService {
 	}
 
     @Override
-    public ExecutionContext retrieveUserIds(User user, int showLength) { // 예전 go2zo의 테스트용에만 사용됨 무시
-        List<String> list = commonDAO.queryForList(NAME_SPACE + "selectUsername", user, String.class);
-        ExecutionContext context = new ExecutionContext();
-        if( list.size() > 0 ) {
-            String[] userIdArray = new String[list.size()];
-            for( int i = 0; i < list.size(); i++ ) {
-                String userId = list.get(i);
-                int show = showLength == -1 ? userId.length() : showLength;
-                userId = userId.substring(0, showLength) + StringUtils.repeat("*", userId.length() - showLength);
-                userIdArray[i] = userId;
-            }
-            context.setData(userIdArray);
-            context.setMessage( "다음의 ID가 검색되었습니다." );
-        } else {
-            context.setResult( ExecutionContext.FAIL );
-            context.setMessage( "입력하신 정보와 일치하는 ID가 없습니다. ");
-        }
-        return context;
-    }
-
-    @Override
     public ExecutionContext retrieveUserId(User user) {
         ExecutionContext ec = new ExecutionContext();
         User result = commonDAO.queryForObject(NAME_SPACE + "findUserId", user, User.class);

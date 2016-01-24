@@ -35,18 +35,18 @@ import java.util.Enumeration;
  * Created by hanmomhanda on 15. 8. 6.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@PropertySource("classpath:/properties/config/app.new.properties")
+@PropertySource("classpath:/properties/config/app.dev.properties")
 @ContextConfiguration(
         locations = {
 //            "file:src/main/webapp/WEB-INF/config/context-mvc.xml",
 //            "classpath:/spring/context-common.xml",
+            "classpath:/spring/test-usercontroller.xml",
             "classpath:/spring/context-crypto.xml",
             "classpath:/spring/context-environment.xml",
             "classpath:/spring/context-ehcache.xml",
             "classpath:/ehcache/ehcache.xml",
             "classpath:/mybatis/mybatis-config.xml",
             "classpath:/spring/context-repository.xml",
-            "classpath:/spring/test-usercontroller.xml",
             "classpath:/spring/test-security.xml"
         }
 )

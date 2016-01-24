@@ -1,30 +1,21 @@
 package com.apexsoft.ysprj.applicants.application.service;
 
-import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
-import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
-import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
-import org.apache.commons.io.output.StringBuilderWriter;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -34,7 +25,7 @@ import java.util.zip.ZipOutputStream;
 @RunWith(SpringJUnit4ClassRunner.class)
 //@WebAppConfiguration
 @ContextConfiguration(locations = {
-        "file:src/main/webapp/WEB-INF/config/test-config.xml"
+        "file:../../../../../../../../main/resources/spring/test-config.xml"
 })
 @ActiveProfiles("dev")
 public class PDFTest {

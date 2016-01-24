@@ -45,9 +45,6 @@ public class DocumentServiceImpl implements DocumentService {
     @Autowired
     private ServletContext context;
 
-    @Autowired
-    private PaymentService paymentService;
-
     @Value("#{app['file.baseDir']}")
     private String BASE_DIR;
 

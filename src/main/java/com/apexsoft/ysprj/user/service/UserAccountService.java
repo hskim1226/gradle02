@@ -30,8 +30,6 @@ public interface UserAccountService {
 
     ExecutionContext modifyUser( User user);
 
-    ExecutionContext retrieveUserIds(User user, int showLength);
-
     ExecutionContext retrieveUserId(User user);
 
     ExecutionContext retrievePwdLink(User user);
