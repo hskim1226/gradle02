@@ -53,7 +53,7 @@ public class UsersAccountServiceTest {
 
         ExecutionContext<Object> ec = new ExecutionContext<>();
 
-        when(dao.queryForObject(any(String.class), user, String.class)).thenReturn();
+        when(dao.queryForObject(any(String.class), user, String.class)).thenReturn("SSS");
         ExecutionContext c = userAccountService.retrieveUserId(user);
         Assert.assertNotNull(c.getData());
         printObject(c.getData());

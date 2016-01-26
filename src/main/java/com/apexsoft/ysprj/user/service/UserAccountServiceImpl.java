@@ -42,6 +42,7 @@ public class UserAccountServiceImpl implements UserAccountService {
         int rUserInsert = 0, rAuthInsert = 0;
 
         user.setEnabled( true );
+
         rUserInsert = commonDAO.insert( NAME_SPACE + "insertUser", user);
 
         Authorities authVO = new Authorities();
@@ -62,35 +63,6 @@ public class UserAccountServiceImpl implements UserAccountService {
             throw new YSBizException(ec);
         }
         return ec;
-    }
-
-    public ExecutionContext registerUser(User user){
-        try {
-            registerUserAndAuthority(user);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return new ExecutionContext();
-	}
-
-    @Override
-    public PageInfo<User> getUserPaginatedList(UserSearchForm userSearchForm) {
-        return commonDAO.queryForPagenatedList(new PageStatement(){
-            /**
-             * @return the totalCountStatementId
-             */
-            public String getTotalCountStatementId() {
-                return NAME_SPACE+"selectTotalCount";
-            }
-
-            /**
-             * @return the dataStatementId
-             */
-            public String getDataStatementId() {
-                return NAME_SPACE+"selectUserList";
-            }
-        }, new UserSearchForm(), userSearchForm.getPageNum(), userSearchForm.getPageRows() );
-
     }
 
     @Override

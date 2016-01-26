@@ -12,21 +12,11 @@ public interface UserAccountService {
 
     ExecutionContext registerUserAndAuthority(User user);
 
-    ExecutionContext registerUser(User user);
-
     User retrieveUser(String userName);
-
-//    Integer resetPassword(User user);
 
     Integer changePassword(User user);
 
     List<SimpleGrantedAuthority> retrieveAuthorities(String userName);
-
-    // List<User> retrieveUserList() throws Exception;
-
-    PageInfo<User> getUserPaginatedList(UserSearchForm userSearchForm);
-
-    //void modifyUsersGrade(String[] usernames, String[] grades);
 
     ExecutionContext modifyUser( User user);
 
