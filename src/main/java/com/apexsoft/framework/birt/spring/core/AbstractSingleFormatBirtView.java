@@ -458,7 +458,7 @@ abstract public class AbstractSingleFormatBirtView extends AbstractUrlBasedView 
         Assert.notNull(request, "the HttpServletRequest must be non-null");
         Assert.hasText(name, "the parameter name must be specified");
         String value = getParameter(request, name);
-        Map<String, String[]> paramMap = request.getParameterMap();
+        Map paramMap = request.getParameterMap();
         if (paramMap == null || !paramMap.containsKey(name)) {
             value = defaultValue;
         }
@@ -472,7 +472,7 @@ abstract public class AbstractSingleFormatBirtView extends AbstractUrlBasedView 
     private boolean doesReportParameterExist(HttpServletRequest request, String name) throws Throwable {
         Assert.notNull(request, "the HttpServletRequest must not be null");
         Assert.hasText(name, "the name of the parameter must not be null");
-        Map<String, String[]> paramMap = request.getParameterMap();
+        Map paramMap = request.getParameterMap();
         Set<String> nullParams = getParameterValues(request, isNullParameterName);
         boolean exists = false;
 

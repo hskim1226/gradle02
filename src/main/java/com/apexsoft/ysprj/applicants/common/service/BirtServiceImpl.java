@@ -283,8 +283,8 @@ public class BirtServiceImpl implements BirtService {
                 ExecutionContext ecEncr = new ExecutionContext(ExecutionContext.FAIL);
                 ecEncr.setMessage(MessageResolver.getMessage("U347"));
                 ecEncr.setErrCode("ERR0043");
-                Map<String, Object> errMap = new HashMap<String, Object>();
-                errMap.put("applNo", application.getApplNo());
+                Map<String, String> errMap = new HashMap<>();
+                errMap.put("applNo", String.valueOf(application.getApplNo()));
                 errMap.put("userId", application.getUserId());
                 errMap.put("situation", "Error while loading props for En/Decryption");
                 ecEncr.setErrorInfo(new ErrorInfo(errMap));

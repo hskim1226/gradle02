@@ -220,10 +220,10 @@ public class PreApplicationController {
      */
     @RequestMapping(value = "/recReq/preview", method = RequestMethod.POST)
     @ResponseBody
-    public ExecutionContext recommendationPreview(Recommendation recommendation) {
+    public ExecutionContext<Object> recommendationPreview(Recommendation recommendation) {
 
-        ExecutionContext ec = recommendationService.previewRecommendation(recommendation);
-        Mail preview = (Mail) ec.getData();
+        ExecutionContext<Object> ec = recommendationService.previewRecommendation(recommendation);
+        Mail preview = (Mail)ec.getData();
 
         String json = null;
         try {

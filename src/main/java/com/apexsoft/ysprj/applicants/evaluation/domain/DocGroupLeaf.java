@@ -8,7 +8,7 @@ import java.util.List;
 public class DocGroupLeaf extends DocGroup{
 
     private List<MandatoryNAppliedDoc> mandDocList;
-    public DocGroupLeaf(String fileGroupName,int docGrpSeq, String groupMsg ,List mandDocList ){
+    public DocGroupLeaf(String fileGroupName,int docGrpSeq, String groupMsg ,List<MandatoryNAppliedDoc> mandDocList ){
         setSubYn(false);
         setFileGroupName(fileGroupName);
         setDocGrp(docGrpSeq);

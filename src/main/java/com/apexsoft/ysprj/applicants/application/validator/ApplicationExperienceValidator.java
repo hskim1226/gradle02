@@ -17,6 +17,7 @@ public class ApplicationExperienceValidator extends NamedListValidator {
 
     @Override
     public void validate(Object o, Errors errors, String className) {
+        @SuppressWarnings("unchecked")
         List<CustomApplicationExperience> customApplicationExperienceList = (List<CustomApplicationExperience>) o;
         int l = customApplicationExperienceList.size();
         String prefix;

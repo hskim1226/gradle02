@@ -114,7 +114,7 @@ public class PDFController {
                 logger.error(e.getMessage());
                 ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
                 ec.setMessage(MessageResolver.getMessage("U00242"));
-                Map<String, Object> ecMap = new HashMap<String, Object>();
+                Map<String, String> ecMap = new HashMap<>();
                 ecMap.put("bucketName", "[" + s3BucketName + "]");
                 ecMap.put("admsNo", "[" + admsNo + "]");
                 ecMap.put("objectKey", "[" + s3Key + "]");

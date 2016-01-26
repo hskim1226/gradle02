@@ -22,11 +22,11 @@ public class ApplicantListExcelDownloadView extends AbstractExcelView{
 
 
     @Override
-    protected void buildExcelDocument(Map model, HSSFWorkbook workbook,
+    protected void buildExcelDocument(Map<String, Object> model, HSSFWorkbook workbook,
                                       HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-
+        @SuppressWarnings("unchecked")
         List<ApplicantInfoEntire> applList =  (List<ApplicantInfoEntire> )model.get("applList");
         CourseSearchForm searchForm =  (CourseSearchForm)model.get("searchForm");
         String fileName ="";

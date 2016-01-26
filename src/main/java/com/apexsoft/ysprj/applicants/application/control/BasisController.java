@@ -353,8 +353,8 @@ public class BasisController {
         ec = new ExecutionContext(ExecutionContext.FAIL);
         ec.setMessage(MessageResolver.getMessage(msgCode));
         ec.setErrCode(errCode);
-        Map<String, Object> errMap = new HashMap<String, Object>();
-        errMap.put("applNo", application.getApplNo());
+        Map<String, String> errMap = new HashMap<>();
+        errMap.put("applNo", String.valueOf(application.getApplNo()));
         errMap.put("situation", "Error while loading props for En/Decryption");
         ec.setErrorInfo(new ErrorInfo(errMap));
         throw new YSBizException(ec);

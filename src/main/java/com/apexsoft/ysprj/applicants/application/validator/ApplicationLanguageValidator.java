@@ -17,7 +17,7 @@ public class ApplicationLanguageValidator extends NamedListValidator {
 
     @Override
     public void validate(Object o, Errors errors, String name) {
-
+        @SuppressWarnings("unchecked")
         List<TotalApplicationLanguageContainer> applicationLanguageList = (List<TotalApplicationLanguageContainer>) o;
         int l = applicationLanguageList.size();
         String prefix;

@@ -85,14 +85,17 @@ public class BirtEngineFactory implements FactoryBean<IReportEngine>, Applicatio
         Platform.shutdown();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public IReportEngine getObject() {
+
         synchronized (this.monitor) {
 
             if (this.engine != null)
                 return this.engine;
 
             EngineConfig config = new EngineConfig();
+
             config.getAppContext().put(this.exposedSpringApplicationContextKey, this.context);
             config.setLogConfig(null != this.logDirectory ? this.logDirectory.getAbsolutePath() : null, this.logLevel);
             try {

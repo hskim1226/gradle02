@@ -18,6 +18,7 @@ public class TotalApplicationDocumentValidator extends NamedListWithLocaleValida
 
     @Override
     public void validate( Object o, Errors errors, String className, Locale locale) {
+        @SuppressWarnings("unchecked")
         List<TotalApplicationDocumentContainer> documentContainerList = (List<TotalApplicationDocumentContainer>) o;
         int l = documentContainerList.size();
         String prefix;

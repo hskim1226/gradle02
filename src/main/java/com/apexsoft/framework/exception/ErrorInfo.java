@@ -16,16 +16,16 @@ public class ErrorInfo {
 
     }
 
-    public ErrorInfo(Map info) {
+    public ErrorInfo(Map<String, String> info) {
         this.info = info;
     }
 
-    public ErrorInfo(Map info, List<StackTraceElement> stackTrace) {
+    public ErrorInfo(Map<String, String> info, List<StackTraceElement> stackTrace) {
         this.info = info;
         this.stackTraceElementList = stackTrace;
     }
 
-    public ErrorInfo(Map info, Throwable error) {
+    public ErrorInfo(Map<String, String> info, Throwable error) {
         this.info= info;
         this.error = error;
     }

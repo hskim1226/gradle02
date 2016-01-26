@@ -21,6 +21,7 @@ public class LanguageGroupValidator extends NamedListValidator {
 
     @Override
     public void validate(Object o, Errors errors, String className) {
+        @SuppressWarnings("unchecked")
         List<LanguageGroup> languageGroupList = (List<LanguageGroup>) o;
         int M = languageGroupList.size();
         String gPrefix;

@@ -17,6 +17,7 @@ public class ApplicationAcademyValidator extends NamedListValidator {
 
     @Override
     public void validate(Object o, Errors errors, String className) {
+        @SuppressWarnings("unchecked")
         List<CustomApplicationAcademy> applicationAcademyList = (List<CustomApplicationAcademy>) o;
         int l = applicationAcademyList.size();
         String prefix;

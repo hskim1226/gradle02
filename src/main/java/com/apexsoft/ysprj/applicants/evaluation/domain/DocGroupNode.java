@@ -1,15 +1,16 @@
 package com.apexsoft.ysprj.applicants.evaluation.domain;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by DhKim on 2014-09-17.
  */
 public class DocGroupNode extends DocGroup{
 
-    private ArrayList<DocGroup> subGrp = new ArrayList<DocGroup>();
+    private List<DocGroup> subGrp = new ArrayList<DocGroup>();
 
-    public DocGroupNode(String fileGroupName,int docGrpSeq, String groupMsg ,ArrayList subGrp ){
+    public DocGroupNode(String fileGroupName,int docGrpSeq, String groupMsg ,List<DocGroup> subGrp ){
         setSubYn(true);
         setFileGroupName(fileGroupName);
         setDocGrp(docGrpSeq);
@@ -32,10 +33,10 @@ public class DocGroupNode extends DocGroup{
         new DocGroupNode(fileGroupName, docGrp,"");
     }
 
-    public ArrayList<DocGroup> getSubGrp() {
+    public List<DocGroup> getSubGrp() {
         return subGrp;
     }
-    public void setSubGrp(ArrayList<DocGroup> subGrp) {
+    public void setSubGrp(List<DocGroup> subGrp) {
         this.subGrp = subGrp;
     }
 

@@ -41,8 +41,8 @@ public class BasisServiceImpl implements BasisService {
      * @return
      */
     @Override
-    public ExecutionContext retrieveSelectionMap(Basis basis) {
-        ExecutionContext ec = new ExecutionContext();
+    public ExecutionContext<Map<String, Object>> retrieveSelectionMap(Basis basis) {
+        ExecutionContext<Map<String, Object>> ec = new ExecutionContext<>();
         Map<String, Object> ecDataMap = new HashMap<String, Object>();
         Map<String, Object> selectionMap = new HashMap<String, Object>();
 
