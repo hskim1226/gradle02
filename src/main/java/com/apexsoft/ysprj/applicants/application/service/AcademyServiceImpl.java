@@ -6,6 +6,7 @@ import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
+import com.apexsoft.ysprj.applicants.common.domain.CommonCode;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +33,10 @@ public class AcademyServiceImpl implements AcademyService {
     private final String ACAD_SAVED = "00002";           // 학력 저장
 
     @Override
-    public ExecutionContext retrieveSelectionMap(Academy academy) {
-        ExecutionContext ec = new ExecutionContext();
-        Map<String, Object> ecDataMap = new HashMap<String, Object>();
-        Map<String, Object> selectionMap = new HashMap<String, Object>();
+    public ExecutionContext<Map<String, Map<String, List<CommonCode>>>> retrieveSelectionMap(Academy academy) {
+        ExecutionContext<Map<String, Map<String, List<CommonCode>>>> ec = new ExecutionContext<>();
+        Map<String, Map<String, List<CommonCode>>> ecDataMap = new HashMap<>();
+        Map<String, List<CommonCode>> selectionMap = new HashMap<>();
 
         selectionMap.put("grdaTypeList", commonService.retrieveCommonCodeByCodeGroup("GRDA_TYPE"));
         selectionMap.put("gradFormList", commonService.retrieveCommonCodeByCodeGroup("GRAD_FORM"));
@@ -46,12 +47,12 @@ public class AcademyServiceImpl implements AcademyService {
     }
 
     @Override
-    public ExecutionContext retrieveAcademy(int applNo) {
+    public ExecutionContext<Map<String, Object>> retrieveAcademy(int applNo) {
         //TODO retrieveAcademy(Academy academy)와 코드 중복 리팩터링
         String aaMapperSqlId = "CustomApplicationAcademyMapper.selectByApplNoAcadTypeCode";
-        ExecutionContext ec = new ExecutionContext();
+        ExecutionContext<Map<String, Object>> ec = new ExecutionContext<>();
         Map<String, Object> ecDataMap = new HashMap<String, Object>();
-        Map<String, Object> selectionMap = new HashMap<String, Object>();
+        Map<String, List<CommonCode>> selectionMap = new HashMap<>();
 
         Academy academy = new Academy();
 
@@ -70,8 +71,8 @@ public class AcademyServiceImpl implements AcademyService {
         List<CustomApplicationAcademy> graduateList = retrieveInfoListByParamObj(paramForAcademy, aaMapperSqlId, CustomApplicationAcademy.class);
         academy.setGraduateList(setUserDataStatus(graduateList, UserCUDType.UPDATE));
 
-        Map<String, Object> map =  (Map<String, Object>) retrieveSelectionMap(academy).getData();
-        selectionMap.putAll((Map<String, Object>) map.get("selection"));
+        Map<String, Map<String, List<CommonCode>>> map = retrieveSelectionMap(academy).getData();
+        selectionMap.putAll( map.get("selection"));
 
         ec.setResult(ExecutionContext.SUCCESS);
         ecDataMap.put("academy", academy);
@@ -82,11 +83,11 @@ public class AcademyServiceImpl implements AcademyService {
     }
 
     @Override
-    public ExecutionContext retrieveAcademy(Academy academy) {
+    public ExecutionContext<Map<String, Object>> retrieveAcademy(Academy academy) {
         String aaMapperSqlId = "CustomApplicationAcademyMapper.selectByApplNoAcadTypeCode";
-        ExecutionContext ec = new ExecutionContext();
+        ExecutionContext<Map<String, Object>> ec = new ExecutionContext<>();
         Map<String, Object> ecDataMap = new HashMap<String, Object>();
-        Map<String, Object> selectionMap = new HashMap<String, Object>();
+        Map<String, List<CommonCode>> selectionMap = new HashMap<>();
 
         int applNo = academy.getApplication().getApplNo();
 
@@ -105,8 +106,8 @@ public class AcademyServiceImpl implements AcademyService {
         List<CustomApplicationAcademy> graduateList = retrieveInfoListByParamObj(paramForAcademy, aaMapperSqlId, CustomApplicationAcademy.class);
         academy.setGraduateList(setUserDataStatus(graduateList, UserCUDType.UPDATE));
 
-        Map<String, Object> map =  (Map<String, Object>) retrieveSelectionMap(academy).getData();
-        selectionMap.putAll((Map<String, Object>) map.get("selection"));
+        Map<String, Map<String, List<CommonCode>>> map = retrieveSelectionMap(academy).getData();
+        selectionMap.putAll(map.get("selection"));
 
         ec.setResult(ExecutionContext.SUCCESS);
         ecDataMap.put("academy", academy);
@@ -117,9 +118,9 @@ public class AcademyServiceImpl implements AcademyService {
     }
 
     @Override
-    public ExecutionContext saveAcademy(Academy academy) {
+    public ExecutionContext<ApplicationIdentifier> saveAcademy(Academy academy) {
 
-        ExecutionContext ec = new ExecutionContext();
+        ExecutionContext<ApplicationIdentifier> ec = new ExecutionContext<>();
         Map<UserCUDType, Integer> iudMapCollege;
         Map<UserCUDType, Integer> iudMapGraduate;
 
@@ -186,38 +187,6 @@ public class AcademyServiceImpl implements AcademyService {
         }
         return ec;
     }
-
-//    @Override
-//    public ExecutionContext updateAcademy(Application application, List<CustomApplicationAcademy> collegeList, List<CustomApplicationAcademy> graduateList) {
-//        List<ApplicationAcademy> acadList = new ArrayList<ApplicationAcademy>();
-//        acadList.addAll(collegeList);
-//        acadList.addAll(graduateList);
-//
-//        ExecutionContext ec = new ExecutionContext();
-//        int applNo = application.getApplNo();
-//        ParamForAcademy param = new ParamForAcademy();
-//        param.setApplNo(applNo);
-//        param.setOrderBy("ACAD_SEQ");
-//
-//        param.setAcadTypeCode("00002");
-//        int r1 = processAcademy(application, collegeList, applNo, new Date(), param);
-//
-//        param.setAcadTypeCode("00003");
-//        int r2 = processAcademy(application, graduateList, applNo, new Date(), param);//
-//
-//        if ( r1 == collegeList.size() && r2 == graduateList.size() ) {
-//            ec.setResult(ExecutionContext.SUCCESS);
-//            ec.setMessage(MessageResolver.getMessage("U317"));
-//            ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
-//                    application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
-//        } else {
-//            ec.setResult(ExecutionContext.FAIL);
-//            ec.setMessage(MessageResolver.getMessage("U318"));
-//            ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
-//            ec.setErrCode("ERR0013");
-//        }
-//        return ec;
-//    }
 
     /**
      * 현재 DB에서 ACAD LIST 가져와서 HashMap을 만들고

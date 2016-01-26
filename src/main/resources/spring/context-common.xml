@@ -55,8 +55,6 @@
         <property name="messageSourceAccessor" ref="messageSourceAccessor" />
     </bean>
 
-    <bean id="converter" class="com.apexsoft.framework.unused.DomainLocaleConverter" />
-
     <bean id="jacksonObjectMapper"
           class="com.fasterxml.jackson.databind.ObjectMapper"/>
 
