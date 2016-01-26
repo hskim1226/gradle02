@@ -1,7 +1,6 @@
 package com.apexsoft.ysprj.applicants.common.service;
 
 import com.apexsoft.framework.exception.BusinessException;
-import com.apexsoft.framework.unused.Converter;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.common.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +24,6 @@ public class CommonServiceImpl implements CommonService {
     @Autowired
     private HttpServletRequest request;
 
-    @Autowired
-    private Converter converter;
-
     /**
      * 지원 구분(일반, 학연산, 위탁) 조회
      * 지원 구분은 일반 전형에만 학연산, 위탁이 있고
@@ -42,7 +38,6 @@ public class CommonServiceImpl implements CommonService {
             applAttrList = commonDAO.queryForList(NAME_SPACE+"CustomCommonCodeMapper.selectAllByCodeGroup",
                     codeGrp,
                     CommonCode.class);
-//            converter.convert(applAttrList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -60,7 +55,6 @@ public class CommonServiceImpl implements CommonService {
         List<Campus> campusList = null;
         try {
             campusList = commonDAO.queryForList(NAME_SPACE+"CustomCampusMapper.selectAll", Campus.class);
-//            converter.convert(campusList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -79,7 +73,6 @@ public class CommonServiceImpl implements CommonService {
         List<College> collegeList = null;
         try {
             collegeList = commonDAO.queryForList(NAME_SPACE+"CustomCollegeMapper.selectByCampus", campusCode, College.class);
-//            converter.convert(collegeList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -98,7 +91,6 @@ public class CommonServiceImpl implements CommonService {
         List<College> collegeList = null;
         try {
             collegeList = commonDAO.queryForList(NAME_SPACE+"CustomCollegeMapper.selectByAdmsCamp", paramForSetupCourses, College.class);
-//            converter.convert(collegeList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -119,7 +111,6 @@ public class CommonServiceImpl implements CommonService {
             codeNameDepartmentList = commonDAO.queryForList(NAME_SPACE+"CustomDepartmentMapper.selectAllDepartmentByColl",
                     paramForSetupCourses,
                     CodeNameDepartment.class);
-//            converter.convert(codeNameDepartmentList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -140,7 +131,6 @@ public class CommonServiceImpl implements CommonService {
             codeNameDepartmentList = commonDAO.queryForList(NAME_SPACE+"CustomDepartmentMapper.selectByAdmsColl",
                     paramForSetupCourses,
                     CodeNameDepartment.class);
-//            converter.convert(codeNameDepartmentList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -161,7 +151,6 @@ public class CommonServiceImpl implements CommonService {
             codeNameCourseList = commonDAO.queryForList(NAME_SPACE+"CustomCourseMapper.selectGeneralByAdmsDept",
                     paramForSetupCourses,
                     CodeNameCourse.class);
-//            converter.convert(codeNameCourseList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -182,7 +171,6 @@ public class CommonServiceImpl implements CommonService {
             codeNameDetailMajorList = commonDAO.queryForList(NAME_SPACE+"CustomDetailMajorMapper.selectGeneralByAdmsDeptCors",
                     paramForSetupCourses,
                     CodeNameDetailMajor.class);
-//            converter.convert(codeNameDetailMajorList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -203,7 +191,6 @@ public class CommonServiceImpl implements CommonService {
             codeNameCourseList = commonDAO.queryForList(NAME_SPACE+"CustomCourseMapper.selectCommissionByAdmsDept",
                     paramForSetupCourses,
                     CodeNameCourse.class);
-//            converter.convert(codeNameCourseList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -224,7 +211,6 @@ public class CommonServiceImpl implements CommonService {
             codeNameCourseList = commonDAO.queryForList(NAME_SPACE+"CustomCourseMapper.selectNorthDefectorByAdmsDept",
                     paramForSetupCourses,
                     CodeNameCourse.class);
-//            converter.convert(codeNameCourseList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -243,7 +229,6 @@ public class CommonServiceImpl implements CommonService {
         try {
             academyResearchIndustryInstitutionList = commonDAO.queryForList(NAME_SPACE+"CustomAcademyResearchIndustryInstitutionMapper.selectAll",
                     AcademyResearchIndustryInstitution.class);
-//            converter.convert(academyResearchIndustryInstitutionList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -264,7 +249,6 @@ public class CommonServiceImpl implements CommonService {
             codeNameDepartmentList = commonDAO.queryForList(NAME_SPACE+"CustomDepartmentMapper.selectByAdmsAriInst",
                     paramForSetupCourses,
                     CodeNameDepartment.class);
-//            converter.convert(codeNameDepartmentList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -285,7 +269,6 @@ public class CommonServiceImpl implements CommonService {
             codeNameCourseList = commonDAO.queryForList(NAME_SPACE+"CustomCourseMapper.selectAriInstByAdmsDeptAriInst",
                     paramForSetupCourses,
                     CodeNameCourse.class);
-//            converter.convert(codeNameCourseList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -306,7 +289,6 @@ public class CommonServiceImpl implements CommonService {
             codeNameDetailMajorList = commonDAO.queryForList(NAME_SPACE+"CustomDetailMajorMapper.selectAriInstByAdmsDeptAriInstCors",
                     paramForSetupCourses,
                     CodeNameDetailMajor.class);
-//            converter.convert(codeNameDetailMajorList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -327,7 +309,6 @@ public class CommonServiceImpl implements CommonService {
             countryList = commonDAO.queryForList(NAME_SPACE+"CustomCountryMapper.selectCountryListByName",
                     keyword,
                     Country.class);
-//            converter.convert(countryList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -348,7 +329,6 @@ public class CommonServiceImpl implements CommonService {
             country = commonDAO.queryForObject(NAME_SPACE+"CustomCountryMapper.selectCountryByCode",
                     cntrCode,
                     Country.class);
-//            converter.convert(country, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -374,7 +354,6 @@ public class CommonServiceImpl implements CommonService {
             schoolList = commonDAO.queryForList(NAME_SPACE+"CustomSchoolMapper.selectSchoolListByTypeName",
                     paramForSchoolSearch,
                     School.class);
-//            converter.convert(schoolList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -395,7 +374,6 @@ public class CommonServiceImpl implements CommonService {
             commonCodeList = commonDAO.queryForList(NAME_SPACE+"CustomCommonCodeMapper.selectAllByCodeGroup",
                     codeGrp,
                     CommonCode.class);
-//            converter.convert(commonCodeList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -421,7 +399,6 @@ public class CommonServiceImpl implements CommonService {
             commonCode = commonDAO.queryForObject(NAME_SPACE + "CustomCommonCodeMapper.selectByCodeGroupCode",
                     paramForCommonCode,
                     CommonCode.class);
-//            converter.convert(commonCode, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -442,7 +419,6 @@ public class CommonServiceImpl implements CommonService {
             commonCodeList = commonDAO.queryForList(NAME_SPACE + "CustomCommonCodeMapper.selectListByCodeGroupKeyword",
                     paramForCommonCode,
                     CommonCode.class);
-//            converter.convert(commonCodeList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -463,7 +439,6 @@ public class CommonServiceImpl implements CommonService {
             commonCode = commonDAO.queryForObject(NAME_SPACE+"CustomCommonCodeMapper.selectListByCodeGroupCode",
                     paramForCommonCode,
                     CommonCode.class);
-//            converter.convert(commonCode, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -482,58 +457,16 @@ public class CommonServiceImpl implements CommonService {
     @Override
     @Cacheable(value = "campNameByCode")
     public Campus retrieveCampNameByCode(String campCode) {
-//        String campName = null;
         Campus campus = null;
         try {
             campus = commonDAO.queryForObject(NAME_SPACE + "CustomCampusMapper.selectNameByCode",
                     campCode,
                     Campus.class);
-//            converter.convert(campus, request);
-//            campName = campus.getCampName();
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
-//        return campName;
         return campus;
     }
-//    public List<String> retrieveCampNameByCode(String campCode) {
-//        List<String> campName = new ArrayList<String>();
-//        try {
-//            Campus campus = commonDAO.queryForObject(NAME_SPACE + "CustomCampusMapper.selectNameByCode",
-//                    campCode,
-//                    Campus.class);
-////            converter.convert(campus, request);
-//            campName.add(campus.getCampName());
-//            campName.add(campus.getCampNameXxen());
-//        } catch (Exception e) {
-//            throw new BusinessException(e.getMessage(), e);
-//        }
-//        return campName;
-//    }
-
-    /**
-     * 코드로 대학 이름 검색
-     *
-     * @param collCode
-     * @return
-     */
-//    @Override
-//    @Cacheable(value = "collNameByCode")
-//    public String retrieveCollNameByCode(String collCode) {
-//        String collName = null;
-//        try {
-//            College college = commonDAO.queryForObject(NAME_SPACE + "CustomCollegeMapper.selectNameByCode",
-//                    collCode,
-//                    College.class);
-//            converter.convert(college, request);
-//            collName = college.getCollName();
-//        } catch (Exception e) {
-//            throw new BusinessException(e.getMessage(), e);
-//        }
-//        return collName;
-//    }
-
-
 
     /**
      * 코드로 학연산 이름 검색
@@ -566,17 +499,13 @@ public class CommonServiceImpl implements CommonService {
     @Cacheable(value = "deptNameByCode")
     public CodeNameDepartment retrieveDeptNameByCode(String deptCode) {
         CodeNameDepartment codeNameDepartment = null;
-//        String deptName = null;
         try {
             codeNameDepartment = commonDAO.queryForObject(NAME_SPACE + "CustomDepartmentMapper.selectNameByCode",
                     deptCode,
                     CodeNameDepartment.class);
-//            converter.convert(codeNameDepartment, request);
-//            deptName = codeNameDepartment.getDeptName();
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
-//        return deptName;
         return codeNameDepartment;
     }
 
@@ -619,21 +548,6 @@ public class CommonServiceImpl implements CommonService {
         }
         return codeNameDetailMajor;
     }
-
-// Entire에서 사용되던 것으로 삭제
-//    @Override
-//    @Cacheable(value = "langExamByLangCode")
-//    public List<LanguageExam> retrieveLangExamByLangCode(String langCode) {
-//        List<LanguageExam> langExamList = null;
-//        try {
-//            langExamList = commonDAO.queryForList(NAME_SPACE+"CustomLanguageExamMapper.selectByLangCode", langCode, LanguageExam.class);
-//            converter.convert(langExamList, request);
-//        } catch (Exception e) {
-//            throw new BusinessException(e.getMessage(), e);
-//        }
-//        return langExamList;
-//
-//    }
 
     @Override
     public List<Integer> retrieveAvailableApplNos(String userId) {
