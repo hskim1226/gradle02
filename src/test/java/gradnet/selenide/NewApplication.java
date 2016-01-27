@@ -34,7 +34,7 @@ public class NewApplication {
         $("#username").setValue(userId);
         $("#password").setValue(password);
         $("#btnLogin").click();
-
+    }
         // 아래는 특정 페이지만 테스트 할 때는 주석 처리
 //        open(baseUrl);
 //        $("#toAdmsList").click();
@@ -42,7 +42,7 @@ public class NewApplication {
 //        $("#checkAll").scrollTo();
 //        $("#checkAll").click();
 //        j("$('#composePaper').click()");
-    }
+//    }
 
     @Before
     public void setup() throws Exception {
