@@ -41,7 +41,7 @@ public class NewApplication {
 //        $("#toGeneralApply").click();
 //        $("#checkAll").scrollTo();
 //        $("#checkAll").click();
-//        j("$('#composePaper').click()");
+//        J("$('#composePaper').click()");
 //    }
 
     @Before
@@ -69,16 +69,16 @@ public class NewApplication {
         $("#application\\.korName").setValue("장보고");
         $("#application\\.engSur").setValue("jang");
         $("#application\\.engName").setValue("bogo");
-        j("$('#citzCntrCode').val('118')");
-        j("$('#citzCntrCode').change()");
+        J("$('#citzCntrCode').val('118')");
+        J("$('#citzCntrCode').change()");
         $("#application\\.rgstBornDate").scrollTo();
         $("#application\\.rgstBornDate").setValue("900909");
         $("#application\\.rgstEncr").setValue("1111118");
         $("#application\\.gend1").click();
 
         // 지원자 연락처
-        j("$('#zipCode').val('143815')");    // hidden 필드는 selenide setValue()로 변경 불가, jQuery로 변경
-        j("$('#address').val('서울특별시 광진구 강변북로 423')");    // hidden 필드는 jQuery로 변경
+        J("$('#zipCode').val('143815')");    // hidden 필드는 selenide setValue()로 변경 불가, jQuery로 변경
+        J("$('#address').val('서울특별시 광진구 강변북로 423')");    // hidden 필드는 jQuery로 변경
         $("#addressDetail").setValue("777");
         $("#application\\.telNum").setValue("01095147896");
         $("#application\\.mobiNum").setValue("01095147896");
@@ -103,17 +103,17 @@ public class NewApplication {
         driver.findElement(By.linkText("2. 학력 정보")).click();
 
         // 대학 입력
-        j("document.getElementById('collegeList0.schlCntrCode').value = '118'");
-        j("document.getElementById('collegeList0.korCntrName').value = '대한민국'");
-        j("document.getElementById('collegeList0.entrDay').value = '20100301'");
-        j("document.getElementById('collegeList0.grdaDay').value = '20140228'");
+        J("document.getElementById('collegeList0.schlCntrCode').value = '118'");
+        J("document.getElementById('collegeList0.korCntrName').value = '대한민국'");
+        J("document.getElementById('collegeList0.entrDay').value = '20100301'");
+        J("document.getElementById('collegeList0.grdaDay').value = '20140228'");
         $("#collegeList0\\.grdaTypeCode").selectOption("졸업");
         $("#collegeList0\\.degrNo").setValue("grad-874569");
-        j("$('#collegeList0\\\\.schlCode').val('219')");    // hidden 필드는 jQuery로 변경
-        j("$('#collegeList0\\\\.schlName').val('연세대학교')");    // hidden 필드는 jQuery로 변경
-        j("document.getElementById('college-radio-0').scrollTo()");
-//        j("$('#college-radio-0').click()");    // 클릭으로 다른 요소의 값을 변경할 때는 jQuery로 안됨
-        j("document.getElementById('college-radio-0').click()");    // DOM API로 직접 클릭
+        J("$('#collegeList0\\\\.schlCode').val('219')");    // hidden 필드는 jQuery로 변경
+        J("$('#collegeList0\\\\.schlName').val('연세대학교')");    // hidden 필드는 jQuery로 변경
+        J("document.getElementById('college-radio-0').scrollTo()");
+//        J("$('#college-radio-0').click()");    // 클릭으로 다른 요소의 값을 변경할 때는 jQuery로 안됨
+        J("document.getElementById('college-radio-0').click()");    // DOM API로 직접 클릭
         $("#collegeList0\\.collName").setValue("경영대학");
         $("#collegeList0\\.majName").setValue("경영학과");
         $("#collegeList0\\.gradFormCode").selectOption("평량평균");
@@ -138,19 +138,19 @@ public class NewApplication {
             $("#checkLang-0-0-0").click();
         $("#languageGroupList0\\.langList0\\.subContainer0\\.subCode").selectOption("CBT");
         $("#stepStatusTitle").scrollTo();
-        j("document.getElementById('languageGroupList0.langList0.subContainer0.examDay').value = '20141103'"); // readonly는 DOM API로
+        J("document.getElementById('languageGroupList0.langList0.subContainer0.examDay').value = '20141103'"); // readonly는 DOM API로
         $("#languageGroupList0\\.langList0\\.subContainer0\\.langGrad").setValue("280");
 
         // TOEFL - CBT
         if (!$("#checkLang-0-0-2").isSelected())
             $("#checkLang-0-0-2").click();
-        j("document.getElementById('languageGroupList0.langList0.subContainer2.examDay').value = '20141108'"); // readonly는 DOM API로
+        J("document.getElementById('languageGroupList0.langList0.subContainer2.examDay').value = '20141108'"); // readonly는 DOM API로
         $("#languageGroupList0\\.langList0\\.subContainer2\\.langGrad").selectOption("8.0");
 
         // 경력 사항
         $("#saveLangCareer").scrollTo();
-        j("document.getElementById('applicationExperienceList0.joinDay').value = '20100407'"); // readonly는 DOM API로
-        j("document.getElementById('applicationExperienceList0.retrDay').value = '20140831'"); // readonly는 DOM API로
+        J("document.getElementById('applicationExperienceList0.joinDay').value = '20100407'"); // readonly는 DOM API로
+        J("document.getElementById('applicationExperienceList0.retrDay').value = '20140831'"); // readonly는 DOM API로
         $("#applicationExperienceList0\\.corpName").setValue("좋은 회사");
         $("#applicationExperienceList0\\.exprDesc").setValue("마케팅 기획 총괄");
 
@@ -166,10 +166,10 @@ public class NewApplication {
 
         driver.findElement(By.linkText("4. 파일 첨부 및 제출")).click();
 
-        j("scrollBy(0, 1000)");
+        J("scrollBy(0, 1000)");
         $("#docChckYn").click();
 
-        j("scrollByLines(10)");
+        J("scrollByLines(10)");
 
         $("#file-input-0-0-0").setValue("/home/hanmomhanda/YS-DOC/공 백/뚱석이.jpg");
         $("#upload-button-0-0-0").click();
@@ -179,13 +179,13 @@ public class NewApplication {
         $("#upload-button-0-0-1").click();
         assertEquals("파일이 업로드 되었습니다.", closeAlertAndGetItsText());
 
-        j("scrollByLines(10)");
+        J("scrollByLines(10)");
 
         $("#file-input-0-1-0").setValue("/home/hanmomhanda/YS-DOC/2014-국가직무능력표준 개발전문가 모집_작성양식_PDF.pdf");
         $("#upload-button-0-1-0").click();
         assertEquals("파일이 업로드 되었습니다.", closeAlertAndGetItsText());
 
-        j("scrollByLines(20)");
+        J("scrollByLines(20)");
 
         $("#file-input-1-0-0-0").setValue("/home/hanmomhanda/YS-DOC/Modellipse_소개.pdf");
         $("#upload-button-1-0-0-0").click();
@@ -195,7 +195,7 @@ public class NewApplication {
         $("#upload-button-1-0-0-1").click();
         assertEquals("파일이 업로드 되었습니다.", closeAlertAndGetItsText());
 
-        j("scrollByLines(10)");
+        J("scrollByLines(10)");
 
         $("#file-input-2-0").setValue("/home/hanmomhanda/YS-DOC/83호_공학_트렌드_GIT_Flow를_활용한_효과적인_소스_형상_관리_Part_2.pdf");
         $("#upload-button-2-0").click();
@@ -205,7 +205,7 @@ public class NewApplication {
         $("#upload-button-2-1").click();
         assertEquals("파일이 업로드 되었습니다.", closeAlertAndGetItsText());
 
-        j("scrollByLines(10)");
+        J("scrollByLines(10)");
 
         $("#documentContainerList3\\.subContainer0\\.checkedFg").click();
         $("#documentContainerList3\\.subContainer0\\.docItemName").setValue("기타 서류 1");
@@ -219,7 +219,7 @@ public class NewApplication {
         $("#upload-button-3-1").click();
         assertEquals("파일이 업로드 되었습니다.", closeAlertAndGetItsText());
 
-        j("scrollByLines(30)");
+        J("scrollByLines(30)");
 
         // 저장
         $("#saveDocument").click();
@@ -241,7 +241,7 @@ public class NewApplication {
         }
     }
 
-    private static void j(String javaScriptSource) {
+    private static void J(String javaScriptSource) {
         Object obj = js.executeScript(javaScriptSource);
 //        System.out.println(obj);
     }
