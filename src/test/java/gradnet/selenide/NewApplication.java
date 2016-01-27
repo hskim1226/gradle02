@@ -103,17 +103,18 @@ public class NewApplication {
         driver.findElement(By.linkText("2. 학력 정보")).click();
 
         // 대학 입력
-        J("document.getElementById('collegeList0.schlCntrCode').value = '118'");
+//        $("#collegeList0.schlCntrCode").setValue("118");    // hidden 필드는 Selenide API로 세팅 불가
+        J("$('#collegeList0.schlCntrCode').val('118')");
         J("document.getElementById('collegeList0.korCntrName').value = '대한민국'");
         J("document.getElementById('collegeList0.entrDay').value = '20100301'");
-        J("document.getElementById('collegeList0.grdaDay').value = '20140228'");
+        J("document.querySelector('#collegeList0\\\\.grdaDay').value = '20140228'");    // readonly 는 API나 jQuery로 변경 가능
         $("#collegeList0\\.grdaTypeCode").selectOption("졸업");
         $("#collegeList0\\.degrNo").setValue("grad-874569");
-        J("$('#collegeList0\\\\.schlCode').val('219')");    // hidden 필드는 jQuery로 변경
-        J("$('#collegeList0\\\\.schlName').val('연세대학교')");    // hidden 필드는 jQuery로 변경
+        J("$('#collegeList0\\\\.schlCode').val('219')");    // hidden 필드는 DOM API나 jQuery로 변경 가능
+//        $("#collegeList0\\.schlName").setValue("연세대학교");    // readonly 필드는 Selenide API로 세팅 불가
+        J("document.getElementById('collegeList0\\.schlName').value = '연세대학교'");    // readonly 는 API나 jQuery로 변경 가능
         J("document.getElementById('college-radio-0').scrollTo()");
-//        J("$('#college-radio-0').click()");    // 클릭으로 다른 요소의 값을 변경할 때는 jQuery로 안됨
-        J("document.getElementById('college-radio-0').click()");    // DOM API로 직접 클릭
+        J("$('#college-radio-0').click()");    // jQuery로도 가능
         $("#collegeList0\\.collName").setValue("경영대학");
         $("#collegeList0\\.majName").setValue("경영학과");
         $("#collegeList0\\.gradFormCode").selectOption("평량평균");
@@ -138,19 +139,19 @@ public class NewApplication {
             $("#checkLang-0-0-0").click();
         $("#languageGroupList0\\.langList0\\.subContainer0\\.subCode").selectOption("CBT");
         $("#stepStatusTitle").scrollTo();
-        J("document.getElementById('languageGroupList0.langList0.subContainer0.examDay').value = '20141103'"); // readonly는 DOM API로
+        J("document.getElementById('languageGroupList0.langList0.subContainer0.examDay').value = '20141103'"); // readonly는 DOM API나 jQuery로
         $("#languageGroupList0\\.langList0\\.subContainer0\\.langGrad").setValue("280");
 
         // TOEFL - CBT
         if (!$("#checkLang-0-0-2").isSelected())
             $("#checkLang-0-0-2").click();
-        J("document.getElementById('languageGroupList0.langList0.subContainer2.examDay').value = '20141108'"); // readonly는 DOM API로
+        J("document.getElementById('languageGroupList0.langList0.subContainer2.examDay').value = '20141108'"); // readonly는 DOM API나 jQuery로
         $("#languageGroupList0\\.langList0\\.subContainer2\\.langGrad").selectOption("8.0");
 
         // 경력 사항
         $("#saveLangCareer").scrollTo();
-        J("document.getElementById('applicationExperienceList0.joinDay').value = '20100407'"); // readonly는 DOM API로
-        J("document.getElementById('applicationExperienceList0.retrDay').value = '20140831'"); // readonly는 DOM API로
+        J("document.getElementById('applicationExperienceList0.joinDay').value = '20100407'"); // readonly는 DOM API나 jQuery로
+        J("document.getElementById('applicationExperienceList0.retrDay').value = '20140831'"); // readonly는 DOM API나 jQuery로
         $("#applicationExperienceList0\\.corpName").setValue("좋은 회사");
         $("#applicationExperienceList0\\.exprDesc").setValue("마케팅 기획 총괄");
 
