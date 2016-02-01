@@ -1,6 +1,5 @@
 package com.apexsoft.ysprj.applicants.common.service;
 
-import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.*;
 import com.apexsoft.framework.common.vo.ExecutionContext;
@@ -59,6 +58,9 @@ public class PDFServiceImpl implements PDFService {
     FilePersistenceManager s3PersistenceManager;
 
     @Autowired
+    private AmazonS3Client s3Client;
+
+    @Autowired
     ZipService zipService;
 
     @Value("#{app['file.baseDir']}")
@@ -94,7 +96,6 @@ public class PDFServiceImpl implements PDFService {
     public ExecutionContext genAndUploadPDFByApplicants(Application application) {
 
         ExecutionContext ec = new ExecutionContext();
-        AmazonS3 s3 = new AmazonS3Client();
 
         int applNo = application.getApplNo();
         String userId = application.getUserId();
@@ -104,7 +105,7 @@ public class PDFServiceImpl implements PDFService {
         List<ApplicationDocument> pdfList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectPDFByApplNo", param, ApplicationDocument.class);
 
         // 첨부 파일 정보를 토대로 사용자가 업로드한 첨부 파일을 S3에서 다운로드
-        List<ByteArrayOutputStream> userUploadedPdfStreamFromS3List = getByteArrayOutputStreamedPdfListFromS3(s3, pdfList);
+        List<ByteArrayOutputStream> userUploadedPdfStreamFromS3List = getByteArrayOutputStreamedPdfListFromS3(pdfList);
 
         // 원서 미리보기 또는 결제 완료를 통해 로컬에 생성된 지원서 파일 쪽수 계산
 //        File applicationFormFile = new File(getPdfDirFullPath(application), FilePathUtil.getApplicationFormFileName(userId));
@@ -124,14 +125,14 @@ public class PDFServiceImpl implements PDFService {
 
 
         // 파일 합치지 않고 개별 파일마다 페이지 넘버링
-        List<File> userUploadedFiles = getFileListFromS3(s3, pdfList);
+        List<File> userUploadedFiles = getFileListFromS3(pdfList);
         List<File> numberedFiles = getPageNumberedPDFs(userUploadedFiles, application);
 
         // 페이지 넘버링 된 개별 파일을 zip으로 압축
         File zippedFile = getZippedFile(numberedFiles, application);
 
         // zip파일 S3에 업로드
-        uploadToS3(s3, zippedFile, applNo);
+        uploadToS3(zippedFile, applNo);
 
         // 업로드 후 삭제
         zippedFile.delete();
@@ -195,11 +196,10 @@ public class PDFServiceImpl implements PDFService {
      * S3에서 PDF 파일을 다운로드 하고
      * 암호화 되지 않은 PDF 파일은 BAOS에 담아 리스트로 반환
      *
-     * @param s3
      * @param pdfList
      * @return
      */
-    private List<ByteArrayOutputStream> getByteArrayOutputStreamedPdfListFromS3(AmazonS3 s3, List<ApplicationDocument> pdfList) {
+    private List<ByteArrayOutputStream> getByteArrayOutputStreamedPdfListFromS3(List<ApplicationDocument> pdfList) {
         List<ByteArrayOutputStream> unencryptedPdfBaosList = new ArrayList<ByteArrayOutputStream>();
 
         for (ApplicationDocument aDoc : pdfList) {
@@ -209,7 +209,7 @@ public class PDFServiceImpl implements PDFService {
             if (isUserUploadedFile(aDoc)) {
 
                 // S3에 업로드 되어 있는 첨부 파일 다운로드
-                S3Object object = getS3Object(s3, filePath);
+                S3Object object = getS3Object(filePath);
 
                 // 다운로드 한 PDF 파일 내용을 스트림 형태로 여러번 사용하기 위해 BAOS에 담아둔다.
                 InputStream inputStream = object.getObjectContent();
@@ -231,7 +231,7 @@ public class PDFServiceImpl implements PDFService {
     }
 
     // 사용자가 업로드한 파일 다운로드
-    private List<File> getFileListFromS3(AmazonS3 s3, List<ApplicationDocument> pdfList) {
+    private List<File> getFileListFromS3(List<ApplicationDocument> pdfList) {
         List<File> userUploadedFiles = new ArrayList<>();
 
         for (ApplicationDocument aDoc : pdfList) {
@@ -240,7 +240,7 @@ public class PDFServiceImpl implements PDFService {
             // 사용자가 직접 입력한 파일이면 다운로드
             if (isUserUploadedFile(aDoc)) {
                 // S3에 업로드 되어 있는 첨부 파일 다운로드
-                S3Object object = getS3Object(s3, filePath);
+                S3Object object = getS3Object(filePath);
                 String s3FilePath = object.getKey();
                 InputStream inputStream = object.getObjectContent();
                 String targetFilePath = FilePathUtil.getLocalFullPathFromS3Path(fileBaseDir, s3FilePath);
@@ -258,10 +258,10 @@ public class PDFServiceImpl implements PDFService {
     }
 
     // S3에서 파일 다운로드
-    private S3Object getS3Object(AmazonS3 s3, String filePath) {
+    private S3Object getS3Object(String filePath) {
         S3Object object;
         try {
-            object = s3.getObject(new GetObjectRequest(s3BucketName, filePath));
+            object = s3Client.getObject(new GetObjectRequest(s3BucketName, filePath));
         } catch (Exception e) {
             ExecutionContext ec1 = new ExecutionContext(ExecutionContext.FAIL);
             logger.error("Err in " + Thread.currentThread().getStackTrace()[1] +
@@ -462,18 +462,17 @@ public class PDFServiceImpl implements PDFService {
     @Override
     public ExecutionContext processApplicationFileWithApplId(Application application) {
         ExecutionContext ec = new ExecutionContext();
-        AmazonS3 s3 = new AmazonS3Client();
         int applNo = application.getApplNo();
 
         if (ApplicationStatus.COMPLETED.codeVal().equals(application.getApplStsCode())) {
             // 수험표 파일
             File applicationSlipFile = getApplicationSlipFile(application);
-            uploadToS3(s3, applicationSlipFile, applNo); // 수험표는 결제 완료 후에 생성 및 업로드
+            uploadToS3(applicationSlipFile, applNo); // 수험표는 결제 완료 후에 생성 및 업로드
             applicationSlipFile.delete();
 
             // 결제 완료를 통해 로컬에 생성된 지원서
             File applicationFormFile = getApplicationFormFile(application);
-            uploadToS3(s3, applicationFormFile, applNo);
+            uploadToS3(applicationFormFile, applNo);
             applicationFormFile.delete();
         }
         return ec;
@@ -514,18 +513,16 @@ public class PDFServiceImpl implements PDFService {
     }
 
     // S3에 파일 업로드
-    private void uploadToS3(AmazonS3 s3, File file, int applNo) {
+    private void uploadToS3(File file, int applNo) {
 
         ObjectMetadata meta = createS3ObjMetaData(file);
 //        String s3FilePath = getS3FilePath(file); // 이건 합침 파일 올릴때 사용
         String s3FilePath = FilePathUtil.getS3PathFromLocalFullPath(file.getAbsolutePath(), fileBaseDir);
         try {
-            s3.putObject(new PutObjectRequest(s3BucketName,
-                    s3FilePath,
-                    file)
-                    .withMetadata(meta)
-                    .withCannedAcl(CannedAccessControlList.AuthenticatedRead));
-//                    .withCannedAcl(CannedAccessControlList.AuthenticatedRead.PublicRead));
+            s3Client.putObject(new PutObjectRequest(s3BucketName, s3FilePath, file)
+                                   .withMetadata(meta)
+                                   .withCannedAcl(CannedAccessControlList.AuthenticatedRead));
+//                                   .withCannedAcl(CannedAccessControlList.AuthenticatedRead.PublicRead));
         } catch (Exception e) {
             logger.error("Err in uploading final file to S3, s3BucketName : [" + s3BucketName + "], applNo : [" + applNo + "], ObjectKey : [" + FilePathUtil.getS3PathFromLocalFullPath(file.getAbsolutePath(), fileBaseDir) + "]");
             logger.error(e.getMessage());

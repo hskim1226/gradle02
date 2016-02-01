@@ -34,7 +34,6 @@ import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URLEncoder;
 import java.util.*;
 
 /**
@@ -63,6 +62,9 @@ public class BirtServiceImpl implements BirtService {
 
     @Autowired
     ServletContext servletContext;
+
+    @Autowired
+    private AmazonS3Client s3Client;
 
     private static final Logger logger = LoggerFactory.getLogger(BirtServiceImpl.class);
 
@@ -140,7 +142,6 @@ public class BirtServiceImpl implements BirtService {
         String s3FullPath = documentService.retrievePhotoUri(applNo);
         try {
             String s3objectKey = s3FullPath.substring(s3FullPath.indexOf(s3MidPath));
-            AmazonS3Client s3Client = new AmazonS3Client();
             S3Object object = s3Client.getObject(s3BucketName, s3objectKey);
             InputStream inputStream = object.getObjectContent();
             photo = new File(BASE_DIR, s3objectKey);

@@ -1,6 +1,5 @@
 package com.apexsoft.ysprj.applicants.common.control;
 
-import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
@@ -13,7 +12,6 @@ import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
 import com.apexsoft.ysprj.applicants.application.domain.Basis;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
-import com.apexsoft.ysprj.applicants.common.domain.BirtRequest;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import com.apexsoft.ysprj.applicants.common.util.WebUtil;
@@ -52,6 +50,9 @@ public class PDFController {
 
     @Autowired
     WebUtil webUtil;
+
+    @Autowired
+    private AmazonS3Client s3Client;
 
     @Value("#{app['file.baseDir']}")
     private String fileBaseDir;
@@ -105,12 +106,11 @@ public class PDFController {
         List<ApplicationDocument> applPaperInfosList =
                 documentService.retrieveApplicationPaperInfo(applNo); // DB에서 filePath가져온다
         if (applPaperInfosList.size() == 1) {
-            AmazonS3 s3 = new AmazonS3Client();
             S3Object object = null;
             try {
-                object = s3.getObject(new GetObjectRequest(s3BucketName, s3Key));
+                object = s3Client.getObject(new GetObjectRequest(s3BucketName, s3Key));
             } catch (Exception e) {
-                logger.error("Err in s3.getObject FiledDownload in PDFController");
+                logger.error("Err in s3Client.getObject FiledDownload in PDFController");
                 logger.error(e.getMessage());
                 ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
                 ec.setMessage(MessageResolver.getMessage("U00242"));

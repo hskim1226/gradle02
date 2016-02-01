@@ -5,6 +5,7 @@ import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3Object;
 import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.util.concurrent.BlockingQueue;
@@ -16,6 +17,10 @@ import java.util.concurrent.atomic.AtomicLong;
  * Created by hanmomhanda on 15. 11. 12.
  */
 public abstract class AbstractS3Consumer implements Runnable {
+
+    @Autowired
+    private AmazonS3Client s3Client;
+
     protected AtomicInteger count = new AtomicInteger();
     protected AtomicLong totalVolume = new AtomicLong();
 
@@ -73,7 +78,6 @@ public abstract class AbstractS3Consumer implements Runnable {
     @Override
     public void run() {
         BackUpApplDoc backUpApplDoc = null;
-        AmazonS3Client s3Client = new AmazonS3Client();
         try {
             while(true) {
                 backUpApplDoc = applInfoQue.poll(20, TimeUnit.SECONDS);
@@ -95,8 +99,8 @@ public abstract class AbstractS3Consumer implements Runnable {
                         System.out.println("[LOCAL SAVE " + msg);
 //                        s3ObjQue.put(s3Object);
                     } catch (Exception e) {
-                        s3Client = null;
-                        s3Client = new AmazonS3Client();
+//                        s3 = null;
+//                        s3 = AWSWrapper.getS3Client();
                         handleException(e, backUpApplDoc, applInfoQue);
                     }
                 } else if (applInfoQue.peek() == null) {

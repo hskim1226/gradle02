@@ -2,7 +2,6 @@ package com.apexsoft.ysprj.applicants.application.service;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
-import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
@@ -12,7 +11,6 @@ import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
-import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,8 +23,6 @@ import org.springframework.stereotype.Service;
 import javax.servlet.ServletContext;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.*;
 
 /**
@@ -59,6 +55,9 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Value("#{app['constraint.allowSameRRN']}")
     private String allowSameRRN;
+
+    @Autowired
+    private AmazonS3Client s3Client;
 
     private final String APP_NULL_STATUS = "00000";      // 에러일 때 반환값
     private final String FILE_UPLOAD_SAVED = "00004";    // 첨부파일 저장
@@ -358,8 +357,7 @@ public class DocumentServiceImpl implements DocumentService {
             delete = commonDAO.delete( NAME_SPACE + "ApplicationDocumentMapper.deleteByPrimaryKey", oneDocument);
 
             try {
-                AmazonS3 s3 = new AmazonS3Client();
-                s3.deleteObject(s3BucketName, oneDocument.getFilePath());
+                s3Client.deleteObject(s3BucketName, oneDocument.getFilePath());
                 deleteOk = true;
             } catch (AmazonServiceException ase) {
                 deleteOk = false;

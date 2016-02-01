@@ -2,7 +2,6 @@ package com.apexsoft.ysprj.applicants.application.control;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
-import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
@@ -25,23 +24,14 @@ import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
-import com.apexsoft.ysprj.applicants.common.util.StreamUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import com.apexsoft.ysprj.applicants.common.util.WebUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.pdfbox.io.MemoryUsageSetting;
-import org.apache.pdfbox.multipdf.PDFMergerUtility;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageTree;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -51,11 +41,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URLEncoder;
 import java.security.Principal;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.DataFormatException;
@@ -104,6 +96,9 @@ public class DocumentController {
 
     @Autowired
     WebUtil webUtil;
+
+    @Autowired
+    private AmazonS3Client s3Client;
 
     private static final Logger logger = LoggerFactory.getLogger(DocumentController.class);
     private final String TARGET_VIEW = "application/document";
@@ -665,8 +660,7 @@ public class DocumentController {
         ec = documentService.retrieveOneDocument(appDocKey);
         TotalApplicationDocument totalDoc = (TotalApplicationDocument)ec.getData();
 
-        AmazonS3 s3 = new AmazonS3Client();
-        S3Object object = s3.getObject(new GetObjectRequest(bucketName, totalDoc.getFilePath()));
+        S3Object object = s3Client.getObject(new GetObjectRequest(bucketName, totalDoc.getFilePath()));
         InputStream inputStream = object.getObjectContent();
         byte[] bytes = IOUtils.toByteArray(inputStream);
 

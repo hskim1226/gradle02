@@ -2,19 +2,17 @@ package com.apexsoft.framework.persistence.file.manager;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
-import com.amazonaws.regions.Region;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.apexsoft.framework.exception.YSBizException;
-import com.apexsoft.framework.persistence.file.exception.EncryptedPDFException;
 import com.apexsoft.framework.persistence.file.exception.WrongFileFormatException;
 import com.apexsoft.framework.persistence.file.model.FileInfo;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.io.*;
@@ -26,9 +24,9 @@ public class S3PersistenceManagerImpl implements FilePersistenceManager {
 
     private static final Logger logger = LoggerFactory.getLogger(S3PersistenceManagerImpl.class);
 
-    private AmazonS3 s3;
-
-    private Region s3Region;
+//    private AmazonS3 s3;
+//
+//    private Region s3Region;
 
     @Value("#{app['s3.bucketName']}")
     private String s3BucketName;
@@ -39,10 +37,13 @@ public class S3PersistenceManagerImpl implements FilePersistenceManager {
     @Value("#{app['s3.storageClass']}")
     private String s3StorageClass;
 
-    public S3PersistenceManagerImpl(AmazonS3 s3, String s3Region) {
-        this.s3 = s3;
-        this.s3Region = Region.getRegion(Regions.fromName(s3Region));
-    }
+    @Autowired
+    private AmazonS3Client s3Client;
+
+//    public S3PersistenceManagerImpl(AmazonS3 s3, String s3Region) {
+//        this.s3 = s3;
+//        this.s3Region = Region.getRegion(Regions.fromName(s3Region));
+//    }
 
     @Override
     public File read(String fileName) { // 안쓰임
@@ -152,7 +153,7 @@ public class S3PersistenceManagerImpl implements FilePersistenceManager {
 
             uplaodFileInputStream = new ByteArrayInputStream(baos.toByteArray());
 
-            s3.putObject(new PutObjectRequest(s3BucketName, filePath, uplaodFileInputStream, meta)
+            s3Client.putObject(new PutObjectRequest(s3BucketName, filePath, uplaodFileInputStream, meta)
 //                    .withCannedAcl(CannedAccessControlList.AuthenticatedRead.PublicRead));
                     .withCannedAcl(CannedAccessControlList.AuthenticatedRead));
         } catch (IOException e) {

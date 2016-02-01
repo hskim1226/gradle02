@@ -24,7 +24,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * Created by hanmomhanda on 15. 4. 16.
@@ -42,6 +43,9 @@ public class SysAdminServiceImpl implements  SysAdminService {
 
     @Autowired
     private CommonDAO commonDAO;
+
+    @Autowired
+    private AmazonS3Client s3Client;
 
     @Value("#{app['file.baseDir']}")
     private String fileBaseDir;
@@ -165,7 +169,6 @@ public class SysAdminServiceImpl implements  SysAdminService {
     public ExecutionContext downaloadRenamedPictures() {
         ExecutionContext ec = new ExecutionContext();
         List<StudentNumber> studentNumberList = null;
-        AmazonS3Client s3Client = new AmazonS3Client();
         S3Object s3Object = null;
         int count = 0;
 

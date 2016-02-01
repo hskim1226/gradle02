@@ -1,6 +1,5 @@
 package com.apexsoft.ysprj.applicants.application.control;
 
-import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
@@ -9,9 +8,13 @@ import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.common.domain.BirtRequest;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +40,9 @@ public class PostApplicationController {
     @Value("#{app['s3.midPath']}")
     private String s3MidPath;
 
+    @Autowired
+    private AmazonS3Client s3Client;
+
     /**
      * 신청 완료된 원서나 수험표를 S3에서 다운로드
      *
@@ -50,7 +56,6 @@ public class PostApplicationController {
                                HttpServletRequest request,
                                HttpServletResponse response)
             throws IOException {
-        AmazonS3 s3 = new AmazonS3Client();
 
         Application application = birtRequest.getApplication();
         String admsNo = application.getAdmsNo();
@@ -81,7 +86,7 @@ public class PostApplicationController {
             mimeType = "application/octet-stream";
         }
 
-        S3Object object = s3.getObject(new GetObjectRequest(bucketName, FilePathUtil.getS3PathFromLocalFullPath(fileFullPath, fileBaseDir)));
+        S3Object object = s3Client.getObject(new GetObjectRequest(bucketName, FilePathUtil.getS3PathFromLocalFullPath(fileFullPath, fileBaseDir)));
         InputStream inputStream = object.getObjectContent();
         ObjectMetadata objMeta = object.getObjectMetadata();
         byte[] bytes = IOUtils.toByteArray(inputStream);

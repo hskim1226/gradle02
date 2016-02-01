@@ -1,13 +1,5 @@
 package com.apexsoft.ysprj.admin.control;
 
-import java.io.*;
-import java.security.NoSuchAlgorithmException;
-import java.security.Principal;
-
-import javax.annotation.Resource;
-import javax.servlet.ServletContext;
-
-import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
@@ -16,7 +8,6 @@ import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.admin.control.form.CourseSearchPageForm;
 import com.apexsoft.ysprj.admin.domain.ApplicantInfo;
-
 import com.apexsoft.ysprj.admin.service.AdminService;
 import com.apexsoft.ysprj.admin.service.PostApplicationService;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
@@ -24,23 +15,31 @@ import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.common.domain.AdmsNo;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
+import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.security.NoSuchAlgorithmException;
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Value;
-import javax.servlet.http.HttpServletResponse;
-import java.net.URLEncoder;
-import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 
 
 /**
@@ -77,6 +76,9 @@ public class AdminController {
 
     @Autowired
     BirtService birtService;
+
+    @Autowired
+    private AmazonS3Client s3Client;
 
     @Value("#{app['file.baseDir']}")
     private String fileBaseDir;
@@ -298,8 +300,7 @@ public class AdminController {
         if ("merged".equals(type))
             filePath = FilePathUtil.getFinalMergedFileFullPath(s3FilePath, applNo);
 
-        AmazonS3 s3 = new AmazonS3Client();
-        S3Object object = s3.getObject(new GetObjectRequest(s3BucketName, filePath));
+        S3Object object = s3Client.getObject(new GetObjectRequest(s3BucketName, filePath));
         InputStream inputStream = object.getObjectContent();
         byte[] bytes = IOUtils.toByteArray(inputStream);
 
