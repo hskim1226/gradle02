@@ -1191,21 +1191,28 @@
 //                        console.log('======================================================');
                     }
 
-                    if (fileNameWithoutFake.indexOf("\'") > -1 ||
-                            fileNameWithoutFake.indexOf('\"') > -1 ||
-                            fileNameWithoutFake.indexOf('&') > -1 ||
-                            fileNameWithoutFake.indexOf('\\') > -1 ||
-                            fileNameWithoutFake.indexOf('/') > -1 ||
-                            fileNameWithoutFake.indexOf(':') > -1 ||
-                            fileNameWithoutFake.indexOf('~') > -1 ||
-                            fileNameWithoutFake.indexOf('!') > -1 ||
-                            fileNameWithoutFake.indexOf('@') > -1 ||
-                            fileNameWithoutFake.indexOf('#') > -1 ||
-                            fileNameWithoutFake.indexOf('$') > -1 ||
-                            fileNameWithoutFake.indexOf('%') > -1 ||
-                            fileNameWithoutFake.indexOf('^') > -1 ||
-                            fileNameWithoutFake.indexOf('*') > -1 ||
-                            fileNameWithoutFake.indexOf('+') > -1
+                    if (
+                        fileNameWithoutFake.indexOf('\\') > -1 ||
+                        fileNameWithoutFake.indexOf('/') > -1 ||
+                        fileNameWithoutFake.indexOf(':') > -1 ||
+                        fileNameWithoutFake.indexOf('*') > -1 ||
+                        fileNameWithoutFake.indexOf('?') > -1 ||
+                        fileNameWithoutFake.indexOf('\"') > -1 ||
+                        fileNameWithoutFake.indexOf('<') > -1 ||
+                        fileNameWithoutFake.indexOf('>') > -1 ||
+                        fileNameWithoutFake.indexOf('|') > -1
+
+//                fileNameWithoutFake.indexOf("\'") > -1 ||
+//                fileNameWithoutFake.indexOf('~') > -1 ||
+//                fileNameWithoutFake.indexOf('!') > -1 ||
+//                fileNameWithoutFake.indexOf('@') > -1 ||
+//                fileNameWithoutFake.indexOf('#') > -1 ||
+//                fileNameWithoutFake.indexOf('$') > -1 ||
+//                fileNameWithoutFake.indexOf('%') > -1 ||
+//                fileNameWithoutFake.indexOf('^') > -1 ||
+//                fileNameWithoutFake.indexOf('&') > -1 ||
+//                fileNameWithoutFake.indexOf('+') > -1
+
 
                     ) {
                         alert('<spring:message code="U04527"/> : ' + docItemName + " : " + fileNameWithoutFake);  // 업로드 된 파일 이름에 특수 문자가 있습니다.\\n업로드 된 파일을 삭제하고, 업로드 할 파일 이름에서 특수 문자 제거 후 다시 업로드 해주세요.\\n\\n문서명
@@ -1352,21 +1359,27 @@
                 $('#overlay').hide();
                 return false;
             }
-            if (fileNameWithoutFake.indexOf("\'") > -1 ||
-                    fileNameWithoutFake.indexOf('\"') > -1 ||
-                    fileNameWithoutFake.indexOf('&') > -1 ||
-                    fileNameWithoutFake.indexOf('\\') > -1 ||
-                    fileNameWithoutFake.indexOf('/') > -1 ||
-                    fileNameWithoutFake.indexOf(':') > -1 ||
-                    fileNameWithoutFake.indexOf('~') > -1 ||
-                    fileNameWithoutFake.indexOf('!') > -1 ||
-                    fileNameWithoutFake.indexOf('@') > -1 ||
-                    fileNameWithoutFake.indexOf('#') > -1 ||
-                    fileNameWithoutFake.indexOf('$') > -1 ||
-                    fileNameWithoutFake.indexOf('%') > -1 ||
-                    fileNameWithoutFake.indexOf('^') > -1 ||
-                    fileNameWithoutFake.indexOf('*') > -1 ||
-                    fileNameWithoutFake.indexOf('+') > -1
+            if (
+                fileNameWithoutFake.indexOf('\\') > -1 ||
+                fileNameWithoutFake.indexOf('/') > -1 ||
+                fileNameWithoutFake.indexOf(':') > -1 ||
+                fileNameWithoutFake.indexOf('*') > -1 ||
+                fileNameWithoutFake.indexOf('?') > -1 ||
+                fileNameWithoutFake.indexOf('\"') > -1 ||
+                fileNameWithoutFake.indexOf('<') > -1 ||
+                fileNameWithoutFake.indexOf('>') > -1 ||
+                fileNameWithoutFake.indexOf('|') > -1
+
+//                fileNameWithoutFake.indexOf("\'") > -1 ||
+//                fileNameWithoutFake.indexOf('~') > -1 ||
+//                fileNameWithoutFake.indexOf('!') > -1 ||
+//                fileNameWithoutFake.indexOf('@') > -1 ||
+//                fileNameWithoutFake.indexOf('#') > -1 ||
+//                fileNameWithoutFake.indexOf('$') > -1 ||
+//                fileNameWithoutFake.indexOf('%') > -1 ||
+//                fileNameWithoutFake.indexOf('^') > -1 ||
+//                fileNameWithoutFake.indexOf('&') > -1 ||
+//                fileNameWithoutFake.indexOf('+') > -1
             ) {
                 alert('<spring:message code="U04523"/>');  /*파일 이름에 특수 문자가 있습니다.\\n\\n파일 이름에서 특수 문자를 제거해 주세요.*/
                 $('#overlay').hide();

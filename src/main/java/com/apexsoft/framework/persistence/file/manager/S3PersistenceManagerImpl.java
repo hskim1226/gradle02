@@ -24,10 +24,6 @@ public class S3PersistenceManagerImpl implements FilePersistenceManager {
 
     private static final Logger logger = LoggerFactory.getLogger(S3PersistenceManagerImpl.class);
 
-//    private AmazonS3 s3;
-//
-//    private Region s3Region;
-
     @Value("#{app['s3.bucketName']}")
     private String s3BucketName;
 
@@ -39,11 +35,6 @@ public class S3PersistenceManagerImpl implements FilePersistenceManager {
 
     @Autowired
     private AmazonS3Client s3Client;
-
-//    public S3PersistenceManagerImpl(AmazonS3 s3, String s3Region) {
-//        this.s3 = s3;
-//        this.s3Region = Region.getRegion(Regions.fromName(s3Region));
-//    }
 
     @Override
     public File read(String fileName) { // 안쓰임

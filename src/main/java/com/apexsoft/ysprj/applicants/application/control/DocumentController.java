@@ -664,7 +664,9 @@ public class DocumentController {
         InputStream inputStream = object.getObjectContent();
         byte[] bytes = IOUtils.toByteArray(inputStream);
 
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(totalDoc.getOrgFileName(), "UTF-8") + "\"");
+        String downaloadFileName = StringUtil.urlEncodeSpecialCharacter(URLEncoder.encode(totalDoc.getOrgFileName(), "UTF-8"));
+
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + downaloadFileName + "\"");
         response.setHeader("Content-Transfer-Encoding", "binary;");
         response.setHeader("Pragma", "no-cache;");
         response.setHeader("Expires", "-1;");
