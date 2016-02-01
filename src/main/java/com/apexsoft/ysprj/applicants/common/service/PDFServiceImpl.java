@@ -204,6 +204,7 @@ public class PDFServiceImpl implements PDFService {
 
         for (ApplicationDocument aDoc : pdfList) {
             String filePath = FilePathUtil.recoverAmpersand(aDoc.getFilePath());
+            filePath = FilePathUtil.recoverSingleQuote(filePath);
 
             // 사용자가 직접 입력한 파일이면 다운로드
             if (isUserUploadedFile(aDoc)) {
@@ -236,6 +237,7 @@ public class PDFServiceImpl implements PDFService {
 
         for (ApplicationDocument aDoc : pdfList) {
             String filePath = FilePathUtil.recoverAmpersand(aDoc.getFilePath());
+            filePath = FilePathUtil.recoverSingleQuote(filePath);
 
             // 사용자가 직접 입력한 파일이면 다운로드
             if (isUserUploadedFile(aDoc)) {
