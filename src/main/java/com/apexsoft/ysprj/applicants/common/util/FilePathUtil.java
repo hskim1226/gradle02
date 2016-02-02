@@ -164,17 +164,41 @@ public class FilePathUtil {
     }
 
     public static String getZippedFileName(Application application) {
-        String applNo = String.valueOf(application.getApplNo());
+        int applNo = application.getApplNo();
+        String userId = application.getUserId();
+        String applicantEngKorName = application.getApplicantEngKorName();
+
+        String zippedFileName = getZippedFileName(applNo, userId, applicantEngKorName);
+        return zippedFileName;
+    }
+
+    public static String getZippedFileName(int applNo, String userId, String applicantEngKorName) {
+        StringBuilder sb = new StringBuilder()
+                .append(userId)
+                .append("-").append(applicantEngKorName)
+                .append("-").append(String.valueOf(applNo))
+                .append(".zip");
+
+        return sb.toString();
+    }
+
+    public static String getDownloadableZipFileName(Application application) {
+        int applNo = application.getApplNo();
         String userId = application.getUserId();
         String applId = application.getApplId();
         String applicantEngKorName = application.getApplicantEngKorName();
 
+        String zippedFileName = getDownloadableZipFileName(applNo, userId, applId, applicantEngKorName);
+        return zippedFileName;
+    }
+
+    public static String getDownloadableZipFileName(int applNo, String userId, String applId, String applicantEngKorName) {
         StringBuilder sb = new StringBuilder()
-                                .append(userId)
-                                .append("-").append(applicantEngKorName)
-                                .append("-").append(applNo)
-                                .append(StringUtils.isEmpty(applId) ? "" : "-"+applId)
-                                .append(".zip");
+                .append(userId)
+                .append("-").append(applicantEngKorName)
+                .append("-").append(String.valueOf(applNo))
+                .append(StringUtils.isEmpty(applId) ? "" : "-"+applId)
+                .append(".zip");
 
         return sb.toString();
     }

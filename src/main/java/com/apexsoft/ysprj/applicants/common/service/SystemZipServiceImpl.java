@@ -29,4 +29,9 @@ public class SystemZipServiceImpl implements ZipService{
         p2.waitFor();
         return new File(targetZipFileFullPath);
     }
+
+    @Override
+    public File appendFilesToZipFile(List<File> files, File zipFile) throws IOException, InterruptedException {
+        return null;
+    }
 }

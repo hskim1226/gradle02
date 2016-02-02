@@ -10,13 +10,17 @@ import com.apexsoft.ysprj.admin.control.form.CourseSearchPageForm;
 import com.apexsoft.ysprj.admin.domain.ApplicantInfo;
 import com.apexsoft.ysprj.admin.service.AdminService;
 import com.apexsoft.ysprj.admin.service.PostApplicationService;
+import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.common.domain.AdmsNo;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
+import com.apexsoft.ysprj.applicants.common.service.ZipService;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
+import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,12 +36,14 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -66,6 +72,9 @@ public class AdminController {
 
     @Autowired
     private PostApplicationService postApplicationService;
+
+    @Autowired
+    ZipService zipService;
 
     @Autowired
     private AdmsNo admsNo;
@@ -286,49 +295,73 @@ public class AdminController {
     public byte[] fileDownload(@RequestParam("applNo") int applNo,
                                @RequestParam("type") String type,
                                Principal principal, HttpServletResponse response)
-            throws IOException {
+            throws IOException, InterruptedException {
 
-        List<ApplicationDocument> applPaperInfosList =
-                documentService.retrieveApplicationPaperInfo(applNo); // DB에서 filePath가져온다
+        Application application = documentService.getApplication(applNo);
 
-        String applPaperLocalFilePath = applPaperInfosList.get(0).getFilePath();
-        String tmpFileName = applPaperInfosList.get(0).getFileName();
-        String applicantId = tmpFileName.substring(tmpFileName.lastIndexOf('_') + 1, tmpFileName.indexOf(".pdf"));
-        String s3FilePath = FilePathUtil.getS3PathFromLocalFullPath(applPaperLocalFilePath, fileBaseDir);
-        String filePath = null;
+        byte[] bytes = getDownloadableFileAsBytes(application, type);
 
-        if ("slip".equals(type))
-            filePath = FilePathUtil.getApplicationSlipFileFullPath(s3FilePath, applicantId);
-        if ("form".equals(type))
-            filePath = FilePathUtil.getApplicationFormFileFullPath(s3FilePath, applicantId);
-        if ("merged".equals(type))
-            filePath = FilePathUtil.getFinalMergedFileFullPath(s3FilePath, applNo);
-
-        S3Object object = s3Client.getObject(new GetObjectRequest(s3BucketName, filePath));
-        InputStream inputStream = object.getObjectContent();
-        byte[] bytes = IOUtils.toByteArray(inputStream);
-
-        String userId = principal.getName();
         ExecutionContext ecRetrieve = null;
-        ecRetrieve = postApplicationService.checkDocumentRead(applNo, userId);
+        ecRetrieve = postApplicationService.checkDocumentRead(applNo, application.getUserId());
         Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
-        ApplicantInfo appInfo = (ApplicantInfo) map.get("applInfo");
-//         파일명 처리하세요.
-        String fileName = filePath.substring(filePath.lastIndexOf('/') + 1);
-//        if( admsNo.getGeneral().equals(appInfo.getAdmsNo())){
-//            fileName = appInfo.getApplId() + "-" + appInfo.getKorName()+ "-"+ appInfo.getApplAttrName().replaceAll("\\p{Space}", "" )+ "-" + appInfo.getDeptName()+ "-" + appInfo.getCorsTypeName()  + ".pdf";
-//        }else if ( admsNo.getForeign().equals(appInfo.getAdmsNo())){
-//            fileName = appInfo.getApplId()+ "-" + appInfo.getEngName()+"-" + "외국인전형" + "-" + appInfo.getDeptName()+"-" + appInfo.getCorsTypeName()  + ".pdf";
-//        }else{
-//            fileName = appInfo.getApplId() + "-" + appInfo.getKorName()+"-" + "조기전형" + "-" + appInfo.getDeptName()+"-" + appInfo.getCorsTypeName()  + ".pdf";
-//        }
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(fileName, "UTF-8") + "\"");
+
+        String fileName = FilePathUtil.getDownloadableZipFileName(application);
+        String downaloadFileName = StringUtil.urlEncodeSpecialCharacter(URLEncoder.encode(fileName, "UTF-8"));
+
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + downaloadFileName + "\"");
         response.setHeader("Content-Transfer-Encoding", "binary;");
         response.setHeader("Pragma", "no-cache;");
         response.setHeader("Expires", "-1;");
         response.setHeader("Content-Type", "application/octet-stream");
         response.setContentLength(bytes.length);
 
+        return bytes;
+    }
+
+    private byte[] getDownloadableFileAsBytes(Application application, String type) throws IOException, InterruptedException {
+        int applNo = application.getApplNo();
+        String userId = application.getUserId();
+        String localDirPath = FilePathUtil.getUploadDirectoryFullPath(fileBaseDir, s3MidPath, application.getAdmsNo(), userId, applNo);
+        String s3FilePath = FilePathUtil.getS3PathFromLocalFullPath(localDirPath, fileBaseDir);
+        String filePath = null;
+        byte[] bytes = null;
+
+        if ("slip".equals(type)) {
+            filePath = FilePathUtil.getApplicationSlipFileFullPath(s3FilePath, userId);
+            bytes = getBytesFromS3Object(filePath);
+        }
+        else if ("form".equals(type)) {
+            filePath = FilePathUtil.getApplicationFormFileFullPath(s3FilePath, userId);
+            bytes = getBytesFromS3Object(filePath);
+        }
+        else if ("merged".equals(type)) {
+            String applFormfilePath = FilePathUtil.getApplicationFormFileFullPath(s3FilePath, userId);
+            bytes = getBytesFromS3Object(applFormfilePath);
+            File applFormFile = new File(fileBaseDir, applFormfilePath);
+            FileUtils.writeByteArrayToFile(applFormFile, bytes);
+
+            filePath = s3FilePath + "/" + FilePathUtil.getZippedFileName(application);
+            bytes = getBytesFromS3Object(filePath);
+            String fileName = FilePathUtil.getDownloadableZipFileName(application);
+            File zipFile = new File(localDirPath, fileName);
+            FileUtils.writeByteArrayToFile(zipFile, bytes);
+
+            List<File> fileList = new ArrayList<>();
+            fileList.add(applFormFile);
+            File mergedZipFile = zipService.appendFilesToZipFile(fileList, zipFile);
+            bytes = FileUtils.readFileToByteArray(mergedZipFile);
+
+            if (applFormFile.exists()) applFormFile.delete();
+            if (zipFile.exists()) zipFile.delete();
+        }
+
+        return bytes;
+    }
+
+    private byte[] getBytesFromS3Object(String filePath) throws IOException {
+        S3Object object = s3Client.getObject(new GetObjectRequest(s3BucketName, filePath));
+        InputStream inputStream = object.getObjectContent();
+        byte[] bytes = IOUtils.toByteArray(inputStream);
         return bytes;
     }
 

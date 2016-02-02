@@ -9,4 +9,6 @@ import java.util.List;
  */
 public interface ZipService {
     File getZipFile(String targetDir, String zipFileName, List<File> fileList) throws IOException, InterruptedException;
+
+    File appendFilesToZipFile(List<File> files, File zipFile) throws IOException, InterruptedException;
 }
