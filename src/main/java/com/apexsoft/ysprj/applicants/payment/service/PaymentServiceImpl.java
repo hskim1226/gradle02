@@ -963,9 +963,7 @@ public class PaymentServiceImpl implements PaymentService {
         MailInfo mailInfo = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.common.sqlmap.CustomMailMapper.selectApplicationCompletedMailInfo",
                 application.getApplNo(), MailInfo.class);
         String mailAddr = application.getMailAddr();
-        String korName = application.getKorName();
-        boolean hasKorName = korName != null && !StringUtils.isEmpty(korName);
-        String userName = application.getEngName() + " " + application.getEngSur() + (hasKorName ? "(" + application.getKorName() + ")" : "");                    ;
+        String userName = application.getApplicantEngKorName();
         String userId = application.getUserId();
         String campName = mailInfo.getCampName();
         String major = mailInfo.getDeptName();

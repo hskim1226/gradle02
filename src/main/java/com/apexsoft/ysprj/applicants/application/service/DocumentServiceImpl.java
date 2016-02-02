@@ -293,11 +293,25 @@ public class DocumentServiceImpl implements DocumentService {
 //            applUpdate = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
 //        }
 
+        // URLEncoding시 변경되서 넘어오는 &, ' 처리
+        String filePath = oneDocument.getFilePath();
+        String fixedFilePath = FilePathUtil.recoverSingleQuote(FilePathUtil.recoverAmpersand(filePath));
+        oneDocument.setFilePath(fixedFilePath);
+
+        String fileName = oneDocument.getFileName();
+        String fixedFileName = FilePathUtil.recoverSingleQuote(FilePathUtil.recoverAmpersand(fileName));
+        oneDocument.setFileName(fixedFileName);
+
+        String orgFileName = oneDocument.getOrgFileName();
+        String fixedOrgFileName = FilePathUtil.recoverSingleQuote(FilePathUtil.recoverAmpersand(orgFileName));
+        oneDocument.setOrgFileName(fixedOrgFileName);
+
         //기존 파일이 업로드 되어 있는 경우
         if( oneDocument.isFileUploadFg()){
             rUpdate++;
             oneDocument.setModDate(date);
 //            oneDocument.setModId(modId);
+
             update = update + commonDAO.updateItem(oneDocument, NAME_SPACE, "ApplicationDocumentMapper");
 
         }else{
@@ -463,6 +477,13 @@ public class DocumentServiceImpl implements DocumentService {
 
         List<ApplicationDocument> applDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectApplPaperInfoByApplNo", applNo, ApplicationDocument.class);
         return applDocList;
+    }
+
+    @Override
+    public Application getApplication(int applNo) {
+        Application applicationFromDB = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey",
+                applNo, Application.class);
+        return applicationFromDB;
     }
 
     /**

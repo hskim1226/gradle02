@@ -1334,4 +1334,11 @@ public class Application {
     public boolean isApplIdIssued() {
         return !StringUtils.isEmpty(getApplId());
     }
+
+    public String getApplicantEngKorName() {
+        String korName = getKorName();
+        boolean hasKorName = korName != null && !StringUtils.isEmpty(korName);
+        String applicantEngKorName = getEngName() + " " + getEngSur() + (hasKorName ? "(" + getKorName() + ")" : "");
+        return applicantEngKorName;
+    }
 }

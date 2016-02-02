@@ -203,8 +203,7 @@ public class PDFServiceImpl implements PDFService {
         List<ByteArrayOutputStream> unencryptedPdfBaosList = new ArrayList<ByteArrayOutputStream>();
 
         for (ApplicationDocument aDoc : pdfList) {
-            String filePath = FilePathUtil.recoverAmpersand(aDoc.getFilePath());
-            filePath = FilePathUtil.recoverSingleQuote(filePath);
+            String filePath = aDoc.getFilePath();
 
             // 사용자가 직접 입력한 파일이면 다운로드
             if (isUserUploadedFile(aDoc)) {
@@ -496,8 +495,7 @@ public class PDFServiceImpl implements PDFService {
     // 페이지 넘버링 된 파일들의 압축 파일 반환
     private File getZippedFile(List<File> numberedFiles, Application application) {
         String targetDir = getPdfDirFullPath(application);
-        String applId = application.getApplId();
-        String zipFileName = (StringUtils.isEmpty(applId) ? String.valueOf(application.getApplNo()) : applId) + ".zip";
+        String zipFileName = FilePathUtil.getZippedFileName(application);
         File zipFile = null;
 
         try {

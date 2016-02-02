@@ -1,6 +1,7 @@
 package com.apexsoft.ysprj.applicants.common.util;
 
 import com.apexsoft.ysprj.applicants.application.domain.Application;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -160,5 +161,21 @@ public class FilePathUtil {
                 .append("-merged-final.pdf")
                 .toString();
         return pathToPdfDir;
+    }
+
+    public static String getZippedFileName(Application application) {
+        String applNo = String.valueOf(application.getApplNo());
+        String userId = application.getUserId();
+        String applId = application.getApplId();
+        String applicantEngKorName = application.getApplicantEngKorName();
+
+        StringBuilder sb = new StringBuilder()
+                                .append(userId)
+                                .append("-").append(applicantEngKorName)
+                                .append("-").append(applNo)
+                                .append(StringUtils.isEmpty(applId) ? "" : "-"+applId)
+                                .append(".zip");
+
+        return sb.toString();
     }
 }

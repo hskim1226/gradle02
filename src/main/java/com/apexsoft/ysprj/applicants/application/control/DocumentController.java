@@ -275,6 +275,8 @@ public class DocumentController {
         Application application = formData.getApplication();
         int applNo = application.getApplNo();
 
+        application = documentService.getApplication(applNo);
+
         ExecutionContext ecSaveInfo = documentService.saveApplicationPaperInfo(application);
         // 타 대학원 확장 시 TODO - 학교 이름을 파라미터로 받도록
         String admsTypeCode = application.getAdmsTypeCode();

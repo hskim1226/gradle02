@@ -34,5 +34,7 @@ public interface DocumentService {
 
     List<ApplicationDocument> retrieveApplicationPaperInfo(int applNo);
 
+    Application getApplication(int applNo);
+
     ExecutionContext saveAdmissionSlipPaperInfo(Application application);
 }
