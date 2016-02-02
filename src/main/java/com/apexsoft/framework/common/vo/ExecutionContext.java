@@ -92,6 +92,10 @@ public class ExecutionContext <T>{
         this.errorInfo = errorInfo;
     }
 
+    public boolean isSuccessful() {
+        return SUCCESS.equals(result);
+    }
+
     @Override
     public String toString() {
         return "ExecutionContext{" +

@@ -112,6 +112,7 @@ public class AdminController {
     public String searchApplicantsDeptInit()  {
         return "admin/search/applicantsDept";
     }
+
     @RequestMapping(value="/search/applicantsName")
     public String searchApplicantsNameInit()  {
         return "admin/search/applicantsName";
@@ -130,15 +131,16 @@ public class AdminController {
 
         }
         ExecutionContext ecRetrieve = adminService.retrieveApplicantPaginatedListByApplicantInfo(courseSearchPageForm);
-        if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
-            Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
-            mv.addObject("selection", map.get("selection"));
-            mv.addObject("searchPageForm", map.get("searchPageForm"));
-            mv.addObject("applList", map.get("applList"));
-
-        } else {
-            mv = getErrorMV("common/error", ecRetrieve);
-        }
+        mv = setSearchOptions(ecRetrieve, mv);
+//        if (ecRetrieve.isSuccessful()) {
+//            Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
+//            mv.addObject("selection", map.get("selection"));
+//            mv.addObject("searchPageForm", map.get("searchPageForm"));
+//            mv.addObject("applList", map.get("applList"));
+//
+//        } else {
+//            mv = getErrorMV("common/error", ecRetrieve);
+//        }
         return mv;
     }
 
@@ -154,15 +156,16 @@ public class AdminController {
 
         }
         ExecutionContext ecRetrieve = adminService.retrieveApplicantPaginatedListByApplicantInfo(courseSearchPageForm);
-        if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
-            Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
-            mv.addObject("selection", map.get("selection"));
-            mv.addObject("searchPageForm", map.get("searchPageForm"));
-            mv.addObject("applList", map.get("applList"));
-
-        } else {
-            mv = getErrorMV("common/error", ecRetrieve);
-        }
+        mv = setSearchOptions(ecRetrieve, mv);
+//        if (ecRetrieve.isSuccessful()) {
+//            Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
+//            mv.addObject("selection", map.get("selection"));
+//            mv.addObject("searchPageForm", map.get("searchPageForm"));
+//            mv.addObject("applList", map.get("applList"));
+//
+//        } else {
+//            mv = getErrorMV("common/error", ecRetrieve);
+//        }
         return mv;
     }
 
@@ -178,14 +181,15 @@ public class AdminController {
 
         }
         ExecutionContext ecRetrieve = adminService.retrieveApplicantPaginatedListByDept(courseSearchPageForm);
-        if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
-            Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
-            mv.addObject("selection", map.get("selection"));
-            mv.addObject("searchPageForm", map.get("searchPageForm"));
-            mv.addObject("applList", map.get("applList"));
-        } else {
-            mv = getErrorMV("common/error", ecRetrieve);
-        }
+        mv = setSearchOptions(ecRetrieve, mv);
+//        if (ecRetrieve.isSuccessful()) {
+//            Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
+//            mv.addObject("selection", map.get("selection"));
+//            mv.addObject("searchPageForm", map.get("searchPageForm"));
+//            mv.addObject("applList", map.get("applList"));
+//        } else {
+//            mv = getErrorMV("common/error", ecRetrieve);
+//        }
         return mv;
     }
 
@@ -258,7 +262,7 @@ public class AdminController {
 
         }
         ExecutionContext ecRetrieve = adminService.retrieveInitInfo();
-        if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+        if (ecRetrieve.isSuccessful()) {
             Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
             mv.addObject("applCntList", map.get("applCntList"));
             mv.addObject("chgCntList", map.get("chgCntList"));
@@ -355,32 +359,32 @@ public class AdminController {
         return mv;
     }
 
-    /**
-     * 수험표 다운로드
-     * @return
-     * @throws java.io.IOException
-     */
-
-    @RequestMapping(value="/search/applFormDownload", produces = "application/pdf")
-    public ModelAndView applFormDownload(@RequestParam("applNo") int applNo,
-                                         @RequestParam("admsTypeCode") String admsTypeCode,
-                                         Principal principal,
-                                         HttpServletResponse response,
-                                         ModelAndView mv) throws IOException {
-
-        mv.setViewName("pdfSingleFormatBirtDownload");
-
-        Map<String, Object> bigDataMap = null;
-        String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
-        String reportName = "yonsei-adms-" + lang;
-        mv.addObject("reportFormat", REPORT_FORMAT);
-        mv.addObject("reportName", reportName);
-        ExecutionContext ec = birtService.processBirt(applNo, reportName);
-        bigDataMap = (Map<String, Object>)ec.getData();
-        mv.addAllObjects(bigDataMap);
-
-        return mv;
-    }
+//    /**
+//     * 수험표 다운로드
+//     * @return
+//     * @throws java.io.IOException
+//     */
+//
+//    @RequestMapping(value="/search/applFormDownload", produces = "application/pdf")
+//    public ModelAndView applFormDownload(@RequestParam("applNo") int applNo,
+//                                         @RequestParam("admsTypeCode") String admsTypeCode,
+//                                         Principal principal,
+//                                         HttpServletResponse response,
+//                                         ModelAndView mv) throws IOException {
+//
+//        mv.setViewName("pdfSingleFormatBirtDownload");
+//
+//        Map<String, Object> bigDataMap = null;
+//        String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
+//        String reportName = "yonsei-adms-" + lang;
+//        mv.addObject("reportFormat", REPORT_FORMAT);
+//        mv.addObject("reportName", reportName);
+//        ExecutionContext ec = birtService.processBirt(applNo, reportName);
+//        bigDataMap = (Map<String, Object>)ec.getData();
+//        mv.addAllObjects(bigDataMap);
+//
+//        return mv;
+//    }
 
     /**
      * 전체 파일 다운로드
@@ -402,6 +406,18 @@ public class AdminController {
         mv.addObject("searchForm", map.get("searchForm"));
         return mv;
 
+    }
+
+    private ModelAndView setSearchOptions(ExecutionContext ec, ModelAndView mv) {
+        if (ec.isSuccessful()) {
+            Map<String, Object> map = (Map<String, Object>)ec.getData();
+            mv.addObject("selection", map.get("selection"));
+            mv.addObject("searchPageForm", map.get("searchPageForm"));
+            mv.addObject("applList", map.get("applList"));
+        } else {
+            mv = getErrorMV("common/error", ec);
+        }
+        return mv;
     }
 
 }
