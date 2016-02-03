@@ -86,6 +86,8 @@
                                     <li><a href="${contextPath}/sysadmin/form-download-zip">Zip 파일 다운로드</a></li>
                                     <li><a href="${contextPath}/sysadmin/form-backup-all-pdf">결제 완료 전체 원서+첨부파일 다운로드</a></li>
                                     <li><a href="${contextPath}/sysadmin/form-backup-all-slip-pdf">결제 완료 전체 수험표 다운로드</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="${contextPath}/sysadmin/form-generate-pic">학생증 발급을 위한 사진 백업</a></li>
 
                                 </ul>
                             </li>
