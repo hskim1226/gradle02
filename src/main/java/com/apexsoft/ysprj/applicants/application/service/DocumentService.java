@@ -3,7 +3,9 @@ package com.apexsoft.ysprj.applicants.application.service;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by hanmomhanda on 15. 1. 23.
@@ -15,6 +17,8 @@ public interface DocumentService {
     ExecutionContext retrieveDocument(int applNo);
 
     ExecutionContext retrieveDocument(Document document);
+
+    Map<String, byte[]> getDownloadableFileAsBytes(Application application, String type) throws IOException, InterruptedException;
 
     String retrievePhotoUri(int applNo);
 

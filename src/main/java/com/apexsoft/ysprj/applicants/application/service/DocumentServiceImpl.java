@@ -3,6 +3,8 @@ package com.apexsoft.ysprj.applicants.application.service;
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.GetObjectRequest;
+import com.amazonaws.services.s3.model.S3Object;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
@@ -10,7 +12,10 @@ import com.apexsoft.framework.exception.YSBizNoticeException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
+import com.apexsoft.ysprj.applicants.common.service.ZipService;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +26,7 @@ import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.ServletContext;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
@@ -38,6 +44,8 @@ public class DocumentServiceImpl implements DocumentService {
     @Autowired
     private CommonDAO commonDAO;
 
+    @Autowired
+    private ZipService zipService;
     @Autowired
     private ServletContext context;
 
@@ -513,6 +521,67 @@ public class DocumentServiceImpl implements DocumentService {
         ExecutionContext ec =saveOneDocument(aDoc);
 
         return ec;
+    }
+
+    /**
+     * 수험표와 지원자가 업로드 한 파일이 묶여있는 zip 파일 다운로드
+     *
+     * @param application
+     * @param type
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    @Override
+    public Map<String, byte[]> getDownloadableFileAsBytes(Application application, String type) throws IOException, InterruptedException {
+        int applNo = application.getApplNo();
+        String userId = application.getUserId();
+        String localDirPath = FilePathUtil.getUploadDirectoryFullPath(BASE_DIR, s3MidPath, application.getAdmsNo(), userId, applNo);
+        String s3FilePath = FilePathUtil.getS3PathFromLocalFullPath(localDirPath, BASE_DIR);
+        String filePath = null;
+        String fileName = null;
+        byte[] bytes = null;
+
+        if ("slip".equals(type)) {
+            filePath = FilePathUtil.getApplicationSlipFileFullPath(s3FilePath, userId);
+            bytes = getBytesFromS3Object(filePath);
+            fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
+        }
+        else if ("form".equals(type)) {
+            filePath = FilePathUtil.getApplicationFormFileFullPath(s3FilePath, userId);
+            bytes = getBytesFromS3Object(filePath);
+            fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
+        }
+        else if ("merged".equals(type)) {
+            String applFormfilePath = FilePathUtil.getApplicationFormFileFullPath(s3FilePath, userId);
+            bytes = getBytesFromS3Object(applFormfilePath);
+            File applFormFile = new File(BASE_DIR, applFormfilePath);
+            FileUtils.writeByteArrayToFile(applFormFile, bytes);
+
+            filePath = s3FilePath + "/" + FilePathUtil.getZippedFileName(application);
+            bytes = getBytesFromS3Object(filePath);
+            fileName = FilePathUtil.getDownloadableZipFileName(application);
+            File zipFile = new File(localDirPath, fileName);
+            FileUtils.writeByteArrayToFile(zipFile, bytes);
+
+            List<File> fileList = new ArrayList<>();
+            fileList.add(applFormFile);
+            File mergedZipFile = zipService.appendFilesToZipFile(fileList, zipFile);
+            bytes = FileUtils.readFileToByteArray(mergedZipFile);
+
+            if (applFormFile.exists()) applFormFile.delete();
+            if (zipFile.exists()) zipFile.delete();
+        }
+        Map<String, byte[]> downloadableFileInfo = new HashMap<>();
+        downloadableFileInfo.put(fileName, bytes);
+        return downloadableFileInfo;
+    }
+
+    private byte[] getBytesFromS3Object(String filePath) throws IOException {
+        S3Object object = s3Client.getObject(new GetObjectRequest(s3BucketName, filePath));
+        InputStream inputStream = object.getObjectContent();
+        byte[] bytes = IOUtils.toByteArray(inputStream);
+        return bytes;
     }
 
     private List<TotalApplicationDocumentContainer> retrieveManatoryApplicatoinlDocListByApplNo(int applNo) {

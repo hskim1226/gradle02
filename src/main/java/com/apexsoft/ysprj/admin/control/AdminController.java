@@ -292,12 +292,12 @@ public class AdminController {
     @ResponseBody
     public byte[] fileDownload(@RequestParam("applNo") int applNo,
                                @RequestParam("type") String type,
-                               Principal principal, HttpServletResponse response)
+                               HttpServletResponse response)
             throws IOException, InterruptedException {
 
         Application application = documentService.getApplication(applNo);
 
-        Map<String, byte[]> downloadableFileInfo = getDownloadableFileAsBytes(application, type);
+        Map<String, byte[]> downloadableFileInfo = documentService.getDownloadableFileAsBytes(application, type);
         Set<String> key = downloadableFileInfo.keySet();
         Iterator<String> iter = key.iterator();
         String fileName = null;
@@ -318,57 +318,6 @@ public class AdminController {
         response.setHeader("Content-Type", "application/octet-stream");
         response.setContentLength(bytes.length);
 
-        return bytes;
-    }
-
-    private Map<String, byte[]> getDownloadableFileAsBytes(Application application, String type) throws IOException, InterruptedException {
-        int applNo = application.getApplNo();
-        String userId = application.getUserId();
-        String localDirPath = FilePathUtil.getUploadDirectoryFullPath(fileBaseDir, s3MidPath, application.getAdmsNo(), userId, applNo);
-        String s3FilePath = FilePathUtil.getS3PathFromLocalFullPath(localDirPath, fileBaseDir);
-        String filePath = null;
-        String fileName = null;
-        byte[] bytes = null;
-
-        if ("slip".equals(type)) {
-            filePath = FilePathUtil.getApplicationSlipFileFullPath(s3FilePath, userId);
-            bytes = getBytesFromS3Object(filePath);
-            fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
-        }
-        else if ("form".equals(type)) {
-            filePath = FilePathUtil.getApplicationFormFileFullPath(s3FilePath, userId);
-            bytes = getBytesFromS3Object(filePath);
-            fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
-        }
-        else if ("merged".equals(type)) {
-            String applFormfilePath = FilePathUtil.getApplicationFormFileFullPath(s3FilePath, userId);
-            bytes = getBytesFromS3Object(applFormfilePath);
-            File applFormFile = new File(fileBaseDir, applFormfilePath);
-            FileUtils.writeByteArrayToFile(applFormFile, bytes);
-
-            filePath = s3FilePath + "/" + FilePathUtil.getZippedFileName(application);
-            bytes = getBytesFromS3Object(filePath);
-            fileName = FilePathUtil.getDownloadableZipFileName(application);
-            File zipFile = new File(localDirPath, fileName);
-            FileUtils.writeByteArrayToFile(zipFile, bytes);
-
-            List<File> fileList = new ArrayList<>();
-            fileList.add(applFormFile);
-            File mergedZipFile = zipService.appendFilesToZipFile(fileList, zipFile);
-            bytes = FileUtils.readFileToByteArray(mergedZipFile);
-
-            if (applFormFile.exists()) applFormFile.delete();
-            if (zipFile.exists()) zipFile.delete();
-        }
-        Map<String, byte[]> downloadableFileInfo = new HashMap<>();
-        downloadableFileInfo.put(fileName, bytes);
-        return downloadableFileInfo;
-    }
-
-    private byte[] getBytesFromS3Object(String filePath) throws IOException {
-        S3Object object = s3Client.getObject(new GetObjectRequest(s3BucketName, filePath));
-        InputStream inputStream = object.getObjectContent();
-        byte[] bytes = IOUtils.toByteArray(inputStream);
         return bytes;
     }
 
