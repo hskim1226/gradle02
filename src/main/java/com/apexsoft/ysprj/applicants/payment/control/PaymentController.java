@@ -260,9 +260,7 @@ public class PaymentController {
 
         paymentService.updateStatus(payment, paymentResult);
 
-        application = paymentService.retrieveApplication(model.getApplication().getApplNo());
-
-        paymentService.processFiles(application);
+        paymentService.processApplicationFiles(application);
         paymentService.sendNotification(application);
 
         if( respStr.equals("SC0040") ) {

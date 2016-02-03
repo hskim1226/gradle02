@@ -74,10 +74,10 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-spinner"></i><spring:message code="L00015"/><%--시스템 관리자--%></a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="${contextPath}/sysadmin/form-showlist">내 원서 보기</a></li>
+                                    <%--<li class="divider"></li>--%>
+                                    <%--<li><a href="${contextPath}/sysadmin/analyze/pdf">최종 PDF 분석</a></li>--%>
                                     <li class="divider"></li>
-                                    <li><a href="${contextPath}/sysadmin/analyze/pdf">최종 PDF 분석</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="${contextPath}/sysadmin/form-pdf-manual">최종 PDF 생성 - 1건</a></li>
+                                    <li><a href="${contextPath}/sysadmin/form-pdf-manual">결제 완료 건 원서 및 수험표 수동 처리 - 1건</a></li>
                                     <li><a href="${contextPath}/sysadmin/form-pdf-manual-multi">최종 PDF 생성 - 다건</a></li>
                                     <li><a href="${contextPath}/sysadmin/form-batch-re-generate-merge-upload">최종 PDF 생성 - 배치</a></li>
                                     <li class="divider"></li>

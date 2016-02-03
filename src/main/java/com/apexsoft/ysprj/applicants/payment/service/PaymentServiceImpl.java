@@ -489,13 +489,14 @@ public class PaymentServiceImpl implements PaymentService {
         throw new YSBizException(ec);
     }
 
-    @Override
     // 원서 수험표, 생성, S3 업로드
+    @Override
     @Async
-    public void processFiles(Application application) {
+    public void processApplicationFiles(Application application) {
+        Application applicationFromDB = retrieveApplication(application.getApplNo());
         // 비동기이므로 예외 발생 시 로그처리만 수행
         try {
-            genAndUploadApplicationFormAndSlipFile(application);
+            genAndUploadApplicationFormAndSlipFile(applicationFromDB);
         } catch (Exception e) {
             exceptionThrower("U05204", "ERR0307", application.getApplNo());
         }
@@ -505,9 +506,10 @@ public class PaymentServiceImpl implements PaymentService {
     // 결제 완료 메일 발송
     @Async
     public void sendNotification(Application application) {
+        Application applicationFromDB = retrieveApplication(application.getApplNo());
         // 비동기이므로 예외 발생 시 로그처리만 수행
         try {
-            sendMail(application);
+            sendMail(applicationFromDB);
         } catch (Exception e) {
             exceptionThrower("U05204", "ERR0308", application.getApplNo());
         }

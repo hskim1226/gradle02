@@ -1,28 +1,16 @@
 package com.apexsoft.ysprj.applicants.payment.control;
 
-import com.apexsoft.framework.common.vo.ExecutionContext;
-import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
-import com.apexsoft.ysprj.applicants.common.domain.BirtRequest;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPaymentCurStat;
-import com.apexsoft.ysprj.applicants.payment.domain.PaymentResult;
 import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
-import com.apexsoft.ysprj.applicants.payment.service.PaymentServiceImpl;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.methods.PostMethod;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
-import java.util.Map;
 
 /**
  * Created by cosb071 on 15. 1. 22.
@@ -136,8 +124,8 @@ public class CasNoteController {
             // 이미 LG U+ 측에서 입금 확인이 되어 결제 완료되었으므로 DB 처리만 한다.
             Application application = paymentService.registerCasNote(applPay);
 
-            // BIRT 생성, PDF 업로드
-            paymentService.processFiles(application);
+            // 원서 수험표, 생성, S3 업로드
+            paymentService.processApplicationFiles(application);
 
             // 지원 완료 알림 메일 발송
             paymentService.sendNotification(application);

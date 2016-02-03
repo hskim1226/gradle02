@@ -24,7 +24,7 @@ public interface PaymentService {
 
     void updateStatus(Payment payment, PaymentResult paymentResult);
 
-    void processFiles(Application application);
+    void processApplicationFiles(Application application);
 
     void sendNotification(Application application);
 

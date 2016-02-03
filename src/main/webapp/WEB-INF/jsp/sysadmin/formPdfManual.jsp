@@ -20,19 +20,19 @@
             <div class="col-md-offset-2 col-md-8">
                 <div class="inner-container-white">
                     <div class="col-sm-12 text-gray">
-                        <i class="fa fa-check-square-o fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b> PDF 처리</b></span>
+                        <i class="fa fa-check-square-o fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b>결제 완료 건 PDF 처리</b></span>
                     </div>
                     <div class="spacer-small">&nbsp;</div>
                     <div class="col-sm-12 text-gray">
-                        <span style="font-size: 25px; vertical-align: middle; line-height:70px;"><b> 지원번호 기준 PDF 재생성 </b></span>
+                        <span style="font-size: 25px; vertical-align: middle; line-height:70px;"><b> 원서 및 수험표 재생성 및 업로드 </b></span>
                     </div>
                     <div class="form-group required col-sm-12">
                         <div class="col-sm-offset-1 col-sm-10">
                             <div class="col-sm-3 text-gray">
-                                <label for="ApplNo" class="control-label"> APPL_NO : </label>
+                                <label for="applNo" class="control-label"> APPL_NO : </label>
                             </div>
                             <div class="col-sm-9">
-                                <input type="text" id="applNo" name="ApplNo" class="form-control input-text" />
+                                <input type="text" id="applNo" name="applNo" class="form-control input-text" />
                             </div>
                         </div>
                     </div>

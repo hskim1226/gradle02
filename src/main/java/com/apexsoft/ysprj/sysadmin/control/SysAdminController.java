@@ -7,14 +7,9 @@ import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
-import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPaymentTransaction;
-import com.apexsoft.ysprj.applicants.payment.domain.CustomApplicationDocumentResult;
 import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
 import com.apexsoft.ysprj.sysadmin.service.SysAdminService;
-import com.snowtide.PDF;
-import com.snowtide.pdf.Document;
-import com.snowtide.pdf.OutputTarget;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -23,9 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.security.Principal;
 import java.util.*;
 
@@ -106,100 +98,101 @@ public class SysAdminController {
      *
      * @param mv
      * @return
+     * @deprecated 서버 로컬에 파일 저장 안함
      */
-    @RequestMapping(value="/analyze/pdf")
-    public ModelAndView analyzeFinalPDF(ModelAndView mv) {
-        long start = System.currentTimeMillis();
-        mv.setViewName("sysadmin/rsltAnalyzePdf");
-        Map<String, Integer> map = new HashMap<String, Integer>();
-        map.put("totalPaidAppl", 0);
-        map.put("fileWithApplId", 0);
-        map.put("fileWithoutApplId", 0);
-        map.put("fileNotFound", 0);
-        String notPaidApplId = "지원 미완료";
-        String applIdTitle = "수험번호";
-        String applIdNone = "NONE";
-        String strY = "Y";
-        String strN = "N";
-
-        List<Application> paidApplList = paymentService.retrieveApplByApplStsCode(ApplicationStatus.COMPLETED.codeVal());
-        commonDAO.delete("com.apexsoft.ysprj.applicants.payment.sqlmap.CustomApplicationDocumentResultMapper.deleteAllRowsFromApplDocRslt");
-        int fileWithApplId = 0, fileWithoutApplId = 0, fileNotFound = 0;
-        List<CustomApplicationDocumentResult> docRsltList = new ArrayList<CustomApplicationDocumentResult>();
-        for (Application appl : paidApplList) {
-            String pdfFileFulPath = FilePathUtil.getFinalMergedFileFullPath(MERGE_TEST_DIR, MID_PATH, appl);
-            File mergedPdfFile = new File(pdfFileFulPath);
-            FileInputStream fis = null;
-
-            try {
-                fis = new FileInputStream(mergedPdfFile);
-
-                Document pdf = PDF.open(mergedPdfFile);
-                StringBuilder text = new StringBuilder(100);
-                pdf.getPage(0).pipe(new OutputTarget(text));
-                String applId = null;
-
-                try {
-                    pdf.close();
-                } catch (IOException e) {
-                    ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
-                    ec.setErrCode("PDFTextStream Document Closing Error");
-                    throw new YSBizException(ec);
-                }
-
-                if (text.indexOf(notPaidApplId) < 0) {
-                    fileWithApplId++;
-                    int posOfapplId = text.indexOf(applIdTitle) + applIdTitle.length() + 5;
-                    int lengthOfapplId = 10;
-                    applId = text.substring(posOfapplId, posOfapplId + lengthOfapplId);
-                }
-                else {
-                    fileWithoutApplId++;
-                    applId = applIdNone;
-                }
-
-                // insert FILE_YN = Y, APPL_ID = $값
-                CustomApplicationDocumentResult aDocRslt = new CustomApplicationDocumentResult();
-                aDocRslt.setApplNo(appl.getApplNo());
-                aDocRslt.setFileYn(strY);
-                aDocRslt.setApplId(applId);
-//                    System.out.println(new StringBuilder().append(aDocRslt.getApplNo()).append(comma).append(aDocRslt.getFileYn()).append(comma).append(aDocRslt.getApplId()));
-                docRsltList.add(aDocRslt);
-            } catch (IOException e) {
-                // insert FILE_YN = N
-                fileNotFound++;
-                CustomApplicationDocumentResult aDocRslt = new CustomApplicationDocumentResult();
-                aDocRslt.setApplNo(appl.getApplNo());
-                aDocRslt.setFileYn(strN);
-                aDocRslt.setApplId(applIdNone);
-//                    System.out.println(new StringBuilder().append(aDocRslt.getApplNo()).append(comma).append(aDocRslt.getFileYn()).append(comma).append(aDocRslt.getApplId()));
-                docRsltList.add(aDocRslt);
-            } finally {
-                if (fis != null) {
-                    try {
-                        fis.close();
-                    } catch (IOException e) {
-                        ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
-                        ec.setErrCode("Error While closing a file");
-                        throw new YSBizException(ec);
-                    }
-                }
-            }
-        }
-        Map<String, Object> dataMap = new HashMap<String, Object>();
-        dataMap.put("paramList", docRsltList);
-        commonDAO.insert("com.apexsoft.ysprj.applicants.payment.sqlmap.CustomApplicationDocumentResultMapper.insertRows", dataMap);
-        map.put("totalPaidAppl", paidApplList.size());
-        map.put("fileWithApplId", fileWithApplId);
-        map.put("fileWithoutApplId", fileWithoutApplId);
-        map.put("fileNotFound", fileNotFound);
-
-        mv.addAllObjects(map);
-        long end = System.currentTimeMillis();
-        System.out.println("PDF Analyzer finished job in " + (end - start) / 1000 + " seconds");
-        mv.addObject("elapsedTime", (end - start) / 1000 + " seconds");
-        return mv;
-    }
+//    @RequestMapping(value="/analyze/pdf")
+//    public ModelAndView analyzeFinalPDF(ModelAndView mv) {
+//        long start = System.currentTimeMillis();
+//        mv.setViewName("sysadmin/rsltAnalyzePdf");
+//        Map<String, Integer> map = new HashMap<String, Integer>();
+//        map.put("totalPaidAppl", 0);
+//        map.put("fileWithApplId", 0);
+//        map.put("fileWithoutApplId", 0);
+//        map.put("fileNotFound", 0);
+//        String notPaidApplId = "지원 미완료";
+//        String applIdTitle = "수험번호";
+//        String applIdNone = "NONE";
+//        String strY = "Y";
+//        String strN = "N";
+//
+//        List<Application> paidApplList = paymentService.retrieveApplByApplStsCode(ApplicationStatus.COMPLETED.codeVal());
+//        commonDAO.delete("com.apexsoft.ysprj.applicants.payment.sqlmap.CustomApplicationDocumentResultMapper.deleteAllRowsFromApplDocRslt");
+//        int fileWithApplId = 0, fileWithoutApplId = 0, fileNotFound = 0;
+//        List<CustomApplicationDocumentResult> docRsltList = new ArrayList<CustomApplicationDocumentResult>();
+//        for (Application appl : paidApplList) {
+//            String pdfFileFulPath = FilePathUtil.getFinalMergedFileFullPath(MERGE_TEST_DIR, MID_PATH, appl);
+//            File mergedPdfFile = new File(pdfFileFulPath);
+//            FileInputStream fis = null;
+//
+//            try {
+//                fis = new FileInputStream(mergedPdfFile);
+//
+//                Document pdf = PDF.open(mergedPdfFile);
+//                StringBuilder text = new StringBuilder(100);
+//                pdf.getPage(0).pipe(new OutputTarget(text));
+//                String applId = null;
+//
+//                try {
+//                    pdf.close();
+//                } catch (IOException e) {
+//                    ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+//                    ec.setErrCode("PDFTextStream Document Closing Error");
+//                    throw new YSBizException(ec);
+//                }
+//
+//                if (text.indexOf(notPaidApplId) < 0) {
+//                    fileWithApplId++;
+//                    int posOfapplId = text.indexOf(applIdTitle) + applIdTitle.length() + 5;
+//                    int lengthOfapplId = 10;
+//                    applId = text.substring(posOfapplId, posOfapplId + lengthOfapplId);
+//                }
+//                else {
+//                    fileWithoutApplId++;
+//                    applId = applIdNone;
+//                }
+//
+//                // insert FILE_YN = Y, APPL_ID = $값
+//                CustomApplicationDocumentResult aDocRslt = new CustomApplicationDocumentResult();
+//                aDocRslt.setApplNo(appl.getApplNo());
+//                aDocRslt.setFileYn(strY);
+//                aDocRslt.setApplId(applId);
+////                    System.out.println(new StringBuilder().append(aDocRslt.getApplNo()).append(comma).append(aDocRslt.getFileYn()).append(comma).append(aDocRslt.getApplId()));
+//                docRsltList.add(aDocRslt);
+//            } catch (IOException e) {
+//                // insert FILE_YN = N
+//                fileNotFound++;
+//                CustomApplicationDocumentResult aDocRslt = new CustomApplicationDocumentResult();
+//                aDocRslt.setApplNo(appl.getApplNo());
+//                aDocRslt.setFileYn(strN);
+//                aDocRslt.setApplId(applIdNone);
+////                    System.out.println(new StringBuilder().append(aDocRslt.getApplNo()).append(comma).append(aDocRslt.getFileYn()).append(comma).append(aDocRslt.getApplId()));
+//                docRsltList.add(aDocRslt);
+//            } finally {
+//                if (fis != null) {
+//                    try {
+//                        fis.close();
+//                    } catch (IOException e) {
+//                        ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+//                        ec.setErrCode("Error While closing a file");
+//                        throw new YSBizException(ec);
+//                    }
+//                }
+//            }
+//        }
+//        Map<String, Object> dataMap = new HashMap<String, Object>();
+//        dataMap.put("paramList", docRsltList);
+//        commonDAO.insert("com.apexsoft.ysprj.applicants.payment.sqlmap.CustomApplicationDocumentResultMapper.insertRows", dataMap);
+//        map.put("totalPaidAppl", paidApplList.size());
+//        map.put("fileWithApplId", fileWithApplId);
+//        map.put("fileWithoutApplId", fileWithoutApplId);
+//        map.put("fileNotFound", fileNotFound);
+//
+//        mv.addAllObjects(map);
+//        long end = System.currentTimeMillis();
+//        System.out.println("PDF Analyzer finished job in " + (end - start) / 1000 + " seconds");
+//        mv.addObject("elapsedTime", (end - start) / 1000 + " seconds");
+//        return mv;
+//    }
 
     /**
      * S3에 올라가 있는 파일을 다운로드 하기 위해 applNo 목록을 입력받는 화면
@@ -254,22 +247,20 @@ public class SysAdminController {
     /**
      * applNo로 수험번호 박힌 최종 PDF 파일 1개 생성
      *
-     * @param applPayTr
+     * @param applNo
      * @param mv
      * @return
      */
     @RequestMapping(value="/pdf-manual")
-    public ModelAndView exepdfmanually( ApplicationPaymentTransaction applPayTr, ModelAndView mv ) {
+    public ModelAndView exepdfmanually( @RequestParam(value = "applNo") int applNo, ModelAndView mv ) {
         mv.setViewName("sysadmin/rsltPdfManual");
         ExecutionContext ec;
 
         // 수험표, 지원서 생성 및 Merge
         // 타 대학원 확장 시 TODO - 학교 이름을 파라미터로 받도록
         Application application = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.ApplicationMapper.selectByPrimaryKey",
-                applPayTr.getApplNo(), Application.class);
-//        ec = processReGenMergeUpload(application);
-        String admsTypeCode = application.getAdmsTypeCode();
-        String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
+                applNo, Application.class);
+        String lang = application.isForeignAppl() ? "en" : "kr";
         String reportName = "yonsei-appl-" + lang;
         ExecutionContext ecGenAppl = birtService.generateBirtFile(application.getApplNo(), reportName);
         reportName = "yonsei-adms-" + lang;
@@ -480,8 +471,8 @@ public class SysAdminController {
         // 필요한 데이터 처리 (상태, 수험번호, 결제정보)
         paymentService.registerManualPay(applPayTr);
 
-        // BIRT 생성, PDF 업로드
-        paymentService.processFiles(application);
+        // 원서 수험표, 생성, S3 업로드
+        paymentService.processApplicationFiles(application);
 
         // 지원 완료 알림 메일 발송
         paymentService.sendNotification(application);
