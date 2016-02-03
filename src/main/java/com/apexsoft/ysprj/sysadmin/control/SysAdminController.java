@@ -325,12 +325,13 @@ public class SysAdminController {
      * Batch로 파일 수동 생성 및 업로드 요청하는 화면
      *
      * @return
+     * @Deprecated 단건 또는 다건 등 applNo 별로 처리하고 배치는 제공 안함
      */
-    @RequestMapping(value = "/form-batch-re-generate-merge-upload")
-    public ModelAndView formReGenMergeUpload(ModelAndView mv) {
-        mv.setViewName("sysadmin/formBatchReGenMergeUpload");
-        return mv;
-    }
+//    @RequestMapping(value = "/form-batch-re-generate-merge-upload")
+//    public ModelAndView formReGenMergeUpload(ModelAndView mv) {
+//        mv.setViewName("sysadmin/formBatchReGenMergeUpload");
+//        return mv;
+//    }
 
     /**
      * 결제 완료되었으나 최종 파일이 업로드 되지 않은 원서를
@@ -338,70 +339,72 @@ public class SysAdminController {
      *
      * @param mv
      * @return
+     * @Deprecated 단건 또는 다건 등 applNo 별로 처리하고 배치는 제공 안함
      */
-    @RequestMapping(value = "/batch-re-generate-merge-upload")
-    public ModelAndView reGenMergeUpload(@RequestParam("fileYn") String fileYn,
-                                         ModelAndView mv) {
-        long start = System.currentTimeMillis();
-        mv.setViewName("sysadmin/rsltBatchReGenMergeUpload");
-
-        List<Application> applList = commonDAO.queryForList(
-                "com.apexsoft.ysprj.applicants.application.sqlmap.CustomApplicationMapper.selectPaidButApplIdNotApplieddApplList",
-                fileYn,
-                Application.class);
-
-        List<Application> failGenApplList = new ArrayList<Application>();
-        List<Application> failGenAdmsList = new ArrayList<Application>();
-        List<Application> failMergePdfList = new ArrayList<Application>();
-        ExecutionContext ec = null;
-        Map<String, Object> resultMap = null;
-        String resultGenAppl = null, resultGenAdms = null, resultMergePdf = null;
-        List<List<ApplicationDocument>> encryptedPdfListList = new ArrayList<List<ApplicationDocument>>();
-        int successCount = 0;
-        for (Application application : applList) {
-//        for (int i = 0 ; i < 1 ; i++) {
-//            Application application = applList.get(i);
-
-            ec = sysAdminService.processReGenMergeUpload(application);
-            resultMap = (Map<String, Object>)ec.getData();
-            resultGenAppl = (String)resultMap.get("genAppl");
-            resultGenAdms = (String)resultMap.get("genAdms");
-            resultMergePdf = (String)resultMap.get("mergePdf");
-
-
-            if (ExecutionContext.FAIL.equals(resultGenAppl)) {
-                failGenApplList.add(application);
-            }
-            if (ExecutionContext.FAIL.equals(resultGenAdms)) {
-                failGenAdmsList.add(application);
-            }
-            if (ExecutionContext.FAIL.equals(resultMergePdf)) {
-                failMergePdfList.add(application);
-                encryptedPdfListList.add((List<ApplicationDocument>)resultMap.get("encryptedPdfList"));
-            }
-            if (ExecutionContext.SUCCESS.equals(resultGenAppl) &&
-                    ExecutionContext.SUCCESS.equals(resultGenAdms) &&
-                    ExecutionContext.SUCCESS.equals(resultMergePdf)) {
-                successCount++;
-            }
-            ec = null;
-            resultMap.clear();
-            resultGenAppl = resultGenAdms = resultMergePdf = null;
-        }
-        mv.addObject("totalCount", applList.size());
-        mv.addObject("successCount", successCount);
-        mv.addObject("failGenApplList", failGenApplList);
-        mv.addObject("failGenAdmsList", failGenAdmsList);
-        mv.addObject("failMergePdfList", failMergePdfList);
-        mv.addObject("encryptedPdfListList", encryptedPdfListList);
-        long end = System.currentTimeMillis();
-        mv.addObject("elapsedTime", (end - start) / 1000 + " seconds");
-        return mv;
-    }
+//    @RequestMapping(value = "/batch-re-generate-merge-upload")
+//    public ModelAndView reGenMergeUpload(@RequestParam("fileYn") String fileYn,
+//                                         ModelAndView mv) {
+//        long start = System.currentTimeMillis();
+//        mv.setViewName("sysadmin/rsltBatchReGenMergeUpload");
+//
+//        List<Application> applList = commonDAO.queryForList(
+//                "com.apexsoft.ysprj.applicants.application.sqlmap.CustomApplicationMapper.selectPaidButApplIdNotApplieddApplList",
+//                fileYn,
+//                Application.class);
+//
+//        List<Application> failGenApplList = new ArrayList<Application>();
+//        List<Application> failGenAdmsList = new ArrayList<Application>();
+//        List<Application> failMergePdfList = new ArrayList<Application>();
+//        ExecutionContext ec = null;
+//        Map<String, Object> resultMap = null;
+//        String resultGenAppl = null, resultGenAdms = null, resultMergePdf = null;
+//        List<List<ApplicationDocument>> encryptedPdfListList = new ArrayList<List<ApplicationDocument>>();
+//        int successCount = 0;
+//        for (Application application : applList) {
+////        for (int i = 0 ; i < 1 ; i++) {
+////            Application application = applList.get(i);
+//
+//            ec = sysAdminService.processReGenMergeUpload(application);
+//            // PDF 합치기로 변경한 이후 ec에는 아무 데이터 들어가있지 않음
+//            resultMap = (Map<String, Object>)ec.getData();
+//            resultGenAppl = (String)resultMap.get("genAppl");
+//            resultGenAdms = (String)resultMap.get("genAdms");
+//            resultMergePdf = (String)resultMap.get("mergePdf");
+//
+//
+//            if (ExecutionContext.FAIL.equals(resultGenAppl)) {
+//                failGenApplList.add(application);
+//            }
+//            if (ExecutionContext.FAIL.equals(resultGenAdms)) {
+//                failGenAdmsList.add(application);
+//            }
+//            if (ExecutionContext.FAIL.equals(resultMergePdf)) {
+//                failMergePdfList.add(application);
+//                encryptedPdfListList.add((List<ApplicationDocument>)resultMap.get("encryptedPdfList"));
+//            }
+//            if (ExecutionContext.SUCCESS.equals(resultGenAppl) &&
+//                    ExecutionContext.SUCCESS.equals(resultGenAdms) &&
+//                    ExecutionContext.SUCCESS.equals(resultMergePdf)) {
+//                successCount++;
+//            }
+//            ec = null;
+//            resultMap.clear();
+//            resultGenAppl = resultGenAdms = resultMergePdf = null;
+//        }
+//        mv.addObject("totalCount", applList.size());
+//        mv.addObject("successCount", successCount);
+//        mv.addObject("failGenApplList", failGenApplList);
+//        mv.addObject("failGenAdmsList", failGenAdmsList);
+//        mv.addObject("failMergePdfList", failMergePdfList);
+//        mv.addObject("encryptedPdfListList", encryptedPdfListList);
+//        long end = System.currentTimeMillis();
+//        mv.addObject("elapsedTime", (end - start) / 1000 + " seconds");
+//        return mv;
+//    }
 
 
     /**
-     * S3에 올라가 있는 파일을 다운로드 하기 위해 applNo 목록을 입력받는 화면
+     * S3에 올라가 있는 파일을 다운로드 하기 위해 applNo을 입력받는 화면
      *
      * @param mv
      * @return

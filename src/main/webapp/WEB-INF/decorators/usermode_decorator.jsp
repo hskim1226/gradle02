@@ -79,7 +79,7 @@
                                     <li class="divider"></li>
                                     <li><a href="${contextPath}/sysadmin/form-pdf-manual">결제 완료 건 원서 및 수험표 수동 재생성 - 1건</a></li>
                                     <li><a href="${contextPath}/sysadmin/form-pdf-manual-multi">결제 완료 건 원서 및 수험표 수동 재생성 - 다건</a></li>
-                                    <li><a href="${contextPath}/sysadmin/form-batch-re-generate-merge-upload">결제 완료 건 원서 및 수험표 수동 재생성 - 배치</a></li>
+                                    <%--<li><a href="${contextPath}/sysadmin/form-batch-re-generate-merge-upload">결제 완료 건 원서 및 수험표 수동 재생성 - 배치</a></li>--%>
                                     <li class="divider"></li>
                                     <li><a href="${contextPath}/sysadmin/form-download-zip">Zip 파일 다운로드</a></li>
                                     <li><a href="${contextPath}/sysadmin/form-backup-all-pdf">결제 완료 전체 원서+첨부파일 다운로드</a></li>
