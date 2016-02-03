@@ -511,7 +511,7 @@ public class DocumentController {
                             try {
                                 FileUtils.copyFile(aFile, tmpFile);
                             } catch (IOException e) {
-                                e.printStackTrace();
+                                // 아래의 getPageNumberedPDF에서 예외 처리
                             }
                             pdfService.getPageNumberedPDF(tmpFile, Integer.parseInt(fileMetaForm.getApplNo()));
                             tmpFile.delete();
