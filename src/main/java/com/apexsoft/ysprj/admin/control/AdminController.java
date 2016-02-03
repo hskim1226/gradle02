@@ -43,9 +43,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -299,14 +297,19 @@ public class AdminController {
 
         Application application = documentService.getApplication(applNo);
 
-        byte[] bytes = getDownloadableFileAsBytes(application, type);
+        Map<String, byte[]> downloadableFileInfo = getDownloadableFileAsBytes(application, type);
+        Set<String> key = downloadableFileInfo.keySet();
+        Iterator<String> iter = key.iterator();
+        String fileName = null;
+        if (iter.hasNext()) {
+            fileName = iter.next();
+        }
+        byte[] bytes = downloadableFileInfo.get(fileName);
+        String downaloadFileName = StringUtil.urlEncodeSpecialCharacter(URLEncoder.encode(fileName, "UTF-8"));
 
         ExecutionContext ecRetrieve = null;
         ecRetrieve = postApplicationService.checkDocumentRead(applNo, application.getUserId());
         Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
-
-        String fileName = FilePathUtil.getDownloadableZipFileName(application);
-        String downaloadFileName = StringUtil.urlEncodeSpecialCharacter(URLEncoder.encode(fileName, "UTF-8"));
 
         response.setHeader("Content-Disposition", "attachment; filename=\"" + downaloadFileName + "\"");
         response.setHeader("Content-Transfer-Encoding", "binary;");
@@ -318,21 +321,24 @@ public class AdminController {
         return bytes;
     }
 
-    private byte[] getDownloadableFileAsBytes(Application application, String type) throws IOException, InterruptedException {
+    private Map<String, byte[]> getDownloadableFileAsBytes(Application application, String type) throws IOException, InterruptedException {
         int applNo = application.getApplNo();
         String userId = application.getUserId();
         String localDirPath = FilePathUtil.getUploadDirectoryFullPath(fileBaseDir, s3MidPath, application.getAdmsNo(), userId, applNo);
         String s3FilePath = FilePathUtil.getS3PathFromLocalFullPath(localDirPath, fileBaseDir);
         String filePath = null;
+        String fileName = null;
         byte[] bytes = null;
 
         if ("slip".equals(type)) {
             filePath = FilePathUtil.getApplicationSlipFileFullPath(s3FilePath, userId);
             bytes = getBytesFromS3Object(filePath);
+            fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
         }
         else if ("form".equals(type)) {
             filePath = FilePathUtil.getApplicationFormFileFullPath(s3FilePath, userId);
             bytes = getBytesFromS3Object(filePath);
+            fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
         }
         else if ("merged".equals(type)) {
             String applFormfilePath = FilePathUtil.getApplicationFormFileFullPath(s3FilePath, userId);
@@ -342,7 +348,7 @@ public class AdminController {
 
             filePath = s3FilePath + "/" + FilePathUtil.getZippedFileName(application);
             bytes = getBytesFromS3Object(filePath);
-            String fileName = FilePathUtil.getDownloadableZipFileName(application);
+            fileName = FilePathUtil.getDownloadableZipFileName(application);
             File zipFile = new File(localDirPath, fileName);
             FileUtils.writeByteArrayToFile(zipFile, bytes);
 
@@ -354,8 +360,9 @@ public class AdminController {
             if (applFormFile.exists()) applFormFile.delete();
             if (zipFile.exists()) zipFile.delete();
         }
-
-        return bytes;
+        Map<String, byte[]> downloadableFileInfo = new HashMap<>();
+        downloadableFileInfo.put(fileName, bytes);
+        return downloadableFileInfo;
     }
 
     private byte[] getBytesFromS3Object(String filePath) throws IOException {
