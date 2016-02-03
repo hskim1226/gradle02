@@ -27,6 +27,7 @@ import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import com.apexsoft.ysprj.applicants.common.util.WebUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -505,7 +506,15 @@ public class DocumentController {
                         // 넘버링 테스트
                         if ("pdf".equals(ext)) {
                             File aFile = fileItem.getFile(); // tomcat의 temp 폴더에 있는 임시 파일
-                            pdfService.getPageNumberedPDF(aFile, Integer.parseInt(fileMetaForm.getApplNo()));
+                            File tmpDir = FileUtils.getTempDirectory();
+                            File tmpFile = new File(tmpDir, "tmpForNumberingCheck");
+                            try {
+                                FileUtils.copyFile(aFile, tmpFile);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            pdfService.getPageNumberedPDF(tmpFile, Integer.parseInt(fileMetaForm.getApplNo()));
+                            tmpFile.delete();
                         }
 
                         try{
