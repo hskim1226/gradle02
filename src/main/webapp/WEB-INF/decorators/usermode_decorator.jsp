@@ -74,6 +74,8 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-spinner"></i><spring:message code="L00015"/><%--시스템 관리자--%></a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="${contextPath}/sysadmin/form-showlist">내 원서 보기</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="${contextPath}/sysadmin/form-pay-manual">수동 결제</a></li>
                                     <%--<li class="divider"></li>--%>
                                     <%--<li><a href="${contextPath}/sysadmin/analyze/pdf">최종 PDF 분석</a></li>--%>
                                     <li class="divider"></li>
@@ -84,8 +86,7 @@
                                     <li><a href="${contextPath}/sysadmin/form-download-zip">Zip 파일 다운로드</a></li>
                                     <li><a href="${contextPath}/sysadmin/form-backup-all-pdf">결제 완료 전체 원서+첨부파일 다운로드</a></li>
                                     <li><a href="${contextPath}/sysadmin/form-backup-all-slip-pdf">결제 완료 전체 수험표 다운로드</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="${contextPath}/sysadmin/form-pay-manual">결제</a></li>
+
                                 </ul>
                             </li>
                         </sec:authorize>
