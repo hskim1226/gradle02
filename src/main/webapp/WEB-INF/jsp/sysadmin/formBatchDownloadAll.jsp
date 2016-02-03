@@ -32,7 +32,7 @@
                                 <label for="applNoList" class="control-label"> APPL_NO 목록을 줄바꿈으로 구분해서 입력 : </label>
                             </div>
                             <div class="col-sm-9">
-                                <textarea id="applNoList" name="applNoList" class="form-control" rows="20">abcde<br/>12345</textarea>
+                                <textarea id="applNoList" name="applNoList" class="form-control" rows="20" placeholder="APPL_NO 목록을 줄바꿈으로 구분해서 입력"></textarea>
                                 <%--<input type="text" id="applNo" name="ApplNo" class="form-control input-text" />--%>
                             </div>
                         </div>

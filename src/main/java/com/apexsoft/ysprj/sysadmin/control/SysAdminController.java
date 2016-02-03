@@ -195,44 +195,6 @@ public class SysAdminController {
 //    }
 
     /**
-     * S3에 올라가 있는 파일을 다운로드 하기 위해 applNo 목록을 입력받는 화면
-     *
-     * @param mv
-     * @return
-     */
-    @RequestMapping(value = "/form-batch-download-all")
-    public ModelAndView downloadAllUploadedFiles(ModelAndView mv) {
-        mv.setViewName("sysadmin/formBatchDownloadAll");
-        return mv;
-    }
-
-    /**
-     * S3에 applNo로 올라가 있는 파일 모두 다운로드
-     *
-     * @param applNoList 다운받을 applNo 리스트
-     * @param mv
-     * @return
-     */
-    @RequestMapping(value = "/batch-download-all")
-    public ModelAndView downloadAllUploadedFiles(@RequestParam("applNoList") String applNoList,
-                                                 ModelAndView mv) {
-        long start = System.currentTimeMillis();
-        mv.setViewName("sysadmin/rsltBatchDownloadAll");
-        String[] applNoArr = applNoList.split("\n");
-
-
-        // S3에서 다운로드
-        // 파일 하나하나 읽고 isEncrypted 검사
-        // 사실 상 암호화 된 파일을 받는 것이 맞으므로 합칠 수 없다고 해서 암호화를 풀고 올리라는 것이 오히려 불합리하므로 isEncrypted 검사 여기서 안함
-
-
-        long end = System.currentTimeMillis();
-        System.out.println("PDF Analyzer finished job in " + (end - start) / 1000 + " seconds");
-        mv.addObject("elapsedTime", (end - start) / 1000 + " seconds");
-        return mv;
-    }
-
-    /**
      * 수험번호 박힌 최종 PDF파일 수동 생성을 위해 applNo를 입력받는 화면
      *
      * @param mv
@@ -427,6 +389,46 @@ public class SysAdminController {
         mv.addObject("elapsedTime", (end - start) / 1000 + " seconds");
         return mv;
     }
+
+
+    /**
+     * S3에 올라가 있는 파일을 다운로드 하기 위해 applNo 목록을 입력받는 화면
+     *
+     * @param mv
+     * @return
+     */
+    @RequestMapping(value = "/form-batch-download-all")
+    public ModelAndView downloadAllUploadedFiles(ModelAndView mv) {
+        mv.setViewName("sysadmin/formBatchDownloadAll");
+        return mv;
+    }
+
+    /**
+     * S3에 applNo로 올라가 있는 파일 모두 다운로드
+     *
+     * @param applNoList 다운받을 applNo 리스트
+     * @param mv
+     * @return
+     */
+    @RequestMapping(value = "/batch-download-all")
+    public ModelAndView downloadAllUploadedFiles(@RequestParam("applNoList") String applNoList,
+                                                 ModelAndView mv) {
+        long start = System.currentTimeMillis();
+        mv.setViewName("sysadmin/rsltBatchDownloadAll");
+        String[] applNoArr = applNoList.split("\n");
+
+
+        // S3에서 다운로드
+        // 파일 하나하나 읽고 isEncrypted 검사
+        // 사실 상 암호화 된 파일을 받는 것이 맞으므로 합칠 수 없다고 해서 암호화를 풀고 올리라는 것이 오히려 불합리하므로 isEncrypted 검사 여기서 안함
+
+
+        long end = System.currentTimeMillis();
+        System.out.println("PDF Analyzer finished job in " + (end - start) / 1000 + " seconds");
+        mv.addObject("elapsedTime", (end - start) / 1000 + " seconds");
+        return mv;
+    }
+
 
     /**
      * 수동 결제 화면
