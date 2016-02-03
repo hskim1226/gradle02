@@ -94,6 +94,7 @@ public class CommonsZipServiceImpl implements ZipService {
             }
         }
 
+        closeZipFile(zFile);
         closeZipArchiveOutputStream(zos);
 
         if (tempZipFile.exists()) tempZipFile.delete();
@@ -138,12 +139,23 @@ public class CommonsZipServiceImpl implements ZipService {
         return zos;
     }
 
+    private void closeZipFile(ZipFile zipFile) throws IOException {
+        try {
+            zipFile.close();
+        } finally {
+            if (zipFile != null)
+                try { zipFile.close(); } catch (IOException e) {
+                }
+        }
+    }
+
     private void closeZipArchiveOutputStream(ZipArchiveOutputStream zos) throws IOException {
         try {
             zos.close();
         } finally {
             if (zos != null)
-                try { zos.close(); } catch (IOException e) {}
+                try { zos.close(); } catch (IOException e) {
+                }
         }
     }
 }

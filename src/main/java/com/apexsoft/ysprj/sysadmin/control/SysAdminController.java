@@ -5,8 +5,10 @@ import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
+import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
+import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPaymentTransaction;
 import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
 import com.apexsoft.ysprj.sysadmin.service.SysAdminService;
@@ -16,8 +18,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.security.Principal;
 import java.util.*;
 
@@ -42,6 +48,9 @@ public class SysAdminController {
 
     @Autowired
     private SysAdminService sysAdminService;
+
+    @Autowired
+    private DocumentService documentService;
 
     @Autowired
     private CommonDAO commonDAO;
@@ -397,36 +406,43 @@ public class SysAdminController {
      * @param mv
      * @return
      */
-    @RequestMapping(value = "/form-batch-download-all")
+    @RequestMapping(value = "/form-download-zip")
     public ModelAndView downloadAllUploadedFiles(ModelAndView mv) {
-        mv.setViewName("sysadmin/formBatchDownloadAll");
+        mv.setViewName("sysadmin/formDownLoadZip");
         return mv;
     }
 
     /**
-     * S3에 applNo로 올라가 있는 파일 모두 다운로드
+     * S3에 올라가 있는 zip 파일 다운로드
      *
-     * @param applNoList 다운받을 applNo 리스트
-     * @param mv
+     * @param applNo 다운받을 applNo
      * @return
      */
-    @RequestMapping(value = "/batch-download-all")
-    public ModelAndView downloadAllUploadedFiles(@RequestParam("applNoList") String applNoList,
-                                                 ModelAndView mv) {
-        long start = System.currentTimeMillis();
-        mv.setViewName("sysadmin/rsltBatchDownloadAll");
-        String[] applNoArr = applNoList.split("\n");
+    @RequestMapping(value = "/download-zip", produces = "application/octet-stream")
+    @ResponseBody
+    public byte[] downloadAllUploadedFiles(@RequestParam("applNo") int applNo,
+                                           HttpServletResponse response)
+                        throws IOException, InterruptedException {
 
+        Application application = documentService.getApplication(applNo);
+        Map<String, byte[]> downloadableFileInfo = documentService.getDownloadableFileAsBytes(application, "merged");
 
-        // S3에서 다운로드
-        // 파일 하나하나 읽고 isEncrypted 검사
-        // 사실 상 암호화 된 파일을 받는 것이 맞으므로 합칠 수 없다고 해서 암호화를 풀고 올리라는 것이 오히려 불합리하므로 isEncrypted 검사 여기서 안함
+        Set<String> key = downloadableFileInfo.keySet();
+        Iterator<String> iter = key.iterator();
+        String fileName = null;
+        if (iter.hasNext()) {
+            fileName = iter.next();
+        }
+        byte[] bytes = downloadableFileInfo.get(fileName);
+        String downaloadFileName = StringUtil.urlEncodeSpecialCharacter(URLEncoder.encode(fileName, "UTF-8"));
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + downaloadFileName + "\"");
+        response.setHeader("Content-Transfer-Encoding", "binary;");
+        response.setHeader("Pragma", "no-cache;");
+        response.setHeader("Expires", "-1;");
+        response.setHeader("Content-Type", "application/octet-stream");
+        response.setContentLength(bytes.length);
 
-
-        long end = System.currentTimeMillis();
-        System.out.println("PDF Analyzer finished job in " + (end - start) / 1000 + " seconds");
-        mv.addObject("elapsedTime", (end - start) / 1000 + " seconds");
-        return mv;
+        return bytes;
     }
 
 

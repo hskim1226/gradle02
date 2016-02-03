@@ -288,7 +288,7 @@ public class AdminController {
      * @throws java.io.IOException
      */
 
-    @RequestMapping(value="/search/pdfDownload", produces = "application/pdf")
+    @RequestMapping(value="/search/pdfDownload", produces = "application/octet-stream")
     @ResponseBody
     public byte[] fileDownload(@RequestParam("applNo") int applNo,
                                @RequestParam("type") String type,
