@@ -40,7 +40,7 @@
                     <div class="form-group col-sm-12">
                         <div class="col-sm-offset-1 col-sm-10">
                             <div class="col-sm-12">
-                                <button class="btn btn-primary btn-lg btn-block btn-save input-text" id="processPDF"> PDF 처리하기 </button>
+                                <button class="btn btn-primary btn-lg btn-block btn-save input-text" id="processPDF"> PDF 재생성 및 업로드 </button>
                             </div>
                         </div>
                     </div>

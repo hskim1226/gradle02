@@ -307,9 +307,7 @@ public class SysAdminController {
         for (String applNo : applNos) {
             Application application = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.ApplicationMapper.selectByPrimaryKey",
                     Integer.parseInt(applNo), Application.class);
-//        ec = processReGenMergeUpload(application);
-            String admsTypeCode = application.getAdmsTypeCode();
-            String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
+            String lang = application.isForeignAppl() ? "en" : "kr";
             String reportName = "yonsei-appl-" + lang;
             ExecutionContext ecGenAppl = new ExecutionContext();
             try {

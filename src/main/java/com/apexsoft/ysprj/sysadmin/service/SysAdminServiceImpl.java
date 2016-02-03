@@ -65,7 +65,7 @@ public class SysAdminServiceImpl implements  SysAdminService {
     private static final Logger logger = LoggerFactory.getLogger(SysAdminServiceImpl.class);
 
     /**
-     * Batch로 최종 PDF 파일 다건을 생성한다.
+     * Batch로 최종 PDF 파일 다건을 생성하는 loop 내에서 호출
      * 다건 처리를 위해 예외 발생 시 던지지 않고
      * map에 담아 반환
      *
@@ -76,9 +76,8 @@ public class SysAdminServiceImpl implements  SysAdminService {
         ExecutionContext ecResult = new ExecutionContext();
         Map<String, Object> map = new HashMap<String, Object>();
 
-        String admsTypeCode = application.getAdmsTypeCode();
         int applNo = application.getApplNo();
-        String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
+        String lang = application.isForeignAppl() ? "en" : "kr";
         String reportName = "yonsei-appl-" + lang;
 
         ExecutionContext ecGenAppl = null;
