@@ -48,7 +48,9 @@
     from STUD_NO A, APPL_DOC B, APPL C
     where A.APPL_ID = C.APPL_ID
     and C.APPL_NO = B.APPL_NO
+    and C.APPL_STS_CODE = '00020'
     and B.DOC_ITEM_CODE = '00001'
+    order by 1
   </select>
 
 </mapper>

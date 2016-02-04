@@ -61,6 +61,9 @@ public class SysAdminController {
     @Value("#{app['s3.midPath']}")
     private String MID_PATH;
 
+    @Value("#{app['file.picturesDir']}")
+    private String PICTURE_PATH;
+
     /**
      * 관리자용 내원서 화면 보기를 위한 화면
      *
@@ -555,19 +558,20 @@ public class SysAdminController {
     @RequestMapping(value="/form-generate-pic")
     public ModelAndView formGeneratePic(ModelAndView mv) {
         mv.setViewName("sysadmin/formGeneratePic");
+        mv.addObject("picturePath", PICTURE_PATH + "/" + MID_PATH);
         return mv;
     }
 
     @RequestMapping(value="/rslt-generate-pic")
     public ModelAndView rsltGeneratePic(ModelAndView mv) {
         mv.setViewName("sysadmin/rsltGeneratePic");
-        sysAdminService.downaloadRenamedPictures();
-//        ExecutionContext ec = sysAdminService.downaloadRenamedPictures();
-//        Map<String, String> map = (Map<String, String>)ec.getData();
-//        Set<Map.Entry<String, String>> entrySet = map.entrySet();
-//        for (Map.Entry<String, String> item : entrySet) {
-//            mv.addObject(item.getKey(), item.getValue());
-//        }
+        ExecutionContext<Map<String, Object>> ec = sysAdminService.downaloadRenamedPictures();
+        Map<String, Object> resultMap = ec.getData();
+        Set<Map.Entry<String, Object>> entrySet = resultMap.entrySet();
+        for (Map.Entry<String, Object> item : entrySet) {
+            mv.addObject(item.getKey(), item.getValue());
+        }
+        mv.addObject("picturePath", PICTURE_PATH + "/" + MID_PATH);
         return mv;
     }
 }

@@ -20,7 +20,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,6 +63,8 @@ public class SysAdminServiceImpl implements  SysAdminService {
 
     @Value("#{app['file.picturesDir']}")
     private String picturesDir;
+
+
 
     private static final Logger logger = LoggerFactory.getLogger(SysAdminServiceImpl.class);
 
@@ -164,44 +168,6 @@ public class SysAdminServiceImpl implements  SysAdminService {
         return ec;
     }
 
-    @Override
-    public ExecutionContext downaloadRenamedPictures() {
-        ExecutionContext ec = new ExecutionContext();
-        List<StudentNumber> studentNumberList = null;
-        S3Object s3Object = null;
-        int count = 0;
-
-        studentNumberList = commonDAO.queryForList(NAME_SPACE + "SysAdminMapper.selectStudentPicInfo", StudentNumber.class);
-
-long start = System.currentTimeMillis();
-        for (StudentNumber studentNumber : studentNumberList) {
-            s3Object = s3Client.getObject(new GetObjectRequest(s3BucketName, studentNumber.getS3FullPath()));
-            InputStream inputStream = s3Object.getObjectContent();
-            ObjectMetadata s3ObjMeta = s3Object.getObjectMetadata();
-            String type = s3ObjMeta.getContentType();
-            if (type.startsWith("image/")) {
-                String ext = type.substring(6);
-                if ("jpeg".equals(ext))
-                    ext = "jpg";
-                Map<String, String> s3ObjUserMeta = s3ObjMeta.getUserMetadata();
-                try {
-                    FileUtils.copyInputStreamToFile(inputStream, new File(picturesDir, studentNumber.getStudNo() + "." + ext));
-                    System.out.println("[LOCAL SAVE] " + ++count);
-                } catch (Exception e) {
-                    ExecutionContext ec1 = new ExecutionContext(ExecutionContext.FAIL);
-                    logger.error("Err in downaloadRenamedPictures() in SysAdminServiceImpl");
-                    logger.error(e.getMessage());
-                    logger.error("bucketName : [" + s3BucketName + "]");
-                    logger.error("applId : [" + studentNumber.getApplId() + "]");
-                    logger.error("objectKey : [" + s3ObjUserMeta.get("filePath") +"]");
-                    throw new YSBizException(ec1);
-                }
-            }
-        }
-System.err.println("Total Elapsed Time : " + (System.currentTimeMillis() - start)/1000);
-
-        return null;
-    }
 
     private Map<String, String> savePdf(AbstractS3Consumer s3Consumer, List<BackUpApplDoc> backUpApplDocList) {
 
@@ -251,7 +217,7 @@ System.err.println("Total Elapsed Time : " + (System.currentTimeMillis() - start
         BlockingQueue<BackUpApplDoc> applInfoQue = new ArrayBlockingQueue<BackUpApplDoc>(1024);
 //        BlockingQueue<S3Object> s3ObjQue = new ArrayBlockingQueue<S3Object>(300);
 
-System.out.println("job started : " + System.currentTimeMillis());
+        System.out.println("job started : " + System.currentTimeMillis());
         ApplInfoProducer applInfoProducer = new ApplInfoProducer(applInfoQue, backUpApplDocList);
         new Thread(applInfoProducer).start();
 
@@ -280,13 +246,68 @@ System.out.println("job started : " + System.currentTimeMillis());
 
 
         long end = System.currentTimeMillis();
-System.out.println("Backup elapsed time : " + (end - start) / 1000 + " seconds");
+        System.out.println("Backup elapsed time : " + (end - start) / 1000 + " seconds");
 
         Map<String, String> resultMap = new HashMap<String, String>();
         resultMap.put("requestedCount", String.valueOf(backUpApplDocList.size()));
         resultMap.put("downloadedCount", String.valueOf(downloadedCount));
         resultMap.put("elpasedTime", (end - start) / 1000 + " seconds");
         return resultMap;
+    }
+
+    @Override
+    public ExecutionContext<Map<String, Object>> downaloadRenamedPictures() {
+        ExecutionContext<Map<String, Object>> ec = new ExecutionContext();
+        Map<String, Object> resultMap = new HashMap<>();
+        List<StudentNumber> studentNumberList = null;
+        S3Object s3Object = null;
+        List<String> failureList = new ArrayList<>();
+        int count = 0;
+
+        studentNumberList = commonDAO.queryForList(NAME_SPACE + "SysAdminMapper.selectStudentPicInfo", StudentNumber.class);
+
+        String targetDirPath = picturesDir + "/" + s3MidPath;
+long start = System.currentTimeMillis();
+
+        for (StudentNumber studentNumber : studentNumberList) {
+            InputStream inputStream = null;
+            try {
+                s3Object = s3Client.getObject(new GetObjectRequest(s3BucketName, studentNumber.getS3FullPath()));
+                inputStream = s3Object.getObjectContent();
+                ObjectMetadata s3ObjMeta = s3Object.getObjectMetadata();
+                String type = s3ObjMeta.getContentType();
+                if (type.startsWith("image/")) {
+                    String ext = type.substring(6);
+                    if ("jpeg".equals(ext))
+                        ext = "jpg";
+                    Map<String, String> s3ObjUserMeta = s3ObjMeta.getUserMetadata();
+
+                        File targetFile = new File(targetDirPath, studentNumber.getStudNo() + "-" + studentNumber.getStudName() + "." + ext);
+                        FileUtils.copyInputStreamToFile(inputStream, targetFile);
+                        System.out.println("[LOCAL SAVE] " + ++count);
+
+                }
+            } catch (Exception e) {
+                ec = new ExecutionContext(ExecutionContext.FAIL);
+                logger.error("Err in downaloadRenamedPictures() in SysAdminServiceImpl");
+                logger.error(e.getMessage());
+                logger.error("bucketName : [" + s3BucketName + "]");
+                logger.error("applId : [" + studentNumber.getApplId() + "]");
+                logger.error("objectKey : [" + studentNumber.getS3FullPath() +"]");
+                failureList.add(studentNumber.getApplId());
+            } finally {
+                if (inputStream != null) try { inputStream.close(); } catch (IOException e) {}
+            }
+        }
+
+        resultMap.put("totalCount", String.valueOf(studentNumberList.size()));
+        resultMap.put("successCount", String.valueOf(studentNumberList.size() - failureList.size()));
+        resultMap.put("failureCount", failureList.size());
+        resultMap.put("failureList", failureList);
+        ec.setData(resultMap);
+System.out.println("Total Elapsed Time : " + (System.currentTimeMillis() - start)/1000);
+
+        return ec;
     }
 
 
