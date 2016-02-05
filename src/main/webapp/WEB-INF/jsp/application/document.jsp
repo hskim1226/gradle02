@@ -202,11 +202,21 @@
         #tabTR {
             cursor: pointer;
         }
+        .narrow-bottom {
+            padding-bottom: 0px;
+            margin-bottom: 0.5em;
+        }
+        .wide-bottom {
+            margin-bottom: 2em;
+        }
 
         .checkbox-upload {
             min-height: 20px;
-            margin-top: 0px;
-            margin-bottom: 10px;
+            /*margin-top: 0px;*/
+            margin-bottom: 0px;
+            padding-top: 5px;
+            padding-bottom: 0px;
+            /*margin-bottom: 10px;*/
             color: #222;
             /*vertical-align: middle;*/
         }
@@ -491,90 +501,98 @@
                                     <div class="col-sm-9 warn-info"><label>${lv2Container.msg}</label></div>
                                 </c:when>
                                 <c:otherwise>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-5 narrow-bottom">
                                         <div class="checkbox-upload">
-                                            <label class="word-keep-all" for="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.checkedFg">
-                                                <div class="col-sm-2">
-                                                    <input type="checkbox"
-                                                           id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.checkedFg"
-                                                           name="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].checkedFg"
-                                                           data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}"
-                                                           <c:if test="${lv2Container.fileUploadFg == true}">checked</c:if> />
-                                                </div>
-                                                <div class="col-sm-10 nopadding">
-                                                    <c:choose>
-                                                        <c:when test="${lv2Container.docTypeCode != '00009'}">${pageContext.response.locale == 'en' ? lv2Container.docItemNameXxen : lv2Container.docItemName}</c:when>
-                                                        <c:otherwise>
-                                                            <form:input path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docItemName"
-                                                                        value="${lv2Container.docItemName}"
-                                                                        cssClass="form-control" />
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </div>
+                                            <label class="word-keep-all narrow-bottom" for="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.checkedFg">
+                                                <input type="checkbox"
+                                                       id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.checkedFg"
+                                                       name="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].checkedFg"
+                                                       data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}"
+                                                       <c:if test="${lv2Container.fileUploadFg == true}">checked</c:if> />
+                                                <c:choose> <%-- 업로드 된 기타 서류 --%>
+                                                    <c:when test="${lv2Container.docTypeCode != '00009'}">${pageContext.response.locale == 'en' ? lv2Container.docItemNameXxen : lv2Container.docItemName}</c:when>
+                                                    <c:otherwise>
+                                                        <form:input path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docItemName"
+                                                                    value="${lv2Container.docItemName}"
+                                                                    size="40"
+                                                                    maxlength="60" />
+                                                    </c:otherwise>
+                                                </c:choose>
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-sm-5 nopadding">
-                                        <div class="col-sm-12 nopadding"><input type="file" class="btn btn-file" id="file-input-${lv1Status.index}-${lv2Status.index}" name="${filePrefix}${lv1Status.index}-${lv2Status.index}" data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}"/></div>
+                                    <div class="col-sm-5">
+                                        <input type="file" class="btn btn-file" id="file-input-${lv1Status.index}-${lv2Status.index}" name="${filePrefix}${lv1Status.index}-${lv2Status.index}" data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}"/>
                                     </div>
-                                    <div class="col-sm-4">
-                                        <div class="col-sm-4 nopadding">
-                                            <button id="upload-button-${lv1Status.index}-${lv2Status.index}"
-                                                   class="btn btn-default btn-upload"
+                                    <div class="col-sm-2">
+                                        <button id="upload-button-${lv1Status.index}-${lv2Status.index}"
+                                               class="btn btn-block btn-primary btn-upload"
 
-                                                   data-checkbox-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.checkedFg"
-
-                                                   data-file-input-id="file-input-${lv1Status.index}-${lv2Status.index}"
-                                                   data-img-yn-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.imgYn"
-                                                   data-file-download-link-id="file-download-link-${lv1Status.index}-${lv2Status.index}"
-                                                   data-file-delete-link-id="file-delete-link-${lv1Status.index}-${lv2Status.index}"
-                                                   data-org-filename-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.orgFileName"
-                                                   data-target-subcontainer-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}."
-
-                                                   data-doc-prop-docSeq="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.docSeq"
-                                                   data-doc-prop-docTypeCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.docTypeCode"
-                                                   data-doc-prop-docGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.docGrp"
-                                                   data-doc-prop-docItemCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.docItemCode"
-                                                   data-doc-prop-docItemName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.docItemName"
-                                                   data-doc-prop-grpLabel="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.grpLabel"
-                                                   data-doc-prop-fileExt="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.fileExt"
-                                                   data-doc-prop-imgYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.imgYn"
-                                                   data-doc-prop-filePath="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.filePath"
-                                                   data-doc-prop-fileName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.fileName"
-                                                   data-doc-prop-orgFileName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.orgFileName"
-                                                   data-doc-prop-docItemNameXxen="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.docItemNameXxen"
-                                                   data-doc-prop-docGrpName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.docGrpName"
-                                                   data-doc-prop-fileUploadFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.fileUploadFg"
-                                                   data-doc-prop-displayGrpFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.displayGrpFg"
-                                                   data-doc-prop-checkedFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.checkedFg"
-                                                   data-doc-prop-admsNo="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.admsNo"
-                                                   data-doc-prop-admsCorsNo="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.admsCorsNo"
-                                                   data-doc-prop-detlMajCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.detlMajCode"
-                                                   data-doc-prop-admsCodeGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.admsCodeGrp"
-                                                   data-doc-prop-admsCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.admsCode"
-                                                   data-doc-prop-grpLevel="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.grpLevel"
-                                                   data-doc-prop-docItemGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.docItemGrp"
-                                                   data-doc-prop-upCodeGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.upCodeGrp"
-                                                   data-doc-prop-upCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.upCode"
-                                                   data-doc-prop-lastYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.lastYn"
-                                                   data-doc-prop-mdtYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.mdtYn"
-                                                   data-doc-prop-uploadYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.uploadYn"
-                                                   data-doc-prop-sendCnt="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.sendCnt"
-                                                   ><spring:message code="L04104"/><%--올리기--%></button>
-                                        </div>
-                                        <div class="col-sm-4 upload-delete-button-container-${lv1Status.index}-${lv2Status.index}" style='display: <c:choose><c:when test="${lv2Container.fileUploadFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
-                                            <a class="btn btn-default file-download" id="file-download-link-${lv1Status.index}-${lv2Status.index}"
-                                               href="${contextPath}/application/document/fileDownload/${lv2Container.applNo}/${lv2Container.docSeq}"><spring:message code="L04105"/><%--내려받기--%></a>
-                                        </div>
-                                        <div class="col-sm-4 upload-delete-button-container-${lv1Status.index}-${lv2Status.index}" style='display: <c:choose><c:when test="${lv2Container.fileUploadFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
-                                            <a class="btn btn-default file-delete" id="file-delete-link-${lv1Status.index}-${lv2Status.index}"
                                                data-checkbox-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.checkedFg"
-                                               data-docitemname-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.docItemName"
-                                               data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}"
-                                               data-button-container-class="upload-delete-button-container-${lv1Status.index}-${lv2Status.index}"
-                                               data-fileUploadFg-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.fileUploadFg"
-                                               href="${contextPath}/application/document/fileDelete/${lv2Container.applNo}/${lv2Container.docSeq}"><spring:message code="L04106"/><%--삭제--%></a>
-                                        </div>
+
+                                               data-file-input-id="file-input-${lv1Status.index}-${lv2Status.index}"
+                                               data-img-yn-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.imgYn"
+                                               data-file-download-link-id="file-download-link-${lv1Status.index}-${lv2Status.index}"
+                                               data-file-delete-link-id="file-delete-link-${lv1Status.index}-${lv2Status.index}"
+                                               data-org-filename-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.orgFileName"
+                                               data-target-subcontainer-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}."
+
+                                               data-doc-prop-docSeq="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.docSeq"
+                                               data-doc-prop-docTypeCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.docTypeCode"
+                                               data-doc-prop-docGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.docGrp"
+                                               data-doc-prop-docItemCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.docItemCode"
+                                               data-doc-prop-docItemName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.docItemName"
+                                               data-doc-prop-grpLabel="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.grpLabel"
+                                               data-doc-prop-fileExt="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.fileExt"
+                                               data-doc-prop-imgYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.imgYn"
+                                               data-doc-prop-filePath="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.filePath"
+                                               data-doc-prop-fileName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.fileName"
+                                               data-doc-prop-orgFileName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.orgFileName"
+                                               data-doc-prop-docItemNameXxen="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.docItemNameXxen"
+                                               data-doc-prop-docGrpName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.docGrpName"
+                                               data-doc-prop-fileUploadFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.fileUploadFg"
+                                               data-doc-prop-displayGrpFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.displayGrpFg"
+                                               data-doc-prop-checkedFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.checkedFg"
+                                               data-doc-prop-admsNo="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.admsNo"
+                                               data-doc-prop-admsCorsNo="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.admsCorsNo"
+                                               data-doc-prop-detlMajCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.detlMajCode"
+                                               data-doc-prop-admsCodeGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.admsCodeGrp"
+                                               data-doc-prop-admsCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.admsCode"
+                                               data-doc-prop-grpLevel="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.grpLevel"
+                                               data-doc-prop-docItemGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.docItemGrp"
+                                               data-doc-prop-upCodeGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.upCodeGrp"
+                                               data-doc-prop-upCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.upCode"
+                                               data-doc-prop-lastYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.lastYn"
+                                               data-doc-prop-mdtYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.mdtYn"
+                                               data-doc-prop-uploadYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.uploadYn"
+                                               data-doc-prop-sendCnt="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.sendCnt"
+                                               ><spring:message code="L04104"/><%--올리기--%></button>
+                                        <%--<div class="col-sm-4 upload-delete-button-container-${lv1Status.index}-${lv2Status.index}" style='display: <c:choose><c:when test="${lv2Container.fileUploadFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>--%>
+                                            <%--<a class="btn btn-default file-download" id="file-download-link-${lv1Status.index}-${lv2Status.index}"--%>
+                                               <%--href="${contextPath}/application/document/fileDownload/${lv2Container.applNo}/${lv2Container.docSeq}"><spring:message code="L04105"/>&lt;%&ndash;내려받기&ndash;%&gt;</a>--%>
+                                        <%--</div>--%>
+                                        <%--<div class="col-sm-4 upload-delete-button-container-${lv1Status.index}-${lv2Status.index}" style='display: <c:choose><c:when test="${lv2Container.fileUploadFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>--%>
+                                            <%--<a class="btn btn-default file-delete" id="file-delete-link-${lv1Status.index}-${lv2Status.index}"--%>
+                                               <%--data-checkbox-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.checkedFg"--%>
+                                               <%--data-docitemname-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.docItemName"--%>
+                                               <%--data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}"--%>
+                                               <%--data-button-container-class="upload-delete-button-container-${lv1Status.index}-${lv2Status.index}"--%>
+                                               <%--data-fileUploadFg-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.fileUploadFg"--%>
+                                               <%--href="${contextPath}/application/document/fileDelete/${lv2Container.applNo}/${lv2Container.docSeq}"><spring:message code="L04106"/>&lt;%&ndash;삭제&ndash;%&gt;</a>--%>
+                                        <%--</div>--%>
+                                    </div>
+                                    <div class="col-sm-10 ${lv2Status.index < (lv1Container.subContainer.size()-1) ? 'wide-bottom' : ''} upload-delete-button-container-${lv1Status.index}-${lv2Status.index}" style='display: <c:choose><c:when test="${lv2Container.fileUploadFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
+                                        <a class="btn btn-block btn-success file-download" id="file-download-link-${lv1Status.index}-${lv2Status.index}"
+                                           href="${contextPath}/application/document/fileDownload/${lv2Container.applNo}/${lv2Container.docSeq}"><spring:message code="L04105"/> : ${lv2Container.orgFileName}<%--내려받기 : 원래 파일 명--%></a>
+                                    </div>
+                                    <div class="col-sm-2 ${lv2Status.index < (lv1Container.subContainer.size()-1) ? 'wide-bottom' : ''} upload-delete-button-container-${lv1Status.index}-${lv2Status.index}" style='display: <c:choose><c:when test="${lv2Container.fileUploadFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
+                                        <a class="btn btn-block btn-danger file-delete" id="file-delete-link-${lv1Status.index}-${lv2Status.index}"
+                                                data-checkbox-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.checkedFg"
+                                                data-docitemname-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.docItemName"
+                                                data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}"
+                                                data-button-container-class="upload-delete-button-container-${lv1Status.index}-${lv2Status.index}"
+                                                data-fileUploadFg-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.fileUploadFg"
+                                                href="${contextPath}/application/document/fileDelete/${lv2Container.applNo}/${lv2Container.docSeq}"><spring:message code="L04106"/><%--삭제--%></a>
                                     </div>
                                     <spring:bind path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].fileUploadFg">
                                         <c:if test="${status.error}">
@@ -640,9 +658,9 @@
                                             <div class="col-sm-9 warn-info"><label>${lv3Container.msg}</label></div>
                                         </c:when>
                                         <c:otherwise>
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-5 narrow-bottom">
                                                 <div class="checkbox-upload">
-                                                    <label class="word-keep-all" for="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.checkedFg">
+                                                    <label class="word-keep-all narrow-bottom" for="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.checkedFg">
                                                         <input type="checkbox"
                                                                id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.checkedFg"
                                                                name="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].checkedFg"
@@ -651,69 +669,67 @@
                                                     </label>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-5 nopadding">
-                                                <div class="col-sm-12 nopadding"><input type="file" class="btn btn-file" id="file-input-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}" name="${filePrefix}${lv1Status.index}-${lv2Status.index}-${lv3Status.index}" data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"/></div>
+                                            <div class="col-sm-5">
+                                                <input type="file" class="btn btn-file" id="file-input-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}" name="${filePrefix}${lv1Status.index}-${lv2Status.index}-${lv3Status.index}" data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"/>
                                             </div>
-                                            <div class="col-sm-4">
-                                                <div class="col-sm-4 nopadding">
-                                                    <button id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
-                                                           class="btn btn-default btn-upload"
+                                            <div class="col-sm-2">
+                                                <button id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
+                                                       class="btn btn-block btn-primary btn-upload"
 
-                                                           data-checkbox-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.checkedFg"
-
-                                                           data-file-input-id="file-input-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
-                                                           data-img-yn-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.imgYn"
-                                                           data-file-download-link-id="file-download-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
-                                                           data-file-delete-link-id="file-delete-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
-                                                           data-org-filename-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.orgFileName"
-                                                           data-target-subcontainer-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}."
-
-                                                           data-doc-prop-docSeq="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docSeq"
-                                                           data-doc-prop-docTypeCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docTypeCode"
-                                                           data-doc-prop-docGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docGrp"
-                                                           data-doc-prop-docItemCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docItemCode"
-                                                           data-doc-prop-docItemName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docItemName"
-                                                           data-doc-prop-grpLabel="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.grpLabel"
-                                                           data-doc-prop-fileExt="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.fileExt"
-                                                           data-doc-prop-imgYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.imgYn"
-                                                           data-doc-prop-filePath="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.filePath"
-                                                           data-doc-prop-fileName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.fileName"
-                                                           data-doc-prop-orgFileName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.orgFileName"
-                                                           data-doc-prop-docItemNameXxen="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docItemNameXxen"
-                                                           data-doc-prop-docGrpName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docGrpName"
-                                                           data-doc-prop-fileUploadFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.fileUploadFg"
-                                                           data-doc-prop-displayGrpFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.displayGrpFg"
-                                                           data-doc-prop-checkedFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.checkedFg"
-                                                           data-doc-prop-admsNo="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.admsNo"
-                                                           data-doc-prop-admsCorsNo="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.admsCorsNo"
-                                                           data-doc-prop-detlMajCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.detlMajCode"
-                                                           data-doc-prop-admsCodeGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.admsCodeGrp"
-                                                           data-doc-prop-admsCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.admsCode"
-                                                           data-doc-prop-grpLevel="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.grpLevel"
-                                                           data-doc-prop-docItemGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docItemGrp"
-                                                           data-doc-prop-upCodeGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.upCodeGrp"
-                                                           data-doc-prop-upCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.upCode"
-                                                           data-doc-prop-lastYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.lastYn"
-                                                           data-doc-prop-mdtYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.mdtYn"
-                                                           data-doc-prop-uploadYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.uploadYn"
-                                                           data-doc-prop-sendCnt="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.sendCnt"
-                                                           ><spring:message code="L04104"/><%--올리기--%></button>
-                                                </div>
-                                                <div class="col-sm-4 upload-delete-button-container-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
-                                                     style='display: <c:choose><c:when test="${lv3Container.fileUploadFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
-                                                    <a class="btn btn-default file-download" id="file-download-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
-                                                       href="${contextPath}/application/document/fileDownload/${lv3Container.applNo}/${lv3Container.docSeq}"><spring:message code="L04105"/><%--내려받기--%></a>
-                                                </div>
-                                                <div class="col-sm-4 upload-delete-button-container-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
-                                                     style='display: <c:choose><c:when test="${lv3Container.fileUploadFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
-                                                    <a class="btn btn-default file-delete" id="file-delete-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
                                                        data-checkbox-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.checkedFg"
-                                                       data-docitemname-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docItemName"
-                                                       data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
-                                                       data-button-container-class="upload-delete-button-container-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
-                                                       data-fileUploadFg-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.fileUploadFg"
-                                                       href="${contextPath}/application/document/fileDelete/${lv3Container.applNo}/${lv3Container.docSeq}"><spring:message code="L04106"/><%--삭제--%></a>
-                                                </div>
+
+                                                       data-file-input-id="file-input-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
+                                                       data-img-yn-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.imgYn"
+                                                       data-file-download-link-id="file-download-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
+                                                       data-file-delete-link-id="file-delete-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
+                                                       data-org-filename-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.orgFileName"
+                                                       data-target-subcontainer-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}."
+
+                                                       data-doc-prop-docSeq="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docSeq"
+                                                       data-doc-prop-docTypeCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docTypeCode"
+                                                       data-doc-prop-docGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docGrp"
+                                                       data-doc-prop-docItemCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docItemCode"
+                                                       data-doc-prop-docItemName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docItemName"
+                                                       data-doc-prop-grpLabel="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.grpLabel"
+                                                       data-doc-prop-fileExt="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.fileExt"
+                                                       data-doc-prop-imgYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.imgYn"
+                                                       data-doc-prop-filePath="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.filePath"
+                                                       data-doc-prop-fileName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.fileName"
+                                                       data-doc-prop-orgFileName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.orgFileName"
+                                                       data-doc-prop-docItemNameXxen="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docItemNameXxen"
+                                                       data-doc-prop-docGrpName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docGrpName"
+                                                       data-doc-prop-fileUploadFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.fileUploadFg"
+                                                       data-doc-prop-displayGrpFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.displayGrpFg"
+                                                       data-doc-prop-checkedFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.checkedFg"
+                                                       data-doc-prop-admsNo="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.admsNo"
+                                                       data-doc-prop-admsCorsNo="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.admsCorsNo"
+                                                       data-doc-prop-detlMajCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.detlMajCode"
+                                                       data-doc-prop-admsCodeGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.admsCodeGrp"
+                                                       data-doc-prop-admsCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.admsCode"
+                                                       data-doc-prop-grpLevel="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.grpLevel"
+                                                       data-doc-prop-docItemGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docItemGrp"
+                                                       data-doc-prop-upCodeGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.upCodeGrp"
+                                                       data-doc-prop-upCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.upCode"
+                                                       data-doc-prop-lastYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.lastYn"
+                                                       data-doc-prop-mdtYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.mdtYn"
+                                                       data-doc-prop-uploadYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.uploadYn"
+                                                       data-doc-prop-sendCnt="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.sendCnt"
+                                                       ><spring:message code="L04104"/><%--올리기--%></button>
+                                            </div>
+                                            <div class="col-sm-10 ${lv3Status.index < (lv2Container.subContainer.size()-1) ? 'wide-bottom' : ''} upload-delete-button-container-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
+                                                 style='display: <c:choose><c:when test="${lv3Container.fileUploadFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
+                                                <a class="btn btn-block btn-success file-download" id="file-download-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
+                                                        href="${contextPath}/application/document/fileDownload/${lv3Container.applNo}/${lv3Container.docSeq}"><spring:message code="L04105"/> : ${lv3Container.orgFileName}<%--내려받기 : 원래 파일 명--%></a>
+                                            </div>
+                                            <div class="col-sm-2 ${lv3Status.index < (lv2Container.subContainer.size()-1) ? 'wide-bottom' : ''} upload-delete-button-container-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
+                                                 style='display: <c:choose><c:when test="${lv3Container.fileUploadFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
+                                                <a class="btn btn-block btn-danger file-delete" id="file-delete-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
+                                                        data-checkbox-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.checkedFg"
+                                                        data-docitemname-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docItemName"
+                                                        data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
+                                                        data-button-container-class="upload-delete-button-container-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
+                                                        data-fileUploadFg-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.fileUploadFg"
+                                                        href="${contextPath}/application/document/fileDelete/${lv3Container.applNo}/${lv3Container.docSeq}"><spring:message code="L04106"/><%--삭제--%></a>
                                             </div>
                                     <spring:bind path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].fileUploadFg">
                                         <c:if test="${status.error}">
@@ -779,7 +795,7 @@
                                                     <div class="col-sm-9 warn-info"><label>${lv4Container.msg}</label></div>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <div class="col-sm-3">
+                                                    <div class="col-sm-5 narrow-bottom">
                                                         <div class="checkbox-upload">
                                                             <label class="word-keep-all" for="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.checkedFg">
                                                                 <input type="checkbox"
@@ -790,69 +806,67 @@
                                                             </label>
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-5 nopadding">
-                                                        <div class="col-sm-12 nopadding"><input type="file" class="btn btn-file" id="file-input-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}" name="${filePrefix}${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}" data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"/></div>
+                                                    <div class="col-sm-5">
+                                                        <input type="file" class="btn btn-file" id="file-input-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}" name="${filePrefix}${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}" data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"/>
                                                     </div>
-                                                    <div class="col-sm-4">
-                                                        <div class="col-sm-4 nopadding">
-                                                            <button id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
-                                                                   class="btn btn-default btn-upload"
+                                                    <div class="col-sm-2">
+                                                        <button id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
+                                                               class="btn btn-block btn-primary btn-upload"
 
-                                                                   data-checkbox-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.checkedFg"
-
-                                                                   data-file-input-id="file-input-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
-                                                                   data-img-yn-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.imgYn"
-                                                                   data-file-download-link-id="file-download-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
-                                                                   data-file-delete-link-id="file-delete-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
-                                                                   data-org-filename-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.orgFileName"
-                                                                   data-target-subcontainer-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}."
-
-                                                                   data-doc-prop-docSeq="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.docSeq"
-                                                                   data-doc-prop-docTypeCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.docTypeCode"
-                                                                   data-doc-prop-docGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.docGrp"
-                                                                   data-doc-prop-docItemCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.docItemCode"
-                                                                   data-doc-prop-docItemName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.docItemName"
-                                                                   data-doc-prop-grpLabel="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.grpLabel"
-                                                                   data-doc-prop-fileExt="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.fileExt"
-                                                                   data-doc-prop-imgYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.imgYn"
-                                                                   data-doc-prop-filePath="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.filePath"
-                                                                   data-doc-prop-fileName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.fileName"
-                                                                   data-doc-prop-orgFileName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.orgFileName"
-                                                                   data-doc-prop-docItemNameXxen="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.docItemNameXxen"
-                                                                   data-doc-prop-docGrpName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.docGrpName"
-                                                                   data-doc-prop-fileUploadFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.fileUploadFg"
-                                                                   data-doc-prop-displayGrpFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.displayGrpFg"
-                                                                   data-doc-prop-checkedFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.checkedFg"
-                                                                   data-doc-prop-admsNo="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.admsNo"
-                                                                   data-doc-prop-admsCorsNo="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.admsCorsNo"
-                                                                   data-doc-prop-detlMajCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.detlMajCode"
-                                                                   data-doc-prop-admsCodeGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.admsCodeGrp"
-                                                                   data-doc-prop-admsCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.admsCode"
-                                                                   data-doc-prop-grpLevel="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.grpLevel"
-                                                                   data-doc-prop-docItemGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.docItemGrp"
-                                                                   data-doc-prop-upCodeGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.upCodeGrp"
-                                                                   data-doc-prop-upCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.upCode"
-                                                                   data-doc-prop-lastYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.lastYn"
-                                                                   data-doc-prop-mdtYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.mdtYn"
-                                                                   data-doc-prop-uploadYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.uploadYn"
-                                                                   data-doc-prop-sendCnt="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.sendCnt"
-                                                                   ><spring:message code="L04104"/><%--올리기--%></button>
-                                                        </div>
-                                                        <div class="col-sm-4 upload-delete-button-container-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
-                                                             style='display: <c:choose><c:when test="${lv4Container.fileUploadFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
-                                                            <a class="btn btn-default file-download" id="file-download-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
-                                                               href="${contextPath}/application/document/fileDownload/${lv4Container.applNo}/${lv4Container.docSeq}"><spring:message code="L04105"/><%--내려받기--%></a>
-                                                        </div>
-                                                        <div class="col-sm-4 upload-delete-button-container-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
-                                                             style='display: <c:choose><c:when test="${lv4Container.fileUploadFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
-                                                            <a class="btn btn-default file-delete" id="file-delete-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
                                                                data-checkbox-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.checkedFg"
-                                                               data-docitemname-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.docItemName"
-                                                               data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
-                                                               data-button-container-class="upload-delete-button-container-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
-                                                               data-fileUploadFg-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.fileUploadFg"
-                                                               href="${contextPath}/application/document/fileDelete/${lv4Container.applNo}/${lv4Container.docSeq}"><spring:message code="L04106"/><%--삭제--%></a>
-                                                        </div>
+
+                                                               data-file-input-id="file-input-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
+                                                               data-img-yn-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.imgYn"
+                                                               data-file-download-link-id="file-download-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
+                                                               data-file-delete-link-id="file-delete-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
+                                                               data-org-filename-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.orgFileName"
+                                                               data-target-subcontainer-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}."
+
+                                                               data-doc-prop-docSeq="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.docSeq"
+                                                               data-doc-prop-docTypeCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.docTypeCode"
+                                                               data-doc-prop-docGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.docGrp"
+                                                               data-doc-prop-docItemCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.docItemCode"
+                                                               data-doc-prop-docItemName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.docItemName"
+                                                               data-doc-prop-grpLabel="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.grpLabel"
+                                                               data-doc-prop-fileExt="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.fileExt"
+                                                               data-doc-prop-imgYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.imgYn"
+                                                               data-doc-prop-filePath="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.filePath"
+                                                               data-doc-prop-fileName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.fileName"
+                                                               data-doc-prop-orgFileName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.orgFileName"
+                                                               data-doc-prop-docItemNameXxen="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.docItemNameXxen"
+                                                               data-doc-prop-docGrpName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.docGrpName"
+                                                               data-doc-prop-fileUploadFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.fileUploadFg"
+                                                               data-doc-prop-displayGrpFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.displayGrpFg"
+                                                               data-doc-prop-checkedFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.checkedFg"
+                                                               data-doc-prop-admsNo="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.admsNo"
+                                                               data-doc-prop-admsCorsNo="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.admsCorsNo"
+                                                               data-doc-prop-detlMajCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.detlMajCode"
+                                                               data-doc-prop-admsCodeGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.admsCodeGrp"
+                                                               data-doc-prop-admsCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.admsCode"
+                                                               data-doc-prop-grpLevel="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.grpLevel"
+                                                               data-doc-prop-docItemGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.docItemGrp"
+                                                               data-doc-prop-upCodeGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.upCodeGrp"
+                                                               data-doc-prop-upCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.upCode"
+                                                               data-doc-prop-lastYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.lastYn"
+                                                               data-doc-prop-mdtYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.mdtYn"
+                                                               data-doc-prop-uploadYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.uploadYn"
+                                                               data-doc-prop-sendCnt="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.sendCnt"
+                                                               ><spring:message code="L04104"/><%--올리기--%></button>
+                                                    </div>
+                                                    <div class="col-sm-10 ${lv4Status.index < (lv3Container.subContainer.size()-1) ? 'wide-bottom' : ''} upload-delete-button-container-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
+                                                         style='display: <c:choose><c:when test="${lv4Container.fileUploadFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
+                                                        <a class="btn btn-block btn-success file-download" id="file-download-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
+                                                                href="${contextPath}/application/document/fileDownload/${lv4Container.applNo}/${lv4Container.docSeq}"><spring:message code="L04105"/> : ${lv4Container.orgFileName}<%--내려받기 : 원래 파일 명--%></a>
+                                                    </div>
+                                                    <div class="col-sm-2 ${lv4Status.index < (lv3Container.subContainer.size()-1) ? 'wide-bottom' : ''} upload-delete-button-container-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
+                                                         style='display: <c:choose><c:when test="${lv4Container.fileUploadFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
+                                                        <a class="btn btn-block btn-danger file-delete" id="file-delete-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
+                                                                data-checkbox-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.checkedFg"
+                                                                data-docitemname-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.docItemName"
+                                                                data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
+                                                                data-button-container-class="upload-delete-button-container-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
+                                                                data-fileUploadFg-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.fileUploadFg"
+                                                                href="${contextPath}/application/document/fileDelete/${lv4Container.applNo}/${lv4Container.docSeq}"><spring:message code="L04106"/><%--삭제--%></a>
                                                     </div>
                                             <spring:bind path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].fileUploadFg">
                                                 <c:if test="${status.error}">
@@ -915,9 +929,9 @@
                                 </c:if>
                             </c:forEach>
 
-                            <%-- level2인 기타 첨부 서류 입력 란 --%>
+                            <%-- level2인 업로드 안 된 기타 첨부 서류 입력 란 --%>
                             <c:if test="${lv1Container.docTypeCode == '00009'}">
-                                <c:forEach begin="${lv1Container.subContainer.size()}" end="9" varStatus="lv2EtcStatus">
+                                <c:forEach begin="${lv1Container.subContainer.size()}" end="9" var="lv2EtcContainer" varStatus="lv2EtcStatus">
                                     <div class="form-group">
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].applNo" value="${document.application.applNo}"/>
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].docSeq" />
@@ -932,7 +946,7 @@
                                                      class="hidden-file-name"
                                                      data-file-input-id="${filePrefix}${lv1Status.index}-${lv2EtcStatus.index}"
                                                      data-doc-item-name="${documentContainerList[lv1Status.index].subContainer[lv2EtcStatus.index].docItemName}"/>
-                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].orgFileName" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].orgFileName"/>
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].docItemNameXxen" />
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].docGrpName" />
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].fileUploadFg" />
@@ -952,83 +966,81 @@
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].sendCnt" value="1" />
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].msgNo" />
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].msg" />
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-5 narrow-bottom">
                                             <div class="checkbox-upload">
                                                 <label class="word-keep-all" for="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.checkedFg">
-                                                    <div class="col-sm-2">
+                                                    <%--<div class="col-sm-2">--%>
                                                         <input type="checkbox"
                                                                id="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.checkedFg"
                                                                name="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].checkedFg"
                                                                data-upload-button-id="upload-button-${lv1Status.index}-${lv2EtcStatus.index}" />
-                                                    </div>
-                                                    <div class="col-sm-10 nopadding">
+                                                    <%--</div>--%>
+                                                    <%--<div class="col-sm-10 nopadding">--%>
                                                         <form:input path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].docItemName"
                                                                     placeholder="${msg.getMsg('L04404', locale)}"
-                                                                    cssClass="form-control"
+                                                                    size="40"
                                                                     maxlength="60" />
-                                                    </div>
+                                                    <%--</div>--%>
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="col-sm-5 nopadding">
-                                            <div class="col-sm-12 nopadding"><input type="file" class="btn btn-file" id="file-input-${lv1Status.index}-${lv2EtcStatus.index}" name="${filePrefix}${lv1Status.index}-${lv2EtcStatus.index}" data-upload-button-id="upload-button-${lv1Status.index}-${lv2EtcStatus.index}"/></div>
+                                        <div class="col-sm-5">
+                                            <input type="file" class="btn btn-file" id="file-input-${lv1Status.index}-${lv2EtcStatus.index}" name="${filePrefix}${lv1Status.index}-${lv2EtcStatus.index}" data-upload-button-id="upload-button-${lv1Status.index}-${lv2EtcStatus.index}"/>
                                         </div>
-                                        <div class="col-sm-4">
-                                            <div class="col-sm-4 nopadding">
-                                                <button id="upload-button-${lv1Status.index}-${lv2EtcStatus.index}"
-                                                        class="btn btn-default btn-upload"
+                                        <div class="col-sm-2">
+                                            <button id="upload-button-${lv1Status.index}-${lv2EtcStatus.index}"
+                                                    class="btn btn-block btn-primary btn-upload"
 
-                                                        data-checkbox-id="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.checkedFg"
+                                                    data-checkbox-id="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.checkedFg"
 
-                                                        data-file-input-id="file-input-${lv1Status.index}-${lv2EtcStatus.index}"
-                                                        data-img-yn-id="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.imgYn"
-                                                        data-file-download-link-id="file-download-link-${lv1Status.index}-${lv2EtcStatus.index}"
-                                                        data-file-delete-link-id="file-delete-link-${lv1Status.index}-${lv2EtcStatus.index}"
-                                                        data-org-filename-id="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.orgFileName"
-                                                        data-target-subcontainer-id="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}."
+                                                    data-file-input-id="file-input-${lv1Status.index}-${lv2EtcStatus.index}"
+                                                    data-img-yn-id="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.imgYn"
+                                                    data-file-download-link-id="file-download-link-${lv1Status.index}-${lv2EtcStatus.index}"
+                                                    data-file-delete-link-id="file-delete-link-${lv1Status.index}-${lv2EtcStatus.index}"
+                                                    data-org-filename-id="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.orgFileName"
+                                                    data-target-subcontainer-id="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}."
 
-                                                        data-doc-prop-docSeq="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.docSeq"
-                                                        data-doc-prop-docTypeCode="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.docTypeCode"
-                                                        data-doc-prop-docGrp="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.docGrp"
-                                                        data-doc-prop-docItemCode="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.docItemCode"
-                                                        data-doc-prop-docItemName="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.docItemName"
-                                                        data-doc-prop-grpLabel="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.grpLabel"
-                                                        data-doc-prop-fileExt="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.fileExt"
-                                                        data-doc-prop-imgYn="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.imgYn"
-                                                        data-doc-prop-filePath="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.filePath"
-                                                        data-doc-prop-fileName="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.fileName"
-                                                        data-doc-prop-orgFileName="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.orgFileName"
-                                                        data-doc-prop-docItemNameXxen="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.docItemNameXxen"
-                                                        data-doc-prop-docGrpName="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.docGrpName"
-                                                        data-doc-prop-fileUploadFg="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.fileUploadFg"
-                                                        data-doc-prop-displayGrpFg="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.displayGrpFg"
-                                                        data-doc-prop-checkedFg="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.checkedFg"
-                                                        data-doc-prop-admsNo="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.admsNo"
-                                                        data-doc-prop-admsCorsNo="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.admsCorsNo"
-                                                        data-doc-prop-detlMajCode="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.detlMajCode"
-                                                        data-doc-prop-admsCodeGrp="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.admsCodeGrp"
-                                                        data-doc-prop-admsCode="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.admsCode"
-                                                        data-doc-prop-grpLevel="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.grpLevel"
-                                                        data-doc-prop-docItemGrp="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.docItemGrp"
-                                                        data-doc-prop-upCodeGrp="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.upCodeGrp"
-                                                        data-doc-prop-upCode="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.upCode"
-                                                        data-doc-prop-lastYn="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.lastYn"
-                                                        data-doc-prop-mdtYn="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.mdtYn"
-                                                        data-doc-prop-uploadYn="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.uploadYn"
-                                                        data-doc-prop-sendCnt="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.sendCnt"
-                                                ><spring:message code="L04104"/><%--올리기--%></button>
-                                            </div>
-                                            <div class="col-sm-4 upload-delete-button-container-${lv1Status.index}-${lv2EtcStatus.index}" style='display: none;'>
-                                                <a class="btn btn-default file-download" id="file-download-link-${lv1Status.index}-${lv2EtcStatus.index}"><spring:message code="L04105"/><%--내려받기--%></a>
-                                            </div>
-                                            <div class="col-sm-4 upload-delete-button-container-${lv1Status.index}-${lv2EtcStatus.index}" style='display: none;'>
-                                                <a class="btn btn-default file-delete" id="file-delete-link-${lv1Status.index}-${lv2EtcStatus.index}"
+                                                    data-doc-prop-docSeq="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.docSeq"
+                                                    data-doc-prop-docTypeCode="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.docTypeCode"
+                                                    data-doc-prop-docGrp="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.docGrp"
+                                                    data-doc-prop-docItemCode="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.docItemCode"
+                                                    data-doc-prop-docItemName="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.docItemName"
+                                                    data-doc-prop-grpLabel="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.grpLabel"
+                                                    data-doc-prop-fileExt="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.fileExt"
+                                                    data-doc-prop-imgYn="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.imgYn"
+                                                    data-doc-prop-filePath="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.filePath"
+                                                    data-doc-prop-fileName="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.fileName"
+                                                    data-doc-prop-orgFileName="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.orgFileName"
+                                                    data-doc-prop-docItemNameXxen="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.docItemNameXxen"
+                                                    data-doc-prop-docGrpName="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.docGrpName"
+                                                    data-doc-prop-fileUploadFg="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.fileUploadFg"
+                                                    data-doc-prop-displayGrpFg="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.displayGrpFg"
+                                                    data-doc-prop-checkedFg="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.checkedFg"
+                                                    data-doc-prop-admsNo="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.admsNo"
+                                                    data-doc-prop-admsCorsNo="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.admsCorsNo"
+                                                    data-doc-prop-detlMajCode="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.detlMajCode"
+                                                    data-doc-prop-admsCodeGrp="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.admsCodeGrp"
+                                                    data-doc-prop-admsCode="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.admsCode"
+                                                    data-doc-prop-grpLevel="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.grpLevel"
+                                                    data-doc-prop-docItemGrp="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.docItemGrp"
+                                                    data-doc-prop-upCodeGrp="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.upCodeGrp"
+                                                    data-doc-prop-upCode="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.upCode"
+                                                    data-doc-prop-lastYn="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.lastYn"
+                                                    data-doc-prop-mdtYn="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.mdtYn"
+                                                    data-doc-prop-uploadYn="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.uploadYn"
+                                                    data-doc-prop-sendCnt="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.sendCnt"
+                                            ><spring:message code="L04104"/><%--올리기--%></button>
+                                        </div>
+                                        <div class="col-sm-10 ${lv2EtcStatus.index < (lv1Container.subContainer.size()-1) ? 'wide-bottom' : ''} upload-delete-button-container-${lv1Status.index}-${lv2EtcStatus.index}" style='display: none;'>
+                                            <a class="btn btn-block btn-success file-download" id="file-download-link-${lv1Status.index}-${lv2EtcStatus.index}"><spring:message code="L04105"/> : ${lv3Container.orgFileName}<%--내려받기 : 원래 파일 명--%></a>
+                                        </div>
+                                        <div class="col-sm-2 ${lv2EtcStatus.index < (lv1Container.subContainer.size()-1) ? 'wide-bottom' : ''} upload-delete-button-container-${lv1Status.index}-${lv2EtcStatus.index}" style='display: none;'>
+                                            <a class="btn btn-block btn-danger file-delete" id="file-delete-link-${lv1Status.index}-${lv2EtcStatus.index}"
                                                     data-checkbox-id="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.checkedFg"
                                                     data-docitemname-id="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.docItemName"
                                                     data-upload-button-id="upload-button-${lv1Status.index}-${lv2EtcStatus.index}"
                                                     data-button-container-class="upload-delete-button-container-${lv1Status.index}-${lv2EtcStatus.index}"
                                                     data-fileUploadFg-id="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.fileUploadFg"><spring:message code="L04106"/><%--삭제--%></a>
-                                            </div>
                                         </div>
                                         <spring:bind path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].fileUploadFg">
                                             <c:if test="${status.error}">
@@ -1472,13 +1484,14 @@
                                         oneDocument = d.oneDocument,
                                         docSeq = oneDocument.docSeq,
                                         oneDocumentHidden;
-                                $targetBtn.removeClass("btn-default");
+                                $targetBtn.removeClass("btn-primary");
                                 $targetBtn.removeClass("btn-danger");
-                                $targetBtn.addClass("btn-info");
+                                $targetBtn.addClass("btn-primary");
                                 $targetBtn.val("<spring:message code="U04508"/>");//올리기 성공
 
                                 document.getElementById(targetFileDownloadLinkId).parentNode.style.display = 'block';
                                 document.getElementById(targetFileDownloadLinkId).setAttribute('href', '${contextPath}/application/document/fileDownload/' + applNo + '/' + docSeq);
+                                document.getElementById(targetFileDownloadLinkId).innerHTML = '<spring:message code="L04105"/> : ' + originalFileName;
 
                                 document.getElementById(targetFileDeleteLinkId).parentNode.style.display = 'block';
                                 document.getElementById(targetFileDeleteLinkId).setAttribute('href', '${contextPath}/application/document/fileDelete/' + applNo + '/' + docSeq);
@@ -1552,7 +1565,7 @@
                             targetCheckBox.checked = false,
                             targetDocItemName.type == 'text' ? (targetDocItemName.value = '', targetDocItemName.placeholder = '${msg.getMsg('L04404', locale)}' ) : true,
                             $targetUploadButton.removeClass('btn-info'),
-                            $targetUploadButton.addClass('btn-default'),
+                            $targetUploadButton.addClass('btn-primary'),
                             $targetUploadButton.val("올리기"),
                             $(targetButtonContainerClass).css('display', 'none'),
                             targetFileUploadFg.value = false;
