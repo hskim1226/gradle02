@@ -283,7 +283,7 @@ public class AdminController {
     }
 
     /**
-     * 지원서 다운로드
+     * 지원서, 수험표, 묶음파일 다운로드
      * @return
      * @throws java.io.IOException
      */
@@ -325,28 +325,30 @@ public class AdminController {
      * 수험표 다운로드
      * @return
      * @throws java.io.IOException
+     *
+     * @Deprecated 원서, 수험표, 묶음파일 다운로드는 /search/pdfDownload 로 일원화
      */
-
-    @RequestMapping(value="/search/applSlipDownload", produces = "application/pdf")
-    public ModelAndView applSlipDownload(@RequestParam("applNo") int applNo,
-                                         @RequestParam("admsTypeCode") String admsTypeCode,
-                                         Principal principal,
-                                         HttpServletResponse response,
-                                         ModelAndView mv) throws IOException {
-
-        mv.setViewName("pdfSingleFormatBirtDownload");
-
-        Map<String, Object> bigDataMap = null;
-        String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
-        String reportName = "yonsei-adms-" + lang;
-        mv.addObject("reportFormat", REPORT_FORMAT);
-        mv.addObject("reportName", reportName);
-        ExecutionContext ec = birtService.processBirt(applNo, reportName);
-        bigDataMap = (Map<String, Object>)ec.getData();
-        mv.addAllObjects(bigDataMap);
-
-        return mv;
-    }
+//
+//    @RequestMapping(value="/search/applSlipDownload", produces = "application/pdf")
+//    public ModelAndView applSlipDownload(@RequestParam("applNo") int applNo,
+//                                         @RequestParam("admsTypeCode") String admsTypeCode,
+//                                         Principal principal,
+//                                         HttpServletResponse response,
+//                                         ModelAndView mv) throws IOException {
+//
+//        mv.setViewName("pdfSingleFormatBirtDownload");
+//
+//        Map<String, Object> bigDataMap = null;
+//        String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
+//        String reportName = "yonsei-adms-" + lang;
+//        mv.addObject("reportFormat", REPORT_FORMAT);
+//        mv.addObject("reportName", reportName);
+//        ExecutionContext ec = birtService.processBirt(applNo, reportName);
+//        bigDataMap = (Map<String, Object>)ec.getData();
+//        mv.addAllObjects(bigDataMap);
+//
+//        return mv;
+//    }
 
 //    /**
 //     * 수험표 다운로드
