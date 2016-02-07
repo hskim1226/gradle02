@@ -265,6 +265,7 @@
         <!-- 모바일 탭메뉴 끝 -->
         <form:form commandName="langCareer" cssClass="form-horizontal" method="post" role="form">
             <form:hidden path="application.applNo" id="applNo" />
+            <form:hidden path="application.userId" id="userId" />
             <form:hidden path="application.applStsCode" id="applStsCode" />
             <form:hidden path="application.admsNo" id="admsNo" />
             <form:hidden path="application.entrYear" id="entrYear" />

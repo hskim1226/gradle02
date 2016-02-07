@@ -97,12 +97,9 @@ public class AcademyController {
         }
 
         ExecutionContext ec;
-        String userId = principal.getName();
 
         Application application = formData.getApplication();
-
-//        application.setUserId(userId);
-        application.setModId(userId);
+        application.setModId(application.getUserId());
 
         List<CustomApplicationAcademy> collegeList = formData.getCollegeList();
         List<CustomApplicationAcademy> graduateList = formData.getGraduateList();

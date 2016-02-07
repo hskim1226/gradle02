@@ -119,9 +119,9 @@ public class BasisController {
         }
 
         ExecutionContext ec;
-        String userId = principal.getName();
+
         Application application = formData.getApplication();
-        application.setModId(userId);
+        application.setModId(application.getUserId());
 
         applyEncryption(application);
         applyEncryptionForeigner(formData, application);
@@ -211,10 +211,10 @@ public class BasisController {
         }
 
         ExecutionContext ec;
-        String userId = principal.getName();
+//        String userId = principal.getName();
         Application application = formData.getApplication();
 //        application.setUserId(userId);
-        application.setModId(userId);
+//        application.setModId(userId);
 
         ec = basisService.cancelBasis(formData);
 

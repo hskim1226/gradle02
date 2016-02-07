@@ -290,7 +290,6 @@ public class DocumentController {
             if (ExecutionContext.SUCCESS.equals(ec1.getResult())) { // 파일 합치기를 해서 성공일때만 제출
                 String userId = application.getUserId();
 
-//        application.setUserId(userId);
                 application.setModId(userId);
 
                 ec = documentService.submit(formData);
