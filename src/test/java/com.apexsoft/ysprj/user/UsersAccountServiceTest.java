@@ -12,6 +12,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -26,11 +28,14 @@ import static org.mockito.Mockito.*;
  * Time: 오후 3:11
  */
 @RunWith(SpringJUnit4ClassRunner.class)
+@PropertySource("classpath:/properties/config/app.dev.properties")
 @ContextConfiguration(locations = {
 //        "file:src/main/webapp/WEB-INF/config/context-mvc.xml",
-        "classpath:/spring/test-config.xml"
+        "classpath:/spring/test/test-config.xml"
+//        "classpath:/spring/test/test-usercontroller.xml"
 //        "classpath*:/spring/context-persistence.xml"
 })
+@ActiveProfiles("dev")
 public class UsersAccountServiceTest {
 
     @Mock
@@ -53,7 +58,7 @@ public class UsersAccountServiceTest {
 
         ExecutionContext<Object> ec = new ExecutionContext<>();
 
-        when(dao.queryForObject(any(String.class), user, String.class)).thenReturn("SSS");
+        when(dao.queryForObject(any(String.class), any(User.class), eq(User.class))).thenReturn(user);
         ExecutionContext c = userAccountService.retrieveUserId(user);
         Assert.assertNotNull(c.getData());
         printObject(c.getData());
