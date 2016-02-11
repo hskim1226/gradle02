@@ -1,5 +1,6 @@
 *.class
 *.log
+build/
 
 #Eclipse
 .classpath

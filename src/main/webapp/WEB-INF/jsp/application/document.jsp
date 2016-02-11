@@ -1114,7 +1114,6 @@
                 </div>
             </div>
         </div> <%--myTabContent--%>
-            <input type="hidden" name="application.userId" id="userId" value="${document.application.userId}"/>
         </form:form>
     </div> <%--container--%>
 </section>
@@ -1248,7 +1247,7 @@
                 }
             } else if (saveType == 'generate') {
                 $('#overlay').show();
-                alert('<spring:message code="U04525"/>'); // 원서 미리보기 생성 및 원서 미리 보기에서 오류 발생 시 업로드 된 파일 이름에서 특수 문자를 제거한 후 다시 시도해 주십시오.
+                <%--alert('<spring:message code="U04525"/>'); // 원서 미리보기 생성 및 원서 미리 보기에서 오류 발생 시 업로드 된 파일 이름에서 특수 문자를 제거한 후 다시 시도해 주십시오.--%>
                 document.getElementById('spinner').style.display = 'block';
                 formData = $(form).serialize();
                 <%-- 지원서 파일 정보 DB 저장 --%>
@@ -1311,12 +1310,13 @@
                 <%-- 지원서 파일 정보 DB 저장 --%>
 
             } else if (saveType == 'preview') {
-                alert('<spring:message code="U04525"/>'); // 원서 미리보기 생성 및 원서 미리 보기에서 오류 발생 시 업로드 된 파일 이름에서 특수 문자를 제거한 후 다시 시도해 주십시오.
+                <%--alert('<spring:message code="U04525"/>'); // 원서 미리보기 생성 및 원서 미리 보기에서 오류 발생 시 업로드 된 파일 이름에서 특수 문자를 제거한 후 다시 시도해 주십시오.--%>
                 form.action = "${contextPath}/pdf/download/applForm";
                 form.submit();
             } else if (saveType == 'submit') {
                 $('#overlay').show();
-                if (confirm('<spring:message code="U04526"/>\n\n<spring:message code="U04509"/>')) {// 원서 제출에서 오류 발생 시 업로드 된 파일 이름에서 특수 문자를 제거한 후 다시 시도해 주십시오. 원서 제출 후에는 원서 내용을 수정할 수 없습니다.\n\n계속하시겠습니까?
+                <%--if (confirm('<spring:message code="U04526"/>\n\n<spring:message code="U04509"/>')) {// 원서 제출에서 오류 발생 시 업로드 된 파일 이름에서 특수 문자를 제거한 후 다시 시도해 주십시오. 원서 제출 후에는 원서 내용을 수정할 수 없습니다.\n\n계속하시겠습니까?--%>
+                if (confirm('<spring:message code="U04509"/>')) {// 원서 제출 후에는 원서 내용을 수정할 수 없습니다.\n\n계속하시겠습니까?
                     document.getElementById('spinner2').style.display = 'block';
                     form.action = "${contextPath}/application/document/submit";
                     form.target = "_self";
