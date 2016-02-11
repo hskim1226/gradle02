@@ -163,11 +163,13 @@ public class PreApplicationController {
     @RequestMapping(value = "/agreement", method = RequestMethod.POST)
     public ModelAndView checkAgreement(@RequestParam(value = "admsNo") String admsNo,
                                        @RequestParam(value = "entrYear") String entrYear,
-                                       @RequestParam(value = "admsTypeCode") String admsTypeCode) {
+                                       @RequestParam(value = "admsTypeCode") String admsTypeCode,
+                                       Principal principal) {
         ModelAndView mv = new ModelAndView("application/agreement");
         mv.addObject("admsNo", admsNo);
         mv.addObject("entrYear", entrYear);
         mv.addObject("admsTypeCode", admsTypeCode);
+        mv.addObject("userId", principal.getName());
         return mv;
     }
 

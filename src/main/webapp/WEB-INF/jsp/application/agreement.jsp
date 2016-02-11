@@ -203,6 +203,7 @@
             <input type="hidden" name="application.admsNo" id="admsNo" value="${admsNo}" />
             <input type="hidden" name="application.entrYear" id="entrYear" value="${entrYear}" />
             <input type="hidden" name="application.admsTypeCode" id="admsTypeCode" value="${admsTypeCode}" />
+            <input type="hidden" name="application.userId" id="userId" value="${userId}" />
         </form>
     </div>
 </section>
