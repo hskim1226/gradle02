@@ -337,19 +337,70 @@ public class RecommendationServiceImpl implements RecommendationService {
                                                               Recommendation recommendation) {
         ExecutionContext ec = new ExecutionContext();
         int recNo = recommendation.getRecNo();
-        Date date = new Date();
 
+        // 파일 업로드
+        FileInfo fileInfo = uploadRecommendationFileToS3(multipartHttpServletRequest, multipartFile, recommendation);
+
+        // APPL_REC 업데이트
+        int r1 = updateApplRec(recommendation);
+
+        if (r1 == 1) {
+            ec.setResult(ExecutionContext.SUCCESS);
+
+            // APPL_DOC 업데이트
+            updateApplDoc(multipartHttpServletRequest, multipartFile, recommendation, fileInfo);
+
+            // 합치기 안하므로 원서, 수험표 재생성 필요 없음
+            // 첨부 파일 저장 후이면 어차피 원서 미리보기 생성을 다시 해야 이메일 추천서 함침 여부를 알 수 있으므로 여기서 합쳐줄 필요 없음
+            // 작성 완료 단계이면 원서 수정모드로 갈 수 없으므로 이메일 추천서 합침 여부 확인은 결제 이후에나 가능. 여기서 합쳐줄 필요 없음
+            // 입금 대기의 경우도 작성 완료와 같으므로 여기서 합쳐줄 필요 없음
+            // 결국 이미 결제가 완료된 상태에서만 추천서 등록 시마다 다시 합쳐주면 됨.
+//            if (application.isCompleted()) {
+//                genAndUploadApplicationFormAndSlipFile(application);
+//            }
+
+            // 메일 발송
+            sendNotificationMail(recommendation);
+
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(MessageResolver.getMessage("U06735")); // 추천서 등록에 실패했습니다.
+            ec.setErrCode("ERR0083");
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("recNo", String.valueOf(recNo));
+            ec.setErrorInfo(new ErrorInfo(errorInfo));
+
+            throw new YSBizException(ec);
+        }
+
+        return ec;
+    }
+
+    // 서버 로컬에 임시 저장할 디렉토리
+    private String getUploadDir(MultipartHttpServletRequest multipartHttpServletRequest) {
         int applNo = Integer.parseInt(multipartHttpServletRequest.getParameter("applNo"));
         String userId = multipartHttpServletRequest.getParameter("userId");
         String admsNo = multipartHttpServletRequest.getParameter("admsNo");
-        Locale locale = new Locale(multipartHttpServletRequest.getParameter("lang"));
 
-        // 파일 업로드
         String uploadDir = FilePathUtil.getUploadDirectory(admsNo, userId, applNo);
-        String uploadFileName = "file-recommendation-" + recNo + "-" + multipartFile.getOriginalFilename();
+        return uploadDir;
+    }
+
+    // 추천서 업로드 파일이름 생성
+    private String getUploadFileName(MultipartFile multipartFile, Recommendation recommendation) {
+        return "file-recommendation-" + recommendation.getRecNo() + "-" + multipartFile.getOriginalFilename();
+    }
+
+    // 추천서 PDF 파일 S3에 업로드
+    private FileInfo uploadRecommendationFileToS3(MultipartHttpServletRequest multipartHttpServletRequest, MultipartFile multipartFile, Recommendation recommendation) {
+        ExecutionContext ec = null;
+        int applNo = Integer.parseInt(multipartHttpServletRequest.getParameter("applNo"));
         String originalFileName = multipartFile.getOriginalFilename();
+        Locale locale = new Locale(multipartHttpServletRequest.getParameter("lang"));
         FileInfo fileInfo = null;
 
+        String uploadDir = getUploadDir(multipartHttpServletRequest);
+        String uploadFileName = getUploadFileName(multipartFile, recommendation);
         try {
             fileInfo = s3PersistenceManager.save(uploadDir, uploadFileName, originalFileName,
                     multipartFile.getInputStream());
@@ -389,166 +440,161 @@ public class RecommendationServiceImpl implements RecommendationService {
                 throw new YSBizException(ec);
             }
         }
+        return fileInfo;
+    }
 
-        // APPL_REC 업데이트
+    // APPL_REC 업데이트
+    private int updateApplRec(Recommendation recommendation) {
         recommendation.setRecStsCode(RecommendStatus.COMPLETED.codeVal());  // 추천서 접수 완료
-        recommendation.setModDate(date);
+        recommendation.setModDate(new Date());
         recommendation.setFileUploadedYn("Y");
 
         int r1 = commonDAO.updateItem(recommendation, NAME_SPACE, "CustomRecommendationMapper", ".updateSelective");
-        Recommendation result = commonDAO.queryForObject(NAME_SPACE + "CustomRecommendationMapper.selectByRecNo", recNo, Recommendation.class);
 
-        if (r1 == 1) {
-            ec.setResult(ExecutionContext.SUCCESS);
+        return r1;
+    }
 
-            // APPL_DOC 업데이트
-            TotalApplicationDocument oneDocument = new TotalApplicationDocument();
-            oneDocument.setApplNo(applNo);
-            oneDocument.setDocTypeCode(multipartHttpServletRequest.getParameter("docTypeCode"));
-            oneDocument.setDocGrp(recNo);
-            oneDocument.setDocItemCode(multipartHttpServletRequest.getParameter("docItemCode"));
-            oneDocument.setDocItemName(multipartHttpServletRequest.getParameter("docItemName"));
-            oneDocument.setDocItemNameXxen(multipartHttpServletRequest.getParameter("docItemNameXxen"));
-            oneDocument.setFileExt("pdf");
-            oneDocument.setImgYn("N");
-            oneDocument.setFilePath(s3MidPath + "/" + uploadDir + "/" + uploadFileName);
-            oneDocument.setFileName(uploadFileName);
-            oneDocument.setOrgFileName(multipartFile.getOriginalFilename());
-            oneDocument.setPageCnt(fileInfo.getPageCnt());
-            oneDocument.setFileUploadFg("Y".equals(multipartHttpServletRequest.getParameter("fileUploadedYn")));
+    // APPL_DOC 업데이트
+    private void updateApplDoc(MultipartHttpServletRequest multipartHttpServletRequest,
+                               MultipartFile multipartFile,
+                               Recommendation recommendation,
+                               FileInfo fileInfo) {
+
+        ExecutionContext ec = new ExecutionContext();
+        int applNo = Integer.parseInt(multipartHttpServletRequest.getParameter("applNo"));
+        String userId = multipartHttpServletRequest.getParameter("userId");
+        int recNo = recommendation.getRecNo();
+        String uploadDir = getUploadDir(multipartHttpServletRequest);
+        String uploadFileName = getUploadFileName(multipartFile, recommendation);
+
+        TotalApplicationDocument oneDocument = new TotalApplicationDocument();
+        oneDocument.setApplNo(applNo);
+        oneDocument.setDocTypeCode(multipartHttpServletRequest.getParameter("docTypeCode"));
+        oneDocument.setDocGrp(recNo);
+        oneDocument.setDocItemCode(multipartHttpServletRequest.getParameter("docItemCode"));
+        oneDocument.setDocItemName(multipartHttpServletRequest.getParameter("docItemName"));
+        oneDocument.setDocItemNameXxen(multipartHttpServletRequest.getParameter("docItemNameXxen"));
+        oneDocument.setFileExt("pdf");
+        oneDocument.setImgYn("N");
+        oneDocument.setFilePath(s3MidPath + "/" + uploadDir + "/" + uploadFileName);
+        oneDocument.setFileName(uploadFileName);
+        oneDocument.setOrgFileName(multipartFile.getOriginalFilename());
+        oneDocument.setPageCnt(fileInfo.getPageCnt());
+        oneDocument.setFileUploadFg("Y".equals(multipartHttpServletRequest.getParameter("fileUploadedYn")));
 
 
-            int rUpdate = 0, rInsert = 0, update=0, insert =0;
+        int rUpdate = 0, rInsert = 0, update=0, insert =0;
 
-            //기존 파일이 업로드 되어 있는 경우
-            if( oneDocument.isFileUploadFg()){
-                ParamForDocOfRecommend param = new ParamForDocOfRecommend();
-                param.setApplNo(applNo);
-                param.setDocGrp(recNo);
-                ApplicationDocument aDoc = commonDAO.queryForObject(NAME_SPACE +
-                        "CustomApplicationDocumentMapper.selectApplicationDocumentOfRecommendation", param, ApplicationDocument.class);
-                rUpdate++;
-                oneDocument.setDocSeq(aDoc.getDocSeq());
-                oneDocument.setModDate(date);
-                oneDocument.setModId(userId);
-                update = update + commonDAO.updateItem(oneDocument, NAME_SPACE, "ApplicationDocumentMapper");
+        //기존 파일이 업로드 되어 있는 경우
+        if( oneDocument.isFileUploadFg()){
+            ParamForDocOfRecommend param = new ParamForDocOfRecommend();
+            param.setApplNo(applNo);
+            param.setDocGrp(recNo);
+            ApplicationDocument aDoc = commonDAO.queryForObject(NAME_SPACE +
+                    "CustomApplicationDocumentMapper.selectApplicationDocumentOfRecommendation", param, ApplicationDocument.class);
+            rUpdate++;
+            oneDocument.setDocSeq(aDoc.getDocSeq());
+            oneDocument.setModDate(new Date());
+            oneDocument.setModId(userId);
+            update = update + commonDAO.updateItem(oneDocument, NAME_SPACE, "ApplicationDocumentMapper");
 
-            }else{
-                rInsert++;
+        }else{
+            rInsert++;
 
-                int maxSeq = commonDAO.queryForInt(NAME_SPACE +"CustomApplicationDocumentMapper.selectMaxSeqByApplNo", applNo ) ;
-                oneDocument.setFileUploadFg(true);
-                oneDocument.setDocSeq(++maxSeq);
-                oneDocument.setCreId(userId);
-                oneDocument.setCreDate(date);
-                insert = insert + commonDAO.insertItem(oneDocument, NAME_SPACE, "ApplicationDocumentMapper");
-
-            }
-
+            int maxSeq = commonDAO.queryForInt(NAME_SPACE +"CustomApplicationDocumentMapper.selectMaxSeqByApplNo", applNo ) ;
+            oneDocument.setFileUploadFg(true);
+            oneDocument.setDocSeq(++maxSeq);
+            oneDocument.setCreId(userId);
+            oneDocument.setCreDate(new Date());
+            insert = insert + commonDAO.insertItem(oneDocument, NAME_SPACE, "ApplicationDocumentMapper");
+        }
 //        if (  insert == rInsert && update == rUpdate && applUpdate == 1 ) {
-            if (  insert == rInsert && update == rUpdate ) {
-                ec.setResult(ExecutionContext.SUCCESS);
-                ec.setMessage(MessageResolver.getMessage("U325"));
-                ec.setData(oneDocument);
-            } else {
-                ec.setResult(ExecutionContext.FAIL);
-                ec.setMessage(MessageResolver.getMessage("U326"));
-                ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
-                String errCode = null;
-                if ( insert != rInsert ) errCode = "ERR0031";
-                if ( update != rUpdate ) errCode = "ERR0033";
-                ec.setErrCode(errCode);
-                Map<String, String> errorInfo = new HashMap<String, String>();
-                errorInfo.put("applNo", String.valueOf(applNo));
-                errorInfo.put("creId", oneDocument.getCreId());
-                errorInfo.put("modId", oneDocument.getModId());
-                errorInfo.put("docSeq", String.valueOf(oneDocument.getDocSeq()));
-                errorInfo.put("docItemCode", oneDocument.getDocItemCode());
-                errorInfo.put("docItemName", oneDocument.getDocItemName());
-                ec.setErrorInfo(new ErrorInfo(errorInfo));
-                throw new YSBizException(ec);
-            }
-
-            Application application =
-                    commonDAO.queryForObject(NAME_SPACE + "CustomRecommendationMapper.selectApplicantMailByRecNo",
-                            recNo, Application.class);
-
-
-            // 첨부 파일 저장 후이면 어차피 원서 미리보기 생성을 다시 해야 이메일 추천서 함침 여부를 알 수 있으므로 여기서 합쳐줄 필요 없음
-            // 작성 완료 단계이면 원서 수정모드로 갈 수 없으므로 이메일 추천서 합침 여부 확인은 결제 이후에나 가능. 여기서 합쳐줄 필요 없음
-            // 입금 대기의 경우도 작성 완료와 같으므로 여기서 합쳐줄 필요 없음
-            // 결국 이미 결제가 완료된 상태에서만 추천서 등록 시마다 다시 합쳐주면 됨.
-            if (application.isCompleted()) {
-                genAndUploadApplicationFormAndSlipFile(application);
-            }
-
-            // 메일 발송
-            Mail mail = MailFactory.create(MailType.RECOMMENDATION_COMPLETED);
-            mail.setInfo(result);
-            mail.setInfoType(Recommendation.class);
-            String applicantKorName = application.getKorName();
-            boolean hasKorName = applicantKorName != null && !StringUtils.isEmpty(applicantKorName);
-            String applicantName = application.getEngName() + " " + (hasKorName ? "(" + application.getKorName() + ")" : "");                    ;
-            mail.setTo(new String[]{application.getMailAddr()});
-            mail.setSubject(MessageResolver.getMessage("MAIL_COMPLETED_RECOMMENDATION_SUBJECT"));
-            Map<Object, String> contentsParam = mail.getContentsParam();
-            contentsParam.put(MailContentsParamKey.USER_NAME, applicantName);
-            contentsParam.put(MailContentsParamKey.PROF_NAME, result.getProfName());
-            mail.makeContents();
-
-            if (sendCompletedMail(mail)) {
-                ec.setMessage(MessageResolver.getMessage("U06737")); // 추천서 등록을 완료하고 지원자에게 알림 메일을 보냈습니다.
-            } else {
-                ec.setResult(ExecutionContext.FAIL);
-                ec.setMessage(MessageResolver.getMessage("U06736")); // 지원자에게 추천서 등록 완료 알림 메일을 보내는데 실패했습니다.
-                ec.setErrCode("ERR0105");
-                Map<String, String> errorInfo = new HashMap<String, String>();
-                errorInfo.put("recNo", String.valueOf(recNo));
-                ec.setErrorInfo(new ErrorInfo(errorInfo));
-
-                throw new YSBizException(ec);
-            }
-
-
+        if (  insert == rInsert && update == rUpdate ) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setMessage(MessageResolver.getMessage("U325"));
+            ec.setData(oneDocument);
         } else {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(MessageResolver.getMessage("U06735")); // 추천서 등록에 실패했습니다.
-            ec.setErrCode("ERR0083");
+            ec.setMessage(MessageResolver.getMessage("U326"));
+            ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
+            String errCode = null;
+            if ( insert != rInsert ) errCode = "ERR0031";
+            if ( update != rUpdate ) errCode = "ERR0033";
+            ec.setErrCode(errCode);
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("applNo", String.valueOf(applNo));
+            errorInfo.put("creId", oneDocument.getCreId());
+            errorInfo.put("modId", oneDocument.getModId());
+            errorInfo.put("docSeq", String.valueOf(oneDocument.getDocSeq()));
+            errorInfo.put("docItemCode", oneDocument.getDocItemCode());
+            errorInfo.put("docItemName", oneDocument.getDocItemName());
+            ec.setErrorInfo(new ErrorInfo(errorInfo));
+            throw new YSBizException(ec);
+        }
+    }
+
+    // 원서 수험표 재생성
+//    private ExecutionContext genAndUploadApplicationFormAndSlipFile(Application application) {
+//        ExecutionContext ec = new ExecutionContext();
+//
+//        String lang = application.isForeignAppl() ? "en" : "kr";
+//        String reportName = "yonsei-appl-" + lang;
+//        ExecutionContext ecGenAppl = birtService.generateBirtFile(application.getApplNo(), reportName);
+//        reportName = "yonsei-adms-" + lang;
+//        ExecutionContext ecGenAdms = birtService.generateBirtFile(application.getApplNo(), reportName);
+//        ExecutionContext ecPdfMerge = pdfService.genAndUploadPDFByApplicants(application);
+//        if ( ExecutionContext.FAIL.equals(ecGenAppl.getResult()) ||
+//                ExecutionContext.FAIL.equals(ecGenAdms.getResult()) ||
+//                ExecutionContext.FAIL.equals(ecPdfMerge.getResult()) ) {
+//            ExecutionContext ecError = new ExecutionContext(ExecutionContext.FAIL);
+//
+//            ecError.setMessage(MessageResolver.getMessage("U06903"));
+//            ecError.setErrCode("ERR0073");
+//
+//            Map<String, String> errorInfo = new HashMap<String, String>();
+//            errorInfo.put("applNo", String.valueOf(application.getApplNo()));
+//
+//            ecError.setErrorInfo(new ErrorInfo(errorInfo));
+//            throw new YSBizException(ecError);
+//        }
+//
+//        return ec;
+//    }
+
+    // 추천서 등록 완료 알림 메일 to 지원자
+    private void sendNotificationMail(Recommendation recommendation) {
+        ExecutionContext ec = new ExecutionContext();
+        int recNo = recommendation.getRecNo();
+
+        Application application =
+                commonDAO.queryForObject(NAME_SPACE + "CustomRecommendationMapper.selectApplicantMailByRecNo",
+                        recNo, Application.class);
+        Recommendation result = commonDAO.queryForObject(NAME_SPACE + "CustomRecommendationMapper.selectByRecNo", recNo, Recommendation.class);
+        Mail mail = MailFactory.create(MailType.RECOMMENDATION_COMPLETED);
+        mail.setInfo(result);
+        mail.setInfoType(Recommendation.class);
+        String applicantKorName = application.getKorName();
+        boolean hasKorName = applicantKorName != null && !StringUtils.isEmpty(applicantKorName);
+        String applicantName = application.getEngName() + " " + (hasKorName ? "(" + application.getKorName() + ")" : "");                    ;
+        mail.setTo(new String[]{application.getMailAddr()});
+        mail.setSubject(MessageResolver.getMessage("MAIL_COMPLETED_RECOMMENDATION_SUBJECT"));
+        Map<Object, String> contentsParam = mail.getContentsParam();
+        contentsParam.put(MailContentsParamKey.USER_NAME, applicantName);
+        contentsParam.put(MailContentsParamKey.PROF_NAME, result.getProfName());
+        mail.makeContents();
+
+        if (sendCompletedMail(mail)) {
+            ec.setMessage(MessageResolver.getMessage("U06737")); // 추천서 등록을 완료하고 지원자에게 알림 메일을 보냈습니다.
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(MessageResolver.getMessage("U06736")); // 지원자에게 추천서 등록 완료 알림 메일을 보내는데 실패했습니다.
+            ec.setErrCode("ERR0105");
             Map<String, String> errorInfo = new HashMap<String, String>();
             errorInfo.put("recNo", String.valueOf(recNo));
             ec.setErrorInfo(new ErrorInfo(errorInfo));
 
             throw new YSBizException(ec);
         }
-
-        return ec;
-    }
-
-    private ExecutionContext genAndUploadApplicationFormAndSlipFile(Application application) {
-        ExecutionContext ec = new ExecutionContext();
-
-        String lang = application.isForeignAppl() ? "en" : "kr";
-        String reportName = "yonsei-appl-" + lang;
-        ExecutionContext ecGenAppl = birtService.generateBirtFile(application.getApplNo(), reportName);
-        reportName = "yonsei-adms-" + lang;
-        ExecutionContext ecGenAdms = birtService.generateBirtFile(application.getApplNo(), reportName);
-        ExecutionContext ecPdfMerge = pdfService.genAndUploadPDFByApplicants(application);
-        if ( ExecutionContext.FAIL.equals(ecGenAppl.getResult()) ||
-                ExecutionContext.FAIL.equals(ecGenAdms.getResult()) ||
-                ExecutionContext.FAIL.equals(ecPdfMerge.getResult()) ) {
-            ExecutionContext ecError = new ExecutionContext(ExecutionContext.FAIL);
-
-            ecError.setMessage(MessageResolver.getMessage("U06903"));
-            ecError.setErrCode("ERR0073");
-
-            Map<String, String> errorInfo = new HashMap<String, String>();
-            errorInfo.put("applNo", String.valueOf(application.getApplNo()));
-
-            ecError.setErrorInfo(new ErrorInfo(errorInfo));
-            throw new YSBizException(ecError);
-        }
-
-        return ec;
     }
 
     @Override
