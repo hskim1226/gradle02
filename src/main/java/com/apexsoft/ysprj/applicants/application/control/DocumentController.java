@@ -287,7 +287,7 @@ public class DocumentController {
 
         try {
             ExecutionContext ec1 = pdfService.genAndUploadPDFByApplicants(application);
-            if (ExecutionContext.SUCCESS.equals(ec1.getResult())) { // 파일 합치기를 해서 성공일때만 제출
+            if (ExecutionContext.SUCCESS.equals(ec1.getResult())) { // 지원자 제출 서류 처리 성공일때만 제출
                 String userId = application.getUserId();
 
                 application.setModId(userId);

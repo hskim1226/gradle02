@@ -13,6 +13,7 @@ import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.common.service.ZipService;
+import com.apexsoft.ysprj.applicants.common.util.FileDownloadUtil;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -46,6 +47,10 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Autowired
     private ZipService zipService;
+
+    @Autowired
+    private RecommendationService recommendationService;
+
     @Autowired
     private ServletContext context;
 
@@ -544,45 +549,74 @@ public class DocumentServiceImpl implements DocumentService {
 
         if ("slip".equals(type)) {
             filePath = FilePathUtil.getApplicationSlipFileFullPath(s3FilePath, userId);
-            bytes = getBytesFromS3Object(filePath);
+            bytes = FileDownloadUtil.getBytesFromS3Object(s3Client, s3BucketName, filePath);
             fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
         }
         else if ("form".equals(type)) {
             filePath = FilePathUtil.getApplicationFormFileFullPath(s3FilePath, userId);
-            bytes = getBytesFromS3Object(filePath);
+            bytes = FileDownloadUtil.getBytesFromS3Object(s3Client, s3BucketName, filePath);
             fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
         }
         else if ("merged".equals(type)) {
-            String applFormfilePath = FilePathUtil.getApplicationFormFileFullPath(s3FilePath, userId);
-            bytes = getBytesFromS3Object(applFormfilePath);
-            File applFormFile = new File(BASE_DIR, applFormfilePath);
-            FileUtils.writeByteArrayToFile(applFormFile, bytes);
+            // 원서 파일 from S3
+            File applFormFile = FileDownloadUtil.getFileFromS3(s3Client,
+                                                               s3BucketName,
+                                                               BASE_DIR,
+                                                               FilePathUtil.getApplicationFormFileFullPath(s3FilePath, userId));
 
-            filePath = s3FilePath + "/" + FilePathUtil.getZippedFileName(application);
-            bytes = getBytesFromS3Object(filePath);
-            fileName = FilePathUtil.getDownloadableZipFileName(application);
-            File zipFile = new File(localDirPath, fileName);
-            FileUtils.writeByteArrayToFile(zipFile, bytes);
+            // 추천서 파일 from S3
+            List<File> recommendationLetterFiles = getRecommendationLetterFiles(applNo);
 
+            // zip 파일 from S3
+            File zipFile = getZipFile(application, localDirPath, s3FilePath);
+
+            // 기존 zip 파일의 내용과 fileList에 있는 파일을 합친 새 zip 파일 생성
             List<File> fileList = new ArrayList<>();
             fileList.add(applFormFile);
+            fileList.addAll(recommendationLetterFiles);
             File mergedZipFile = zipService.appendFilesToZipFile(fileList, zipFile);
             bytes = FileUtils.readFileToByteArray(mergedZipFile);
+            fileName = FilePathUtil.getDownloadableZipFileName(application);
 
             if (applFormFile.exists()) applFormFile.delete();
             if (zipFile.exists()) zipFile.delete();
+            for (File aFile : fileList) {
+                if (aFile.exists()) aFile.delete();
+            }
         }
         Map<String, byte[]> downloadableFileInfo = new HashMap<>();
         downloadableFileInfo.put(fileName, bytes);
         return downloadableFileInfo;
     }
 
-    private byte[] getBytesFromS3Object(String filePath) throws IOException {
-        S3Object object = s3Client.getObject(new GetObjectRequest(s3BucketName, filePath));
-        InputStream inputStream = object.getObjectContent();
-        byte[] bytes = IOUtils.toByteArray(inputStream);
-        return bytes;
+    // 추천서 파일 from S3
+    private List<File> getRecommendationLetterFiles(int applNo) throws IOException {
+        ExecutionContext ecRec = recommendationService.retrieveRecommendationList(applNo);
+        List<Recommendation> recList = (List<Recommendation>)ecRec.getData();
+        List<File> files = new ArrayList<>();
+        for (Recommendation aRec : recList) {
+            ParamForDocOfRecommend param = new ParamForDocOfRecommend();
+            param.setApplNo(applNo);
+            param.setDocGrp(aRec.getRecNo());
+            ApplicationDocument aDoc = commonDAO.queryForObject(NAME_SPACE +
+                    "CustomApplicationDocumentMapper.selectApplicationDocumentOfRecommendation", param, ApplicationDocument.class);
+            String recFilePath = aDoc.getFilePath();
+            File recFile = FileDownloadUtil.getFileFromS3(s3Client, s3BucketName, BASE_DIR, recFilePath);
+            files.add(recFile);
+        }
+        return files;
     }
+
+    // 지원자 첨부 파일 zip 파일 from S3
+    private File getZipFile(Application application, String localDirPath, String s3FilePath) throws IOException {
+        String filePath = s3FilePath + "/" + FilePathUtil.getZippedFileName(application);
+        byte[] bytes = FileDownloadUtil.getBytesFromS3Object(s3Client, s3BucketName, filePath);
+        String fileName = FilePathUtil.getDownloadableZipFileName(application);
+        File zipFile = new File(localDirPath, fileName);
+        FileUtils.writeByteArrayToFile(zipFile, bytes);
+        return zipFile;
+    }
+
 
     private List<TotalApplicationDocumentContainer> retrieveManatoryApplicatoinlDocListByApplNo(int applNo) {
 

@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.ServletContext;
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.zip.DataFormatException;
@@ -51,6 +52,9 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     @Autowired
     private PDFService pdfService;
+
+    @Autowired
+    private DocumentService documentService;
 
     @Autowired
     private ServletContext context;
