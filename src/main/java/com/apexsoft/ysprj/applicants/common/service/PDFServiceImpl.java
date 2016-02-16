@@ -254,20 +254,6 @@ public class PDFServiceImpl implements PDFService {
         return userUploadedFiles;
     }
 
-    // S3에서 파일 다운로드
-    private S3Object getS3Object(String filePath) {
-        S3Object object;
-        try {
-            object = s3Client.getObject(new GetObjectRequest(s3BucketName, filePath));
-        } catch (Exception e) {
-            ExecutionContext ec1 = new ExecutionContext(ExecutionContext.FAIL);
-            logger.error("Err in " + Thread.currentThread().getStackTrace()[1] +
-                    ", bucketName : [" + s3BucketName + "], objectKey : [" + filePath +"]" + e.getMessage());
-            throw new NotFoundInS3Exception(ec1, "messageCode", "errorCode");
-        }
-        return object;
-    }
-
     /**
      * 지원서 파일과 사용자가 업로드한 PDF 파일 합치기
      *

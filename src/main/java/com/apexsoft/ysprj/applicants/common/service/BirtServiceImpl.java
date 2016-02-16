@@ -17,6 +17,7 @@ import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.application.service.LangCareerService;
 import com.apexsoft.ysprj.applicants.common.domain.CommonCode;
 import com.apexsoft.ysprj.applicants.common.domain.Country;
+import com.apexsoft.ysprj.applicants.common.util.FileDownloadUtil;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import org.apache.commons.io.FileUtils;
@@ -142,10 +143,7 @@ public class BirtServiceImpl implements BirtService {
         String s3FullPath = documentService.retrievePhotoUri(applNo);
         try {
             String s3objectKey = s3FullPath.substring(s3FullPath.indexOf(s3MidPath));
-            S3Object object = s3Client.getObject(s3BucketName, s3objectKey);
-            InputStream inputStream = object.getObjectContent();
-            photo = new File(BASE_DIR, s3objectKey);
-            FileUtils.copyInputStreamToFile(inputStream, photo);
+            photo = FileDownloadUtil.getFileFromS3(s3Client, s3BucketName, BASE_DIR, s3objectKey);
         } catch (Exception e) {
             ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
             ec.setMessage(MessageResolver.getMessage("U06107", new Object[]{siteTel, helpdeskMail}));

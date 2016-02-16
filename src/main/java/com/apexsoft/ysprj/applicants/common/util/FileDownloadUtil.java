@@ -15,9 +15,15 @@ import java.io.InputStream;
  */
 public class FileDownloadUtil {
 
+    // S3에서 S3Object 추출 및 반환
+    public static S3Object getS3Object(AmazonS3Client s3Client, String s3BucketName, String filePath) {
+        S3Object s3Object = s3Client.getObject(new GetObjectRequest(s3BucketName, filePath));
+        return s3Object;
+    }
+
     // S3에서 InputStream 추출 및 반환
     public static InputStream getInputStreamFromS3(AmazonS3Client s3Client, String s3BucketName, String filePath) {
-        S3Object object = s3Client.getObject(new GetObjectRequest(s3BucketName, filePath));
+        S3Object object = getS3Object(s3Client, s3BucketName, filePath);
         InputStream inputStream = object.getObjectContent();
         return inputStream;
     }

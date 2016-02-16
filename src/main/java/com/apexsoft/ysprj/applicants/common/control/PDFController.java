@@ -13,6 +13,7 @@ import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
 import com.apexsoft.ysprj.applicants.application.domain.Basis;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
+import com.apexsoft.ysprj.applicants.common.util.FileDownloadUtil;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import com.apexsoft.ysprj.applicants.common.util.WebUtil;
 import org.apache.commons.io.IOUtils;
@@ -66,7 +67,7 @@ public class PDFController {
     private static final Logger logger = LoggerFactory.getLogger(PDFController.class);
 
     /**
-     * DB에 저장된 원서 정보를 토대로 S3에서 원서 PDF 파일 다운로드
+     * 첨부 파일화면에서 원서 미리보기 버튼 클릭
      *
      * @param basis
      * @param principal
@@ -76,10 +77,10 @@ public class PDFController {
      */
     @RequestMapping(value="/download/applForm", produces = "application/pdf")
     @ResponseBody
-    public byte[] downLoadZip(Basis basis,
-                               Principal principal,
-                               HttpServletRequest request,
-                               HttpServletResponse response) {
+    public byte[] downLoadApplForm(Basis basis,
+                                   Principal principal,
+                                   HttpServletRequest request,
+                                   HttpServletResponse response) {
         webUtil.blockGetMethod(request, basis.getApplication());
         Application application = basis.getApplication();
         String dirFullPath = FilePathUtil.getUploadDirectoryFullPath(fileBaseDir, s3MidPath, application.getAdmsNo(), application.getUserId(), application.getApplNo());
@@ -108,7 +109,7 @@ public class PDFController {
         if (applPaperInfosList.size() == 1) {
             S3Object object = null;
             try {
-                object = s3Client.getObject(new GetObjectRequest(s3BucketName, s3Key));
+                object = FileDownloadUtil.getS3Object(s3Client, s3BucketName, s3Key);
             } catch (Exception e) {
                 logger.error("Err in s3Client.getObject FiledDownload in PDFController");
                 logger.error(e.getMessage());

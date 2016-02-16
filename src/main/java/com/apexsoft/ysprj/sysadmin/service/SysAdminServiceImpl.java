@@ -11,6 +11,7 @@ import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
+import com.apexsoft.ysprj.applicants.common.util.FileDownloadUtil;
 import com.apexsoft.ysprj.sysadmin.domain.*;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -272,7 +273,7 @@ long start = System.currentTimeMillis();
         for (StudentNumber studentNumber : studentNumberList) {
             InputStream inputStream = null;
             try {
-                s3Object = s3Client.getObject(new GetObjectRequest(s3BucketName, studentNumber.getS3FullPath()));
+                s3Object = FileDownloadUtil.getS3Object(s3Client, s3BucketName, studentNumber.getS3FullPath());
                 inputStream = s3Object.getObjectContent();
                 ObjectMetadata s3ObjMeta = s3Object.getObjectMetadata();
                 String type = s3ObjMeta.getContentType();
