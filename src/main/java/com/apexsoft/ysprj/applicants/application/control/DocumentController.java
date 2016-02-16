@@ -23,6 +23,7 @@ import com.apexsoft.ysprj.applicants.application.validator.DocumentValidator;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
+import com.apexsoft.ysprj.applicants.common.util.FileDownloadUtil;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import com.apexsoft.ysprj.applicants.common.util.WebUtil;
@@ -670,9 +671,7 @@ public class DocumentController {
         ec = documentService.retrieveOneDocument(appDocKey);
         TotalApplicationDocument totalDoc = (TotalApplicationDocument)ec.getData();
 
-        S3Object object = s3Client.getObject(new GetObjectRequest(bucketName, totalDoc.getFilePath()));
-        InputStream inputStream = object.getObjectContent();
-        byte[] bytes = IOUtils.toByteArray(inputStream);
+        byte[] bytes = FileDownloadUtil.getBytesFromS3Object(s3Client, bucketName, totalDoc.getFilePath());
 
         String downaloadFileName = StringUtil.urlEncodeSpecialCharacter(URLEncoder.encode(totalDoc.getOrgFileName(), "UTF-8"));
 
