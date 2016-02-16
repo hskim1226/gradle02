@@ -33,12 +33,12 @@ public class NewApplicationForeign {
 
     @BeforeClass
     public static void 로그인() throws Exception {
-        open(baseUrl + "/user/login");
+        open(baseUrl + "/user/login?lang=en");
         $("#username").setValue(userId);
         $("#password").setValue(password);
         $("#btnLogin").click();
     }
-        // 아래는 특정 페이지만 테스트 할 때는 주석 처리
+        // 특정 페이지만 테스트 할 때는 아래 내용 주석 처리
 //        open(baseUrl);
 //        $("#toAdmsList").click();
 //        $("#toGeneralApply").click();
@@ -100,81 +100,74 @@ public class NewApplicationForeign {
 
     @Test
     public void t02_학력정보입력_ACADEMY() throws Exception {
-        // 특정 페이지 단독 테스트 시 사용
-//        $("#modify3").click();
+        // 특정 페이지 단독 테스트 시 주석 해제
+        $("#modify0").click();
 
-        driver.findElement(By.linkText("2. 학력 정보")).click();
+        driver.findElement(By.linkText("2. Educational Background")).click();
 
         // 대학 입력
-//        $("#collegeList0.schlCntrCode").setValue("118");    // hidden 필드는 Selenide API로 세팅 불가
-        J("$('#collegeList0\\\\.schlCntrCode').val('118')");
-        J("document.getElementById('collegeList0.korCntrName').value = '대한민국'");
-        J("document.getElementById('collegeList0.entrDay').value = '20100301'");
-        J("document.querySelector('#collegeList0\\\\.grdaDay').value = '20140228'");    // readonly 는 API나 jQuery로 변경 가능
-//        $(By.linkText("2. 학력 정보")).scrollTo();
-//        $("#collegeList0\\.grdaTypeCode").selectOption("졸업");
+        J("$('#collegeList0\\\\.schlCntrCode').val('111')");    // hidden 필드는 Selenide API로 세팅 불가
+        J("document.getElementById('collegeList0.korCntrName').value = 'Indonesia'");
+        J("document.getElementById('collegeList0.entrDay').value = '20100104'");
+        J("document.querySelector('#collegeList0\\\\.grdaDay').value = '20131227'");    // readonly 는 API나 jQuery로 변경 가능
         J("document.getElementById('collegeList0\\.grdaTypeCode').selectedIndex='1'");
         J("$('#collegeList0\\\\.grdaTypeCode').change()");
         $("#collegeList0\\.degrNo").setValue("grad-874569");
-        J("$('#collegeList0\\\\.schlCode').val('219')");    // hidden 필드는 DOM API나 jQuery로 변경 가능
-//        $("#collegeList0\\.schlName").setValue("연세대학교");    // readonly 필드는 Selenide API로 세팅 불가
-        J("document.getElementById('collegeList0\\.schlName').value = '연세대학교'");    // readonly 는 API나 jQuery로 변경 가능
+        J("$('#collegeList0\\\\.schlCode').val('999')");    // hidden 필드는 DOM API나 jQuery로 변경 가능
+        J("document.getElementById('collegeList0\\.schlName').value = 'Indonesian National University'");    // readonly 는 DOM API나 jQuery로 변경 가능
         J("document.getElementById('college-radio-0').scrollTo()");
         $("#college-radio-0").click();
-        $("#collegeList0\\.collName").setValue("경영대학");
-        $("#collegeList0\\.majName").setValue("경영학과");
-        $("#collegeList0\\.gradFormCode").selectOption("평량평균");
-        $("#collegeList0\\.gradAvr").setValue("4.25");
-        $("#collegeList0\\.gradFull").setValue("4.50");
+        $("#collegeList0\\.collName").setValue("Education College");
+        $("#collegeList0\\.majName").setValue("Children Education");
+        $("#collegeList0\\.gradFormCode").selectOption("Percentage");
+        $("#collegeList0\\.gradAvr").setValue("89");
+        $("#collegeList0\\.gradFull").setValue("100");
 
         // 저장
         $("#saveAcademy").scrollTo();
         $("#saveAcademy").click();
-        assertEquals("학력 정보를 성공적으로 저장했습니다.", closeAlertAndGetItsText());
+        assertEquals("Educational background information is saved successfully.", closeAlertAndGetItsText());
     }
 
     @Test
     public void test03_어학경력정보입력() throws Exception {
-        // 특정 페이지 단독 테스트 시 사용
-//        $("#modify2").click();
+        // 특정 페이지 단독 테스트 시 주석 해제
+        $("#modify0").click();
 
-        driver.findElement(By.linkText("3. 어학/경력 정보")).click();
+        driver.findElement(By.linkText("3. Language Test and Career")).click();
 
-        // TOEFL - CBT
-        if (!$("#checkLang-0-0-0").isSelected())
-            $("#checkLang-0-0-0").click();
-//        $("#languageGroupList0\\.langList0\\.subContainer0\\.subCode").selectOption("CBT");
-        J("document.getElementById('languageGroupList0\\.langList0\\.subContainer0\\.subCode').selectedIndex='2'");
-        J("$('#languageGroupList0\\\\.langList0\\\\.subContainer0\\\\.subCode').change()");
+        // 영어 면제
+        $("#checkForlExmp-0").scrollTo();
+        if (!$("#checkForlExmp-0").isSelected())
+            $("#checkForlExmp-0").click();
+        J("document.getElementById('forlExmpCode-0').selectedIndex='1'");
+        J("$('#forlExmpCode-0').change()");
 
-        $("#stepStatusTitle").scrollTo();
-        J("document.getElementById('languageGroupList0.langList0.subContainer0.examDay').value = '20141103'"); // readonly는 DOM API나 jQuery로
-        $("#languageGroupList0\\.langList0\\.subContainer0\\.langGrad").setValue("280");
-
-        // TOEFL - IELTS
-        if (!$("#checkLang-0-0-2").isSelected())
-            $("#checkLang-0-0-2").click();
-        J("document.getElementById('languageGroupList0.langList0.subContainer2.examDay').value = '20141108'"); // readonly는 DOM API나 jQuery로
-        $("#languageGroupList0\\.langList0\\.subContainer2\\.langGrad").selectOption("8.0");
+        // TOPIK
+        $("#languageGroupList1\\.langList0\\.list").scrollTo();
+        if (!$("#checkLang-1-0-0").isSelected())
+            $("#checkLang-1-0-0").click();
+        J("document.getElementById('languageGroupList1.langList0.subContainer0.examDay').value = '20150915'"); // readonly는 DOM API나 jQuery로
+        $("#languageGroupList1\\.langList0\\.subContainer0\\.langGrad").selectOption("Level-5");
 
         // 경력 사항
         $("#saveLangCareer").scrollTo();
         J("document.getElementById('applicationExperienceList0.joinDay').value = '20100407'"); // readonly는 DOM API나 jQuery로
         J("document.getElementById('applicationExperienceList0.retrDay').value = '20140831'"); // readonly는 DOM API나 jQuery로
-        $("#applicationExperienceList0\\.corpName").setValue("좋은 회사");
-        $("#applicationExperienceList0\\.exprDesc").setValue("마케팅 기획 총괄");
+        $("#applicationExperienceList0\\.corpName").setValue("Good Company");
+        $("#applicationExperienceList0\\.exprDesc").setValue("Inhouse Education");
 
         // 저장
         $("#saveLangCareer").click();
-        assertEquals("어학 및 경력 정보를 성공적으로 저장했습니다.", closeAlertAndGetItsText());
+        assertEquals("Language test result and career information is saved successfully.", closeAlertAndGetItsText());
     }
 
     @Test
     public void test04_파일첨부() throws Exception {
-        // 특정 페이지 단독 테스트 시 사용
+        // 특정 페이지 단독 테스트 시 주석 해제
         $("#modify0").click();
 
-        driver.findElement(By.linkText("4. 파일 첨부 및 제출")).click();
+        driver.findElement(By.linkText("4. File Submission and Submit")).click();
 
         $("#docChckYn").scrollTo();
         J("scrollByLines(-8)");
@@ -185,129 +178,129 @@ public class NewApplicationForeign {
 
         if ($("#file-delete-link-0-0-0").isDisplayed()) {
             $("#file-delete-link-0-0-0").click();
-            assertEquals("첨부한 파일을 삭제하시겠습니까?", closeAlertAndGetItsText());
+            assertEquals("Do you want to delete uploaded file?", closeAlertAndGetItsText());
         }
         $("#file-input-0-0-0").setValue("/home/hanmomhanda/YS-DOC/공 백/뚱석이.jpg");
         $("#upload-button-0-0-0").click();
-        assertEquals("파일이 업로드 되었습니다.", closeAlertAndGetItsText());
+        assertEquals("File is uploaded successfully.", closeAlertAndGetItsText());
 
         if ($("#file-delete-link-0-0-1").isDisplayed()) {
             $("#file-delete-link-0-0-1").click();
-            assertEquals("첨부한 파일을 삭제하시겠습니까?", closeAlertAndGetItsText());
+            assertEquals("Do you want to delete uploaded file?", closeAlertAndGetItsText());
         }
         $("#file-input-0-0-1").setValue("/home/hanmomhanda/YS-DOC/축변환매트릭스(Axis Transformation Matrices).pdf");
         $("#upload-button-0-0-1").click();
-        assertEquals("파일이 업로드 되었습니다.", closeAlertAndGetItsText());
+        assertEquals("File is uploaded successfully.", closeAlertAndGetItsText());
 
         J("scrollByLines(10)");
 
         if ($("#file-delete-link-0-0-2").isDisplayed()) {
             $("#file-delete-link-0-0-2").click();
-            assertEquals("첨부한 파일을 삭제하시겠습니까?", closeAlertAndGetItsText());
+            assertEquals("Do you want to delete uploaded file?", closeAlertAndGetItsText());
         }
         $("#file-input-0-0-2").setValue("/home/hanmomhanda/YS-DOC/79호_공학_트렌드_웹성능테스트-part_2.pdf");
         $("#upload-button-0-0-2").click();
-        assertEquals("파일이 업로드 되었습니다.", closeAlertAndGetItsText());
+        assertEquals("File is uploaded successfully.", closeAlertAndGetItsText());
 
         J("scrollByLines(20)");
 
         if ($("#file-delete-link-1-0-0-0").isDisplayed()) {
             $("#file-delete-link-1-0-0-0").click();
-            assertEquals("첨부한 파일을 삭제하시겠습니까?", closeAlertAndGetItsText());
+            assertEquals("Do you want to delete uploaded file?", closeAlertAndGetItsText());
         }
         $("#file-input-1-0-0-0").setValue("/home/hanmomhanda/YS-DOC/Modellipse_소개.pdf");
         $("#upload-button-1-0-0-0").click();
-        assertEquals("파일이 업로드 되었습니다.", closeAlertAndGetItsText());
+        assertEquals("File is uploaded successfully.", closeAlertAndGetItsText());
 
         if ($("#file-delete-link-1-0-0-1").isDisplayed()) {
             $("#file-delete-link-1-0-0-1").click();
-            assertEquals("첨부한 파일을 삭제하시겠습니까?", closeAlertAndGetItsText());
+            assertEquals("Do you want to delete uploaded file?", closeAlertAndGetItsText());
         }
         $("#file-input-1-0-0-1").setValue("/home/hanmomhanda/YS-DOC/제62차 SW 테스트 전문가 양성 교육(일반).pdf");
         $("#upload-button-1-0-0-1").click();
-        assertEquals("파일이 업로드 되었습니다.", closeAlertAndGetItsText());
+        assertEquals("File is uploaded successfully.", closeAlertAndGetItsText());
 
         J("scrollByLines(10)");
 
         if ($("#file-delete-link-1-0-1-0").isDisplayed()) {
             $("#file-delete-link-1-0-1-0").click();
-            assertEquals("첨부한 파일을 삭제하시겠습니까?", closeAlertAndGetItsText());
+            assertEquals("Do you want to delete uploaded file?", closeAlertAndGetItsText());
         }
         $("#file-input-1-0-1-0").setValue("/home/hanmomhanda/YS-DOC/83호_공학_트렌드_GIT_Flow를_활용한_효과적인_소스_형상_관리_Part_2.pdf");
         $("#upload-button-1-0-1-0").click();
-        assertEquals("파일이 업로드 되었습니다.", closeAlertAndGetItsText());
+        assertEquals("File is uploaded successfully.", closeAlertAndGetItsText());
 
         J("scrollByLines(10)");
 
         if ($("#file-delete-link-2-0").isDisplayed()) {
             $("#file-delete-link-2-0").click();
-            assertEquals("첨부한 파일을 삭제하시겠습니까?", closeAlertAndGetItsText());
+            assertEquals("Do you want to delete uploaded file?", closeAlertAndGetItsText());
         }
         $("#file-input-2-0").setValue("/home/hanmomhanda/YS-DOC/114호_공학_트렌드_WEB_UI_개발_Part_1.pdf");
         $("#upload-button-2-0").click();
-        assertEquals("파일이 업로드 되었습니다.", closeAlertAndGetItsText());
+        assertEquals("File is uploaded successfully.", closeAlertAndGetItsText());
 
         J("scrollByLines(10)");
 
         if ($("#file-delete-link-3-0-0").isDisplayed()) {
             $("#file-delete-link-3-0-0").click();
-            assertEquals("첨부한 파일을 삭제하시겠습니까?", closeAlertAndGetItsText());
+            assertEquals("Do you want to delete uploaded file?", closeAlertAndGetItsText());
         }
         $("#file-input-3-0-0").setValue("/home/hanmomhanda/YS-DOC/83호_공학_트렌드_GIT_Flow를_활용한_효과적인_소스_형상_관리_Part_2.pdf");
         $("#upload-button-3-0-0").click();
-        assertEquals("파일이 업로드 되었습니다.", closeAlertAndGetItsText());
+        assertEquals("File is uploaded successfully.", closeAlertAndGetItsText());
 
         J("scrollByLines(5)");
 
         if ($("#file-delete-link-3-0-1").isDisplayed()) {
             $("#file-delete-link-3-0-1").click();
-            assertEquals("첨부한 파일을 삭제하시겠습니까?", closeAlertAndGetItsText());
+            assertEquals("Do you want to delete uploaded file?", closeAlertAndGetItsText());
         }
         $("#file-input-3-0-1").setValue("/home/hanmomhanda/YS-DOC/114호_공학_트렌드_WEB_UI_개발_Part_1.pdf");
         $("#upload-button-3-0-1").click();
-        assertEquals("파일이 업로드 되었습니다.", closeAlertAndGetItsText());
+        assertEquals("File is uploaded successfully.", closeAlertAndGetItsText());
 
         J("scrollByLines(5)");
 
         if ($("#file-delete-link-3-0-3").isDisplayed()) {
             $("#file-delete-link-3-0-3").click();
-            assertEquals("첨부한 파일을 삭제하시겠습니까?", closeAlertAndGetItsText());
+            assertEquals("Do you want to delete uploaded file?", closeAlertAndGetItsText());
         }
         $("#file-input-3-0-3").setValue("/home/hanmomhanda/YS-DOC/83호_공학_트렌드_GIT_Flow를_활용한_효과적인_소스_형상_관리_Part_2.pdf");
         $("#upload-button-3-0-3").click();
-        assertEquals("파일이 업로드 되었습니다.", closeAlertAndGetItsText());
+        assertEquals("File is uploaded successfully.", closeAlertAndGetItsText());
 
         J("scrollByLines(10)");
 
         if ($("#file-delete-link-4-0").isDisplayed()) {
             $("#file-delete-link-4-0").click();
-            assertEquals("첨부한 파일을 삭제하시겠습니까?", closeAlertAndGetItsText());
+            assertEquals("Do you want to delete uploaded file?", closeAlertAndGetItsText());
         }
         $("#documentContainerList4\\.subContainer0\\.checkedFg").click();
-        $("#documentContainerList4\\.subContainer0\\.docItemName").setValue("기타 서류 1");
+        $("#documentContainerList4\\.subContainer0\\.docItemName").setValue("Additional Paper 1");
         $("#file-input-4-0").setValue("/home/hanmomhanda/YS-DOC/2014-국가직무능력표준 개발전문가 모집_작성양식_PDF.pdf");
         $("#upload-button-4-0").click();
-        assertEquals("파일이 업로드 되었습니다.", closeAlertAndGetItsText());
+        assertEquals("File is uploaded successfully.", closeAlertAndGetItsText());
 
         J("scrollByLines(10)");
 
         if ($("#file-delete-link-4-1").isDisplayed()) {
             $("#file-delete-link-4-1").click();
-            assertEquals("첨부한 파일을 삭제하시겠습니까?", closeAlertAndGetItsText());
+            assertEquals("Do you want to delete uploaded file?", closeAlertAndGetItsText());
         }
         $("#documentContainerList4\\.subContainer1\\.checkedFg").click();
-        $("#documentContainerList4\\.subContainer1\\.docItemName").setValue("기타 서류 2");
+        $("#documentContainerList4\\.subContainer1\\.docItemName").setValue("Additional Paper 2");
         $("#file-input-4-1").setValue("/home/hanmomhanda/YS-DOC/114호_공학_트렌드_WEB_UI_개발_Part_1.pdf");
         $("#upload-button-4-1").click();
-        assertEquals("파일이 업로드 되었습니다.", closeAlertAndGetItsText());
+        assertEquals("File is uploaded successfully.", closeAlertAndGetItsText());
 
         J("scrollByLines(40)");
 
         // 저장
         $("#saveDocument").click();
-        assertEquals("첨부 파일을 성공적으로 저장했습니다.", closeAlertAndGetItsText());
+        assertEquals("File submission information is saved successfully.", closeAlertAndGetItsText());
 
-        J("scrollByLines(180)");
+        J("scrollByLines(200)");
 
         // 원서 미리보기 생성
         $("#generateApplication").click();
@@ -317,8 +310,8 @@ public class NewApplicationForeign {
         if($("#submitApplication").is(Condition.enabled)) {
             $("#submitApplication").click();
             String submitNotice = closeAlertAndGetItsText();
-            assertThat(submitNotice, StringStartsWith.startsWith("원서 제출 후에는"));
-            assertEquals("원서가 제출 되었습니다.", closeAlertAndGetItsText());
+            assertThat(submitNotice, StringStartsWith.startsWith("You can NOT modify application form after submission"));
+            assertEquals("Application is submitted.", closeAlertAndGetItsText());
         }
     }
 
