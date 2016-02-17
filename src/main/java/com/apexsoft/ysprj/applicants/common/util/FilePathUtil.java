@@ -2,7 +2,6 @@ package com.apexsoft.ysprj.applicants.common.util;
 
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -34,10 +33,10 @@ public class FilePathUtil {
                 .toString();
     }
 
-    public static String getUploadDirectoryFullPath(String baseDir, String s3MidPath, String admsNo, String userId, int applNo) {
+    public static String getUploadDirectoryFullPath(String baseDir, String midPath, String admsNo, String userId, int applNo) {
         return new StringBuilder()
                 .append(baseDir).append("/")
-                .append(s3MidPath).append("/")
+                .append(midPath).append("/")
                 .append(admsNo).append("/")
                 .append(userId.substring(0, 1)).append("/")
                 .append(userId).append("/")

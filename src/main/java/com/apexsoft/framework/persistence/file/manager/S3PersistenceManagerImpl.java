@@ -28,7 +28,7 @@ public class S3PersistenceManagerImpl implements FilePersistenceManager {
     private String s3BucketName;
 
     @Value("#{app['file.midPath']}")
-    private String s3MidPath;
+    private String midPath;
 
     @Value("#{app['s3.storageClass']}")
     private String s3StorageClass;
@@ -74,7 +74,7 @@ public class S3PersistenceManagerImpl implements FilePersistenceManager {
     @Override
     public FileInfo save(String folder, String fileName, String orgFileName, InputStream inputStream) throws IOException {
 
-        String filePath = folder.startsWith(s3MidPath) ? folder + "/" + fileName : s3MidPath + "/" + folder + "/" + fileName;
+        String filePath = folder.startsWith(midPath) ? folder + "/" + fileName : midPath + "/" + folder + "/" + fileName;
         int pageCnt = 0;
         long fileSize = 0;
         InputStream uplaodFileInputStream = null;

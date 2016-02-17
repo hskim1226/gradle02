@@ -29,11 +29,8 @@ public class PostApplicationController {
     @Value("#{app['file.baseDir']}")
     private String fileBaseDir;
 
-    @Value("#{app['s3.bucketName']}")
-    private String bucketName;
-
     @Value("#{app['file.midPath']}")
-    private String s3MidPath;
+    private String midPath;
 
     @Autowired
     private DocumentService documentService;

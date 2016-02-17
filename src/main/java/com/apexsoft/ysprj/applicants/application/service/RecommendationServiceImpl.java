@@ -13,8 +13,6 @@ import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
 import com.apexsoft.framework.persistence.file.model.FileInfo;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.common.domain.MailContentsParamKey;
-import com.apexsoft.ysprj.applicants.common.service.BirtService;
-import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.applicants.common.util.CryptoUtil;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import com.apexsoft.ysprj.applicants.common.util.MailFactory;
@@ -28,7 +26,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.ServletContext;
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.zip.DataFormatException;
@@ -48,15 +45,6 @@ public class RecommendationServiceImpl implements RecommendationService {
     private SESMailService sesMailService;
 
     @Autowired
-    private BirtService birtService;
-
-    @Autowired
-    private PDFService pdfService;
-
-    @Autowired
-    private DocumentService documentService;
-
-    @Autowired
     private ServletContext context;
 
     @Value("#{app['site.url']}")
@@ -72,7 +60,7 @@ public class RecommendationServiceImpl implements RecommendationService {
     private String INST_NAME_EN;
 
     @Value("#{app['file.midPath']}")
-    private String s3MidPath;
+    private String midPath;
 
     private final String APP_NULL_STATUS = "00000";      // 에러일 때 반환값
 
@@ -480,7 +468,7 @@ public class RecommendationServiceImpl implements RecommendationService {
         oneDocument.setDocItemNameXxen(multipartHttpServletRequest.getParameter("docItemNameXxen"));
         oneDocument.setFileExt("pdf");
         oneDocument.setImgYn("N");
-        oneDocument.setFilePath(s3MidPath + "/" + uploadDir + "/" + uploadFileName);
+        oneDocument.setFilePath(midPath + "/" + uploadDir + "/" + uploadFileName);
         oneDocument.setFileName(uploadFileName);
         oneDocument.setOrgFileName(multipartFile.getOriginalFilename());
         oneDocument.setPageCnt(fileInfo.getPageCnt());

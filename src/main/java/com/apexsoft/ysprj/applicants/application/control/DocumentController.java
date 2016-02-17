@@ -81,9 +81,6 @@ public class DocumentController {
     @Value("#{app['file.baseDir']}")
     private String fileBaseDir;
 
-    @Value("#{app['s3.bucketName']}")
-    private String bucketName;
-
     @Value("#{app['constraint.dueTime.yyyyMMddhhmmss']}")
     private String dueTime;
 
