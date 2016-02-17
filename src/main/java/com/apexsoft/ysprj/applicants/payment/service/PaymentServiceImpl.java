@@ -924,39 +924,24 @@ public class PaymentServiceImpl implements PaymentService {
     private ExecutionContext genAndUploadApplicationFormAndSlipFile(Application application) {
         ExecutionContext ec = new ExecutionContext();
         String stage = null;
-        try {
-            String admsTypeCode = application.getAdmsTypeCode();
-            String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
-            String reportName = "yonsei-appl-" + lang;
-            stage = "before generate ApplForm";
-            ExecutionContext ecGenAppl = birtService.generateBirtFile(application.getApplNo(), reportName);
-            reportName = "yonsei-adms-" + lang;
-            stage = "before generate ApplSlip";
-            ExecutionContext ecGenAdms = birtService.generateBirtFile(application.getApplNo(), reportName);
-            stage = "before generate PDF and Upload";
+        String admsTypeCode = application.getAdmsTypeCode();
+        String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
+        String reportName = "yonsei-appl-" + lang;
+        stage = "before generate ApplForm";
+        ExecutionContext ecGenAppl = birtService.generateBirtFile(application.getApplNo(), reportName);
+        reportName = "yonsei-adms-" + lang;
+        stage = "before generate ApplSlip";
+        ExecutionContext ecGenAdms = birtService.generateBirtFile(application.getApplNo(), reportName);
+        stage = "before generate PDF and Upload";
 //            ExecutionContext ecUpload = pdfService.genAndUploadPDFByApplicants(application);
-            ExecutionContext ecUpload = pdfService.processApplicationFileWithApplId(application);
+        ExecutionContext ecUpload = pdfService.processApplicationFileWithApplId(application);
 
-            if ( ExecutionContext.FAIL.equals(ecGenAppl.getResult()))
-                throw new YSBizException(ecGenAppl);
-            if ( ExecutionContext.FAIL.equals(ecGenAdms.getResult()))
-                throw new YSBizException(ecGenAdms);
-            if ( ExecutionContext.FAIL.equals(ecUpload.getResult()))
-                throw new YSBizException(ecUpload);
-
-        } catch (Exception e) {
-            // TODO YSBizException을 던지지 말고, 로그나 DB에 남긴 후 정상 흐름 타서 사용자에게 결제 완료 알림가도록 처리 필요
-            logger.error("Error in PaymentServiceImpl.genAndUploadApplicationFormAndSlipFile(), stage : " + stage +
-             "applNo : " + application.getApplNo() + ", userId" + application.getUserId() );
-            ExecutionContext ec1 = new ExecutionContext(ExecutionContext.FAIL);
-            Map<String, String> errorMap = new HashMap<String, String>();
-            errorMap.put("applNo", String.valueOf(application.getApplNo()));
-            errorMap.put("userId", String.valueOf(application.getUserId()));
-            ErrorInfo errorInfo = new ErrorInfo();
-            errorInfo.setInfo(errorMap);
-            ec1.setErrorInfo(errorInfo);
-            throw new YSBizException(MessageResolver.getMessage("U05109"), new NullPointerException(), MessageResolver.getMessage("ERR0302"));
-        }
+        if ( ExecutionContext.FAIL.equals(ecGenAppl.getResult()))
+            throw new YSBizException(ecGenAppl);
+        if ( ExecutionContext.FAIL.equals(ecGenAdms.getResult()))
+            throw new YSBizException(ecGenAdms);
+        if ( ExecutionContext.FAIL.equals(ecUpload.getResult()))
+            throw new YSBizException(ecUpload);
 
         return ec;
     }
