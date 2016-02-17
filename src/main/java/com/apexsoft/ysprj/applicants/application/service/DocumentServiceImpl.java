@@ -1,7 +1,5 @@
 package com.apexsoft.ysprj.applicants.application.service;
 
-import com.amazonaws.AmazonClientException;
-import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
@@ -380,7 +378,7 @@ public class DocumentServiceImpl implements DocumentService {
             rDelete++;
             delete = commonDAO.delete( NAME_SPACE + "ApplicationDocumentMapper.deleteByPrimaryKey", oneDocument);
 
-            deleteOk = FilePersistenceUtil.deleteFileInS3(s3Client, s3BucketName, oneDocument.getFilePath(), applNo, docSeq);
+            deleteOk = FilePersistenceUtil.deleteFileInFileRepo(s3Client, s3BucketName, oneDocument.getFilePath(), applNo, docSeq);
         }
 
         if (  delete == rDelete && deleteOk ) {
@@ -514,17 +512,17 @@ public class DocumentServiceImpl implements DocumentService {
 
         if ("slip".equals(type)) {
             filePath = FilePathUtil.getApplicationSlipFileFullPath(s3FilePath, userId);
-            bytes = FilePersistenceUtil.getBytesFromS3Object(s3Client, s3BucketName, filePath);
+            bytes = FilePersistenceUtil.getBytesFromFileRepo(s3Client, s3BucketName, filePath);
             fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
         }
         else if ("form".equals(type)) {
             filePath = FilePathUtil.getApplicationFormFileFullPath(s3FilePath, userId);
-            bytes = FilePersistenceUtil.getBytesFromS3Object(s3Client, s3BucketName, filePath);
+            bytes = FilePersistenceUtil.getBytesFromFileRepo(s3Client, s3BucketName, filePath);
             fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
         }
         else if ("merged".equals(type)) {
             // 원서 파일 from S3
-            File applFormFile = FilePersistenceUtil.getFileFromS3(s3Client,
+            File applFormFile = FilePersistenceUtil.getFileFromFileRepo(s3Client,
                                                                s3BucketName,
                                                                BASE_DIR,
                                                                FilePathUtil.getApplicationFormFileFullPath(s3FilePath, userId));
@@ -566,7 +564,7 @@ public class DocumentServiceImpl implements DocumentService {
             ApplicationDocument aDoc = commonDAO.queryForObject(NAME_SPACE +
                     "CustomApplicationDocumentMapper.selectApplicationDocumentOfRecommendation", param, ApplicationDocument.class);
             String recFilePath = aDoc.getFilePath();
-            File recFile = FilePersistenceUtil.getFileFromS3(s3Client, s3BucketName, BASE_DIR, recFilePath);
+            File recFile = FilePersistenceUtil.getFileFromFileRepo(s3Client, s3BucketName, BASE_DIR, recFilePath);
             files.add(recFile);
         }
         return files;
@@ -575,7 +573,7 @@ public class DocumentServiceImpl implements DocumentService {
     // 지원자 첨부 파일 zip 파일 from S3
     private File getZipFile(Application application, String localDirPath, String s3FilePath) throws IOException {
         String filePath = s3FilePath + "/" + FilePathUtil.getZippedFileName(application);
-        byte[] bytes = FilePersistenceUtil.getBytesFromS3Object(s3Client, s3BucketName, filePath);
+        byte[] bytes = FilePersistenceUtil.getBytesFromFileRepo(s3Client, s3BucketName, filePath);
         String fileName = FilePathUtil.getDownloadableZipFileName(application);
         File zipFile = new File(localDirPath, fileName);
         FileUtils.writeByteArrayToFile(zipFile, bytes);

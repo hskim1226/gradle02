@@ -108,7 +108,7 @@ public class PDFController {
         if (applPaperInfosList.size() == 1) {
             S3Object object = null;
             try {
-                object = FilePersistenceUtil.getS3Object(s3Client, s3BucketName, s3Key);
+                object = FilePersistenceUtil.getFileWrapperFromFileRepo(s3Client, s3BucketName, s3Key);
             } catch (Exception e) {
                 logger.error("Err in s3Client.getObject FiledDownload in PDFController");
                 logger.error(e.getMessage());

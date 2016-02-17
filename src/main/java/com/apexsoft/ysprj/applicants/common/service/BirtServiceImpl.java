@@ -141,7 +141,7 @@ public class BirtServiceImpl implements BirtService {
         String s3FullPath = documentService.retrievePhotoUri(applNo);
         try {
             String s3objectKey = s3FullPath.substring(s3FullPath.indexOf(s3MidPath));
-            photo = FilePersistenceUtil.getFileFromS3(s3Client, s3BucketName, BASE_DIR, s3objectKey);
+            photo = FilePersistenceUtil.getFileFromFileRepo(s3Client, s3BucketName, BASE_DIR, s3objectKey);
         } catch (Exception e) {
             ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
             ec.setMessage(MessageResolver.getMessage("U06107", new Object[]{siteTel, helpdeskMail}));

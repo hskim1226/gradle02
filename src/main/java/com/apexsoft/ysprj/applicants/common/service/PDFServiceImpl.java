@@ -208,7 +208,7 @@ public class PDFServiceImpl implements PDFService {
             if (isUserUploadedFile(aDoc)) {
 
                 // S3에서 다운로드 한 PDF 파일 내용을 스트림 형태로 여러번 사용하기 위해 BAOS에 담아둔다.
-                InputStream inputStream = FilePersistenceUtil.getInputStreamFromS3(s3Client, s3BucketName, filePath);
+                InputStream inputStream = FilePersistenceUtil.getInputStreamFromFileRepo(s3Client, s3BucketName, filePath);
                 ByteArrayOutputStream baos = StreamUtil.getBaosFromInputStream(inputStream);
 
                 unencryptedPdfBaosList.add(baos);
@@ -237,7 +237,7 @@ public class PDFServiceImpl implements PDFService {
             // 사용자가 직접 입력한 파일이면 다운로드
             if (isUserUploadedFile(aDoc)) {
                 // S3에 업로드 되어 있는 첨부 파일 다운로드
-                InputStream inputStream = FilePersistenceUtil.getInputStreamFromS3(s3Client, s3BucketName, filePath);
+                InputStream inputStream = FilePersistenceUtil.getInputStreamFromFileRepo(s3Client, s3BucketName, filePath);
                 String targetFilePath = FilePathUtil.getLocalFullPathFromS3Path(fileBaseDir, filePath);
                 File file = new File(targetFilePath);
                 try {

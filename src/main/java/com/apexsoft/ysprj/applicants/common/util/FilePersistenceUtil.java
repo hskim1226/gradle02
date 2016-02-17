@@ -24,36 +24,36 @@ import java.util.Map;
 public class FilePersistenceUtil {
 
     // S3에서 S3Object 추출 및 반환
-    public static S3Object getS3Object(AmazonS3Client s3Client, String s3BucketName, String filePath) {
+    public static S3Object getFileWrapperFromFileRepo(AmazonS3Client s3Client, String s3BucketName, String filePath) {
         S3Object s3Object = s3Client.getObject(new GetObjectRequest(s3BucketName, filePath));
         return s3Object;
     }
 
     // S3에서 InputStream 추출 및 반환
-    public static InputStream getInputStreamFromS3(AmazonS3Client s3Client, String s3BucketName, String filePath) {
-        S3Object object = getS3Object(s3Client, s3BucketName, filePath);
+    public static InputStream getInputStreamFromFileRepo(AmazonS3Client s3Client, String s3BucketName, String filePath) {
+        S3Object object = getFileWrapperFromFileRepo(s3Client, s3BucketName, filePath);
         InputStream inputStream = object.getObjectContent();
         return inputStream;
     }
 
     // S3에서 byte array 다운로드
-    public static byte[] getBytesFromS3Object(AmazonS3Client s3Client, String s3BucketName, String filePath) throws IOException {
-        InputStream inputStream = getInputStreamFromS3(s3Client, s3BucketName, filePath);
+    public static byte[] getBytesFromFileRepo(AmazonS3Client s3Client, String s3BucketName, String filePath) throws IOException {
+        InputStream inputStream = getInputStreamFromFileRepo(s3Client, s3BucketName, filePath);
         byte[] bytes = IOUtils.toByteArray(inputStream);
         return bytes;
     }
 
     // S3에서 다운로드해서 파일 생성
-    public static File getFileFromS3(AmazonS3Client s3Client, String s3BucketName, String baseDir, String filePath) throws IOException {
-        byte[] bytes = getBytesFromS3Object(s3Client, s3BucketName, filePath);
+    public static File getFileFromFileRepo(AmazonS3Client s3Client, String s3BucketName, String baseDir, String filePath) throws IOException {
+        byte[] bytes = getBytesFromFileRepo(s3Client, s3BucketName, filePath);
         File file = new File(baseDir, filePath);
         FileUtils.writeByteArrayToFile(file, bytes);
         return file;
     }
 
     // S3에 업로드 된 파일 삭제
-    public static boolean deleteFileInS3(AmazonS3Client s3Client, String s3BucketName, String filePath,
-                                         int applNo, int docSeq) {
+    public static boolean deleteFileInFileRepo(AmazonS3Client s3Client, String s3BucketName, String filePath,
+                                               int applNo, int docSeq) {
         boolean deleteOk = false;
         try {
             s3Client.deleteObject(s3BucketName, filePath);

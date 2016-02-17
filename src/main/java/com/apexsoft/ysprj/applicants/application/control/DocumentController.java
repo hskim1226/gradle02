@@ -667,7 +667,7 @@ public class DocumentController {
         ec = documentService.retrieveOneDocument(appDocKey);
         TotalApplicationDocument totalDoc = (TotalApplicationDocument)ec.getData();
 
-        byte[] bytes = FilePersistenceUtil.getBytesFromS3Object(s3Client, bucketName, totalDoc.getFilePath());
+        byte[] bytes = FilePersistenceUtil.getBytesFromFileRepo(s3Client, bucketName, totalDoc.getFilePath());
 
         String downaloadFileName = StringUtil.urlEncodeSpecialCharacter(URLEncoder.encode(totalDoc.getOrgFileName(), "UTF-8"));
 

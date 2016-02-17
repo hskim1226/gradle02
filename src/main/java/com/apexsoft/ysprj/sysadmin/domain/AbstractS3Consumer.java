@@ -87,7 +87,7 @@ public abstract class AbstractS3Consumer implements Runnable {
                     String filePath = getFilePath(backUpApplDoc);
                     String targetFilePath = getTargetFilePath(backUpApplDoc);
                     try {
-                        s3Object = FilePersistenceUtil.getS3Object(s3Client, s3BucketName, filePath);
+                        s3Object = FilePersistenceUtil.getFileWrapperFromFileRepo(s3Client, s3BucketName, filePath);
                         ObjectMetadata objMeta = s3Object.getObjectMetadata();
 //                        objMeta.addUserMetadata("applNo", String.valueOf(backUpApplDoc.getApplNo()));
 //                        objMeta.addUserMetadata("filePath", filePath);

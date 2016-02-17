@@ -272,7 +272,7 @@ long start = System.currentTimeMillis();
         for (StudentNumber studentNumber : studentNumberList) {
             InputStream inputStream = null;
             try {
-                s3Object = FilePersistenceUtil.getS3Object(s3Client, s3BucketName, studentNumber.getS3FullPath());
+                s3Object = FilePersistenceUtil.getFileWrapperFromFileRepo(s3Client, s3BucketName, studentNumber.getS3FullPath());
                 inputStream = s3Object.getObjectContent();
                 ObjectMetadata s3ObjMeta = s3Object.getObjectMetadata();
                 String type = s3ObjMeta.getContentType();
