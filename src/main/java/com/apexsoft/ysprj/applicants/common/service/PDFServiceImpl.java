@@ -5,9 +5,7 @@ import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
-import com.apexsoft.framework.persistence.file.exception.EncryptedPDFException;
 import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
-import com.apexsoft.framework.persistence.file.model.FileInfo;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationStatus;
@@ -36,7 +34,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.io.*;
 import java.util.*;
-import java.util.zip.DataFormatException;
 
 /**
  * Created by hanmomhanda on 15. 2. 22.
@@ -116,7 +113,7 @@ public class PDFServiceImpl implements PDFService {
 //        File numberedMergedFile = getPageNumberedPDF(mergedFile, applicationFormPageCounts + 1, 1, 99, application);
 //
 //        // 최종 파일은 결제 전, 후에 S3에 업로드
-//        uploadToS3(s3, numberedMergedFile, applNo);
+//        uploadToFileRepo(s3, numberedMergedFile, applNo);
 
 
 
@@ -145,11 +142,11 @@ public class PDFServiceImpl implements PDFService {
         File zippedFile = getZippedFile(numberedFiles, application);
 
         // zip파일 S3에 업로드
-        uploadToS3(zippedFile, applNo);
+        uploadToFileRepo(zippedFile, applNo);
 
         // 파일 목록 루프돌며 S3에 업로드
 //        for (File file : numberedFiles) {
-//            uploadToS3(s3, file, applNo);
+//            uploadToFileRepo(s3, file, applNo);
 //        }
 
         return ec;
@@ -446,11 +443,11 @@ public class PDFServiceImpl implements PDFService {
         if (ApplicationStatus.COMPLETED.codeVal().equals(application.getApplStsCode())) {
             // 수험표 파일
             File applicationSlipFile = getApplicationSlipFile(application);
-            uploadToS3(applicationSlipFile, applNo); // 수험표는 결제 완료 후에 생성 및 업로드
+            uploadToFileRepo(applicationSlipFile, applNo); // 수험표는 결제 완료 후에 생성 및 업로드
 
             // 결제 완료를 통해 로컬에 생성된 지원서
             File applicationFormFile = getApplicationFormFile(application);
-            uploadToS3(applicationFormFile, applNo);
+            uploadToFileRepo(applicationFormFile, applNo);
         }
         return ec;
     }
@@ -494,10 +491,9 @@ public class PDFServiceImpl implements PDFService {
     }
 
     // S3에 파일 업로드
-    private void uploadToS3(File file, int applNo) {
+    private void uploadToFileRepo(File file, int applNo) {
 
 //        String s3FilePath = getS3FilePath(file); // 이건 합침 파일 올릴때 사용
-        String s3FilePath = FilePathUtil.getS3PathFromLocalFullPath(file.getAbsolutePath(), fileBaseDir);
         filePersistenceService.uploadToFileRepo(fileBaseDir, file, applNo);
     }
 
@@ -508,40 +504,42 @@ public class PDFServiceImpl implements PDFService {
         return s3FilePath;
     }
 
-    @Override
-    public ExecutionContext uploadToS3(String uploadDir, String uploadFileName, File file, boolean isDelete) {
-        ExecutionContext ec = new ExecutionContext();
-        String originalFileName = uploadFileName;
-        FileInfo fileInfo = null;
-        FileInputStream fis = null;
-        try {
-            fis = new FileInputStream(file);
-            fileInfo = s3PersistenceManager.save(uploadDir, uploadFileName, originalFileName, fis);
-            if (isDelete)
-                file.delete();
-        } catch (EncryptedPDFException e) {
-            Map<String, String> errorInfo = new HashMap<String, String>();
-            errorInfo.put("uploadDir", uploadDir);
-            errorInfo.put("originalFileName", originalFileName);
-            exceptionThrower(errorInfo, "U04514", "ERR0052");
-        } catch (IOException ioe) {
-            if (ioe.getCause().getCause() instanceof DataFormatException) {
-                Map<String, String> errorInfo = new HashMap<String, String>();
-                errorInfo.put("uploadDir", uploadDir);
-                errorInfo.put("originalFileName", originalFileName);
-                exceptionThrower(errorInfo, "U04515", "ERR0052");
-            } else {
-                logger.error("Upload PDF is NOT loaded to PDDocument in " + Thread.currentThread().getStackTrace()[1]);
-                Map<String, String> errorInfo = new HashMap<String, String>();
-                errorInfo.put("uploadDir", uploadDir);
-                errorInfo.put("originalFileName", originalFileName);
-                exceptionThrower(errorInfo, "U04518", "ERR0052");
-            }
-        } finally {
-            if (fis != null)
-                try { fis.close(); } catch (IOException e) {}
-        }
-        ec.setData(fileInfo);
-        return ec;
-    }
+    // FilePersistenceService의 uploadToFileRepo로 변경
+//    @Deprecated
+//    @Override
+//    public ExecutionContext uploadToS3(String uploadDir, String uploadFileName, File file, boolean isDelete) {
+//        ExecutionContext ec = new ExecutionContext();
+//        String originalFileName = uploadFileName;
+//        FileInfo fileInfo = null;
+//        FileInputStream fis = null;
+//        try {
+//            fis = new FileInputStream(file);
+//            fileInfo = s3PersistenceManager.save(uploadDir, uploadFileName, originalFileName, fis);
+//            if (isDelete)
+//                file.delete();
+//        } catch (EncryptedPDFException e) {
+//            Map<String, String> errorInfo = new HashMap<String, String>();
+//            errorInfo.put("uploadDir", uploadDir);
+//            errorInfo.put("originalFileName", originalFileName);
+//            exceptionThrower(errorInfo, "U04514", "ERR0052");
+//        } catch (IOException ioe) {
+//            if (ioe.getCause().getCause() instanceof DataFormatException) {
+//                Map<String, String> errorInfo = new HashMap<String, String>();
+//                errorInfo.put("uploadDir", uploadDir);
+//                errorInfo.put("originalFileName", originalFileName);
+//                exceptionThrower(errorInfo, "U04515", "ERR0052");
+//            } else {
+//                logger.error("Upload PDF is NOT loaded to PDDocument in " + Thread.currentThread().getStackTrace()[1]);
+//                Map<String, String> errorInfo = new HashMap<String, String>();
+//                errorInfo.put("uploadDir", uploadDir);
+//                errorInfo.put("originalFileName", originalFileName);
+//                exceptionThrower(errorInfo, "U04518", "ERR0052");
+//            }
+//        } finally {
+//            if (fis != null)
+//                try { fis.close(); } catch (IOException e) {}
+//        }
+//        ec.setData(fileInfo);
+//        return ec;
+//    }
 }
