@@ -59,9 +59,6 @@ public class PDFServiceImpl implements PDFService {
     @Value("#{app['file.baseDir']}")
     private String fileBaseDir;
 
-    @Value("#{app['s3.bucketName']}")
-    private String s3BucketName;
-
     @Value("#{app['file.midPath']}")
     private String midPath;
 
