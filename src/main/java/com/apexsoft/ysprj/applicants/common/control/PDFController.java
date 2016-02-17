@@ -116,7 +116,7 @@ public class PDFController {
                 Map<String, String> ecMap = new HashMap<>();
                 ecMap.put("bucketName", "[" + s3BucketName + "]");
                 ecMap.put("admsNo", "[" + admsNo + "]");
-                ecMap.put("objectKey", "[" + filePath + "]");
+                ecMap.put("filePath", "[" + filePath + "]");
                 ec.setErrorInfo(new ErrorInfo(ecMap));
                 throw new YSBizException(ec);
             }

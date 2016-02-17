@@ -53,7 +53,7 @@ public class ApplAllConsumer extends AbstractS3Consumer {
                 Thread.currentThread().getStackTrace()[1].getMethodName());
         System.err.println(tId + e.getMessage());
         System.err.println(tId + "applNo : [" + backUpApplDoc.getApplNo() + "]");
-        System.err.println(tId + "objectKey : [" + getFilePath(backUpApplDoc) +"]");
+        System.err.println(tId + "filePath : [" + getFilePath(backUpApplDoc) +"]");
         System.err.println(tId + "targetFilePath : [" + getTargetFilePath(backUpApplDoc) +"]");
         System.err.println(tId + "Putting applInfo of Err Object back to the applInfoQue");
         applInfoQue.add(backUpApplDoc);

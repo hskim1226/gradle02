@@ -495,16 +495,6 @@ public class PDFServiceImpl implements PDFService {
 //        String s3FilePath = getS3FilePath(file); // 이건 합침 파일 올릴때 사용
         String s3FilePath = FilePathUtil.getS3PathFromLocalFullPath(file.getAbsolutePath(), fileBaseDir);
         filePersistenceService.uploadToFileRepo(fileBaseDir, file, applNo);
-//        try {
-//            s3Client.putObject(new PutObjectRequest(s3BucketName, s3FilePath, file)
-//                                   .withMetadata(meta)
-//                                   .withCannedAcl(CannedAccessControlList.AuthenticatedRead));
-////                                   .withCannedAcl(CannedAccessControlList.AuthenticatedRead.PublicRead));
-//        } catch (Exception e) {
-//            logger.error("Err in uploading final file to S3, s3BucketName : [" + s3BucketName + "], applNo : [" + applNo + "], ObjectKey : [" + FilePathUtil.getS3PathFromLocalFullPath(file.getAbsolutePath(), fileBaseDir) + "]");
-//            logger.error(e.getMessage());
-//            throw new YSBizException(e);
-//        }
     }
 
     // S3 버킷 아래에 업로드 할 위치 반환

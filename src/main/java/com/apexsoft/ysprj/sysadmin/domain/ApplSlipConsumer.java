@@ -43,7 +43,7 @@ public class ApplSlipConsumer extends AbstractS3Consumer {
 //        ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
         logger.error(e.getMessage());
         logger.error("applNo : [" + backUpApplDoc.getApplNo() + "]");
-        logger.error("objectKey : [" + getFilePath(backUpApplDoc) +"]");
+        logger.error("filePath : [" + getFilePath(backUpApplDoc) +"]");
         logger.error("targetFilePath : [" + getTargetFilePath(backUpApplDoc) +"]");
         logger.error("Putting applInfo of Err Object back to the queue");
         applInfoQue.add(backUpApplDoc);

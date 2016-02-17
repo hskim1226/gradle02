@@ -203,7 +203,7 @@ public class SysAdminServiceImpl implements  SysAdminService {
 //                logger.error(e.getMessage());
 //                logger.error("bucketName : [" + s3BucketName + "]");
 //                logger.error("applNo : [" + appl.getApplNo() + "]");
-//                logger.error("objectKey : [" + filePath +"]");
+//                logger.error("filePath : [" + filePath +"]");
 //                throw new YSBizException(ec);
 //            }
 //            downloadedCount++;
@@ -290,7 +290,7 @@ long start = System.currentTimeMillis();
                 logger.error(e.getMessage());
                 logger.error("bucketName : [" + s3BucketName + "]");
                 logger.error("applId : [" + studentNumber.getApplId() + "]");
-                logger.error("objectKey : [" + studentNumber.getFilePath() +"]");
+                logger.error("filePath : [" + studentNumber.getFilePath() +"]");
                 failureList.add(studentNumber.getApplId());
             } finally {
                 if (inputStream != null) try { inputStream.close(); } catch (IOException e) {}
