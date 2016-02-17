@@ -84,17 +84,11 @@ public class AdminController {
     @Autowired
     BirtService birtService;
 
-    @Autowired
-    private AmazonS3Client s3Client;
-
     @Value("#{app['file.baseDir']}")
     private String fileBaseDir;
 
-    @Value("#{app['s3.bucketName']}")
-    private String s3BucketName;
-
     @Value("#{app['file.midPath']}")
-    private String s3MidPath;
+    private String midPath;
 
     @Value("#{app['rpt.format']}")
     private String REPORT_FORMAT;

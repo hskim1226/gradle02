@@ -22,13 +22,11 @@ public class S3ObjConsumer implements Runnable {
     private final BlockingQueue<S3Object> s3ObjQue;
     private final int fileCount;
     private final String backupDir;
-    private final String s3BucketName;
 
-    public S3ObjConsumer(BlockingQueue<S3Object> s3ObjQue, int fileCount, String backupDir, String s3BucketName) {
+    public S3ObjConsumer(BlockingQueue<S3Object> s3ObjQue, int fileCount, String backupDir) {
         this.s3ObjQue = s3ObjQue;
         this.fileCount = fileCount;
         this.backupDir = backupDir;
-        this.s3BucketName = s3BucketName;
     }
 
     @Override
@@ -69,7 +67,6 @@ public class S3ObjConsumer implements Runnable {
                 Thread.currentThread().getStackTrace()[1].getClassName() + "." +
                 Thread.currentThread().getStackTrace()[1].getMethodName());
         System.err.println(tId + e.getMessage());
-        System.err.println(tId + "bucketName : [" + s3BucketName + "]");
         System.err.println(tId + "applNo : [" + s3ObjUserMeta.get("applNo") + "]");
         System.err.println(tId + "filePath : [" + s3ObjUserMeta.get("filePath") +"]");
         System.err.println(tId + "targetFilePath : [" + s3ObjUserMeta.get("targetFilePath") +"]");

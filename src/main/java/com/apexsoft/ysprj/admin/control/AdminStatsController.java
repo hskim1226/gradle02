@@ -55,11 +55,8 @@ public class AdminStatsController {
     @Value("#{app['file.baseDir']}")
     private String fileBaseDir;
 
-    @Value("#{app['s3.bucketName']}")
-    private String s3BucketName;
-
     @Value("#{app['file.midPath']}")
-    private String s3MidPath;
+    private String midPath;
 
     private ModelAndView getErrorMV(String errorViewName, ExecutionContext ec) {
         ModelAndView mv = new ModelAndView(errorViewName);

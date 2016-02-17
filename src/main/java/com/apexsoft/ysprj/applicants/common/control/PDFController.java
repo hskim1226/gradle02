@@ -56,9 +56,6 @@ public class PDFController {
     @Value("#{app['file.baseDir']}")
     private String fileBaseDir;
 
-    @Value("#{app['s3.bucketName']}")
-    private String s3BucketName;
-
     @Value("#{app['file.midPath']}")
     private String midPath;
 
@@ -114,7 +111,6 @@ public class PDFController {
                 ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
                 ec.setMessage(MessageResolver.getMessage("U00242"));
                 Map<String, String> ecMap = new HashMap<>();
-                ecMap.put("bucketName", "[" + s3BucketName + "]");
                 ecMap.put("admsNo", "[" + admsNo + "]");
                 ecMap.put("filePath", "[" + filePath + "]");
                 ec.setErrorInfo(new ErrorInfo(ecMap));

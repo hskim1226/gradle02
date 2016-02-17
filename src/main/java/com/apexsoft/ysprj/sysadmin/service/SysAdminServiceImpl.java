@@ -51,9 +51,6 @@ public class SysAdminServiceImpl implements  SysAdminService {
     @Value("#{app['file.baseDir']}")
     private String fileBaseDir;
 
-    @Value("#{app['s3.bucketName']}")
-    private String s3BucketName;
-
     @Value("#{app['file.midPath']}")
     private String midPath;
 
@@ -288,7 +285,6 @@ long start = System.currentTimeMillis();
                 ec = new ExecutionContext(ExecutionContext.FAIL);
                 logger.error("Err in downaloadRenamedPictures() in SysAdminServiceImpl");
                 logger.error(e.getMessage());
-                logger.error("bucketName : [" + s3BucketName + "]");
                 logger.error("applId : [" + studentNumber.getApplId() + "]");
                 logger.error("filePath : [" + studentNumber.getFilePath() +"]");
                 failureList.add(studentNumber.getApplId());
