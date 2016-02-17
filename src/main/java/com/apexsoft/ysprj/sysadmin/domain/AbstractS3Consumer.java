@@ -1,10 +1,9 @@
 package com.apexsoft.ysprj.sysadmin.domain;
 
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3Object;
-import com.apexsoft.ysprj.applicants.common.util.FileDownloadUtil;
+import com.apexsoft.ysprj.applicants.common.util.FilePersistenceUtil;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -88,7 +87,7 @@ public abstract class AbstractS3Consumer implements Runnable {
                     String filePath = getFilePath(backUpApplDoc);
                     String targetFilePath = getTargetFilePath(backUpApplDoc);
                     try {
-                        s3Object = FileDownloadUtil.getS3Object(s3Client, s3BucketName, filePath);
+                        s3Object = FilePersistenceUtil.getS3Object(s3Client, s3BucketName, filePath);
                         ObjectMetadata objMeta = s3Object.getObjectMetadata();
 //                        objMeta.addUserMetadata("applNo", String.valueOf(backUpApplDoc.getApplNo()));
 //                        objMeta.addUserMetadata("filePath", filePath);

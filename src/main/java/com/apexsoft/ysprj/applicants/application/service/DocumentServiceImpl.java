@@ -3,8 +3,6 @@ package com.apexsoft.ysprj.applicants.application.service;
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.GetObjectRequest;
-import com.amazonaws.services.s3.model.S3Object;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
@@ -13,10 +11,9 @@ import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.common.service.ZipService;
-import com.apexsoft.ysprj.applicants.common.util.FileDownloadUtil;
+import com.apexsoft.ysprj.applicants.common.util.FilePersistenceUtil;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -383,39 +380,7 @@ public class DocumentServiceImpl implements DocumentService {
             rDelete++;
             delete = commonDAO.delete( NAME_SPACE + "ApplicationDocumentMapper.deleteByPrimaryKey", oneDocument);
 
-            try {
-                s3Client.deleteObject(s3BucketName, oneDocument.getFilePath());
-                deleteOk = true;
-            } catch (AmazonServiceException ase) {
-                deleteOk = false;
-                ec = new ExecutionContext(ExecutionContext.FAIL);
-                ec.setMessage(MessageResolver.getMessage("U338"));
-                ec.setErrCode("ERR0051");
-                Map<String, String> errorInfo = new HashMap<String, String>();
-                errorInfo.put("applNo", String.valueOf(oneDocument.getApplNo()));
-                errorInfo.put("docSeq", String.valueOf(oneDocument.getDocSeq()));
-                errorInfo.put("AWS Error Message", ase.getMessage());
-                errorInfo.put("AWS HTTP Status Code", String.valueOf(ase.getStatusCode()));
-                errorInfo.put("AWS HTTP Error Code", String.valueOf(ase.getErrorCode()));
-                errorInfo.put("AWS Error Type", ase.getErrorType().toString());
-                errorInfo.put("AWS Request ID", ase.getRequestId());
-                ec.setErrorInfo(new ErrorInfo(errorInfo));
-                throw new YSBizException(ec);
-            } catch (AmazonClientException ace) {
-                deleteOk = false;
-                ec = new ExecutionContext(ExecutionContext.FAIL);
-                ec.setMessage(MessageResolver.getMessage("U338"));
-                ec.setErrCode("ERR0051");
-                Map<String, String> errorInfo = new HashMap<String, String>();
-                errorInfo.put("applNo", String.valueOf(oneDocument.getApplNo()));
-                errorInfo.put("docSeq", String.valueOf(oneDocument.getDocSeq()));
-                errorInfo.put("AWS Error Message", ace.getMessage());
-                ec.setErrorInfo(new ErrorInfo(errorInfo));
-                throw new YSBizException(ec);
-            }
-
-//            File file = new File(oneDocument.getFilePath(), oneDocument.getFileName());
-//            deleteOk = file.delete();
+            deleteOk = FilePersistenceUtil.deleteFileInS3(s3Client, s3BucketName, oneDocument.getFilePath(), applNo, docSeq);
         }
 
         if (  delete == rDelete && deleteOk ) {
@@ -549,17 +514,17 @@ public class DocumentServiceImpl implements DocumentService {
 
         if ("slip".equals(type)) {
             filePath = FilePathUtil.getApplicationSlipFileFullPath(s3FilePath, userId);
-            bytes = FileDownloadUtil.getBytesFromS3Object(s3Client, s3BucketName, filePath);
+            bytes = FilePersistenceUtil.getBytesFromS3Object(s3Client, s3BucketName, filePath);
             fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
         }
         else if ("form".equals(type)) {
             filePath = FilePathUtil.getApplicationFormFileFullPath(s3FilePath, userId);
-            bytes = FileDownloadUtil.getBytesFromS3Object(s3Client, s3BucketName, filePath);
+            bytes = FilePersistenceUtil.getBytesFromS3Object(s3Client, s3BucketName, filePath);
             fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
         }
         else if ("merged".equals(type)) {
             // 원서 파일 from S3
-            File applFormFile = FileDownloadUtil.getFileFromS3(s3Client,
+            File applFormFile = FilePersistenceUtil.getFileFromS3(s3Client,
                                                                s3BucketName,
                                                                BASE_DIR,
                                                                FilePathUtil.getApplicationFormFileFullPath(s3FilePath, userId));
@@ -601,7 +566,7 @@ public class DocumentServiceImpl implements DocumentService {
             ApplicationDocument aDoc = commonDAO.queryForObject(NAME_SPACE +
                     "CustomApplicationDocumentMapper.selectApplicationDocumentOfRecommendation", param, ApplicationDocument.class);
             String recFilePath = aDoc.getFilePath();
-            File recFile = FileDownloadUtil.getFileFromS3(s3Client, s3BucketName, BASE_DIR, recFilePath);
+            File recFile = FilePersistenceUtil.getFileFromS3(s3Client, s3BucketName, BASE_DIR, recFilePath);
             files.add(recFile);
         }
         return files;
@@ -610,7 +575,7 @@ public class DocumentServiceImpl implements DocumentService {
     // 지원자 첨부 파일 zip 파일 from S3
     private File getZipFile(Application application, String localDirPath, String s3FilePath) throws IOException {
         String filePath = s3FilePath + "/" + FilePathUtil.getZippedFileName(application);
-        byte[] bytes = FileDownloadUtil.getBytesFromS3Object(s3Client, s3BucketName, filePath);
+        byte[] bytes = FilePersistenceUtil.getBytesFromS3Object(s3Client, s3BucketName, filePath);
         String fileName = FilePathUtil.getDownloadableZipFileName(application);
         File zipFile = new File(localDirPath, fileName);
         FileUtils.writeByteArrayToFile(zipFile, bytes);

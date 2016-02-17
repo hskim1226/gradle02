@@ -3,8 +3,6 @@ package com.apexsoft.ysprj.applicants.application.control;
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.GetObjectRequest;
-import com.amazonaws.services.s3.model.S3Object;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.StackTraceFilter;
@@ -23,13 +21,12 @@ import com.apexsoft.ysprj.applicants.application.validator.DocumentValidator;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
-import com.apexsoft.ysprj.applicants.common.util.FileDownloadUtil;
+import com.apexsoft.ysprj.applicants.common.util.FilePersistenceUtil;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import com.apexsoft.ysprj.applicants.common.util.WebUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +43,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URLEncoder;
 import java.security.Principal;
 import java.util.HashMap;
@@ -671,7 +667,7 @@ public class DocumentController {
         ec = documentService.retrieveOneDocument(appDocKey);
         TotalApplicationDocument totalDoc = (TotalApplicationDocument)ec.getData();
 
-        byte[] bytes = FileDownloadUtil.getBytesFromS3Object(s3Client, bucketName, totalDoc.getFilePath());
+        byte[] bytes = FilePersistenceUtil.getBytesFromS3Object(s3Client, bucketName, totalDoc.getFilePath());
 
         String downaloadFileName = StringUtil.urlEncodeSpecialCharacter(URLEncoder.encode(totalDoc.getOrgFileName(), "UTF-8"));
 

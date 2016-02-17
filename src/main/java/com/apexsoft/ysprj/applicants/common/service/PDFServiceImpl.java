@@ -8,7 +8,6 @@ import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.framework.persistence.file.exception.EncryptedPDFException;
-import com.apexsoft.framework.persistence.file.exception.NotFoundInS3Exception;
 import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
 import com.apexsoft.framework.persistence.file.model.FileInfo;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
@@ -16,12 +15,11 @@ import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationStatus;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.common.domain.ParamForPDFDocument;
-import com.apexsoft.ysprj.applicants.common.util.FileDownloadUtil;
+import com.apexsoft.ysprj.applicants.common.util.FilePersistenceUtil;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import com.apexsoft.ysprj.applicants.common.util.StreamUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.pdfbox.io.MemoryUsageSetting;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -210,7 +208,7 @@ public class PDFServiceImpl implements PDFService {
             if (isUserUploadedFile(aDoc)) {
 
                 // S3에서 다운로드 한 PDF 파일 내용을 스트림 형태로 여러번 사용하기 위해 BAOS에 담아둔다.
-                InputStream inputStream = FileDownloadUtil.getInputStreamFromS3(s3Client, s3BucketName, filePath);
+                InputStream inputStream = FilePersistenceUtil.getInputStreamFromS3(s3Client, s3BucketName, filePath);
                 ByteArrayOutputStream baos = StreamUtil.getBaosFromInputStream(inputStream);
 
                 unencryptedPdfBaosList.add(baos);
@@ -239,7 +237,7 @@ public class PDFServiceImpl implements PDFService {
             // 사용자가 직접 입력한 파일이면 다운로드
             if (isUserUploadedFile(aDoc)) {
                 // S3에 업로드 되어 있는 첨부 파일 다운로드
-                InputStream inputStream = FileDownloadUtil.getInputStreamFromS3(s3Client, s3BucketName, filePath);
+                InputStream inputStream = FilePersistenceUtil.getInputStreamFromS3(s3Client, s3BucketName, filePath);
                 String targetFilePath = FilePathUtil.getLocalFullPathFromS3Path(fileBaseDir, filePath);
                 File file = new File(targetFilePath);
                 try {

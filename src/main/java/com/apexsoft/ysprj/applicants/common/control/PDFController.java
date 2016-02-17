@@ -1,7 +1,6 @@
 package com.apexsoft.ysprj.applicants.common.control;
 
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3Object;
 import com.apexsoft.framework.common.vo.ExecutionContext;
@@ -13,7 +12,7 @@ import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
 import com.apexsoft.ysprj.applicants.application.domain.Basis;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
-import com.apexsoft.ysprj.applicants.common.util.FileDownloadUtil;
+import com.apexsoft.ysprj.applicants.common.util.FilePersistenceUtil;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import com.apexsoft.ysprj.applicants.common.util.WebUtil;
 import org.apache.commons.io.IOUtils;
@@ -109,7 +108,7 @@ public class PDFController {
         if (applPaperInfosList.size() == 1) {
             S3Object object = null;
             try {
-                object = FileDownloadUtil.getS3Object(s3Client, s3BucketName, s3Key);
+                object = FilePersistenceUtil.getS3Object(s3Client, s3BucketName, s3Key);
             } catch (Exception e) {
                 logger.error("Err in s3Client.getObject FiledDownload in PDFController");
                 logger.error(e.getMessage());

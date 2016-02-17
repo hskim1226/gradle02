@@ -1,7 +1,6 @@
 package com.apexsoft.ysprj.applicants.common.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.S3Object;
 import com.apexsoft.framework.birt.spring.core.BirtEngineFactory;
 import com.apexsoft.framework.birt.spring.core.CustomAbstractSingleFormatBirtProcessor;
 import com.apexsoft.framework.birt.spring.core.CustomPdfSingleFormatBirtSaveToFile;
@@ -17,10 +16,9 @@ import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.application.service.LangCareerService;
 import com.apexsoft.ysprj.applicants.common.domain.CommonCode;
 import com.apexsoft.ysprj.applicants.common.domain.Country;
-import com.apexsoft.ysprj.applicants.common.util.FileDownloadUtil;
+import com.apexsoft.ysprj.applicants.common.util.FilePersistenceUtil;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.slf4j.Logger;
@@ -143,7 +141,7 @@ public class BirtServiceImpl implements BirtService {
         String s3FullPath = documentService.retrievePhotoUri(applNo);
         try {
             String s3objectKey = s3FullPath.substring(s3FullPath.indexOf(s3MidPath));
-            photo = FileDownloadUtil.getFileFromS3(s3Client, s3BucketName, BASE_DIR, s3objectKey);
+            photo = FilePersistenceUtil.getFileFromS3(s3Client, s3BucketName, BASE_DIR, s3objectKey);
         } catch (Exception e) {
             ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
             ec.setMessage(MessageResolver.getMessage("U06107", new Object[]{siteTel, helpdeskMail}));
