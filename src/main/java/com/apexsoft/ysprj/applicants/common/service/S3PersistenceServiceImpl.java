@@ -83,7 +83,7 @@ public class S3PersistenceServiceImpl implements FilePersistenceService {
     }
 
     @Override
-    public void uploadToFileRepo(String fileBaseDir, File file, int applNo) {
+    public boolean uploadToFileRepo(String fileBaseDir, File file, int applNo) {
         ObjectMetadata meta = createS3ObjMetaData(file);
         String s3FilePath = FilePathUtil.getS3PathFromLocalFullPath(file.getAbsolutePath(), fileBaseDir);
 
@@ -92,6 +92,7 @@ public class S3PersistenceServiceImpl implements FilePersistenceService {
                 .withCannedAcl(CannedAccessControlList.AuthenticatedRead));
         if (file.exists())
             file.delete();
+        return true;
     }
 
     private ObjectMetadata createS3ObjMetaData(File file) {

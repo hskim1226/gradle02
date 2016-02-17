@@ -67,8 +67,9 @@ public class LocalPersistenceServiceImpl implements FilePersistenceService {
     }
 
     @Override
-    public void uploadToFileRepo(String fileBaseDir, File file, int applNo) {
+    public boolean uploadToFileRepo(String fileBaseDir, File file, int applNo) {
         // Local에 이미 저장되어 있으므로 별도로 업로드 필요 없음
+        return true;
     }
 
     @Override
