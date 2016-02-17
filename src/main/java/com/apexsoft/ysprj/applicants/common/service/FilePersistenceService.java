@@ -1,5 +1,6 @@
 package com.apexsoft.ysprj.applicants.common.service;
 
+import com.apexsoft.ysprj.applicants.common.domain.FileMeta;
 import com.apexsoft.ysprj.applicants.common.domain.FileWrapper;
 
 import java.io.File;
@@ -10,11 +11,13 @@ import java.io.InputStream;
  * Created by hanmomhanda on 16. 2. 17.
  */
 public interface FilePersistenceService {
+    FileMeta createFileMeta(Object object);
+
     // S3에서 S3Object 추출 및 반환
-    FileWrapper getFileWrapperFromFileRepo(String filePath);
+    FileWrapper getFileWrapperFromFileRepo(String filePath) throws IOException;
 
     // S3에서 InputStream 추출 및 반환
-    InputStream getInputStreamFromFileRepo(String filePath);
+    InputStream getInputStreamFromFileRepo(String filePath) throws IOException;
 
     // S3에서 byte array 다운로드
     byte[] getBytesFromFileRepo(String filePath) throws IOException;

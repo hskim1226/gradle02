@@ -9,6 +9,8 @@ public class FileWrapper {
     private InputStream inputStream;
     private FileMeta fileMeta;
 
+    public FileWrapper() {}
+
     public FileWrapper(InputStream inputStream, FileMeta fileMeta) {
         this.inputStream = inputStream;
         this.fileMeta = fileMeta;

@@ -17,14 +17,6 @@ public class FileMeta {
 
     public FileMeta() {}
 
-    public FileMeta(ObjectMetadata metadata) {
-        this.contentType = metadata.getContentType();
-        this.contentEncoding = metadata.getContentEncoding();
-        this.ETag = metadata.getETag();
-        this.lastModified = metadata.getLastModified().toString();
-        this.contentLength = metadata.getContentLength();
-    }
-
     public String getContentType() {
         return contentType;
     }

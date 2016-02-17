@@ -39,9 +39,25 @@ public class S3PersistenceServiceImpl implements FilePersistenceService {
     private String s3StorageClass;
 
     @Override
+    public FileMeta createFileMeta(Object object) {
+        FileMeta fileMeta = null;
+        if (object instanceof ObjectMetadata) {
+            fileMeta = new FileMeta();
+            ObjectMetadata metadata = (ObjectMetadata)object;
+            fileMeta.setContentType(metadata.getContentType());
+            fileMeta.setContentEncoding(metadata.getContentEncoding());
+            fileMeta.setETag(metadata.getETag());
+            fileMeta.setLastModified(metadata.getLastModified().toString());
+            fileMeta.setContentLength(metadata.getContentLength());
+        }
+        return fileMeta;
+    }
+
+    @Override
     public FileWrapper getFileWrapperFromFileRepo(String filePath) {
         S3Object s3Object = s3Client.getObject(new GetObjectRequest(s3BucketName, filePath));
-        FileWrapper fileWrapper = new FileWrapper(s3Object.getObjectContent(), new FileMeta(s3Object.getObjectMetadata()));
+        FileWrapper fileWrapper = new FileWrapper(s3Object.getObjectContent(),
+                                                  createFileMeta(s3Object.getObjectMetadata()));
         return fileWrapper;
     }
 
@@ -70,13 +86,12 @@ public class S3PersistenceServiceImpl implements FilePersistenceService {
     public void uploadToFileRepo(String fileBaseDir, File file, int applNo) {
         ObjectMetadata meta = createS3ObjMetaData(file);
         String s3FilePath = FilePathUtil.getS3PathFromLocalFullPath(file.getAbsolutePath(), fileBaseDir);
-        try {
-            s3Client.putObject(new PutObjectRequest(s3BucketName, s3FilePath, file)
-                    .withMetadata(meta)
-                    .withCannedAcl(CannedAccessControlList.AuthenticatedRead));
-        } catch (Exception e) {
-            throw new YSBizException(e);
-        }
+
+        s3Client.putObject(new PutObjectRequest(s3BucketName, s3FilePath, file)
+                .withMetadata(meta)
+                .withCannedAcl(CannedAccessControlList.AuthenticatedRead));
+        if (file.exists())
+            file.delete();
     }
 
     private ObjectMetadata createS3ObjMetaData(File file) {

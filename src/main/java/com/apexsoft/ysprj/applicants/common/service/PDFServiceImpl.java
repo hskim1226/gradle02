@@ -101,7 +101,7 @@ public class PDFServiceImpl implements PDFService {
         List<ApplicationDocument> pdfList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectPDFByApplNo", param, ApplicationDocument.class);
 
         // 첨부 파일 정보를 토대로 사용자가 업로드한 첨부 파일을 S3에서 다운로드
-        List<ByteArrayOutputStream> userUploadedPdfStreamFromS3List = getByteArrayOutputStreamedPdfListFromS3(pdfList);
+//        List<ByteArrayOutputStream> userUploadedPdfStreamFromS3List = getByteArrayOutputStreamedPdfListFromS3(pdfList);
 
         // 원서 미리보기 또는 결제 완료를 통해 로컬에 생성된 지원서 파일 쪽수 계산
 //        File applicationFormFile = new File(getPdfDirFullPath(application), FilePathUtil.getApplicationFormFileName(userId));
@@ -120,8 +120,25 @@ public class PDFServiceImpl implements PDFService {
 
 
 
+
+        // 첨부 파일 정보를 토대로 사용자가 업로드한 첨부 파일을 S3에서 다운로드
+        List<File> userUploadedFiles;
+        try {
+            userUploadedFiles = getFileListFromS3(pdfList);
+        } catch (IOException e) {
+            ExecutionContext ecFail = new ExecutionContext(ExecutionContext.FAIL);
+            ErrorInfo eInfo = new ErrorInfo();
+            Map<String, String> errorMap = new HashMap<>();
+            errorMap.put("applNo", String.valueOf(application.getApplNo()));
+            errorMap.put("userId", application.getUserId());
+            eInfo.setInfo(errorMap);
+            ecFail.setErrorInfo(eInfo);
+            ecFail.setMessage(MessageResolver.getMessage("U06109", new Object[]{siteTel, helpdeskMail}));
+            ecFail.setErrCode("ERR1110");
+            throw new YSBizException(ecFail);
+        }
+
         // 파일 합치지 않고 개별 파일마다 페이지 넘버링
-        List<File> userUploadedFiles = getFileListFromS3(pdfList);
         List<File> numberedFiles = getPageNumberedPDFs(userUploadedFiles, application);
 
         // 페이지 넘버링 된 개별 파일을 zip으로 압축
@@ -130,26 +147,10 @@ public class PDFServiceImpl implements PDFService {
         // zip파일 S3에 업로드
         uploadToS3(zippedFile, applNo);
 
-        // 업로드 후 삭제
-        zippedFile.delete();
-
         // 파일 목록 루프돌며 S3에 업로드
 //        for (File file : numberedFiles) {
 //            uploadToS3(s3, file, applNo);
 //        }
-
-
-
-
-        // 중간 작업 파일 삭제
-        // 여기서 지우면 파일 지우기 위한 I/O 추가 발생하지만 저장 공간은 절약
-        // 나중에 batch로 지우면 I/O 는 절약하지만 지우기 전까지 저장 공간은 낭비
-
-//        mergedFile.delete();
-//        numberedMergedFile.delete();
-        for (File file: numberedFiles) {
-            file.delete();
-        }
 
         return ec;
     }
@@ -195,7 +196,7 @@ public class PDFServiceImpl implements PDFService {
      * @param pdfList
      * @return
      */
-    private List<ByteArrayOutputStream> getByteArrayOutputStreamedPdfListFromS3(List<ApplicationDocument> pdfList) {
+    private List<ByteArrayOutputStream> getByteArrayOutputStreamedPdfListFromS3(List<ApplicationDocument> pdfList) throws IOException {
         List<ByteArrayOutputStream> unencryptedPdfBaosList = new ArrayList<ByteArrayOutputStream>();
 
         for (ApplicationDocument aDoc : pdfList) {
@@ -224,7 +225,7 @@ public class PDFServiceImpl implements PDFService {
     }
 
     // 사용자가 업로드한 파일 다운로드
-    private List<File> getFileListFromS3(List<ApplicationDocument> pdfList) {
+    private List<File> getFileListFromS3(List<ApplicationDocument> pdfList) throws IOException {
         List<File> userUploadedFiles = new ArrayList<>();
 
         for (ApplicationDocument aDoc : pdfList) {
@@ -446,12 +447,10 @@ public class PDFServiceImpl implements PDFService {
             // 수험표 파일
             File applicationSlipFile = getApplicationSlipFile(application);
             uploadToS3(applicationSlipFile, applNo); // 수험표는 결제 완료 후에 생성 및 업로드
-            applicationSlipFile.delete();
 
             // 결제 완료를 통해 로컬에 생성된 지원서
             File applicationFormFile = getApplicationFormFile(application);
             uploadToS3(applicationFormFile, applNo);
-            applicationFormFile.delete();
         }
         return ec;
     }
@@ -485,6 +484,11 @@ public class PDFServiceImpl implements PDFService {
             Map<String, String> errMap = new HashMap<>();
             errMap.put("applNo", String.valueOf(application.getApplNo()));
             exceptionThrower(errMap, "U04528", "ERR1105");
+        }
+
+        for (File aFile : numberedFiles) {
+            if (aFile.exists())
+                aFile.delete();
         }
         return zipFile;
     }

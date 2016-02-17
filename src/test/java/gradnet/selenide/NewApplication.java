@@ -38,7 +38,7 @@ public class NewApplication {
         $("#password").setValue(password);
         $("#btnLogin").click();
 //    }
-//        // 아래는 특정 페이지만 테스트 할 때는 주석 처리
+//        // 특정 페이지만 테스트 할 때는 아래 내용 주석 처리
         open(baseUrl);
         $("#toAdmsList").click();
         $("#toGeneralApply").click();
@@ -53,7 +53,7 @@ public class NewApplication {
 
     @Test
     public void t01_기본정보입력_BASIS() throws Exception {
-        // 특정 페이지 단독 테스트 시 사용
+        // 특정 페이지 단독 테스트 시 주석 해제
 //        $("#modify3").click();
 
         // 지원 과정 선택
@@ -100,7 +100,7 @@ public class NewApplication {
 
     @Test
     public void t02_학력정보입력_ACADEMY() throws Exception {
-        // 특정 페이지 단독 테스트 시 사용
+        // 특정 페이지 단독 테스트 시 주석 해제
 //        $("#modify3").click();
 
         driver.findElement(By.linkText("2. 학력 정보")).click();
@@ -135,7 +135,7 @@ public class NewApplication {
 
     @Test
     public void test03_어학경력정보입력() throws Exception {
-        // 특정 페이지 단독 테스트 시 사용
+        // 특정 페이지 단독 테스트 시 주석 해제
 //        $("#modify2").click();
 
         driver.findElement(By.linkText("3. 어학/경력 정보")).click();
@@ -171,7 +171,7 @@ public class NewApplication {
 
     @Test
     public void test04_파일첨부() throws Exception {
-        // 특정 페이지 단독 테스트 시 사용
+        // 특정 페이지 단독 테스트 시 주석 해제
 //        $("#modify6").click();
 
         driver.findElement(By.linkText("4. 파일 첨부 및 제출")).click();
