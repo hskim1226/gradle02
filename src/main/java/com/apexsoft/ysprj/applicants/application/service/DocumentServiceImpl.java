@@ -60,8 +60,8 @@ public class DocumentServiceImpl implements DocumentService {
     @Value("#{app['s3.bucketName']}")
     private String s3BucketName;
 
-    @Value("#{app['s3.midPath']}")
-    private String s3MidPath;
+    @Value("#{app['file.midPath']}")
+    private String midPath;
 
     @Value("#{app['constraint.allowSameRRN']}")
     private String allowSameRRN;
@@ -377,7 +377,7 @@ public class DocumentServiceImpl implements DocumentService {
             rDelete++;
             delete = commonDAO.delete( NAME_SPACE + "ApplicationDocumentMapper.deleteByPrimaryKey", oneDocument);
 
-            deleteOk = filePersistenceService.deleteFileInFileRepo(s3BucketName, oneDocument.getFilePath(), applNo, docSeq);
+            deleteOk = filePersistenceService.deleteFileInFileRepo(oneDocument.getFilePath(), applNo, docSeq);
         }
 
         if (  delete == rDelete && deleteOk ) {
@@ -417,7 +417,7 @@ public class DocumentServiceImpl implements DocumentService {
         aDoc.setApplNo(applNo);
         aDoc.setFileExt("pdf");
         aDoc.setImgYn("N");
-        aDoc.setFilePath(FilePathUtil.getUploadDirectoryFullPath(BASE_DIR, s3MidPath, admsNo, userId, applNo));
+        aDoc.setFilePath(FilePathUtil.getUploadDirectoryFullPath(BASE_DIR, midPath, admsNo, userId, applNo));
         aDoc.setDocItemName("지원서");
         aDoc.setFileName(FilePathUtil.getApplicationFormFileName(userId));
         aDoc.setOrgFileName(FilePathUtil.getApplicationFormFileName(userId));
@@ -477,7 +477,7 @@ public class DocumentServiceImpl implements DocumentService {
         aDoc.setApplNo(applNo);
         aDoc.setFileExt("pdf");
         aDoc.setImgYn("N");
-        aDoc.setFilePath(FilePathUtil.getUploadDirectoryFullPath(BASE_DIR, s3MidPath, admsNo, userId, applNo));
+        aDoc.setFilePath(FilePathUtil.getUploadDirectoryFullPath(BASE_DIR, midPath, admsNo, userId, applNo));
         aDoc.setDocItemName("수험표");
         aDoc.setDocItemNameXxen("Application Slip");
         aDoc.setFileName(FilePathUtil.getApplicationSlipFileName(userId));
@@ -503,7 +503,7 @@ public class DocumentServiceImpl implements DocumentService {
     public Map<String, byte[]> getDownloadableFileAsBytes(Application application, String type) throws IOException, InterruptedException {
         int applNo = application.getApplNo();
         String userId = application.getUserId();
-        String localDirPath = FilePathUtil.getUploadDirectoryFullPath(BASE_DIR, s3MidPath, application.getAdmsNo(), userId, applNo);
+        String localDirPath = FilePathUtil.getUploadDirectoryFullPath(BASE_DIR, midPath, application.getAdmsNo(), userId, applNo);
         String s3FilePath = FilePathUtil.getS3PathFromLocalFullPath(localDirPath, BASE_DIR);
         String filePath = null;
         String fileName = null;
@@ -511,18 +511,18 @@ public class DocumentServiceImpl implements DocumentService {
 
         if ("slip".equals(type)) {
             filePath = FilePathUtil.getApplicationSlipFileFullPath(s3FilePath, userId);
-            bytes = filePersistenceService.getBytesFromFileRepo(s3BucketName, filePath);
+            bytes = filePersistenceService.getBytesFromFileRepo(filePath);
             fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
         }
         else if ("form".equals(type)) {
             filePath = FilePathUtil.getApplicationFormFileFullPath(s3FilePath, userId);
-            bytes = filePersistenceService.getBytesFromFileRepo(s3BucketName, filePath);
+            bytes = filePersistenceService.getBytesFromFileRepo(filePath);
             fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
         }
         else if ("merged".equals(type)) {
             // 원서 파일 from S3
             File applFormFile =
-                    filePersistenceService.getFileFromFileRepo(s3BucketName, BASE_DIR,
+                    filePersistenceService.getFileFromFileRepo(BASE_DIR,
                                                                FilePathUtil.getApplicationFormFileFullPath(s3FilePath, userId));
 
             // 추천서 파일 from S3
@@ -562,7 +562,7 @@ public class DocumentServiceImpl implements DocumentService {
             ApplicationDocument aDoc = commonDAO.queryForObject(NAME_SPACE +
                     "CustomApplicationDocumentMapper.selectApplicationDocumentOfRecommendation", param, ApplicationDocument.class);
             String recFilePath = aDoc.getFilePath();
-            File recFile = filePersistenceService.getFileFromFileRepo(s3BucketName, BASE_DIR, recFilePath);
+            File recFile = filePersistenceService.getFileFromFileRepo(BASE_DIR, recFilePath);
             files.add(recFile);
         }
         return files;
@@ -571,7 +571,7 @@ public class DocumentServiceImpl implements DocumentService {
     // 지원자 첨부 파일 zip 파일 from S3
     private File getZipFile(Application application, String localDirPath, String s3FilePath) throws IOException {
         String filePath = s3FilePath + "/" + FilePathUtil.getZippedFileName(application);
-        byte[] bytes = filePersistenceService.getBytesFromFileRepo(s3BucketName, filePath);
+        byte[] bytes = filePersistenceService.getBytesFromFileRepo(filePath);
         String fileName = FilePathUtil.getDownloadableZipFileName(application);
         File zipFile = new File(localDirPath, fileName);
         FileUtils.writeByteArrayToFile(zipFile, bytes);

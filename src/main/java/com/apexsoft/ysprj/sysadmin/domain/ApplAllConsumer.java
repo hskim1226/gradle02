@@ -15,21 +15,19 @@ public class ApplAllConsumer extends AbstractS3Consumer {
 
     private static final Logger logger = LoggerFactory.getLogger(ApplAllConsumer.class);
 
-    public ApplAllConsumer(String s3BucketName,
-                           String s3MidPath,
+    public ApplAllConsumer(String midPath,
                            int fileCount,
                            String backupDir) {
-        super(s3BucketName, s3MidPath, fileCount, backupDir);
+        super(midPath, fileCount, backupDir);
     }
 
     @Override
     protected String getFilePath(BackUpApplDoc backUpApplDoc) {
-        Application appl = new Application();
-        appl.setApplNo(backUpApplDoc.getApplNo());
-        appl.setUserId(backUpApplDoc.getUserId());
-        appl.setAdmsNo(backUpApplDoc.getAdmsNo());
-        String fullPath = FilePathUtil.getFinalMergedFileFullPath(s3BucketName, s3MidPath, appl);
-        String filePath = fullPath.substring(s3BucketName.length() + 1);
+        Application application = new Application();
+        application.setApplNo(backUpApplDoc.getApplNo());
+        application.setUserId(backUpApplDoc.getUserId());
+        application.setAdmsNo(backUpApplDoc.getAdmsNo());
+        String filePath = FilePathUtil.getFinalMergedFileFullPath(midPath, application);
         return filePath;
     }
 
@@ -38,7 +36,7 @@ public class ApplAllConsumer extends AbstractS3Consumer {
         String applicantName = StringUtil.getEmptyIfNull(backUpApplDoc.getKorName()).equals(StringUtil.EMPTY_STRING) ?
                 backUpApplDoc.getEngName() + "-" + backUpApplDoc.getEngSur() :
                 backUpApplDoc.getKorName();
-        String targetFilePath = new StringBuilder().append(s3MidPath).append("/")
+        String targetFilePath = new StringBuilder().append(midPath).append("/")
                 .append(backUpApplDoc.getCampName()).append("/")
                 .append(backUpApplDoc.getCollName()).append("/")
                 .append(backUpApplDoc.getDeptName()).append("/")
@@ -54,7 +52,6 @@ public class ApplAllConsumer extends AbstractS3Consumer {
                 Thread.currentThread().getStackTrace()[1].getClassName() + "." +
                 Thread.currentThread().getStackTrace()[1].getMethodName());
         System.err.println(tId + e.getMessage());
-        System.err.println(tId + "bucketName : [" + s3BucketName + "]");
         System.err.println(tId + "applNo : [" + backUpApplDoc.getApplNo() + "]");
         System.err.println(tId + "objectKey : [" + getFilePath(backUpApplDoc) +"]");
         System.err.println(tId + "targetFilePath : [" + getTargetFilePath(backUpApplDoc) +"]");

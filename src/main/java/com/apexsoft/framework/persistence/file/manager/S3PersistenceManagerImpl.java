@@ -27,7 +27,7 @@ public class S3PersistenceManagerImpl implements FilePersistenceManager {
     @Value("#{app['s3.bucketName']}")
     private String s3BucketName;
 
-    @Value("#{app['s3.midPath']}")
+    @Value("#{app['file.midPath']}")
     private String s3MidPath;
 
     @Value("#{app['s3.storageClass']}")

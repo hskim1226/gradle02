@@ -662,7 +662,7 @@ public class DocumentController {
         ec = documentService.retrieveOneDocument(appDocKey);
         TotalApplicationDocument totalDoc = (TotalApplicationDocument)ec.getData();
 
-        byte[] bytes = filePersistenceService.getBytesFromFileRepo(bucketName, totalDoc.getFilePath());
+        byte[] bytes = filePersistenceService.getBytesFromFileRepo(totalDoc.getFilePath());
 
         String downaloadFileName = StringUtil.urlEncodeSpecialCharacter(URLEncoder.encode(totalDoc.getOrgFileName(), "UTF-8"));
 

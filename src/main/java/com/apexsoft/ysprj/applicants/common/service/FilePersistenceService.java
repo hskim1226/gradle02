@@ -11,19 +11,19 @@ import java.io.InputStream;
  */
 public interface FilePersistenceService {
     // S3에서 S3Object 추출 및 반환
-    FileWrapper getFileWrapperFromFileRepo(String repoPath, String filePath);
+    FileWrapper getFileWrapperFromFileRepo(String filePath);
 
     // S3에서 InputStream 추출 및 반환
-    InputStream getInputStreamFromFileRepo(String repoPath, String filePath);
+    InputStream getInputStreamFromFileRepo(String filePath);
 
     // S3에서 byte array 다운로드
-    byte[] getBytesFromFileRepo(String repoPath, String filePath) throws IOException;
+    byte[] getBytesFromFileRepo(String filePath) throws IOException;
 
     // S3에서 다운로드해서 파일 생성
-    File getFileFromFileRepo(String repoPath, String baseDir, String filePath) throws IOException;
+    File getFileFromFileRepo(String baseDir, String filePath) throws IOException;
 
-    void uploadToFileRepo(String bucketName, String fileBaseDir, File file, int applNo);
+    void uploadToFileRepo(String fileBaseDir, File file, int applNo);
 
     // S3에 업로드 된 파일 삭제
-    boolean deleteFileInFileRepo(String repoPath, String filePath, int applNo, int docSeq);
+    boolean deleteFileInFileRepo(String filePath, int applNo, int docSeq);
 }

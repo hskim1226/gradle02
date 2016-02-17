@@ -74,11 +74,8 @@ public class BirtServiceImpl implements BirtService {
     @Value("#{app['path.static']}")
     private String STATIC_PATH;
 
-    @Value("#{app['s3.bucketName']}")
-    private String s3BucketName;
-
-    @Value("#{app['s3.midPath']}")
-    private String s3MidPath;
+    @Value("#{app['file.midPath']}")
+    private String midPath;
 
     @Value("#{app['site.tel']}")
     private String siteTel;
@@ -106,7 +103,7 @@ public class BirtServiceImpl implements BirtService {
         String fullPathToRptdesignFile = servletContext.getRealPath(pathToRptdesignFile);
         map.put("rptdesignFullPath", fullPathToRptdesignFile);
 
-        File photoFile = getPhotoFromS3(application.getApplNo());
+        File photoFile = getPhotoFromFileRepo(application.getApplNo());
         map.put("photoUri", photoFile.getAbsolutePath());
 
         IReportEngine reportEngine = birtEngineFactory.getObject();
@@ -134,12 +131,12 @@ public class BirtServiceImpl implements BirtService {
         return ec;
     }
 
-    private File getPhotoFromS3(Integer applNo) {
+    private File getPhotoFromFileRepo(Integer applNo) {
         File photo = null;
-        String s3FullPath = documentService.retrievePhotoUri(applNo);
+        String fileFullPath = documentService.retrievePhotoUri(applNo);
         try {
-            String s3objectKey = s3FullPath.substring(s3FullPath.indexOf(s3MidPath));
-            photo = filePersistenceService.getFileFromFileRepo(s3BucketName, BASE_DIR, s3objectKey);
+            String filePath = fileFullPath.substring(fileFullPath.indexOf(midPath));
+            photo = filePersistenceService.getFileFromFileRepo(BASE_DIR, filePath);
         } catch (Exception e) {
             ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
             ec.setMessage(MessageResolver.getMessage("U06107", new Object[]{siteTel, helpdeskMail}));
@@ -177,7 +174,7 @@ public class BirtServiceImpl implements BirtService {
                 FilePathUtil.getApplicationFormFileName(userId) :
                 FilePathUtil.getApplicationSlipFileName(userId);
 
-        rptInfoMap.put("pdfDirectoryFullPath", FilePathUtil.getUploadDirectoryFullPath(BASE_DIR, s3MidPath, application.getAdmsNo(), userId, applNo));
+        rptInfoMap.put("pdfDirectoryFullPath", FilePathUtil.getUploadDirectoryFullPath(BASE_DIR, midPath, application.getAdmsNo(), userId, applNo));
         rptInfoMap.put("pdfFileName", pdfFileName);
 
         String applId = application.isApplIdIssued() ? application.getApplId() : "지원 미완료";

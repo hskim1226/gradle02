@@ -26,15 +26,13 @@ public abstract class AbstractS3Consumer implements Runnable {
 
     public BlockingQueue<BackUpApplDoc> applInfoQue = null;
     public BlockingQueue<S3Object> s3ObjQue = null;
-    public final String s3BucketName;
     public String baseDir;
     public String backupDir;
-    public String s3MidPath;
+    public String midPath;
     public int fileCount;
 
-    public AbstractS3Consumer(String s3BucketName, String s3MidPath, int fileCount, String backupDir) {
-        this.s3BucketName = s3BucketName;
-        this.s3MidPath = s3MidPath;
+    public AbstractS3Consumer(String midPath, int fileCount, String backupDir) {
+        this.midPath = midPath;
         this.fileCount = fileCount;
         this.backupDir = backupDir;
     }
@@ -67,12 +65,12 @@ public abstract class AbstractS3Consumer implements Runnable {
         this.baseDir = baseDir;
     }
 
-    public String getS3MidPath() {
-        return s3MidPath;
+    public String getMidPath() {
+        return midPath;
     }
 
-    public void setS3MidPath(String s3MidPath) {
-        this.s3MidPath = s3MidPath;
+    public void setMidPath(String midPath) {
+        this.midPath = midPath;
     }
 
     @Override
@@ -87,7 +85,7 @@ public abstract class AbstractS3Consumer implements Runnable {
                     String filePath = getFilePath(backUpApplDoc);
                     String targetFilePath = getTargetFilePath(backUpApplDoc);
                     try {
-                        fileWrapper = filePersistenceService.getFileWrapperFromFileRepo(s3BucketName, filePath);
+                        fileWrapper = filePersistenceService.getFileWrapperFromFileRepo(filePath);
                         FileMeta fileMeta = fileWrapper.getFileMeta();
 //                        fileMeta.addUserMetadata("applNo", String.valueOf(backUpApplDoc.getApplNo()));
 //                        fileMeta.addUserMetadata("filePath", filePath);

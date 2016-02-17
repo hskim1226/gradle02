@@ -58,7 +58,7 @@ public class SysAdminController {
     @Value("#{app['file.mergeTestDir']}")
     private String MERGE_TEST_DIR;
 
-    @Value("#{app['s3.midPath']}")
+    @Value("#{app['file.midPath']}")
     private String MID_PATH;
 
     @Value("#{app['file.picturesDir']}")

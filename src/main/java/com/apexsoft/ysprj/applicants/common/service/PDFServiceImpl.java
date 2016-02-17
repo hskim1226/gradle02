@@ -1,6 +1,5 @@
 package com.apexsoft.ysprj.applicants.common.service;
 
-import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
@@ -66,8 +65,8 @@ public class PDFServiceImpl implements PDFService {
     @Value("#{app['s3.bucketName']}")
     private String s3BucketName;
 
-    @Value("#{app['s3.midPath']}")
-    private String s3MidPath;
+    @Value("#{app['file.midPath']}")
+    private String midPath;
 
     @Value("#{app['s3.storageClass']}")
     private String s3StorageClass;
@@ -206,7 +205,7 @@ public class PDFServiceImpl implements PDFService {
             if (isUserUploadedFile(aDoc)) {
 
                 // S3에서 다운로드 한 PDF 파일 내용을 스트림 형태로 여러번 사용하기 위해 BAOS에 담아둔다.
-                InputStream inputStream = filePersistenceService.getInputStreamFromFileRepo(s3BucketName, filePath);
+                InputStream inputStream = filePersistenceService.getInputStreamFromFileRepo(filePath);
                 ByteArrayOutputStream baos = StreamUtil.getBaosFromInputStream(inputStream);
 
                 unencryptedPdfBaosList.add(baos);
@@ -235,7 +234,7 @@ public class PDFServiceImpl implements PDFService {
             // 사용자가 직접 입력한 파일이면 다운로드
             if (isUserUploadedFile(aDoc)) {
                 // S3에 업로드 되어 있는 첨부 파일 다운로드
-                InputStream inputStream = filePersistenceService.getInputStreamFromFileRepo(s3BucketName, filePath);
+                InputStream inputStream = filePersistenceService.getInputStreamFromFileRepo(filePath);
                 String targetFilePath = FilePathUtil.getLocalFullPathFromS3Path(fileBaseDir, filePath);
                 File file = new File(targetFilePath);
                 try {
@@ -383,7 +382,7 @@ public class PDFServiceImpl implements PDFService {
 
     // Local 다운로드 위치. S3 버킷 내의 path와 동일하다.
     private String getPdfDirFullPath(Application application) {
-        return FilePathUtil.getUploadDirectoryFullPath(fileBaseDir, s3MidPath, application.getAdmsNo(), application.getUserId(), application.getApplNo());
+        return FilePathUtil.getUploadDirectoryFullPath(fileBaseDir, midPath, application.getAdmsNo(), application.getUserId(), application.getApplNo());
     }
 
     // 생성할 파일 전체 경로 반환
@@ -460,7 +459,7 @@ public class PDFServiceImpl implements PDFService {
     // 결제 완료 후 로컬에 생성된 수험표 파일
     private File getApplicationSlipFile(Application application) {
         String applicationSlipFileFullPath = FilePathUtil.getUploadDirectoryFullPath(
-                fileBaseDir, s3MidPath, application.getAdmsNo(), application.getUserId(), application.getApplNo()) + "/" +
+                fileBaseDir, midPath, application.getAdmsNo(), application.getUserId(), application.getApplNo()) + "/" +
                 FilePathUtil.getApplicationSlipFileName(application.getUserId());
         return new File(applicationSlipFileFullPath);
     }
@@ -493,10 +492,9 @@ public class PDFServiceImpl implements PDFService {
     // S3에 파일 업로드
     private void uploadToS3(File file, int applNo) {
 
-        ObjectMetadata meta = createS3ObjMetaData(file);
 //        String s3FilePath = getS3FilePath(file); // 이건 합침 파일 올릴때 사용
         String s3FilePath = FilePathUtil.getS3PathFromLocalFullPath(file.getAbsolutePath(), fileBaseDir);
-        filePersistenceService.uploadToFileRepo(s3BucketName, fileBaseDir, file, applNo);
+        filePersistenceService.uploadToFileRepo(fileBaseDir, file, applNo);
 //        try {
 //            s3Client.putObject(new PutObjectRequest(s3BucketName, s3FilePath, file)
 //                                   .withMetadata(meta)
@@ -507,15 +505,6 @@ public class PDFServiceImpl implements PDFService {
 //            logger.error(e.getMessage());
 //            throw new YSBizException(e);
 //        }
-    }
-
-    // 업로드 할 파일 정보로 S3 ObjectMetaData 생성
-    private ObjectMetadata createS3ObjMetaData(File file) {
-        ObjectMetadata meta = new ObjectMetadata();
-        meta.setContentEncoding("UTF-8");
-        meta.setContentLength(file.length());
-        meta.setHeader("x-amz-storage-class", s3StorageClass);
-        return meta;
     }
 
     // S3 버킷 아래에 업로드 할 위치 반환

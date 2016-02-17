@@ -27,6 +27,9 @@
 		<property name="endpoint" value="#{app['s3.endpoint']}" />
 	</bean>
 
+	<bean id="filePersistenceService" class="com.apexsoft.ysprj.applicants.common.service.S3PersistenceServiceImpl">
+	</bean>
+
 	<bean id="s3PersistenceManager" class="com.apexsoft.framework.persistence.file.manager.S3PersistenceManagerImpl">
 		<!--<constructor-arg ref="amazonS3"/>-->
 		<!--&lt;!&ndash;<constructor-arg value="${s3.region}"/>&ndash;&gt;-->

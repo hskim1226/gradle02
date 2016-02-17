@@ -41,7 +41,7 @@ public class MandtoryRuleController {
     @Value("#{app['s3.bucketName']}")
     private String s3BucketName;
 
-    @Value("#{app['s3.midPath']}")
+    @Value("#{app['file.midPath']}")
     private String s3MidPath;
 
 

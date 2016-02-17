@@ -54,8 +54,8 @@ public class SysAdminServiceImpl implements  SysAdminService {
     @Value("#{app['s3.bucketName']}")
     private String s3BucketName;
 
-    @Value("#{app['s3.midPath']}")
-    private String s3MidPath;
+    @Value("#{app['file.midPath']}")
+    private String midPath;
 
     @Value("#{app['file.backupDir']}")
     private String backupDir;
@@ -135,7 +135,7 @@ public class SysAdminServiceImpl implements  SysAdminService {
             e.printStackTrace();
         }
 
-        AbstractS3Consumer s3Consumer = new ApplAllConsumer(s3BucketName, s3MidPath, backUpApplDocList.size(), backupDir);
+        AbstractS3Consumer s3Consumer = new ApplAllConsumer(midPath, backUpApplDocList.size(), backupDir);
         Map<String, String> resultMap = savePdf(s3Consumer, backUpApplDocList);
 
         ec.setResult(ExecutionContext.SUCCESS);
@@ -156,9 +156,9 @@ public class SysAdminServiceImpl implements  SysAdminService {
             e.printStackTrace();
         }
 
-        AbstractS3Consumer s3Consumer = new ApplSlipConsumer(s3BucketName, s3MidPath, backUpApplDocList.size(), backupDir);
+        AbstractS3Consumer s3Consumer = new ApplSlipConsumer(midPath, backUpApplDocList.size(), backupDir);
         s3Consumer.setBaseDir(fileBaseDir);
-//        s3Consumer.setS3MidPath(s3MidPath);
+//        s3Consumer.setMidPath(midPath);
         Map<String, String> resultMap = savePdf(s3Consumer, backUpApplDocList);
 
         ec.setResult(ExecutionContext.SUCCESS);
@@ -182,12 +182,12 @@ public class SysAdminServiceImpl implements  SysAdminService {
 //            appl.setApplNo(backUpApplDoc.getApplNo());
 //            appl.setUserId(backUpApplDoc.getUserId());
 //            appl.setAdmsNo(backUpApplDoc.getAdmsNo());
-//            String fullPath = FileUtil.getFinalMergedFileFullPath(s3BucketName, s3MidPath, appl);
+//            String fullPath = FileUtil.getFinalMergedFileFullPath(s3BucketName, midPath, appl);
 //            String filePath = fullPath.substring(s3BucketName.length() + 1);
 //            String applicantName = StringUtil.getEmptyIfNull(backUpApplDoc.getKorName()).equals(StringUtil.EMPTY_STRING) ?
 //                    backUpApplDoc.getEngName() + "-" + backUpApplDoc.getEngSur() :
 //                    backUpApplDoc.getKorName();
-//            String targetFilePath = new StringBuilder().append(s3MidPath).append("/")
+//            String targetFilePath = new StringBuilder().append(midPath).append("/")
 //                    .append(backUpApplDoc.getCampName()).append("/")
 //                    .append(backUpApplDoc.getCollName()).append("/")
 //                    .append(backUpApplDoc.getDeptName()).append("/")
@@ -265,13 +265,13 @@ public class SysAdminServiceImpl implements  SysAdminService {
 
         studentNumberList = commonDAO.queryForList(NAME_SPACE + "SysAdminMapper.selectStudentPicInfo", StudentNumber.class);
 
-        String targetDirPath = picturesDir + "/" + s3MidPath;
+        String targetDirPath = picturesDir + "/" + midPath;
 long start = System.currentTimeMillis();
 
         for (StudentNumber studentNumber : studentNumberList) {
             InputStream inputStream = null;
             try {
-                fileWrapper = filePersistenceService.getFileWrapperFromFileRepo(s3BucketName, studentNumber.getS3FullPath());
+                fileWrapper = filePersistenceService.getFileWrapperFromFileRepo(studentNumber.getFilePath());
                 inputStream = fileWrapper.getInputStream();
                 FileMeta fileMeta = fileWrapper.getFileMeta();
                 String type = fileMeta.getContentType();
@@ -290,7 +290,7 @@ long start = System.currentTimeMillis();
                 logger.error(e.getMessage());
                 logger.error("bucketName : [" + s3BucketName + "]");
                 logger.error("applId : [" + studentNumber.getApplId() + "]");
-                logger.error("objectKey : [" + studentNumber.getS3FullPath() +"]");
+                logger.error("objectKey : [" + studentNumber.getFilePath() +"]");
                 failureList.add(studentNumber.getApplId());
             } finally {
                 if (inputStream != null) try { inputStream.close(); } catch (IOException e) {}

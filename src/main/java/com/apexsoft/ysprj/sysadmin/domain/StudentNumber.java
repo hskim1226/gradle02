@@ -61,7 +61,7 @@ public class StudentNumber {
         this.corsName = corsName;
     }
 
-    public String getS3FullPath() {
+    public String getFilePath() {
         return s3FullPath;
     }
 

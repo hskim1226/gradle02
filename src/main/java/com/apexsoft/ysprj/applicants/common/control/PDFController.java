@@ -1,8 +1,5 @@
 package com.apexsoft.ysprj.applicants.common.control;
 
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.S3Object;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
@@ -15,7 +12,6 @@ import com.apexsoft.ysprj.applicants.common.domain.FileMeta;
 import com.apexsoft.ysprj.applicants.common.domain.FileWrapper;
 import com.apexsoft.ysprj.applicants.common.service.FilePersistenceService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
-import com.apexsoft.ysprj.applicants.common.util.FilePersistenceUtil;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import com.apexsoft.ysprj.applicants.common.util.WebUtil;
 import org.apache.commons.io.IOUtils;
@@ -57,22 +53,19 @@ public class PDFController {
     @Autowired
     WebUtil webUtil;
 
-    @Autowired
-    private AmazonS3Client s3Client;
-
     @Value("#{app['file.baseDir']}")
     private String fileBaseDir;
 
     @Value("#{app['s3.bucketName']}")
     private String s3BucketName;
 
-    @Value("#{app['s3.midPath']}")
-    private String s3MidPath;
+    @Value("#{app['file.midPath']}")
+    private String midPath;
 
     private static final Logger logger = LoggerFactory.getLogger(PDFController.class);
 
     /**
-     * 첨부 파일화면에서 원서 미리보기 버튼 클릭
+     * 첨부 파일화면에서 원서 미리보기 다운로드 버튼 클릭
      *
      * @param basis
      * @param principal
@@ -88,7 +81,7 @@ public class PDFController {
                                    HttpServletResponse response) {
         webUtil.blockGetMethod(request, basis.getApplication());
         Application application = basis.getApplication();
-        String dirFullPath = FilePathUtil.getUploadDirectoryFullPath(fileBaseDir, s3MidPath, application.getAdmsNo(), application.getUserId(), application.getApplNo());
+        String dirFullPath = FilePathUtil.getUploadDirectoryFullPath(fileBaseDir, midPath, application.getAdmsNo(), application.getUserId(), application.getApplNo());
         String s3DirPath = FilePathUtil.getS3PathFromLocalFullPath(dirFullPath, fileBaseDir);
         String fileName = FilePathUtil.getApplicationFormFileName(application.getUserId());
         byte[] bytes = downLoadFile(application, response, s3DirPath+"/"+fileName);
@@ -104,7 +97,7 @@ public class PDFController {
 
     private byte[] downLoadFile(Application application,
                                 HttpServletResponse response,
-                                String s3Key) {
+                                String filePath) {
 
         String admsNo = application.getAdmsNo();
         int applNo = application.getApplNo();
@@ -114,7 +107,7 @@ public class PDFController {
         if (applPaperInfosList.size() == 1) {
             FileWrapper fileWrapper = null;
             try {
-                fileWrapper = filePersistenceService.getFileWrapperFromFileRepo(s3BucketName, s3Key);
+                fileWrapper = filePersistenceService.getFileWrapperFromFileRepo(filePath);
             } catch (Exception e) {
                 logger.error("Err in s3Client.getObject FiledDownload in PDFController");
                 logger.error(e.getMessage());
@@ -123,7 +116,7 @@ public class PDFController {
                 Map<String, String> ecMap = new HashMap<>();
                 ecMap.put("bucketName", "[" + s3BucketName + "]");
                 ecMap.put("admsNo", "[" + admsNo + "]");
-                ecMap.put("objectKey", "[" + s3Key + "]");
+                ecMap.put("objectKey", "[" + filePath + "]");
                 ec.setErrorInfo(new ErrorInfo(ecMap));
                 throw new YSBizException(ec);
             }

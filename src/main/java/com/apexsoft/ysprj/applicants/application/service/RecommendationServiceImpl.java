@@ -71,7 +71,7 @@ public class RecommendationServiceImpl implements RecommendationService {
     @Value("#{app['institution.name.en']}")
     private String INST_NAME_EN;
 
-    @Value("#{app['s3.midPath']}")
+    @Value("#{app['file.midPath']}")
     private String s3MidPath;
 
     private final String APP_NULL_STATUS = "00000";      // 에러일 때 반환값

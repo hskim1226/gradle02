@@ -140,13 +140,11 @@ public class FilePathUtil {
         return path.replace(ENCODED_SINGLEQUOTE, RECOVERED_SINGLEQUOTE);
     }
 
-    public static String getFinalMergedFileFullPath(String bucketName, String midPath, Application appl) {
+    public static String getFinalMergedFileFullPath(String midPath, Application appl) {
         int applNo = appl.getApplNo();
         String admsNo = appl.getAdmsNo();
         String userId = appl.getUserId();
         String pathToPdfDir = new StringBuilder()
-                .append(bucketName)
-                .append(SLASH)
                 .append(midPath)
                 .append(SLASH)
                 .append(admsNo)

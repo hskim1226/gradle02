@@ -32,7 +32,7 @@ public class PostApplicationController {
     @Value("#{app['s3.bucketName']}")
     private String bucketName;
 
-    @Value("#{app['s3.midPath']}")
+    @Value("#{app['file.midPath']}")
     private String s3MidPath;
 
     @Autowired

@@ -32,43 +32,46 @@ public class S3PersistenceServiceImpl implements FilePersistenceService {
     @Autowired
     AmazonS3Client s3Client;
 
+    @Value("#{app['s3.bucketName']}")
+    private String s3BucketName;
+
     @Value("#{app['s3.storageClass']}")
     private String s3StorageClass;
 
     @Override
-    public FileWrapper getFileWrapperFromFileRepo(String s3BucketName, String filePath) {
+    public FileWrapper getFileWrapperFromFileRepo(String filePath) {
         S3Object s3Object = s3Client.getObject(new GetObjectRequest(s3BucketName, filePath));
         FileWrapper fileWrapper = new FileWrapper(s3Object.getObjectContent(), new FileMeta(s3Object.getObjectMetadata()));
         return fileWrapper;
     }
 
     @Override
-    public InputStream getInputStreamFromFileRepo(String s3BucketName, String filePath) {
-        FileWrapper fileWrapper = getFileWrapperFromFileRepo(s3BucketName, filePath);
+    public InputStream getInputStreamFromFileRepo(String filePath) {
+        FileWrapper fileWrapper = getFileWrapperFromFileRepo(filePath);
         return fileWrapper.getInputStream();
     }
 
     @Override
-    public byte[] getBytesFromFileRepo(String s3BucketName, String filePath) throws IOException {
-        InputStream inputStream = getInputStreamFromFileRepo(s3BucketName, filePath);
+    public byte[] getBytesFromFileRepo(String filePath) throws IOException {
+        InputStream inputStream = getInputStreamFromFileRepo(filePath);
         byte[] bytes = IOUtils.toByteArray(inputStream);
         return bytes;
     }
 
     @Override
-    public File getFileFromFileRepo(String s3BucketName, String baseDir, String filePath) throws IOException {
-        byte[] bytes = getBytesFromFileRepo(s3BucketName, filePath);
+    public File getFileFromFileRepo(String baseDir, String filePath) throws IOException {
+        byte[] bytes = getBytesFromFileRepo(filePath);
         File file = new File(baseDir, filePath);
         FileUtils.writeByteArrayToFile(file, bytes);
         return file;
     }
 
     @Override
-    public void uploadToFileRepo(String bucketName, String fileBaseDir, File file, int applNo) {
+    public void uploadToFileRepo(String fileBaseDir, File file, int applNo) {
         ObjectMetadata meta = createS3ObjMetaData(file);
         String s3FilePath = FilePathUtil.getS3PathFromLocalFullPath(file.getAbsolutePath(), fileBaseDir);
         try {
-            s3Client.putObject(new PutObjectRequest(bucketName, s3FilePath, file)
+            s3Client.putObject(new PutObjectRequest(s3BucketName, s3FilePath, file)
                     .withMetadata(meta)
                     .withCannedAcl(CannedAccessControlList.AuthenticatedRead));
         } catch (Exception e) {
@@ -86,7 +89,7 @@ public class S3PersistenceServiceImpl implements FilePersistenceService {
 
 
     @Override
-    public boolean deleteFileInFileRepo(String s3BucketName, String filePath, int applNo, int docSeq) {
+    public boolean deleteFileInFileRepo(String filePath, int applNo, int docSeq) {
         boolean deleteOk = false;
         try {
             s3Client.deleteObject(s3BucketName, filePath);
