@@ -18,5 +18,6 @@ public interface PDFService {
 
     ExecutionContext processApplicationFileWithApplId(Application application);
 
-    ExecutionContext uploadToS3(String uploadDir, String uploadFileName, File file, boolean isDelete);
+    // FilePersistenceService의 uploadToFileRepo사용하도록 변경
+//    ExecutionContext uploadToS3(String uploadDir, String uploadFileName, File file, boolean isDelete);
 }
