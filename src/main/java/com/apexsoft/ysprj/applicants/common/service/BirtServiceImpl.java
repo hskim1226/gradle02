@@ -133,9 +133,8 @@ public class BirtServiceImpl implements BirtService {
 
     private File getPhotoFromFileRepo(Integer applNo) {
         File photo = null;
-        String fileFullPath = documentService.retrievePhotoUri(applNo);
+        String filePath = documentService.retrievePhotoUri(applNo);
         try {
-            String filePath = fileFullPath.substring(fileFullPath.indexOf(midPath));
             photo = filePersistenceService.getFileFromFileRepo(BASE_DIR, filePath);
         } catch (Exception e) {
             ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);

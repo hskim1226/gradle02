@@ -54,12 +54,6 @@ public class DocumentServiceImpl implements DocumentService {
     @Value("#{app['file.baseDir']}")
     private String BASE_DIR;
 
-    @Value("#{app['s3.url']}")
-    private String s3URL;
-
-    @Value("#{app['s3.bucketName']}")
-    private String s3BucketName;
-
     @Value("#{app['file.midPath']}")
     private String midPath;
 
@@ -1113,7 +1107,7 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public String retrievePhotoUri(int applNo) {
         ParamForDocumentType aParam = new ParamForDocumentType();
-        String urlEncodedPhotoURL = null;
+        String filePath = null;
         aParam.setApplNo( applNo);
         aParam.setDocTypeCode("00001");//기본
         aParam.setDocItemCode("00001");//사진
@@ -1121,19 +1115,9 @@ public class DocumentServiceImpl implements DocumentService {
 
         rList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectApplicationDocumentByDocumentType", aParam, TotalApplicationDocument.class );
         if( rList != null && rList.size()>0 ) {
-//            try { // 사진을 S3링크로 가져오지 않고 로컬로 직접 다운로드해서 사용하는 방식으로 변경 - URLEncoding 불필요
-                urlEncodedPhotoURL =  new StringBuilder()
-                        .append(s3URL).append('/')
-                        .append(s3BucketName).append('/')
-//                        .append(URLEncoder.encode(rList.get(0).getFilePath(), "UTF-8"))
-                        .append(rList.get(0).getFilePath())
-                        .toString();
-//            } catch (UnsupportedEncodingException e) {
-//
-//            }
+            filePath = rList.get(0).getFilePath();
         }
-
-        return urlEncodedPhotoURL;
+        return filePath;
     }
 
     private boolean isRgstNoDuplicate(int applNo) {
