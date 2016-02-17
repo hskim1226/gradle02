@@ -1298,6 +1298,10 @@
                                 <%--}--%>
                             <%--});--%>
                             <%-- 파일 생성 --%>
+                        } else {
+                            $('#overlay').hide();
+                            document.getElementById('spinner').style.display = 'none';
+                            alert('<spring:message code="U06108" arguments="${app.getProperty(\"site.tel\")}, ${app.getProperty(\"site.helpdesk\")}"/>'); <%-- 원서 생성에 실패했습니다. 관리자에게 문의해주세요. --%>
                         }
                     },
                     error: function (data, status, e) {
