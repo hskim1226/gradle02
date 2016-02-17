@@ -1,6 +1,5 @@
 package com.apexsoft.ysprj.applicants.common.service;
 
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.apexsoft.framework.birt.spring.core.BirtEngineFactory;
 import com.apexsoft.framework.birt.spring.core.CustomAbstractSingleFormatBirtProcessor;
 import com.apexsoft.framework.birt.spring.core.CustomPdfSingleFormatBirtSaveToFile;
@@ -16,7 +15,6 @@ import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.application.service.LangCareerService;
 import com.apexsoft.ysprj.applicants.common.domain.CommonCode;
 import com.apexsoft.ysprj.applicants.common.domain.Country;
-import com.apexsoft.ysprj.applicants.common.util.FilePersistenceUtil;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -42,28 +40,28 @@ import java.util.*;
 public class BirtServiceImpl implements BirtService {
 
     @Autowired
-    CommonService commonService;
+    private CommonService commonService;
 
     @Autowired
-    BasisService basisService;
+    private BasisService basisService;
 
     @Autowired
-    AcademyService academyService;
+    private AcademyService academyService;
 
     @Autowired
-    LangCareerService langCareerService;
+    private LangCareerService langCareerService;
 
     @Autowired
-    DocumentService documentService;
+    private DocumentService documentService;
 
     @Autowired
-    BirtEngineFactory birtEngineFactory;
+    private FilePersistenceService filePersistenceService;
 
     @Autowired
-    ServletContext servletContext;
+    private BirtEngineFactory birtEngineFactory;
 
     @Autowired
-    private AmazonS3Client s3Client;
+    private ServletContext servletContext;
 
     private static final Logger logger = LoggerFactory.getLogger(BirtServiceImpl.class);
 
@@ -141,7 +139,7 @@ public class BirtServiceImpl implements BirtService {
         String s3FullPath = documentService.retrievePhotoUri(applNo);
         try {
             String s3objectKey = s3FullPath.substring(s3FullPath.indexOf(s3MidPath));
-            photo = FilePersistenceUtil.getFileFromFileRepo(s3Client, s3BucketName, BASE_DIR, s3objectKey);
+            photo = filePersistenceService.getFileFromFileRepo(s3BucketName, BASE_DIR, s3objectKey);
         } catch (Exception e) {
             ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
             ec.setMessage(MessageResolver.getMessage("U06107", new Object[]{siteTel, helpdeskMail}));

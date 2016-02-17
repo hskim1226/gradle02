@@ -1,7 +1,6 @@
 package com.apexsoft.ysprj.applicants.common.service;
 
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.*;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
@@ -15,7 +14,6 @@ import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationStatus;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.common.domain.ParamForPDFDocument;
-import com.apexsoft.ysprj.applicants.common.util.FilePersistenceUtil;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import com.apexsoft.ysprj.applicants.common.util.StreamUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
@@ -57,7 +55,7 @@ public class PDFServiceImpl implements PDFService {
     FilePersistenceManager s3PersistenceManager;
 
     @Autowired
-    private AmazonS3Client s3Client;
+    FilePersistenceService filePersistenceService;
 
     @Autowired
     ZipService zipService;
@@ -208,7 +206,7 @@ public class PDFServiceImpl implements PDFService {
             if (isUserUploadedFile(aDoc)) {
 
                 // S3에서 다운로드 한 PDF 파일 내용을 스트림 형태로 여러번 사용하기 위해 BAOS에 담아둔다.
-                InputStream inputStream = FilePersistenceUtil.getInputStreamFromFileRepo(s3Client, s3BucketName, filePath);
+                InputStream inputStream = filePersistenceService.getInputStreamFromFileRepo(s3BucketName, filePath);
                 ByteArrayOutputStream baos = StreamUtil.getBaosFromInputStream(inputStream);
 
                 unencryptedPdfBaosList.add(baos);
@@ -237,7 +235,7 @@ public class PDFServiceImpl implements PDFService {
             // 사용자가 직접 입력한 파일이면 다운로드
             if (isUserUploadedFile(aDoc)) {
                 // S3에 업로드 되어 있는 첨부 파일 다운로드
-                InputStream inputStream = FilePersistenceUtil.getInputStreamFromFileRepo(s3Client, s3BucketName, filePath);
+                InputStream inputStream = filePersistenceService.getInputStreamFromFileRepo(s3BucketName, filePath);
                 String targetFilePath = FilePathUtil.getLocalFullPathFromS3Path(fileBaseDir, filePath);
                 File file = new File(targetFilePath);
                 try {
@@ -498,16 +496,17 @@ public class PDFServiceImpl implements PDFService {
         ObjectMetadata meta = createS3ObjMetaData(file);
 //        String s3FilePath = getS3FilePath(file); // 이건 합침 파일 올릴때 사용
         String s3FilePath = FilePathUtil.getS3PathFromLocalFullPath(file.getAbsolutePath(), fileBaseDir);
-        try {
-            s3Client.putObject(new PutObjectRequest(s3BucketName, s3FilePath, file)
-                                   .withMetadata(meta)
-                                   .withCannedAcl(CannedAccessControlList.AuthenticatedRead));
-//                                   .withCannedAcl(CannedAccessControlList.AuthenticatedRead.PublicRead));
-        } catch (Exception e) {
-            logger.error("Err in uploading final file to S3, s3BucketName : [" + s3BucketName + "], applNo : [" + applNo + "], ObjectKey : [" + FilePathUtil.getS3PathFromLocalFullPath(file.getAbsolutePath(), fileBaseDir) + "]");
-            logger.error(e.getMessage());
-            throw new YSBizException(e);
-        }
+        filePersistenceService.uploadToFileRepo(s3BucketName, fileBaseDir, file, applNo);
+//        try {
+//            s3Client.putObject(new PutObjectRequest(s3BucketName, s3FilePath, file)
+//                                   .withMetadata(meta)
+//                                   .withCannedAcl(CannedAccessControlList.AuthenticatedRead));
+////                                   .withCannedAcl(CannedAccessControlList.AuthenticatedRead.PublicRead));
+//        } catch (Exception e) {
+//            logger.error("Err in uploading final file to S3, s3BucketName : [" + s3BucketName + "], applNo : [" + applNo + "], ObjectKey : [" + FilePathUtil.getS3PathFromLocalFullPath(file.getAbsolutePath(), fileBaseDir) + "]");
+//            logger.error(e.getMessage());
+//            throw new YSBizException(e);
+//        }
     }
 
     // 업로드 할 파일 정보로 S3 ObjectMetaData 생성

@@ -1,16 +1,15 @@
 package com.apexsoft.ysprj.sysadmin.service;
 
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.S3Object;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.exception.YSBizNoticeException;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
+import com.apexsoft.ysprj.applicants.common.domain.FileMeta;
+import com.apexsoft.ysprj.applicants.common.domain.FileWrapper;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
+import com.apexsoft.ysprj.applicants.common.service.FilePersistenceService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
-import com.apexsoft.ysprj.applicants.common.util.FilePersistenceUtil;
 import com.apexsoft.ysprj.sysadmin.domain.*;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -44,10 +43,10 @@ public class SysAdminServiceImpl implements  SysAdminService {
     private PDFService pdfService;
 
     @Autowired
-    private CommonDAO commonDAO;
+    private FilePersistenceService filePersistenceService;
 
     @Autowired
-    private AmazonS3Client s3Client;
+    private CommonDAO commonDAO;
 
     @Value("#{app['file.baseDir']}")
     private String fileBaseDir;
@@ -260,7 +259,7 @@ public class SysAdminServiceImpl implements  SysAdminService {
         ExecutionContext<Map<String, Object>> ec = new ExecutionContext();
         Map<String, Object> resultMap = new HashMap<>();
         List<StudentNumber> studentNumberList = null;
-        S3Object s3Object = null;
+        FileWrapper fileWrapper = null;
         List<String> failureList = new ArrayList<>();
         int count = 0;
 
@@ -272,16 +271,14 @@ long start = System.currentTimeMillis();
         for (StudentNumber studentNumber : studentNumberList) {
             InputStream inputStream = null;
             try {
-                s3Object = FilePersistenceUtil.getFileWrapperFromFileRepo(s3Client, s3BucketName, studentNumber.getS3FullPath());
-                inputStream = s3Object.getObjectContent();
-                ObjectMetadata s3ObjMeta = s3Object.getObjectMetadata();
-                String type = s3ObjMeta.getContentType();
+                fileWrapper = filePersistenceService.getFileWrapperFromFileRepo(s3BucketName, studentNumber.getS3FullPath());
+                inputStream = fileWrapper.getInputStream();
+                FileMeta fileMeta = fileWrapper.getFileMeta();
+                String type = fileMeta.getContentType();
                 if (type.startsWith("image/")) {
                     String ext = type.substring(6);
                     if ("jpeg".equals(ext))
                         ext = "jpg";
-                    Map<String, String> s3ObjUserMeta = s3ObjMeta.getUserMetadata();
-
                         File targetFile = new File(targetDirPath, studentNumber.getStudNo() + "-" + studentNumber.getStudName() + "." + ext);
                         FileUtils.copyInputStreamToFile(inputStream, targetFile);
                         System.out.println("[LOCAL SAVE] " + ++count);

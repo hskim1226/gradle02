@@ -1,9 +1,9 @@
 package com.apexsoft.ysprj.sysadmin.domain;
 
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3Object;
-import com.apexsoft.ysprj.applicants.common.util.FilePersistenceUtil;
+import com.apexsoft.ysprj.applicants.common.domain.FileMeta;
+import com.apexsoft.ysprj.applicants.common.domain.FileWrapper;
+import com.apexsoft.ysprj.applicants.common.service.FilePersistenceService;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public abstract class AbstractS3Consumer implements Runnable {
 
     @Autowired
-    private AmazonS3Client s3Client;
+    private FilePersistenceService filePersistenceService;
 
     protected AtomicInteger count = new AtomicInteger();
     protected AtomicLong totalVolume = new AtomicLong();
@@ -83,21 +83,21 @@ public abstract class AbstractS3Consumer implements Runnable {
                 backUpApplDoc = applInfoQue.poll(20, TimeUnit.SECONDS);
 
                 if (backUpApplDoc != null) {
-                    S3Object s3Object = null;
+                    FileWrapper fileWrapper = null;
                     String filePath = getFilePath(backUpApplDoc);
                     String targetFilePath = getTargetFilePath(backUpApplDoc);
                     try {
-                        s3Object = FilePersistenceUtil.getFileWrapperFromFileRepo(s3Client, s3BucketName, filePath);
-                        ObjectMetadata objMeta = s3Object.getObjectMetadata();
-//                        objMeta.addUserMetadata("applNo", String.valueOf(backUpApplDoc.getApplNo()));
-//                        objMeta.addUserMetadata("filePath", filePath);
-//                        objMeta.addUserMetadata("targetFilePath", targetFilePath);
-                        String msg = count.incrementAndGet() + "/" + fileCount + "] " + "<thread-" + Thread.currentThread().getId() + "> " + ", totalVolume - " + totalVolume.addAndGet(objMeta.getContentLength()) + " : " + targetFilePath;
+                        fileWrapper = filePersistenceService.getFileWrapperFromFileRepo(s3BucketName, filePath);
+                        FileMeta fileMeta = fileWrapper.getFileMeta();
+//                        fileMeta.addUserMetadata("applNo", String.valueOf(backUpApplDoc.getApplNo()));
+//                        fileMeta.addUserMetadata("filePath", filePath);
+//                        fileMeta.addUserMetadata("targetFilePath", targetFilePath);
+                        String msg = count.incrementAndGet() + "/" + fileCount + "] " + "<thread-" + Thread.currentThread().getId() + "> " + ", totalVolume - " + totalVolume.addAndGet(fileMeta.getContentLength()) + " : " + targetFilePath;
                         System.out.println("[DOWNLOAD " + msg);
-                        FileUtils.copyInputStreamToFile(s3Object.getObjectContent(),
+                        FileUtils.copyInputStreamToFile(fileWrapper.getInputStream(),
                                 new File(backupDir, targetFilePath));
                         System.out.println("[LOCAL SAVE " + msg);
-//                        s3ObjQue.put(s3Object);
+//                        s3ObjQue.put(fileWrapper);
                     } catch (Exception e) {
 //                        s3 = null;
 //                        s3 = AWSWrapper.getS3Client();

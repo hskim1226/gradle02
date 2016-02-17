@@ -2,7 +2,6 @@ package com.apexsoft.ysprj.applicants.application.control;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.StackTraceFilter;
@@ -19,9 +18,8 @@ import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.application.validator.DocumentValidator;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
-import com.apexsoft.ysprj.applicants.common.service.CommonService;
+import com.apexsoft.ysprj.applicants.common.service.FilePersistenceService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
-import com.apexsoft.ysprj.applicants.common.util.FilePersistenceUtil;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import com.apexsoft.ysprj.applicants.common.util.WebUtil;
@@ -63,7 +61,7 @@ public class DocumentController {
     private DocumentService documentService;
 
     @Autowired
-    private CommonService commonService;
+    private FilePersistenceService filePersistenceService;
 
     @Autowired
     private BirtService birtService;
@@ -94,9 +92,6 @@ public class DocumentController {
 
     @Autowired
     WebUtil webUtil;
-
-    @Autowired
-    private AmazonS3Client s3Client;
 
     private static final Logger logger = LoggerFactory.getLogger(DocumentController.class);
     private final String TARGET_VIEW = "application/document";
@@ -667,7 +662,7 @@ public class DocumentController {
         ec = documentService.retrieveOneDocument(appDocKey);
         TotalApplicationDocument totalDoc = (TotalApplicationDocument)ec.getData();
 
-        byte[] bytes = FilePersistenceUtil.getBytesFromFileRepo(s3Client, bucketName, totalDoc.getFilePath());
+        byte[] bytes = filePersistenceService.getBytesFromFileRepo(bucketName, totalDoc.getFilePath());
 
         String downaloadFileName = StringUtil.urlEncodeSpecialCharacter(URLEncoder.encode(totalDoc.getOrgFileName(), "UTF-8"));
 

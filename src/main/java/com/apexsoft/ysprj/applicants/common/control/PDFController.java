@@ -11,6 +11,9 @@ import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
 import com.apexsoft.ysprj.applicants.application.domain.Basis;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
+import com.apexsoft.ysprj.applicants.common.domain.FileMeta;
+import com.apexsoft.ysprj.applicants.common.domain.FileWrapper;
+import com.apexsoft.ysprj.applicants.common.service.FilePersistenceService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.applicants.common.util.FilePersistenceUtil;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
@@ -47,6 +50,9 @@ public class PDFController {
 
     @Autowired
     DocumentService documentService;
+
+    @Autowired
+    FilePersistenceService filePersistenceService;
 
     @Autowired
     WebUtil webUtil;
@@ -106,9 +112,9 @@ public class PDFController {
         List<ApplicationDocument> applPaperInfosList =
                 documentService.retrieveApplicationPaperInfo(applNo); // DB에서 filePath가져온다
         if (applPaperInfosList.size() == 1) {
-            S3Object object = null;
+            FileWrapper fileWrapper = null;
             try {
-                object = FilePersistenceUtil.getFileWrapperFromFileRepo(s3Client, s3BucketName, s3Key);
+                fileWrapper = filePersistenceService.getFileWrapperFromFileRepo(s3BucketName, s3Key);
             } catch (Exception e) {
                 logger.error("Err in s3Client.getObject FiledDownload in PDFController");
                 logger.error(e.getMessage());
@@ -122,8 +128,8 @@ public class PDFController {
                 throw new YSBizException(ec);
             }
 
-            InputStream inputStream = object.getObjectContent();
-            ObjectMetadata meta = object.getObjectMetadata();
+            InputStream inputStream = fileWrapper.getInputStream();
+            FileMeta meta = fileWrapper.getFileMeta();
             try {
                 bytes = IOUtils.toByteArray(inputStream);
             } catch (IOException e) {
