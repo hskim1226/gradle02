@@ -272,10 +272,11 @@ public class DocumentController {
 
         ExecutionContext ecSaveInfo = documentService.saveApplicationPaperInfo(application);
         // 타 대학원 확장 시 TODO - 학교 이름을 파라미터로 받도록
-        String admsTypeCode = application.getAdmsTypeCode();
-        String lang = application.isForeignAppl() ? "en" : "kr";
-        String reportName = "yonsei-" + "appl" + "-" + lang;
-        ExecutionContext ecGenerate = birtService.generateBirtFile(application.getApplNo(), reportName);
+        // 미리보기 생성 시 원서 생성하므로 제출 시에는 다시 생성하지 않음
+//        String admsTypeCode = application.getAdmsTypeCode();
+//        String lang = application.isForeignAppl() ? "en" : "kr";
+//        String reportName = "yonsei-" + "appl" + "-" + lang;
+//        ExecutionContext ecGenerate = birtService.generateBirtFile(application.getApplNo(), reportName);
 
         try {
             ExecutionContext ec1 = pdfService.genAndUploadPDFByApplicants(application);
@@ -737,18 +738,22 @@ public class DocumentController {
         String fileDir = (String)map.get("pdfDirectoryFullPath");
         String fileName = (String)map.get("pdfFileName");
         File file = new File(fileDir, fileName);
-        ExecutionContext ecUpload = pdfService.uploadToS3(
-                FilePathUtil.getS3PathFromLocalFullPath(fileDir, fileBaseDir),
-                fileName,
-                file,
-                true);
+
+        boolean uploadOk;
+        try {
+            uploadOk = filePersistenceService.uploadToFileRepo(fileBaseDir, file, application.getApplNo());
+        } catch (Exception e) {
+            return new ExecutionContext(ExecutionContext.FAIL);
+        }
 
         if (ExecutionContext.SUCCESS.equals(ecSaveInfo.getResult()) &&
             ExecutionContext.SUCCESS.equals(ecGenerate.getResult()) &&
-                ExecutionContext.SUCCESS.equals(ecUpload.getResult()))
+            uploadOk)
             return ecSaveInfo;
-        else
-            return new ExecutionContext(ExecutionContext.FAIL);
+        else {
+            ExecutionContext ecFail = new ExecutionContext(ExecutionContext.FAIL);
+            return ecFail;
+        }
     }
 
 
