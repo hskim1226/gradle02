@@ -1086,7 +1086,7 @@
                     <div class="col-sm-12">
                         <div class="loader"></div>
                     </div>
-                    <div class="col-sm-12" style="font-size: 24px; color: #55aaff; text-align: center;"><spring:message code="U04512"/></div>  <%--Loading...--%>
+                    <div class="col-sm-12" style="font-size: 24px; color: #55aaff; text-align: center;"><spring:message code="U04512"/></div>  <%--파일 생성 중 입니다. 1분 이상 소요될 수 있으니 원서 미리보기 버튼이 나올 때까지 기다려 주시기 바랍니다.--%>
                 </div>
             </div>
 
@@ -1110,7 +1110,7 @@
                     <div class="col-sm-12">
                         <div class="loader"></div>
                     </div>
-                    <div class="col-sm-12" style="font-size: 24px; color: #55aaff; text-align: center;"><spring:message code="U04512"/></div>  <%--Loading...--%>
+                    <div class="col-sm-12" style="font-size: 24px; color: #55aaff; text-align: center;"><spring:message code="U04531"/></div>  <%--원서 제출 처리 중 입니다. 1분 이상 소요될 수 있으니 알림창이 나올 때까지 기다려 주시기 바랍니다.--%>
                 </div>
             </div>
         </div> <%--myTabContent--%>
