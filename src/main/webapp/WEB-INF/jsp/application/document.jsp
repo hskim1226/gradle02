@@ -1102,7 +1102,8 @@
             </div>
             <div class="btn-group btn-group-justified">
                 <div class="btn-group">
-                    <button id="submitApplication" type="button" class="btn btn-success btn-lg btn-save" data-saveType="submit" ${document.application.applStsCode != '00004' || resultMsg != msg.getMsg('U325') ? 'disabled="disabled"' : ''}><spring:message code="L04204"/><%--원서 제출--%></button>
+                    <%--<button id="submitApplication" type="button" class="btn btn-success btn-lg btn-save" data-saveType="submit" ${document.application.applStsCode != '00004' || resultMsg != msg.getMsg('U04532') ? 'disabled="disabled"' : ''}><spring:message code="L04204"/>&lt;%&ndash;원서 제출&ndash;%&gt;</button>--%>
+                    <button id="submitApplication" type="button" class="btn btn-success btn-lg btn-save" data-saveType="submit" disabled="disabled"><spring:message code="L04204"/><%--원서 제출--%></button>
                 </div>
             </div>
             <div id="spinner2" class="btn-group btn-group-justified" style="display: none;">
@@ -1249,6 +1250,7 @@
                 $('#overlay').show();
                 <%--alert('<spring:message code="U04525"/>'); // 원서 미리보기 생성 및 원서 미리 보기에서 오류 발생 시 업로드 된 파일 이름에서 특수 문자를 제거한 후 다시 시도해 주십시오.--%>
                 document.getElementById('spinner').style.display = 'block';
+                document.getElementById('submitApplication').setAttribute('disabled', 'disabled');
                 formData = $(form).serialize();
                 <%-- 지원서 파일 정보 DB 저장 --%>
                 $.ajax({
@@ -1317,6 +1319,7 @@
                 <%--alert('<spring:message code="U04525"/>'); // 원서 미리보기 생성 및 원서 미리 보기에서 오류 발생 시 업로드 된 파일 이름에서 특수 문자를 제거한 후 다시 시도해 주십시오.--%>
                 form.action = "${contextPath}/pdf/download/applForm";
                 form.submit();
+                document.getElementById('submitApplication').removeAttribute('disabled');
             } else if (saveType == 'submit') {
                 $('#overlay').show();
                 <%--if (confirm('<spring:message code="U04526"/>\n\n<spring:message code="U04509"/>')) {// 원서 제출에서 오류 발생 시 업로드 된 파일 이름에서 특수 문자를 제거한 후 다시 시도해 주십시오. 원서 제출 후에는 원서 내용을 수정할 수 없습니다.\n\n계속하시겠습니까?--%>
