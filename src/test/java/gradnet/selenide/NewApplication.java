@@ -17,6 +17,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 /**
  * Created by hanmomhanda on 16. 1. 27.
@@ -39,12 +40,12 @@ public class NewApplication {
         $("#btnLogin").click();
 //    }
 //        // 특정 페이지만 테스트 할 때는 아래 내용 주석 처리
-        open(baseUrl);
-        $("#toAdmsList").click();
-        $("#toGeneralApply").click();
-        $("#checkAll").scrollTo();
-        $("#checkAll").click();
-        J("$('#composePaper').click()");
+//        open(baseUrl);
+//        $("#toAdmsList").click();
+//        $("#toGeneralApply").click();
+//        $("#checkAll").scrollTo();
+//        $("#checkAll").click();
+//        J("$('#composePaper').click()");
     }
 
     @Before
@@ -172,7 +173,7 @@ public class NewApplication {
     @Test
     public void test04_파일첨부() throws Exception {
         // 특정 페이지 단독 테스트 시 주석 해제
-//        $("#modify6").click();
+        $("#modify8").click();
 
         driver.findElement(By.linkText("4. 파일 첨부 및 제출")).click();
 
@@ -280,6 +281,8 @@ public class NewApplication {
         // 원서 미리보기 생성
         $("#generateApplication").click();
         $("#previewApplication").waitUntil(Condition.appear, 1000*120);
+        $("#previewApplication").click();
+
 
         // 원서 제출
         if($("#submitApplication").is(Condition.enabled)) {
@@ -287,6 +290,8 @@ public class NewApplication {
             String submitNotice = closeAlertAndGetItsText();
             assertThat(submitNotice, StringStartsWith.startsWith("원서 제출 후에는"));
             assertEquals("원서가 제출 되었습니다.", closeAlertAndGetItsText());
+        } else {
+            fail("원서 제출 실행 안됨");
         }
     }
 

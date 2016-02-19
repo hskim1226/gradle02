@@ -17,6 +17,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 /**
  * Created by hanmomhanda on 16. 1. 27.
@@ -305,6 +306,8 @@ public class NewApplicationForeign {
         // 원서 미리보기 생성
         $("#generateApplication").click();
         $("#previewApplication").waitUntil(Condition.appear, 1000*120);
+        $("#previewApplication").click();
+
 
         // 원서 제출
         if($("#submitApplication").is(Condition.enabled)) {
@@ -312,6 +315,8 @@ public class NewApplicationForeign {
             String submitNotice = closeAlertAndGetItsText();
             assertThat(submitNotice, StringStartsWith.startsWith("You can NOT modify application form after submission"));
             assertEquals("Application is submitted.", closeAlertAndGetItsText());
+        } else {
+            fail("원서 제출 실행 안됨");
         }
     }
 
