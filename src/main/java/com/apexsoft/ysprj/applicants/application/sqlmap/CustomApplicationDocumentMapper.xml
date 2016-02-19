@@ -656,7 +656,7 @@
         where APPL_NO = #{applNo,jdbcType=INTEGER}
         and FILE_EXT = #{fileExt,jdbcType=VARCHAR}
         and DOC_ITEM_CODE NOT IN ('00050')
-        order by DOC_ITEM_CODE
+        order by FILE_NAME
     </select>
 
     <select id="selectApplPaperInfoByApplNo" parameterType="com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument" resultMap="applDoc">
