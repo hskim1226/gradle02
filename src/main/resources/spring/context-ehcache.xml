@@ -15,7 +15,7 @@
 	
 	<cache:annotation-driven cache-manager="ehcacheManager" />
 
-	<beans profile="local,dev,svr2,aws">
+	<beans profile="dev,svr2,aws">
 		<bean id="ehcacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
 			<property name="cacheManager" ref="cacheManager" />
 		</bean>
