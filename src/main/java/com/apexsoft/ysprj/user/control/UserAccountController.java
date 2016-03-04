@@ -67,6 +67,8 @@ public class UserAccountController {
 //        if (request.getAttribute("LOGIN_FAILURE") == Boolean.TRUE) // requestDispatcher 방식 사용 시에만 적용 가능
             mv.addObject("loginMessage", MessageResolver.getMessage("U330"));
 
+        mv.addObject("lang", request.getParameter("lang"));
+
         return mv;
     }
 

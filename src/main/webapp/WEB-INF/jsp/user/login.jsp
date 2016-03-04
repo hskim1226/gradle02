@@ -129,6 +129,9 @@
                             <input type="password" class="form-control logintext" id="password" name="password" maxlength="16" placeholder="<spring:message code="U00082"/>">  <%--Password--%>
                         </div>
                     </div>
+                    <c:if test="${lang != null}">
+                        <input type="hidden" id="lang" name="lang" value="${lang}" />
+                    </c:if>
                     <div class="spacer-tiny col-sm-12">&nbsp;</div>
                     <div>
                         <div class="col-sm-offset-1 col-sm-10">

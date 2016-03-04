@@ -1,6 +1,7 @@
 package gradnet.selenide;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
 import org.hamcrest.core.StringStartsWith;
 import org.junit.Before;
@@ -8,10 +9,10 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.Select;
+
+import java.util.List;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
@@ -38,15 +39,15 @@ public class NewApplicationForeign {
         $("#username").setValue(userId);
         $("#password").setValue(password);
         $("#btnLogin").click();
-    }
+
         // 특정 페이지만 테스트 할 때는 아래 내용 주석 처리
-//        open(baseUrl);
-//        $("#toAdmsList").click();
-//        $("#toGeneralApply").click();
-//        $("#checkAll").scrollTo();
-//        $("#checkAll").click();
-//        J("$('#composePaper').click()");
-//    }
+        open(baseUrl + "/index-en.html");
+        $("#toAdmsList").click();
+        $("#toForeignApply").click();
+        $("#checkAll").scrollTo();
+        $("#checkAll").click();
+        J("$('#composePaper').click()");
+    }
 
     @Before
     public void setup() throws Exception {
@@ -58,29 +59,83 @@ public class NewApplicationForeign {
 //        $("#modify3").click();
 
         // 지원 과정 선택
-        $("#applAttrCode").selectOption("일반 지원자");
-        $("#campCode").selectOption("서울");
-        $("#collCode").selectOption("경영대학");
-        $("#deptCode").selectOption("경영학과");
-        $("#corsTypeCode").selectOption("석사학위과정");
-        $("#detlMajCode").selectOption("마케팅");
-        $("#partTimeYn").selectOption("풀타임");
+        $("#applAttrCode").selectOption("Foreigner Applicants");
+        $("#campCode").selectOption("Seoul");
+        $("#collCode").selectOption("Business");
+        $("#deptCode").selectOption("Business Administration");
+        $("#corsTypeCode").selectOption("Master's Degree");
+        $("#detlMajCode").selectOption("Marketing");
+        $("#partTimeYn").selectOption("Full-time");
         $("#btnBaseSave").click();
-        assertEquals("지원 사항을 정확히 지정 하셨습니까?", closeAlertAndGetItsText());
+        assertEquals("All selections are correct?", closeAlertAndGetItsText());
 
         // 지원자 정보
         $("#application\\.korName").scrollTo();
         $("#application\\.korName").setValue("장보고");
         $("#application\\.engSur").setValue("jang");
         $("#application\\.engName").setValue("bogo");
-        J("$('#citzCntrCode').val('118')");
+        J("$('#citzCntrCode').val('111')");
         J("$('#citzCntrCode').change()");
         $("#application\\.rgstBornDate").scrollTo();
         $("#application\\.rgstBornDate").setValue("900909");
-        $("#application\\.rgstEncr").setValue("1111118");
+        $("#application\\.engSur").scrollTo();
         $("#application\\.gend1").click();
 
+        // 지원자 상세 정보
+        $("#application\\.engSur").scrollTo();
+//        $("#fornTypeCode").waitUntil(Condition.visible, 1000);
+        $("#fornTypeCode").selectOption("Foreigner");
+
+
+
+//        WebElement selectionTypeOfForeigner = driver.findElement(By.id("fornTypeCode"));
+//        Select selectTypeOfForeigner = new Select(selectionTypeOfForeigner);
+//        selectionTypeOfForeigner.click();
+//        List<WebElement> options = selectTypeOfForeigner.getOptions();
+//        for (WebElement option : options) {
+//            if ("Foreigner".equals(option.getText()))
+//                option.click();
+//        }
+//        selectTypeOfForeigner.selectByIndex(1);
+
+
+//        if ($("#fornTypeCode").isDisplayed()) {
+//            $("#fornTypeCode").selectOptionByValue("00001");
+//System.out.println("after selectOption(), selectBox visible? " + $("#fornTypeCode").isDisplayed());
+//            $("#application\\.engSur").scrollTo();
+//System.out.println("after scrollTo(), selectBox visible? " + $("#fornTypeCode").isDisplayed());
+//            $("#fornTypeCode").selectOption("Foreigner");
+//System.out.println("after selectOption(), selectBox visible? " + $("#fornTypeCode").isDisplayed());
+//            $("#application\\.engSur").scrollTo();
+//System.out.println("after scrollTo(), selectBox visible? " + $("#fornTypeCode").isDisplayed());
+//            $("#fornTypeCode").selectOption(1);
+//        }
+//        SelenideElement fornTypeCode = $("#fornTypeCode").getSelectedOption();
+//        if (fornTypeCode.getValue().isEmpty())
+//            fornTypeCode.setValue("00001");
+        $("#applicationForeigner\\.homeAddr").setValue("704 Kingshill PL. #KC12219");
+        $("#applicationForeigner\\.homeTel").setValue("213-748-5118");
+
+        // 체류 정보
+        $("#applicationForeigner\\.homeAddr").scrollTo();
+        $("#applicationForeigner\\.paspNo").setValue("6549812317");
+        $("#applicationForeigner\\.homeAddr").scrollTo();
+        if ($("#applicationForeigner\\.visaTypeCode").isDisplayed()) {
+            $("#applicationForeigner\\.visaTypeCode").selectOption("Study Abroad(D-2)");
+//            $("#applicationForeigner\\.visaTypeCode").selectOption(3);
+//            $("#applicationForeigner\\.visaTypeCode").selectOptionByValue("D-2");
+        }
+
+//        SelenideElement visaTypeCode = $("#applicationForeigner\\.visaTypeCode").getSelectedOption();
+//        if (visaTypeCode.getValue().isEmpty())
+//            visaTypeCode.setValue("D-2");
+        $("#applicationForeigner\\.homeAddr").scrollTo();
+        $("#applicationForeigner\\.visaNo").setValue("5498949651117887");
+        J("document.querySelector('#applicationForeigner\\\\.visaExprDay').value = '20181227'");
+        $("#applicationForeigner\\.fornRgstNo").setValue("4824121425645");
+
         // 지원자 연락처
+        $("#applicationForeigner\\.fornRgstNo").scrollTo();
         J("$('#zipCode').val('143815')");    // hidden 필드는 selenide setValue()로 변경 불가, jQuery로 변경
         J("$('#address').val('서울특별시 광진구 강변북로 423')");    // hidden 필드는 jQuery로 변경
         $("#addressDetail").setValue("777");
@@ -89,20 +144,34 @@ public class NewApplicationForeign {
         $("#application\\.mailAddr").setValue("hanmomhanda@gmail.com");
 
         // 비상연락처
-        $("#applicationGeneral\\.emerContName").scrollTo();
-        $("#applicationGeneral\\.emerContName").setValue("장수왕");
-        $("#applicationGeneral\\.emerContCode").selectOption("지인");
-        $("#applicationGeneral\\.emerContTel").setValue("01032145698");
+        $("#application\\.mailAddr").scrollTo();
+        $("#applicationForeigner\\.korEmrgName").setValue("장수왕");
+        $("#applicationForeigner\\.korEmrgRela").selectOption("Acquaintance");
+        $("#applicationForeigner\\.korEmrgTel").setValue("01032145698");
+
+        $("#applicationForeigner\\.korEmrgRela").scrollTo();
+        $("#applicationForeigner\\.homeEmrgName").setValue("Michael Jordan");
+        $("#applicationForeigner\\.homeEmrgRela").selectOption("Relative");
+        $("#applicationForeigner\\.homeEmrgTel").setValue("0154785698874");
+
+        // 저장 안 되는 셀렉트박스 처리
+//        $("#fornTypeCode").scrollTo();
+//        J("scrollByLines(-8)");
+//        SelenideElement selectedOption = $("#fornTypeCode").getSelectedOption();
+//        $("#fornTypeCode").selectOption("Foreigner");
+//        $("#applicationForeigner\\.visaTypeCode").scrollTo();
+//        J("scrollByLines(-8)");
+//        $("#applicationForeigner\\.visaTypeCode").selectOption("Study Abroad(D-2)");
 
         // 저장
         $("#saveBasis").click();
-        assertEquals("기본 정보를 성공적으로 저장했습니다.", closeAlertAndGetItsText());
+        assertEquals("Basic information is saved successfully.\n\nYou can send an E-mail to request a recommendation letter in \'My List > Recommendation\'.", closeAlertAndGetItsText());
     }
 
     @Test
     public void t02_학력정보입력_ACADEMY() throws Exception {
         // 특정 페이지 단독 테스트 시 주석 해제
-        $("#modify0").click();
+//        $("#modify0").click();
 
         driver.findElement(By.linkText("2. Educational Background")).click();
 
@@ -133,14 +202,15 @@ public class NewApplicationForeign {
     @Test
     public void test03_어학경력정보입력() throws Exception {
         // 특정 페이지 단독 테스트 시 주석 해제
-        $("#modify0").click();
+//        $("#modify0").click();
 
         driver.findElement(By.linkText("3. Language Test and Career")).click();
 
         // 영어 면제
-        $("#checkForlExmp-0").scrollTo();
+        $("#checkLang-0-0-1").scrollTo();
         if (!$("#checkForlExmp-0").isSelected())
             $("#checkForlExmp-0").click();
+        closeAlertAndGetItsText();
         J("document.getElementById('forlExmpCode-0').selectedIndex='1'");
         J("$('#forlExmpCode-0').change()");
 
@@ -166,7 +236,7 @@ public class NewApplicationForeign {
     @Test
     public void test04_파일첨부() throws Exception {
         // 특정 페이지 단독 테스트 시 주석 해제
-        $("#modify0").click();
+//        $("#modify0").click();
 
         driver.findElement(By.linkText("4. File Submission and Submit")).click();
 

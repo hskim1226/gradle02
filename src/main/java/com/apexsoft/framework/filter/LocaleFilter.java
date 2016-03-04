@@ -20,11 +20,11 @@ public class LocaleFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        String lang = servletRequest.getParameter("lang");
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+        String lang = request.getParameter("lang");
         if (lang != null && !StringUtils.isEmpty(lang))
-            WebUtils.setSessionAttribute((HttpServletRequest)servletRequest, SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, new Locale(lang));
-        filterChain.doFilter(servletRequest, servletResponse);
+            WebUtils.setSessionAttribute((HttpServletRequest) request, SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, new Locale(lang));
+        filterChain.doFilter(request, response);
     }
 
     @Override
