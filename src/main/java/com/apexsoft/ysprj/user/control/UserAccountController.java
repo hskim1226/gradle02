@@ -54,7 +54,7 @@ public class UserAccountController {
     private WebUtil webUtil;
 
 //    @RequestMapping(value="/login", method= RequestMethod.GET)
-    @RequestMapping(value="/login")
+    @RequestMapping(value="/login", method= RequestMethod.GET)
     public ModelAndView displayLoginForm(User user,
                                    BindingResult bindingResult,
                                    ModelAndView mv,
@@ -69,7 +69,6 @@ public class UserAccountController {
 
         return mv;
     }
-
 
 
     @RequestMapping(value = "/agreement")

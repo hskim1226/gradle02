@@ -41,7 +41,7 @@
             <div id="LblockTopMenu">
                 <ul class="Lclear">
                     <li class="Lidx1"><span><a href="#"></a></span></li>
-                    <li class="Llast"><span><a href="${contextPath}/j_spring_security_logout.do">sign out</a></span></li>
+                    <li class="Llast"><span><a href="${contextPath}/logout">sign out</a></span></li>
                 </ul>
             </div>
         </div>

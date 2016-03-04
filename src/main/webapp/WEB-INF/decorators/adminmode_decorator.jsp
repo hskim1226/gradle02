@@ -60,7 +60,7 @@
     <div class="gnb">
         <ul>
             <li><a href="${contextPath}/admin/main"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/btn_home.png" alt="Home" /></a></li>
-            <li><a href="${contextPath}/j_spring_security_logout.do"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/btn_logout.png" alt="Logout" /></a></li>
+            <li><a href="${contextPath}/logout"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/btn_logout.png" alt="Logout" /></a></li>
         </ul>
     </div>
 </div>

@@ -149,7 +149,8 @@ public class UserAccountControllerTest {
         when(userDetailsService.loadUserByUsername(userId)).thenReturn(userSessionVO);
 
         mockMvc
-                .perform(post("/j_spring_security_check")
+//                .perform(post("/j_spring_security_check") // Spring Security 4에서 login으로 변경
+                .perform(post("/login")
                         .param("j_username", userId)
                         .param("j_password", password))
                 .andDo(print())

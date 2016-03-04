@@ -26,8 +26,8 @@ import static org.junit.Assert.fail;
 public class NewApplication {
 
     private static final String baseUrl = "http://localhost:8080/yonsei";
-    private static final String userId = "Abc333";
-    private static final String password = "Abc33333";
+    private static final String userId = "Abc777";
+    private static final String password = "Abc77777";
     private static final WebDriver driver = WebDriverRunner.getWebDriver();
     private static final JavascriptExecutor js = (JavascriptExecutor)driver;
     private boolean acceptNextAlert = true;
@@ -38,8 +38,8 @@ public class NewApplication {
         $("#username").setValue(userId);
         $("#password").setValue(password);
         $("#btnLogin").click();
-//    }
-//        // 특정 페이지만 테스트 할 때는 아래 내용 주석 처리
+
+        // 특정 페이지만 테스트 할 때는 아래 내용 주석 처리
 //        open(baseUrl);
 //        $("#toAdmsList").click();
 //        $("#toGeneralApply").click();
@@ -173,7 +173,7 @@ public class NewApplication {
     @Test
     public void test04_파일첨부() throws Exception {
         // 특정 페이지 단독 테스트 시 주석 해제
-        $("#modify8").click();
+        $("#modify2").click();
 
         driver.findElement(By.linkText("4. 파일 첨부 및 제출")).click();
 
