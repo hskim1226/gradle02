@@ -83,36 +83,9 @@ public class NewApplicationForeign {
 
         // 지원자 상세 정보
         $("#application\\.engSur").scrollTo();
-//        $("#fornTypeCode").waitUntil(Condition.visible, 1000);
-        $("#fornTypeCode").selectOption("Foreigner");
-
-
-
-//        WebElement selectionTypeOfForeigner = driver.findElement(By.id("fornTypeCode"));
-//        Select selectTypeOfForeigner = new Select(selectionTypeOfForeigner);
-//        selectionTypeOfForeigner.click();
-//        List<WebElement> options = selectTypeOfForeigner.getOptions();
-//        for (WebElement option : options) {
-//            if ("Foreigner".equals(option.getText()))
-//                option.click();
-//        }
-//        selectTypeOfForeigner.selectByIndex(1);
-
-
-//        if ($("#fornTypeCode").isDisplayed()) {
-//            $("#fornTypeCode").selectOptionByValue("00001");
-//System.out.println("after selectOption(), selectBox visible? " + $("#fornTypeCode").isDisplayed());
-//            $("#application\\.engSur").scrollTo();
-//System.out.println("after scrollTo(), selectBox visible? " + $("#fornTypeCode").isDisplayed());
-//            $("#fornTypeCode").selectOption("Foreigner");
-//System.out.println("after selectOption(), selectBox visible? " + $("#fornTypeCode").isDisplayed());
-//            $("#application\\.engSur").scrollTo();
-//System.out.println("after scrollTo(), selectBox visible? " + $("#fornTypeCode").isDisplayed());
-//            $("#fornTypeCode").selectOption(1);
-//        }
-//        SelenideElement fornTypeCode = $("#fornTypeCode").getSelectedOption();
-//        if (fornTypeCode.getValue().isEmpty())
-//            fornTypeCode.setValue("00001");
+//        $("#fornTypeCode").selectOption("Foreigner");
+        J("document.getElementById('fornTypeCode').selectedIndex='1'");
+        J("$('#fornTypeCode').change()");
         $("#applicationForeigner\\.homeAddr").setValue("704 Kingshill PL. #KC12219");
         $("#applicationForeigner\\.homeTel").setValue("213-748-5118");
 
@@ -120,15 +93,9 @@ public class NewApplicationForeign {
         $("#applicationForeigner\\.homeAddr").scrollTo();
         $("#applicationForeigner\\.paspNo").setValue("6549812317");
         $("#applicationForeigner\\.homeAddr").scrollTo();
-        if ($("#applicationForeigner\\.visaTypeCode").isDisplayed()) {
-            $("#applicationForeigner\\.visaTypeCode").selectOption("Study Abroad(D-2)");
-//            $("#applicationForeigner\\.visaTypeCode").selectOption(3);
-//            $("#applicationForeigner\\.visaTypeCode").selectOptionByValue("D-2");
-        }
-
-//        SelenideElement visaTypeCode = $("#applicationForeigner\\.visaTypeCode").getSelectedOption();
-//        if (visaTypeCode.getValue().isEmpty())
-//            visaTypeCode.setValue("D-2");
+//        $("#applicationForeigner\\.visaTypeCode").selectOption("Study Abroad(D-2)");
+        J("document.getElementById('applicationForeigner\\.visaTypeCode').selectedIndex='3'");
+        J("$('#applicationForeigner\\\\.visaTypeCode').change()");
         $("#applicationForeigner\\.homeAddr").scrollTo();
         $("#applicationForeigner\\.visaNo").setValue("5498949651117887");
         J("document.querySelector('#applicationForeigner\\\\.visaExprDay').value = '20181227'");
