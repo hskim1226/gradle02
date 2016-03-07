@@ -1562,7 +1562,7 @@
                 targetUploadButton = document.getElementById(this.getAttribute('data-upload-button-id')),
                 targetButtonContainerClass = '.' + this.getAttribute('data-button-container-class'),
                 targetFileUploadFg = document.getElementById(this.getAttribute('data-fileUploadFg-id'));
-            if (confirm('<spring:message code="U04510"/>')) {//첨부한 파일을 삭제하시겠습니까?
+            if (alert('<spring:message code="U04510"/>')) {//첨부한 파일을 삭제하시겠습니까?
                 $.ajax({
                     type: 'POST',
                     url: this.href,
