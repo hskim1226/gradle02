@@ -347,6 +347,8 @@ public class PDFServiceImpl implements PDFService {
             pdDocument.setAllSecurityToBeRemoved(true);
             pdDocument.save(targetFilePath);
         } catch (Exception e) {
+            System.err.println("Exception in PDFServiceImpl.getPageNumberedPDF()");
+            e.printStackTrace();
             Map<String, String> errMap = new HashMap<>();
             errMap.put("applNo", String.valueOf(applNo));
             errMap.put("filePath", targetFilePath);
@@ -360,6 +362,8 @@ public class PDFServiceImpl implements PDFService {
                 try {
                     pdDocument.close();
                 } catch (IOException e) {
+                    System.err.println("Exception in PDFServiceImpl.getPageNumberedPDF()-finally");
+                    e.printStackTrace();
                     Map<String, String> errMap = new HashMap<>();
                     errMap.put("applNo", String.valueOf(applNo));
                     errMap.put("filePath", targetFilePath);

@@ -617,6 +617,8 @@ public class DocumentController {
                 }
             }, FileMetaForm.class, TotalApplicationDocument.class);
         } catch (YSBizException ybe) {
+            System.err.println("Error in DocumentController.fileUpload()");
+            ybe.printStackTrace();
 //            logger.error("ErrorInfo :: " + ybe.getExecutionContext().getErrorInfo().toString() + ", ErrorType :: " + ybe.toString() + ", SimpleStackTrace ::" +
 //                    StackTraceFilter.getFilteredCallStack(ybe.getStackTrace(), "com.apexsoft", false));
             ec = ybe.getExecutionContext();
