@@ -30,7 +30,7 @@ public class NonJUnitSelenideNewApplicationForeign extends NewApplicationForeign
             confirmAlert("Do you want to delete uploaded file?");
             confirmAlert("File is deleted.");
         }
-        $("#file-input-0-0-1").setValue("/home/hanmomhanda/YS-DOC/" + num + "/3메가이상-253페이지-progit.ko.pdf");
+        $("#file-input-0-0-1").setValue("/home/hanmomhanda/YS-DOC/축변환매트릭스(Axis Transformation Matrices).pdf");
         $("#upload-button-0-0-1").click();
         confirmAlert("File is uploaded successfully.");
 
@@ -39,7 +39,7 @@ public class NonJUnitSelenideNewApplicationForeign extends NewApplicationForeign
             confirmAlert("Do you want to delete uploaded file?");
             confirmAlert("File is deleted.");
         }
-        $("#file-input-0-0-2").setValue("/home/hanmomhanda/YS-DOC/" + num + "/3메가이상-253페이지-progit.ko.pdf");
+        $("#file-input-0-0-2").setValue("/home/hanmomhanda/YS-DOC/79호_공학_트렌드_웹성능테스트-part_2.pdf");
         $("#upload-button-0-0-2").click();
         confirmAlert("File is uploaded successfully.");
 
@@ -59,7 +59,7 @@ public class NonJUnitSelenideNewApplicationForeign extends NewApplicationForeign
             confirmAlert("Do you want to delete uploaded file?");
             confirmAlert("File is deleted.");
         }
-        $("#file-input-1-0-0-1").setValue("/home/hanmomhanda/YS-DOC/" + num + "/3메가이상-253페이지-progit.ko.pdf");
+        $("#file-input-1-0-0-1").setValue("/home/hanmomhanda/YS-DOC/Modellipse_소개.pdf");
         $("#upload-button-1-0-0-1").click();
         confirmAlert("File is uploaded successfully.");
 
@@ -81,7 +81,7 @@ public class NonJUnitSelenideNewApplicationForeign extends NewApplicationForeign
             confirmAlert("Do you want to delete uploaded file?");
             confirmAlert("File is deleted.");
         }
-        $("#file-input-2-0").setValue("/home/hanmomhanda/YS-DOC/" + num + "/3메가이상-253페이지-progit.ko.pdf");
+        $("#file-input-2-0").setValue("/home/hanmomhanda/YS-DOC/제62차 SW 테스트 전문가 양성 교육(일반).pdf");
         $("#upload-button-2-0").click();
         confirmAlert("File is uploaded successfully.");
 
@@ -99,7 +99,7 @@ public class NonJUnitSelenideNewApplicationForeign extends NewApplicationForeign
             confirmAlert("Do you want to delete uploaded file?");
             confirmAlert("File is deleted.");
         }
-        $("#file-input-3-0-1").setValue("/home/hanmomhanda/YS-DOC/" + num + "/3메가이상-253페이지-progit.ko.pdf");
+        $("#file-input-3-0-1").setValue("/home/hanmomhanda/YS-DOC/83호_공학_트렌드_GIT_Flow를_활용한_효과적인_소스_형상_관리_Part_2.pdf");
         $("#upload-button-3-0-1").click();
         confirmAlert("File is uploaded successfully.");
 
@@ -121,7 +121,7 @@ public class NonJUnitSelenideNewApplicationForeign extends NewApplicationForeign
         }
         $("#documentContainerList4\\.subContainer0\\.checkedFg").click();
         $("#documentContainerList4\\.subContainer0\\.docItemName").setValue("Additional Paper 1");
-        $("#file-input-4-0").setValue("/home/hanmomhanda/YS-DOC/" + num + "/3메가이상-253페이지-progit.ko.pdf");
+        $("#file-input-4-0").setValue("/home/hanmomhanda/YS-DOC/위변조방지/암호화-ETSN.pdf");
         $("#upload-button-4-0").click();
         confirmAlert("File is uploaded successfully.");
 
@@ -132,7 +132,7 @@ public class NonJUnitSelenideNewApplicationForeign extends NewApplicationForeign
         }
         $("#documentContainerList4\\.subContainer1\\.checkedFg").click();
         $("#documentContainerList4\\.subContainer1\\.docItemName").setValue("Additional Paper 2");
-        $("#file-input-4-1").setValue("/home/hanmomhanda/YS-DOC/" + num + "/3메가이상-253페이지-progit.ko.pdf");
+        $("#file-input-4-1").setValue("/home/hanmomhanda/YS-DOC/위변조방지/위변조방지-홍익대학교_[국]성적증명서.pdf");
         $("#upload-button-4-1").click();
         confirmAlert("File is uploaded successfully.");
 
@@ -162,8 +162,8 @@ public class NonJUnitSelenideNewApplicationForeign extends NewApplicationForeign
 
     public static void main(String[] args) throws Exception {
         System.setProperty("selenide.timeout", "10000");
-//        NewApplicationForeign.baseUrl = "http://52.79.125.54:8080/yonsei";
-        NewApplicationForeign.baseUrl = "http://localhost:8080/yonsei";
+        NewApplicationForeign.baseUrl = "http://52.79.125.54:8080/yonsei";
+//        NewApplicationForeign.baseUrl = "http://localhost:8080/yonsei";
         NewApplicationForeign.userId = "Eng333";
         NewApplicationForeign.password = "Eng33333";
         int numOfRunners;
@@ -193,8 +193,8 @@ public class NonJUnitSelenideNewApplicationForeign extends NewApplicationForeign
                     test.t01_기본정보입력_BASIS();
                     test.t02_학력정보입력_ACADEMY();
                     test.t03_어학경력정보입력();
-//                    test.t04_파일첨부(runnerId);
-                    test.t04_파일첨부();
+                    test.t04_파일첨부(runnerId);
+//                    test.t04_파일첨부();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

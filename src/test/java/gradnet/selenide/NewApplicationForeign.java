@@ -36,12 +36,12 @@ public class NewApplicationForeign {
         $("#btnLogin").click();
 
         // 특정 페이지만 테스트 할 때는 아래 내용 주석 처리
-//        open(baseUrl + "/index-en.html");
-//        $("#toAdmsList").click();
-//        $("#toForeignApply").click();
-//        $("#checkAll").scrollTo();
-//        $("#checkAll").click();
-//        J("$('#composePaper').click()");
+        open(baseUrl + "/index-en.html");
+        $("#toAdmsList").click();
+        $("#toForeignApply").click();
+        $("#checkAll").scrollTo();
+        $("#checkAll").click();
+        J("$('#composePaper').click()");
     }
 
     @Before
@@ -188,7 +188,7 @@ public class NewApplicationForeign {
     @Test
     public void t04_파일첨부() throws Exception {
         // 특정 페이지 단독 테스트 시 주석 해제
-        $("#modify1").click();
+//        $("#modify1").click();
 
         $(By.linkText("4. File Submission and Submit")).click();
 
