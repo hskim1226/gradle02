@@ -17,9 +17,9 @@ import static org.junit.Assert.fail;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class NewApplicationForeign {
 
-    private static final String baseUrl = "http://localhost:8080/yonsei";
-    private static final String userId = "Eng333";
-    private static final String password = "Eng33333";
+    public static String baseUrl = "http://localhost:8080/yonsei";
+    public static String userId = "Eng333";
+    public static String password = "Eng33333";
 
     @BeforeClass
     public static void 로그인() throws Exception {
@@ -36,12 +36,12 @@ public class NewApplicationForeign {
         $("#btnLogin").click();
 
         // 특정 페이지만 테스트 할 때는 아래 내용 주석 처리
-        open(baseUrl + "/index-en.html");
-        $("#toAdmsList").click();
-        $("#toForeignApply").click();
-        $("#checkAll").scrollTo();
-        $("#checkAll").click();
-        J("$('#composePaper').click()");
+//        open(baseUrl + "/index-en.html");
+//        $("#toAdmsList").click();
+//        $("#toForeignApply").click();
+//        $("#checkAll").scrollTo();
+//        $("#checkAll").click();
+//        J("$('#composePaper').click()");
     }
 
     @Before
@@ -188,7 +188,7 @@ public class NewApplicationForeign {
     @Test
     public void t04_파일첨부() throws Exception {
         // 특정 페이지 단독 테스트 시 주석 해제
-//        $("#modify20").click();
+        $("#modify1").click();
 
         $(By.linkText("4. File Submission and Submit")).click();
 
@@ -200,6 +200,7 @@ public class NewApplicationForeign {
         if ($("#file-delete-link-0-0-0").isDisplayed()) {
             $("#file-delete-link-0-0-0").click();
             confirmAlert("Do you want to delete uploaded file?");
+            confirmAlert("File is deleted.");
         }
         $("#file-input-0-0-0").setValue("/home/hanmomhanda/YS-DOC/공 백/뚱석이.jpg");
         $("#upload-button-0-0-0").click();
@@ -208,6 +209,7 @@ public class NewApplicationForeign {
         if ($("#file-delete-link-0-0-1").isDisplayed()) {
             $("#file-delete-link-0-0-1").click();
             confirmAlert("Do you want to delete uploaded file?");
+            confirmAlert("File is deleted.");
         }
         $("#file-input-0-0-1").setValue("/home/hanmomhanda/YS-DOC/축변환매트릭스(Axis Transformation Matrices).pdf");
         $("#upload-button-0-0-1").click();
@@ -216,6 +218,7 @@ public class NewApplicationForeign {
         if ($("#file-delete-link-0-0-2").isDisplayed()) {
             $("#file-delete-link-0-0-2").click();
             confirmAlert("Do you want to delete uploaded file?");
+            confirmAlert("File is deleted.");
         }
         $("#file-input-0-0-2").setValue("/home/hanmomhanda/YS-DOC/79호_공학_트렌드_웹성능테스트-part_2.pdf");
         $("#upload-button-0-0-2").click();
@@ -226,6 +229,7 @@ public class NewApplicationForeign {
         if ($("#file-delete-link-1-0-0-0").isDisplayed()) {
             $("#file-delete-link-1-0-0-0").click();
             confirmAlert("Do you want to delete uploaded file?");
+            confirmAlert("File is deleted.");
         }
         $("#file-input-1-0-0-0").setValue("/home/hanmomhanda/YS-DOC/Modellipse_소개.pdf");
         $("#upload-button-1-0-0-0").click();
@@ -234,6 +238,7 @@ public class NewApplicationForeign {
         if ($("#file-delete-link-1-0-0-1").isDisplayed()) {
             $("#file-delete-link-1-0-0-1").click();
             confirmAlert("Do you want to delete uploaded file?");
+            confirmAlert("File is deleted.");
         }
         $("#file-input-1-0-0-1").setValue("/home/hanmomhanda/YS-DOC/제62차 SW 테스트 전문가 양성 교육(일반).pdf");
         $("#upload-button-1-0-0-1").click();
@@ -244,6 +249,7 @@ public class NewApplicationForeign {
         if ($("#file-delete-link-1-0-1-0").isDisplayed()) {
             $("#file-delete-link-1-0-1-0").click();
             confirmAlert("Do you want to delete uploaded file?");
+            confirmAlert("File is deleted.");
         }
         $("#file-input-1-0-1-0").setValue("/home/hanmomhanda/YS-DOC/83호_공학_트렌드_GIT_Flow를_활용한_효과적인_소스_형상_관리_Part_2.pdf");
         $("#upload-button-1-0-1-0").click();
@@ -254,6 +260,7 @@ public class NewApplicationForeign {
         if ($("#file-delete-link-2-0").isDisplayed()) {
             $("#file-delete-link-2-0").click();
             confirmAlert("Do you want to delete uploaded file?");
+            confirmAlert("File is deleted.");
         }
         $("#file-input-2-0").setValue("/home/hanmomhanda/YS-DOC/114호_공학_트렌드_WEB_UI_개발_Part_1.pdf");
         $("#upload-button-2-0").click();
@@ -262,6 +269,7 @@ public class NewApplicationForeign {
         if ($("#file-delete-link-3-0-0").isDisplayed()) {
             $("#file-delete-link-3-0-0").click();
             confirmAlert("Do you want to delete uploaded file?");
+            confirmAlert("File is deleted.");
         }
         $("#file-input-3-0-0").setValue("/home/hanmomhanda/YS-DOC/83호_공학_트렌드_GIT_Flow를_활용한_효과적인_소스_형상_관리_Part_2.pdf");
         $("#upload-button-3-0-0").click();
@@ -270,6 +278,7 @@ public class NewApplicationForeign {
         if ($("#file-delete-link-3-0-1").isDisplayed()) {
             $("#file-delete-link-3-0-1").click();
             confirmAlert("Do you want to delete uploaded file?");
+            confirmAlert("File is deleted.");
         }
         $("#file-input-3-0-1").setValue("/home/hanmomhanda/YS-DOC/114호_공학_트렌드_WEB_UI_개발_Part_1.pdf");
         $("#upload-button-3-0-1").click();
@@ -280,28 +289,31 @@ public class NewApplicationForeign {
         if ($("#file-delete-link-3-0-3").isDisplayed()) {
             $("#file-delete-link-3-0-3").click();
             confirmAlert("Do you want to delete uploaded file?");
+            confirmAlert("File is deleted.");
         }
-        $("#file-input-3-0-3").setValue("/home/hanmomhanda/YS-DOC/83호_공학_트렌드_GIT_Flow를_활용한_효과적인_소스_형상_관리_Part_2.pdf");
+        $("#file-input-3-0-3").setValue("/home/hanmomhanda/YS-DOC/3메가이상-253페이지-progit.ko.pdf");
         $("#upload-button-3-0-3").click();
         confirmAlert("File is uploaded successfully.");
 
         if ($("#file-delete-link-4-0").isDisplayed()) {
             $("#file-delete-link-4-0").click();
             confirmAlert("Do you want to delete uploaded file?");
+            confirmAlert("File is deleted.");
         }
         $("#documentContainerList4\\.subContainer0\\.checkedFg").click();
-        $("#documentContainerList4\\.subContainer0\\.docItemName").setValue("Additional Paper 1");
-        $("#file-input-4-0").setValue("/home/hanmomhanda/YS-DOC/2014-국가직무능력표준 개발전문가 모집_작성양식_PDF.pdf");
+        $("#documentContainerList4\\.subContainer0\\.docItemName").setValue("Encrypted PDF");
+        $("#file-input-4-0").setValue("/home/hanmomhanda/YS-DOC/위변조방지/암호화-ETSN.pdf");
         $("#upload-button-4-0").click();
         confirmAlert("File is uploaded successfully.");
 
         if ($("#file-delete-link-4-1").isDisplayed()) {
             $("#file-delete-link-4-1").click();
             confirmAlert("Do you want to delete uploaded file?");
+            confirmAlert("File is deleted.");
         }
         $("#documentContainerList4\\.subContainer1\\.checkedFg").click();
-        $("#documentContainerList4\\.subContainer1\\.docItemName").setValue("Additional Paper 2");
-        $("#file-input-4-1").setValue("/home/hanmomhanda/YS-DOC/114호_공학_트렌드_WEB_UI_개발_Part_1.pdf");
+        $("#documentContainerList4\\.subContainer1\\.docItemName").setValue("Anti-Forgery PDF");
+        $("#file-input-4-1").setValue("/home/hanmomhanda/YS-DOC/위변조방지/위변조방지-홍익대학교_[국]성적증명서.pdf");
         $("#upload-button-4-1").click();
         confirmAlert("File is uploaded successfully.");
 
@@ -329,11 +341,11 @@ public class NewApplicationForeign {
         }
     }
 
-    private void confirmAlert(String msg) {
+    protected void confirmAlert(String msg) {
         confirm(msg);
     }
 
-    private static void J(String javaScriptSource) {
+    protected static void J(String javaScriptSource) {
         Object obj = executeJavaScript(javaScriptSource);
 //        System.out.println(obj);
     }

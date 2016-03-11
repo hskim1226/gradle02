@@ -24,9 +24,9 @@ import static org.junit.Assert.fail;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class NewApplication {
 
-    private static final String baseUrl = "http://localhost:8080/yonsei";
-    private static final String userId = "Abc777";
-    private static final String password = "Abc77777";
+    public static String baseUrl = "http://localhost:8080/yonsei";
+    public static String userId = "Abc777";
+    public static String password = "Abc77777";
 
     @BeforeClass
     public static void 로그인() throws Exception {
@@ -184,6 +184,7 @@ public class NewApplication {
         if ($("#file-delete-link-0-0-0").isDisplayed()) {
             $("#file-delete-link-0-0-0").click();
             confirmAlert("첨부한 파일을 삭제하시겠습니까?");
+            confirmAlert("첨부 파일을 삭제했습니다.");
         }
         $("#file-input-0-0-0").setValue("/home/hanmomhanda/YS-DOC/공 백/뚱석이.jpg");
         $("#upload-button-0-0-0").click();
@@ -192,6 +193,7 @@ public class NewApplication {
         if ($("#file-delete-link-0-0-1").isDisplayed()) {
             $("#file-delete-link-0-0-1").click();
             confirmAlert("첨부한 파일을 삭제하시겠습니까?");
+            confirmAlert("첨부 파일을 삭제했습니다.");
         }
         $("#file-input-0-0-1").setValue("/home/hanmomhanda/YS-DOC/축변환매트릭스(Axis Transformation Matrices).pdf");
         $("#upload-button-0-0-1").click();
@@ -200,6 +202,7 @@ public class NewApplication {
         if ($("#file-delete-link-0-1-0").isDisplayed()) {
             $("#file-delete-link-0-1-0").click();
             confirmAlert("첨부한 파일을 삭제하시겠습니까?");
+            confirmAlert("첨부 파일을 삭제했습니다.");
         }
         $("#file-input-0-1-0").setValue("/home/hanmomhanda/YS-DOC/2014-국가직무능력표준 개발전문가 모집_작성양식_PDF.pdf");
         $("#upload-button-0-1-0").click();
@@ -210,6 +213,7 @@ public class NewApplication {
         if ($("#file-delete-link-1-0-0-0").isDisplayed()) {
             $("#file-delete-link-1-0-0-0").click();
             confirmAlert("첨부한 파일을 삭제하시겠습니까?");
+            confirmAlert("첨부 파일을 삭제했습니다.");
         }
         $("#file-input-1-0-0-0").setValue("/home/hanmomhanda/YS-DOC/Modellipse_소개.pdf");
         $("#upload-button-1-0-0-0").click();
@@ -218,6 +222,7 @@ public class NewApplication {
         if ($("#file-delete-link-1-0-0-1").isDisplayed()) {
             $("#file-delete-link-1-0-0-1").click();
             confirmAlert("첨부한 파일을 삭제하시겠습니까?");
+            confirmAlert("첨부 파일을 삭제했습니다.");
         }
         $("#file-input-1-0-0-1").setValue("/home/hanmomhanda/YS-DOC/제62차 SW 테스트 전문가 양성 교육(일반).pdf");
         $("#upload-button-1-0-0-1").click();
@@ -228,6 +233,7 @@ public class NewApplication {
         if ($("#file-delete-link-2-0").isDisplayed()) {
             $("#file-delete-link-2-0").click();
             confirmAlert("첨부한 파일을 삭제하시겠습니까?");
+            confirmAlert("첨부 파일을 삭제했습니다.");
         }
         $("#file-input-2-0").setValue("/home/hanmomhanda/YS-DOC/83호_공학_트렌드_GIT_Flow를_활용한_효과적인_소스_형상_관리_Part_2.pdf");
         $("#upload-button-2-0").click();
@@ -236,6 +242,7 @@ public class NewApplication {
         if ($("#file-delete-link-2-1").isDisplayed()) {
             $("#file-delete-link-2-1").click();
             confirmAlert("첨부한 파일을 삭제하시겠습니까?");
+            confirmAlert("첨부 파일을 삭제했습니다.");
         }
         $("#file-input-2-1").setValue("/home/hanmomhanda/YS-DOC/79호_공학_트렌드_웹성능테스트-part_2.pdf");
         $("#upload-button-2-1").click();
@@ -246,20 +253,22 @@ public class NewApplication {
         if ($("#file-delete-link-3-0").isDisplayed()) {
             $("#file-delete-link-3-0").click();
             confirmAlert("첨부한 파일을 삭제하시겠습니까?");
+            confirmAlert("첨부 파일을 삭제했습니다.");
         }
         $("#documentContainerList3\\.subContainer0\\.checkedFg").click();
-        $("#documentContainerList3\\.subContainer0\\.docItemName").setValue("기타 서류 1");
-        $("#file-input-3-0").setValue("/home/hanmomhanda/YS-DOC/2014-국가직무능력표준 개발전문가 모집_작성양식_PDF.pdf");
+        $("#documentContainerList3\\.subContainer0\\.docItemName").setValue("암호화");
+        $("#file-input-3-0").setValue("/home/hanmomhanda/YS-DOC/위변조방지/암호화-ETSN.pdf");
         $("#upload-button-3-0").click();
         confirmAlert("파일이 업로드 되었습니다.");
 
         if ($("#file-delete-link-3-1").isDisplayed()) {
             $("#file-delete-link-3-1").click();
             confirmAlert("첨부한 파일을 삭제하시겠습니까?");
+            confirmAlert("첨부 파일을 삭제했습니다.");
         }
         $("#documentContainerList3\\.subContainer1\\.checkedFg").click();
-        $("#documentContainerList3\\.subContainer1\\.docItemName").setValue("기타 서류 2");
-        $("#file-input-3-1").setValue("/home/hanmomhanda/YS-DOC/114호_공학_트렌드_WEB_UI_개발_Part_1.pdf");
+        $("#documentContainerList3\\.subContainer1\\.docItemName").setValue("위변조방지");
+        $("#file-input-3-1").setValue("/home/hanmomhanda/YS-DOC/위변조방지/위변조방지-홍익대학교_[국]성적증명서.pdf");
         $("#upload-button-3-1").click();
         confirmAlert("파일이 업로드 되었습니다.");
 
