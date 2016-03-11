@@ -495,15 +495,17 @@ public class DocumentController {
                         // 넘버링 테스트
                         if ("pdf".equals(ext)) {
                             File aFile = fileItem.getFile(); // tomcat의 temp 폴더에 있는 임시 파일
-                            File tmpDir = FileUtils.getTempDirectory();
-                            File tmpFile = new File(tmpDir, "tmpForNumberingCheck");
-                            try {
-                                FileUtils.copyFile(aFile, tmpFile);
-                            } catch (IOException e) {
-                                // 아래의 getPageNumberedPDF에서 예외 처리
-                            }
-                            pdfService.getPageNumberedPDF(tmpFile, Integer.parseInt(fileMetaForm.getApplNo()));
-                            tmpFile.delete();
+//                            File tmpDir = FileUtils.getTempDirectory();
+//                            File tmpFile = new File(tmpDir + "/" + principal.getName(), "tmpForNumberingCheck");
+//                            try {
+//                                FileUtils.copyFile(aFile, tmpFile);
+//                            } catch (IOException e) {
+//                                // 아래의 getPageNumberedPDF에서 예외 처리
+//                            }
+//                            pdfService.getPageNumberedPDF(tmpFile, Integer.parseInt(fileMetaForm.getApplNo()));
+//                            tmpFile.delete();
+
+                            pdfService.getPageNumberedPDF(aFile, Integer.parseInt(fileMetaForm.getApplNo()));
                         }
 
                         try{
