@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.apexsoft.ysprj.applicants.common.sqlmap.ApplicationErrorMapper">
+  <resultMap id="BaseResultMap" type="com.apexsoft.ysprj.applicants.common.domain.ApplicationError">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="APPL_NO" jdbcType="INTEGER" property="applNo" />
+    <result column="METHOD_NAME" jdbcType="VARCHAR" property="methodName" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="IS_RESOLVED" jdbcType="VARCHAR" property="isResolved" />
+    <result column="CRE_DATE" jdbcType="TIMESTAMP" property="creDate" />
+    <result column="MOD_DATE" jdbcType="TIMESTAMP" property="modDate" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    ID, APPL_NO, METHOD_NAME, REMARK, IS_RESOLVED, CRE_DATE, MOD_DATE
+  </sql>
+  <insert id="insertSelective" parameterType="com.apexsoft.ysprj.applicants.common.domain.ApplicationError">
+    insert into APPL_ERROR
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="applNo != null">
+        APPL_NO,
+      </if>
+      <if test="methodName != null">
+        METHOD_NAME,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="isResolved != null">
+        IS_RESOLVED,
+      </if>
+      <if test="creDate != null">
+        CRE_DATE,
+      </if>
+      <if test="modDate != null">
+        MOD_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="applNo != null">
+        #{applNo,jdbcType=INTEGER},
+      </if>
+      <if test="methodName != null">
+        #{methodName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="isResolved != null">
+        #{isResolved,jdbcType=VARCHAR},
+      </if>
+      <if test="creDate != null">
+        #{creDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modDate != null">
+        #{modDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+</mapper>

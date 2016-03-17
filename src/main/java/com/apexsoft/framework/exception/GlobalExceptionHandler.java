@@ -242,22 +242,6 @@ public class GlobalExceptionHandler {
         return mv;
     }
 
-    @ExceptionHandler(PostPaymentException.class)
-    public ModelAndView handlePostPaymentException(HttpServletRequest request,
-                                                   PostPaymentException e){
-        ModelAndView mv = new ModelAndView(DEFAULT_ERROR_VIEW_NAME);
-        List<String> errorInfo = e.getErrorArgs();
-        logger.error("PostPaymentException Occured :: URL=" + request.getRequestURL());
-        for (int i = 0, len = errorInfo.size() ; i < len ; ) {
-            logger.error(errorInfo.get(i++) + ":: " + errorInfo.get(i++));
-        }
-        logger.error("FilteredStackTrace ::" +
-                StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
-        mv.addObject("ec", e.getExecutionContext());
-
-        return mv;
-    }
-
     @ExceptionHandler(YSBizNoticeException.class)
     public ModelAndView handleBizNoticeException(HttpServletRequest request,
                                                  YSBizNoticeException e){

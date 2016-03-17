@@ -2,7 +2,6 @@ package com.apexsoft.ysprj.applicants.payment.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
-import com.apexsoft.framework.exception.PostPaymentException;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.mail.Mail;
 import com.apexsoft.framework.mail.MailType;
@@ -22,7 +21,6 @@ import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.applicants.common.util.MailFactory;
 import com.apexsoft.ysprj.applicants.payment.domain.*;
 import lgdacom.XPayClient.XPayClient;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -496,10 +494,9 @@ public class PaymentServiceImpl implements PaymentService {
     @Async
     public void processApplicationFiles(Application application) {
         Application applicationFromDB = retrieveApplication(application.getApplNo());
-        // 비동기이므로 예외 발생 시 로그처리만 수행
+        // 비동기이므로 예외 발생 시 DB 저장 후 로그 처리만 수행
         try {
-            throw new Exception("APPL ERROR TEST");
-//            genAndUploadApplicationFormAndSlipFile(applicationFromDB);
+            genAndUploadApplicationFormAndSlipFile(applicationFromDB);
         } catch (Exception e) {
             ApplicationError applError = new ApplicationError();
             applError.setApplNo(application.getApplNo());
@@ -510,7 +507,7 @@ public class PaymentServiceImpl implements PaymentService {
             applError.setCreDate(new Date());
             writeErrorToDB(applError);
 
-            throwPostPaymentException(e, "U05204", "ERR0307", application.getApplNo());
+            logPostPaymentException("ERR0307", application.getApplNo());
         }
     }
 
@@ -520,29 +517,19 @@ public class PaymentServiceImpl implements PaymentService {
                 "ApplicationErrorMapper");
     }
 
-    private void throwPostPaymentException(Exception e, String userMsgCode, String errCode, int applNo) {
-        String userMsg = MessageResolver.getMessage(userMsgCode);
-        ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
-        ec.setErrCode(errCode);
-        ec.setMessage(userMsg);
-//        throw new PostPaymentException(e,
-//                ec,
-//                "applNo", String.valueOf(applNo),
-//                "userMsg", userMsg,
-//                "errCode", errCode);
-        throw new PostPaymentException();
+    private void logPostPaymentException(String errCode, int applNo) {
+        String errMsg = MessageResolver.getMessage(errCode);
+        logger.error("[PostPaymentError] - applNo : " + applNo + ", " + errMsg + ", APPL_ERROR 테이블 확인 필요");
     }
 
     // 결제 완료 메일 발송
     @Override
     @Async
     public void sendNotification(Application application) {
-
         Application applicationFromDB = retrieveApplication(application.getApplNo());
-        // 비동기이므로 예외 발생 시 로그처리만 수행
+        // 비동기이므로 예외 발생 시 DB 저장 후 로그 처리만 수행
         try {
-            throw new Exception("MAIL ERROR TEST");
-//            sendMail(applicationFromDB);
+            sendMail(applicationFromDB);
         } catch (Exception e) {
             ApplicationError applError = new ApplicationError();
             applError.setApplNo(application.getApplNo());
@@ -553,7 +540,7 @@ public class PaymentServiceImpl implements PaymentService {
             applError.setCreDate(new Date());
             writeErrorToDB(applError);
 
-            throwPostPaymentException(e, "U05204", "ERR0308", application.getApplNo());
+            logPostPaymentException("ERR0308", application.getApplNo());
         }
     }
 
