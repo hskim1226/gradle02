@@ -207,7 +207,7 @@
 //        form.submit();
         var lang = this.getAttribute('data-lang'),
                 targetLang = lang === 'ko' ? '' : '-en';
-        document.location.href='/yonsei/index' + targetLang + '.html';
+        document.location.href='https://www.gradnet.co.kr/yonsei/index' + targetLang + '.html';
 
 
     });
@@ -218,19 +218,19 @@
 
     $('#toAdmsList').click(function(e){
         e.preventDefault();
-        form.action = '/yonsei/application/admsList';
+        form.action = 'https://www.gradnet.co.kr/yonsei/application/admsList';
         form.method = 'post';
         form.submit();
     });
     $('#toMyList').click(function(e){
         e.preventDefault();
-        form.action = '/yonsei/application/mylist';
+        form.action = 'https://www.gradnet.co.kr/yonsei/application/mylist';
         form.method = 'post';
         form.submit();
     });
     $('#toSignUp').click(function(e){
         e.preventDefault();
-        form.action = '/yonsei/user/agreement';
+        form.action = 'https://www.gradnet.co.kr/yonsei/user/agreement';
         form.method = 'post';
         form.submit();
     });
