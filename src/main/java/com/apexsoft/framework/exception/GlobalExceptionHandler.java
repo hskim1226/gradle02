@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -236,6 +237,22 @@ public class GlobalExceptionHandler {
         logger.error("FilteredStackTrace ::" +
                 StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
 
+        mv.addObject("ec", e.getExecutionContext());
+
+        return mv;
+    }
+
+    @ExceptionHandler(PostPaymentException.class)
+    public ModelAndView handlePostPaymentException(HttpServletRequest request,
+                                                   PostPaymentException e){
+        ModelAndView mv = new ModelAndView(DEFAULT_ERROR_VIEW_NAME);
+        List<String> errorInfo = e.getErrorArgs();
+        logger.error("PostPaymentException Occured :: URL=" + request.getRequestURL());
+        for (int i = 0, len = errorInfo.size() ; i < len ; ) {
+            logger.error(errorInfo.get(i++) + ":: " + errorInfo.get(i++));
+        }
+        logger.error("FilteredStackTrace ::" +
+                StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
         mv.addObject("ec", e.getExecutionContext());
 
         return mv;

@@ -2,6 +2,7 @@ package com.apexsoft.ysprj.applicants.payment.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
+import com.apexsoft.framework.exception.PostPaymentException;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.mail.Mail;
 import com.apexsoft.framework.mail.MailType;
@@ -12,6 +13,7 @@ import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationStatus;
 import com.apexsoft.ysprj.applicants.application.domain.CustomNewSeq;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
+import com.apexsoft.ysprj.applicants.common.domain.ApplicationError;
 import com.apexsoft.ysprj.applicants.common.domain.Department;
 import com.apexsoft.ysprj.applicants.common.domain.MailContentsParamKey;
 import com.apexsoft.ysprj.applicants.common.domain.MailInfo;
@@ -496,24 +498,63 @@ public class PaymentServiceImpl implements PaymentService {
         Application applicationFromDB = retrieveApplication(application.getApplNo());
         // 비동기이므로 예외 발생 시 로그처리만 수행
         try {
-            genAndUploadApplicationFormAndSlipFile(applicationFromDB);
+            throw new Exception("APPL ERROR TEST");
+//            genAndUploadApplicationFormAndSlipFile(applicationFromDB);
         } catch (Exception e) {
-            exceptionThrower("U05204", "ERR0307", application.getApplNo());
+            ApplicationError applError = new ApplicationError();
+            applError.setApplNo(application.getApplNo());
+            applError.setMethodName(Thread.currentThread().getStackTrace()[1].getClassName() + "." +
+                    Thread.currentThread().getStackTrace()[1].getMethodName());
+            applError.setRemark(MessageResolver.getMessage("ERR0307"));
+            applError.setIsResolved("F");
+            applError.setCreDate(new Date());
+            writeErrorToDB(applError);
+
+            throwPostPaymentException(e, "U05204", "ERR0307", application.getApplNo());
         }
     }
 
-    @Override
+    private void writeErrorToDB(ApplicationError applicationError) {
+        commonDAO.insertItem(applicationError,
+                "com.apexsoft.ysprj.applicants.common.sqlmap.",
+                "ApplicationErrorMapper");
+    }
+
+    private void throwPostPaymentException(Exception e, String userMsgCode, String errCode, int applNo) {
+        String userMsg = MessageResolver.getMessage(userMsgCode);
+        ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+        ec.setErrCode(errCode);
+        ec.setMessage(userMsg);
+//        throw new PostPaymentException(e,
+//                ec,
+//                "applNo", String.valueOf(applNo),
+//                "userMsg", userMsg,
+//                "errCode", errCode);
+        throw new PostPaymentException();
+    }
+
     // 결제 완료 메일 발송
+    @Override
     @Async
     public void sendNotification(Application application) {
+
         Application applicationFromDB = retrieveApplication(application.getApplNo());
         // 비동기이므로 예외 발생 시 로그처리만 수행
         try {
-            sendMail(applicationFromDB);
+            throw new Exception("MAIL ERROR TEST");
+//            sendMail(applicationFromDB);
         } catch (Exception e) {
-            exceptionThrower("U05204", "ERR0308", application.getApplNo());
-        }
+            ApplicationError applError = new ApplicationError();
+            applError.setApplNo(application.getApplNo());
+            applError.setMethodName(Thread.currentThread().getStackTrace()[1].getClassName() + "." +
+                    Thread.currentThread().getStackTrace()[1].getMethodName());
+            applError.setRemark(MessageResolver.getMessage("ERR0308"));
+            applError.setIsResolved("F");
+            applError.setCreDate(new Date());
+            writeErrorToDB(applError);
 
+            throwPostPaymentException(e, "U05204", "ERR0308", application.getApplNo());
+        }
     }
 
 //    private ExecutionContext registerPaymentSuccess(Payment payment, XPayClient xpay ) {
