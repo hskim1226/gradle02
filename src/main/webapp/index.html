@@ -60,13 +60,13 @@
 <div id="globalWrapper" class="localscroll">
 
     <!-- expire-notice -->
-    <div class="expire-notice">
-        <div class="col-sm-12" id="notice-container">
-            <div class="col-sm-12">수험번호 확인은 '내 원서'를 클릭, 로그인 후</div>
-            <div class="col-sm-12">'지원 내역' 화면의 오른쪽 </div>
-            <div class="col-sm-12">'지원서보기 > 지원서(PDF)'를 클릭하면 됩니다.</div>
-        </div>
-    </div>
+    <!--<div class="expire-notice">-->
+        <!--<div class="col-sm-12" id="notice-container">-->
+            <!--<div class="col-sm-12">수험번호 확인은 '내 원서'를 클릭, 로그인 후</div>-->
+            <!--<div class="col-sm-12">'지원 내역' 화면의 오른쪽 </div>-->
+            <!--<div class="col-sm-12">'지원서보기 > 지원서(PDF)'를 클릭하면 됩니다.</div>-->
+        <!--</div>-->
+    <!--</div>-->
 
     <!-- expire-notice -->
     <!--<div class="expire-notice">-->
@@ -207,7 +207,7 @@
 //        form.submit();
         var lang = this.getAttribute('data-lang'),
                 targetLang = lang === 'ko' ? '' : '-en';
-        document.location.href='https://www.gradnet.co.kr/yonsei/index' + targetLang + '.html';
+        document.location.href='/yonsei/index' + targetLang + '.html';
 
 
     });
@@ -218,19 +218,19 @@
 
     $('#toAdmsList').click(function(e){
         e.preventDefault();
-        form.action = 'https://www.gradnet.co.kr/yonsei/application/admsList';
+        form.action = '/yonsei/application/admsList';
         form.method = 'post';
         form.submit();
     });
     $('#toMyList').click(function(e){
         e.preventDefault();
-        form.action = 'https://www.gradnet.co.kr/yonsei/application/mylist';
+        form.action = '/yonsei/application/mylist';
         form.method = 'post';
         form.submit();
     });
     $('#toSignUp').click(function(e){
         e.preventDefault();
-        form.action = 'https://www.gradnet.co.kr/yonsei/user/agreement';
+        form.action = '/yonsei/user/agreement';
         form.method = 'post';
         form.submit();
     });
