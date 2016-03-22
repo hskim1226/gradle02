@@ -1,3 +1,7 @@
+/**
+ * 여러개의 브라우저를 동시에 띄워서 Selenide 테스트를 실행한다.
+ * 사용법 : SelenideMultiUserTest 파일 참고
+ */
 package gradnet.selenide;
 
 import com.codeborne.selenide.Condition;
@@ -7,6 +11,56 @@ import static com.codeborne.selenide.Selenide.$;
 import static org.junit.Assert.fail;
 
 public class NonJUnitSelenideNewApplicationForeign extends NewApplicationForeign {
+
+    public static void main(String[] args) throws Exception {
+        System.setProperty("selenide.timeout", "10000");
+        NewApplicationForeign.baseUrl = "http://52.79.125.54:8080/yonsei";
+//        NewApplicationForeign.baseUrl = "http://localhost:8080/yonsei";
+        NewApplicationForeign.userId = "Eng333";
+        NewApplicationForeign.password = "Eng33333";
+        int numOfRunners;
+
+        if (args.length == 0) {
+            numOfRunners = 1;
+        }
+        else if (args.length == 1) {
+            numOfRunners = Integer.parseInt(args[0]);
+        } else {
+            throw new IllegalArgumentException("인수는 0 또는 1개여야 합니다.");
+        }
+
+        class TestRunner implements Runnable {
+
+            int runnerId;
+
+            public TestRunner(int runnerId) {
+                this.runnerId = runnerId;
+            }
+
+            @Override
+            public void run() {
+                NonJUnitSelenideNewApplicationForeign test = new NonJUnitSelenideNewApplicationForeign();
+                try {
+                    NewApplicationForeign.로그인();
+                    test.t01_기본정보입력_BASIS();
+                    test.t02_학력정보입력_ACADEMY();
+                    test.t03_어학경력정보입력();
+                    test.t04_파일첨부(runnerId);
+//                    test.t04_파일첨부();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        for (int i = 0 ; i < numOfRunners ; i++) {
+            Thread t = new Thread(new TestRunner(i));
+            t.sleep(3000);
+            t.start();
+
+        }
+    }
+
 
     public void t04_파일첨부(int num) throws Exception {
         $(By.linkText("4. File Submission and Submit")).click();
@@ -160,54 +214,6 @@ public class NonJUnitSelenideNewApplicationForeign extends NewApplicationForeign
         }
     }
 
-    public static void main(String[] args) throws Exception {
-        System.setProperty("selenide.timeout", "10000");
-        NewApplicationForeign.baseUrl = "http://52.79.125.54:8080/yonsei";
-//        NewApplicationForeign.baseUrl = "http://localhost:8080/yonsei";
-        NewApplicationForeign.userId = "Eng333";
-        NewApplicationForeign.password = "Eng33333";
-        int numOfRunners;
-
-        if (args.length == 0) {
-            numOfRunners = 1;
-        }
-        else if (args.length == 1) {
-            numOfRunners = Integer.parseInt(args[0]);
-        } else {
-            throw new IllegalArgumentException("인수는 0 또는 1개여야 합니다.");
-        }
-
-        class TestRunner implements Runnable {
-
-            int runnerId;
-
-            public TestRunner(int runnerId) {
-                this.runnerId = runnerId;
-            }
-
-            @Override
-            public void run() {
-                NonJUnitSelenideNewApplicationForeign test = new NonJUnitSelenideNewApplicationForeign();
-                try {
-                    NewApplicationForeign.로그인();
-                    test.t01_기본정보입력_BASIS();
-                    test.t02_학력정보입력_ACADEMY();
-                    test.t03_어학경력정보입력();
-                    test.t04_파일첨부(runnerId);
-//                    test.t04_파일첨부();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        for (int i = 0 ; i < numOfRunners ; i++) {
-            Thread t = new Thread(new TestRunner(i));
-            t.sleep(3000);
-            t.start();
-
-        }
-    }
 
 
 }
