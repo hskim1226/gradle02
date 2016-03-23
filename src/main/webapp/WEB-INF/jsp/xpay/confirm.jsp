@@ -243,7 +243,8 @@
 
 </section>
 <content tag="local-script">
-    <script language="javascript" src="http://xpay.uplus.co.kr:7080/xpay/js/xpay_utf-8.js" type="text/javascript"></script>
+    <%--<script language="javascript" src="http://xpay.uplus.co.kr:7080/xpay/js/xpay_utf-8.js" type="text/javascript"></script>--%>
+    <script language="javascript" src="<spring:eval expression="@app.getProperty('path.static')" />/js/xpay_utf-8.js" type="text/javascript"></script>
     <script>
         $(document).ready( function() {
 
