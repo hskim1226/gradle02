@@ -36,19 +36,21 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <%--<tr>--%>
-                            <%--<td rowspan="3" valign="center"><spring:message code="L00605"/>&lt;%&ndash;기관 토플&ndash;%&gt;<br/><spring:message code="L00606"/>&lt;%&ndash;(필요자만 응시)&ndash;%&gt;</td>--%>
-                            <%--<td><spring:message code="L00607"/>&lt;%&ndash;접수일&ndash;%&gt;</td>--%>
-                            <%--<td><spring:message code="L00511"/></td>--%>
-                        <%--</tr>--%>
-                        <%--<tr>--%>
-                            <%--<td><spring:message code="L00608"/>&lt;%&ndash;시험일&ndash;%&gt;</td>--%>
-                            <%--<td><spring:message code="L00512"/></td>--%>
-                        <%--</tr>--%>
-                        <%--<tr>--%>
-                            <%--<td><spring:message code="L00609"/>&lt;%&ndash;성적발표&ndash;%&gt;</td>--%>
-                            <%--<td><spring:message code="L00513"/></td>--%>
-                        <%--</tr>--%>
+                        <%-- 기관 토플 --%>
+                        <tr>
+                            <td rowspan="3" valign="center"><spring:message code="L00605"/><%--기관 토플--%><br/><spring:message code="L00606"/><%--(필요자만 응시)--%></td>
+                            <td><spring:message code="L00607"/><%--접수일--%></td>
+                            <td><spring:message code="L00518"/></td>
+                        </tr>
+                        <tr>
+                            <td><spring:message code="L00608"/><%--시험일--%></td>
+                            <td><spring:message code="L00512"/></td>
+                        </tr>
+                        <tr>
+                            <td><spring:message code="L00609"/><%--성적발표--%></td>
+                            <td><spring:message code="L00520"/></td>
+                        </tr>
+                        <%-- 기관 토플 --%>
                         <tr>
                             <td colspan="2"><spring:message code="L00610"/><%--입학원서 접수--%></td>
                             <td><spring:message code="L00514"/></td>
@@ -80,10 +82,27 @@
                             </tr>
                             <tr>
                                 <td align="left"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/common/button_pdf.gif"/>
+                                    <a href="<spring:message code="L00728URL"/>" target="_blank">
+                                        <spring:message code="L00728"/><%--Fall 2016 Graduate Admissions Guidelines for International Students(English,PDF)--%></a></td>
+                            </tr>
+                            <tr>
+                                <td align="left"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/common/button_pdf.gif"/>
                                     <a href="<spring:message code="L00719URL"/>" target="_blank">
                                         <spring:message code="L00719"/><%--학업 및 연구계획서(PDF)--%></a>&nbsp;&nbsp;&nbsp;<img src="<spring:eval expression="@app.getProperty('path.static')" />/img/logo-ms-word.jpg"/>
                                     <a href="<spring:message code="L00720URL"/>" target="_blank">
                                         <spring:message code="L00720"/><%--(아래한글)--%></a></td>
+                            </tr>
+                            <tr>
+                                <td align="left"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/common/button_pdf.gif"/>
+                                    <a href="<spring:message code="L00729URL"/>" target="_blank">
+                                        <spring:message code="L00729"/><%--학업 및 연구계획서(PDF)--%></a>&nbsp;&nbsp;&nbsp;<img src="<spring:eval expression="@app.getProperty('path.static')" />/img/logo-ms-word.jpg"/>
+                                    <a href="<spring:message code="L00730URL"/>" target="_blank">
+                                        <spring:message code="L00730"/><%--(아래한글)--%></a></td>
+                            </tr>
+                            <tr>
+                                <td align="left"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/common/button_pdf.gif"/>
+                                    <a href="<spring:message code="L00733URL"/>" target="_blank">
+                                        <spring:message code="L00733"/><%--Letter of Recommendation--%></a></td>
                             </tr>
                             <tr>
                                 <td align="left"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/common/button_pdf.gif"/>
@@ -92,8 +111,18 @@
                             </tr>
                             <tr>
                                 <td align="left"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/common/button_pdf.gif"/>
+                                    <a href="<spring:message code="L00731URL"/>" target="_blank">
+                                        <spring:message code="L00731"/><%--학력조회 동의서--%></a></td>
+                            </tr>
+                            <tr>
+                                <td align="left"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/common/button_pdf.gif"/>
                                     <a href="<spring:message code="L00727URL"/>" target="_blank">
                                         <spring:message code="L00727"/><%--2015년 신촌캠퍼스 외국인 장학금 가이드(한국어, PDF)--%></a></td>
+                            </tr>
+                            <tr>
+                                <td align="left"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/common/button_pdf.gif"/>
+                                    <a href="<spring:message code="L00732URL"/>" target="_blank">
+                                        <spring:message code="L00732"/><%--2015년 신촌캠퍼스 외국인 장학금 가이드(한국어, PDF)--%></a></td>
                             </tr>
                             <tr>
                                 <td align="left"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/common/button_pdf.gif"/>
