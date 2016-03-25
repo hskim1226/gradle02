@@ -1288,6 +1288,14 @@ public class Application {
     }
 
     /**
+     * 조기 전형 지원자 여부
+     * @return
+     */
+    public boolean isEarlyAppl() {
+        return "W".equals(getAdmsTypeCode()) || "X".equals(getAdmsTypeCode());
+    }
+
+    /**
      * 한국인 여부
      * @return
      */

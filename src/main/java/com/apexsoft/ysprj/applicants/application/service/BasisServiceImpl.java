@@ -211,7 +211,7 @@ public class BasisServiceImpl implements BasisService {
             List<CommonCode> applAttrList = (List<CommonCode>)tmpMap.get("applAttrList");
             // 캐쉬에서 가져온 리스트를 변형하면 다른 요청에 영향을 미치므로
             // 캐쉬에서 가져온 리스트를 복사한 다른 리스트 저장
-            tmpMap.put("applAttrList", getApplAttrForForeigner(basis, applAttrList));
+            tmpMap.put("applAttrList", getApplAttrList(basis, applAttrList));
             selectionMap.putAll((Map<String, Object>) map.get("selection"));
 
         } else {
@@ -228,7 +228,7 @@ public class BasisServiceImpl implements BasisService {
             List<CommonCode> applAttrList = (List<CommonCode>)selectionMap.get("applAttrList");
             // 캐쉬에서 가져온 리스트를 변형하면 다른 요청에 영향을 미치므로
             // 캐쉬에서 가져온 리스트를 복사한 다른 리스트 저장
-            selectionMap.put("applAttrList", getApplAttrForForeigner(basis, applAttrList));
+            selectionMap.put("applAttrList", getApplAttrList(basis, applAttrList));
             selectionMap.put("emerContList", commonService.retrieveCommonCodeByCodeGroup("EMER_CONT"));
 //            if( "15C".equals(basis.getApplication().getAdmsNo())){
 //
@@ -508,10 +508,10 @@ public class BasisServiceImpl implements BasisService {
         return ec;
     }
 
-    private List<CommonCode> getApplAttrForForeigner(Basis basis, List<CommonCode> applAttrList) {
+    private List<CommonCode> getApplAttrList(Basis basis, List<CommonCode> applAttrList) {
 
         Application application = basis.getApplication();
-        if( application.isForeignAppl() ) {
+        if( application.isForeignAppl() || application.isEarlyAppl() ) {
 
             List<CommonCode> newApplAttrList = new ArrayList<CommonCode>();
             for (CommonCode commonCode : applAttrList) {
@@ -521,9 +521,15 @@ public class BasisServiceImpl implements BasisService {
                 if( !"00001".equals(newApplAttrList.get(i).getCode())){
                     newApplAttrList.remove(i);
                 } else {
-                    CommonCode applAttr = newApplAttrList.get(i);
-                    applAttr.setCodeVal("외국인 전형 지원자");
-                    applAttr.setCodeValXxen("Foreigner Applicants");
+                    if (application.isForeignAppl()) {
+                        CommonCode applAttr = newApplAttrList.get(i);
+                        applAttr.setCodeVal("외국인 전형 지원자");
+                        applAttr.setCodeValXxen("Foreigner Applicants");
+                    } else if (application.isEarlyAppl()) {
+                        CommonCode applAttr = newApplAttrList.get(i);
+                        applAttr.setCodeVal("조기 전형 지원자");
+                        applAttr.setCodeValXxen("Early Applicants");
+                    }
                 }
             }
             return newApplAttrList;
