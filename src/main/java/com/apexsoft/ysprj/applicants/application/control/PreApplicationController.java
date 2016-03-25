@@ -72,8 +72,6 @@ public class PreApplicationController {
     @Value("#{app['adms.early']}")
     private String admsEarly;
 
-    @Value("#{app['recommendation.notice.sendkey']}")
-    private String SEND_KEY;
 
     private static final Logger logger = LoggerFactory.getLogger(PreApplicationController.class);
     /**
@@ -446,25 +444,5 @@ public class PreApplicationController {
         return mv;
     }
 
-    /**
-     * 추천자에게 추천 처리 독려 메일 발송
-     * @param sendKey
-     */
-    @RequestMapping(value = "/sendUrgeRecommendationMail", method = RequestMethod.POST)
-    public void sendUrgeRecommendationMail(@RequestParam(value = "sendkey") String sendKey) {
-        // 독려 메일 발송 키 확인
-        if (SEND_KEY.equals(sendKey)) {
-            // APPL_REC 테이블에서 REC_STS_CODE 가 00002(요청완료), 00003(교수확인)인 목록 조회
-            ExecutionContext ec = recommendationService.retrieveUncompletedRecommendationList();
-            if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
-                List<Recommendation> uncompletedRecList = (List<Recommendation>) ec.getData();
-                ExecutionContext ec1 = recommendationService.sendUrgeMail(uncompletedRecList);
-            }
-            // 목록 반복 돌면서 교수, 학생에게 메일 발송
-            // 발송 오류시 파일로그 또는 DB에 기록
-            // 발송 결과 관리자에게 메일 발송
-        } else {
-            // 어드민 아니면 파일로그에 남기고 종료
-        }
-    }
+
 }

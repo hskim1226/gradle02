@@ -30,6 +30,13 @@ public class SESMailServiceImpl implements SESMailService{
         this.sesRegion = Region.getRegion(Regions.fromName(sesRegion));
     }
 
+    /**
+     * 메일 발송
+     * 수신 메일주소가 존재하지 않더라도 발송 자체는 성공됨
+     *
+     * @param mail
+     * @throws Exception
+     */
     @Override
     public void sendMail(Mail mail) throws Exception {
 

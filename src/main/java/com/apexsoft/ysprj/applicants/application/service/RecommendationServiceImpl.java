@@ -13,6 +13,7 @@ import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
 import com.apexsoft.framework.persistence.file.model.FileInfo;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.common.domain.MailContentsParamKey;
+import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.applicants.common.util.CryptoUtil;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import com.apexsoft.ysprj.applicants.common.util.MailFactory;
@@ -66,6 +67,9 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     @Autowired
     private FilePersistenceManager s3PersistenceManager;
+
+    @Autowired
+    private PDFService pdfService;
 
     private final String sampleRecKey = "f865d2b5becebbf95b65871442fcccb95695340e7a5967ab247baf34183f4027";
 
@@ -350,6 +354,11 @@ public class RecommendationServiceImpl implements RecommendationService {
 //            if (application.isCompleted()) {
 //                genAndUploadApplicationFormAndSlipFile(application);
 //            }
+            Application applicationFromDB = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey",
+                    recommendation.getApplNo(), Application.class);
+            if (applicationFromDB.isCompleted()) {
+                pdfService.genAndUploadPDFByApplicants(applicationFromDB);
+            }
 
             // 메일 발송
             sendNotificationMail(recommendation);
@@ -618,6 +627,8 @@ public class RecommendationServiceImpl implements RecommendationService {
                     .withContentsParam("dueTime", REC_DUE_DATE);
             mailToProf.makeContents();
             if (!sendUrgeMail(mailToProf)) {
+                // 수신자 주소가 잘못되어있더라도 failedList에는 들어오지 않음
+                // 정말로 SES 수준에서 발송 오류난 것만 포함됨
                 failedList.add(mailToProf);
                 // sendUrgeMail()에서 error 로그를 쏘므로 여기서는 별도 처리 안함
             } else {
@@ -650,6 +661,7 @@ public class RecommendationServiceImpl implements RecommendationService {
             rec = (Recommendation)mail.getInfo();
             System.out.println("[Failed : " + ++i + "] APPL_NO : " + rec.getApplNo() + ", To : " + mail.getTo());
         }
+        ec.setData(failedList);
         return ec;
     }
 
@@ -740,6 +752,8 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     /**
      * 추천서 등록 안 될 때 독려 메일 발송
+     *
+     *
      * @param mail
      * @return
      */

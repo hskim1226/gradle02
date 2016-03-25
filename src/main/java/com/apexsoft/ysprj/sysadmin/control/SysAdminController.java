@@ -3,9 +3,11 @@ package com.apexsoft.ysprj.sysadmin.control;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
+import com.apexsoft.framework.mail.Mail;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
+import com.apexsoft.ysprj.applicants.application.service.RecommendationService;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
@@ -15,10 +17,8 @@ import com.apexsoft.ysprj.sysadmin.service.SysAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
@@ -53,6 +53,9 @@ public class SysAdminController {
     private DocumentService documentService;
 
     @Autowired
+    private RecommendationService recommendationService;
+
+    @Autowired
     private CommonDAO commonDAO;
 
     @Value("#{app['file.mergeTestDir']}")
@@ -63,6 +66,9 @@ public class SysAdminController {
 
     @Value("#{app['file.picturesDir']}")
     private String PICTURE_PATH;
+
+    @Value("#{app['recommendation.notice.sendkey']}")
+    private String SEND_KEY;
 
     /**
      * 관리자용 내원서 화면 보기를 위한 화면
@@ -471,6 +477,55 @@ public class SysAdminController {
 //        return mv;
 //    }
 
+    /**
+     * 추천서 요청을 받았지만 아직 추천서를 등록하지 않은 모든 추천자에게 메일 발송
+     *
+     * @param mv
+     * @return
+     */
+    @RequestMapping(value = "/form-send-urge-recommendation-mail")
+    public ModelAndView sendUrgeRecommendationMailtoAllRecommendor(ModelAndView mv) {
+        mv.setViewName("sysadmin/formSendUrgeRecommendationMailToAllRecommender");
+        mv.addObject("sendkey", SEND_KEY);
+        return mv;
+    }
+
+    /**
+     * 추천 요청을 받은 추천자 전체에게 추천 처리 독려 메일 발송
+     * @param sendKey
+     */
+    @RequestMapping(value = "/sendUrgeRecommendationMailToAll", method = RequestMethod.POST)
+    public ModelAndView sendUrgeRecommendationMail(@RequestParam(value = "sendkey") String sendKey, ModelAndView mv) {
+        mv.setViewName("sysadmin/rsltSendUrgeMailToAll");
+        ExecutionContext ec = null;
+        ExecutionContext ec1 = null;
+        // 독려 메일 발송 키 확인
+        if (SEND_KEY.equals(sendKey)) {
+            // APPL_REC 테이블에서 REC_STS_CODE 가 00002(요청완료), 00003(교수확인)인 목록 조회
+            ec = recommendationService.retrieveUncompletedRecommendationList();
+            if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
+                List<Recommendation> uncompletedRecList = (List<Recommendation>) ec.getData();
+                ec1 = recommendationService.sendUrgeMail(uncompletedRecList);
+                List<Mail> failedMailList = (List<Mail>)ec1.getData();
+                List<Recommendation> failedSendingRecommendationList = new ArrayList<>();
+                for (Mail mail : failedMailList) {
+                    Recommendation rec = (Recommendation)mail.getInfo();
+                    failedSendingRecommendationList.add(rec);
+                }
+                mv.addObject("allList", uncompletedRecList);
+                // SES에서 발송 자체가 오류난 것만 리스트에 포함
+                // 수신자 주소 오류는 체크할 수 없음
+                mv.addObject("failedList", failedSendingRecommendationList);
+            }
+            // 목록 반복 돌면서 교수, 학생에게 메일 발송
+            // 발송 오류시 파일로그 또는 DB에 기록
+            // 발송 결과 관리자에게 메일 발송
+        } else {
+            // 어드민 아니면 파일로그에 남기고 종료
+        }
+
+        return mv;
+    }
 
     /**
      * S3에 올라가 있는 파일을 다운로드 하기 위해 applNo을 입력받는 화면
