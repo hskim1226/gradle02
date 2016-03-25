@@ -21,7 +21,7 @@ public class AdminAuthenticationFailureHandler implements org.springframework.se
 		
 		req.setAttribute("LOGIN_FAILURE", true);
 
-        res.sendRedirect(req.getContextPath()+"/user/Adminlogin");
+        res.sendRedirect(req.getContextPath()+"/user/adminLogin");
 //		RequestDispatcher dispatcher = req.getRequestDispatcher("/user/login");
 //
 //		dispatcher.forward(req, res);

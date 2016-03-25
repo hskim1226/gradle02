@@ -17,7 +17,8 @@ import static org.junit.Assert.fail;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class NewApplicationForeign {
 
-    public static String baseUrl = "http://localhost:8080/yonsei";
+//    public static String baseUrl = "http://localhost:8080/yonsei";
+    public static String baseUrl = "https://www.gradnet.co.kr/yonsei";
     public static String userId = "Eng333";
     public static String password = "Eng33333";
 

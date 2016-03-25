@@ -110,11 +110,11 @@
                     </div>
                     <div class="spacer-small">&nbsp;</div>
                     <div class="col-sm-offset-1 col-sm-10">
-                        <input type="text" class="form-control logintext" id="username" name="j_username" placeholder="User ID">
+                        <input type="text" class="form-control logintext" id="username" name="username" placeholder="User ID">
                     </div>
                     <div class="spacer-small">&nbsp;</div>
                     <div class="col-sm-offset-1 col-sm-10">
-                        <input type="password" class="form-control logintext" id="password" name="j_password" placeholder="Password">
+                        <input type="password" class="form-control logintext" id="password" name="password" placeholder="Password">
                     </div>
                     <div class="spacer-small">&nbsp;</div>
                     <div class="col-sm-offset-1 col-sm-10">
