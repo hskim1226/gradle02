@@ -952,8 +952,7 @@ public class PaymentServiceImpl implements PaymentService {
     private ExecutionContext genAndUploadApplicationFormAndSlipFile(Application application) {
         ExecutionContext ec = new ExecutionContext();
         String stage = null;
-        String admsTypeCode = application.getAdmsTypeCode();
-        String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
+        String lang = application.isForeignAppl() ? "en" : "kr";
         String reportName = "yonsei-appl-" + lang;
         stage = "before generate ApplForm";
         ExecutionContext ecGenAppl = birtService.generateBirtFile(application.getApplNo(), reportName);

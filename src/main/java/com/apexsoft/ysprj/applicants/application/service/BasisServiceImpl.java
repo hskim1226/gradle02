@@ -510,10 +510,8 @@ public class BasisServiceImpl implements BasisService {
 
     private List<CommonCode> getApplAttrForForeigner(Basis basis, List<CommonCode> applAttrList) {
 
-        String admsTypeCode = basis.getApplication().getAdmsTypeCode();
-        if( "C".equals(admsTypeCode) ||
-            "D".equals(admsTypeCode) ||
-            "W".equals(admsTypeCode) ) {
+        Application application = basis.getApplication();
+        if( application.isForeignAppl() ) {
 
             List<CommonCode> newApplAttrList = new ArrayList<CommonCode>();
             for (CommonCode commonCode : applAttrList) {
