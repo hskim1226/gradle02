@@ -17,8 +17,8 @@ import static org.junit.Assert.fail;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class NewApplicationForeign {
 
-//    public static String baseUrl = "http://localhost:8080/yonsei";
-    public static String baseUrl = "https://www.gradnet.co.kr/yonsei";
+    public static String baseUrl = "http://localhost:8080/yonsei";
+//    public static String baseUrl = "https://www.gradnet.co.kr/yonsei";
     public static String userId = "Eng333";
     public static String password = "Eng33333";
 
@@ -333,13 +333,13 @@ public class NewApplicationForeign {
 
 
         // 원서 제출
-        if($("#submitApplication").is(Condition.enabled)) {
-            $("#submitApplication").click();
-            confirmAlert("You can NOT modify application form after submission.\n\nDo you want to continue?");
-            confirmAlert("Application is submitted.");
-        } else {
-            fail("원서 제출 실행 안됨");
-        }
+//        if($("#submitApplication").is(Condition.enabled)) {
+//            $("#submitApplication").click();
+//            confirmAlert("You can NOT modify application form after submission.\n\nDo you want to continue?");
+//            confirmAlert("Application is submitted.");
+//        } else {
+//            fail("원서 제출 실행 안됨");
+//        }
     }
 
     protected void confirmAlert(String msg) {
