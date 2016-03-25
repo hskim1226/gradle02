@@ -17,7 +17,7 @@ import java.util.Locale;
 /**
  * Created by hanmomhanda on 15. 3. 7.
  */
-public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
+public class UserLoginFilter extends UsernamePasswordAuthenticationFilter {
 
     @Override
     public Authentication attemptAuthentication( HttpServletRequest request, HttpServletResponse response ) throws AuthenticationException {

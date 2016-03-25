@@ -37,9 +37,11 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
             Authentication auth = sc.getAuthentication();
             UserSessionVO userSessionVO = (UserSessionVO)auth.getPrincipal();
 
-            CommonAdminInfo info = adminService.retrieveCommonAdminInfo();
+//            CommonAdminInfo info = adminService.retrieveCommonAdminInfo();
             Map<String, Object> eMap = adminService.retrieveInterceptorInfo();
-            info.setAdminName(userSessionVO.getUsername());
+//            info.setAdminName(userSessionVO.getUsername());
+            CommonAdminInfo adminInfo = (CommonAdminInfo)eMap.get("adminInfo");
+            adminInfo.setAdminName(userSessionVO.getUsername());
             modelAndView.addObject("applCntList",eMap.get("applCntList"));
             modelAndView.addObject("adminInfo",eMap.get("adminInfo"));
 
