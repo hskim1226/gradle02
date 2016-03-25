@@ -3,7 +3,7 @@
 <decorators defaultdir="/WEB-INF/decorators">
     <excludes>
         <pattern>/user/login*</pattern>
-        <pattern>/user/adminlogin*</pattern>
+        <pattern>/admin/login*</pattern>
         <!--<pattern>/user/signup/save</pattern>-->
     </excludes>
 

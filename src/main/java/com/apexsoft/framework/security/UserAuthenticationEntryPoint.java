@@ -5,9 +5,9 @@ import org.springframework.security.web.authentication.LoginUrlAuthenticationEnt
 /**
  * Created by hanmomhanda on 16. 3. 25.
  */
-public class AdminAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoint {
+public class UserAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoint {
 
-    public AdminAuthenticationEntryPoint(String loginFormUrl) {
+    public UserAuthenticationEntryPoint(String loginFormUrl) {
         super(loginFormUrl);
     }
 }

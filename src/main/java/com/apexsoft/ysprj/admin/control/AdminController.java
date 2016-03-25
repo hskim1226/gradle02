@@ -19,6 +19,7 @@ import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.applicants.common.service.ZipService;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
+import com.apexsoft.ysprj.user.domain.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -27,14 +28,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
@@ -96,6 +95,22 @@ public class AdminController {
     private ModelAndView getErrorMV(String errorViewName, ExecutionContext ec) {
         ModelAndView mv = new ModelAndView(errorViewName);
         mv.addObject("ec", ec);
+        return mv;
+    }
+
+
+    @RequestMapping(value="/login", method= RequestMethod.GET)
+    public ModelAndView displayAdminLoginForm(User user,
+                                              BindingResult bindingResult,
+                                              ModelAndView mv,
+                                              HttpServletRequest request) {
+//        webUtil.blockGetMethod(request, user.getUserId());
+        mv.setViewName("admin/login");
+        if (bindingResult.hasErrors()) return mv;
+
+        if (request.getAttribute("ADMIN_LOGIN_FAILURE") == Boolean.TRUE)
+            mv.addObject("loginMessage", MessageResolver.getMessage("U330"));
+
         return mv;
     }
 

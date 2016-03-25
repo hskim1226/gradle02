@@ -1,7 +1,10 @@
 package com.apexsoft.framework.security;
 
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.LocaleResolver;
@@ -17,7 +20,10 @@ import java.util.Locale;
 /**
  * Created by hanmomhanda on 15. 3. 7.
  */
-public class UserLoginFilter extends UsernamePasswordAuthenticationFilter {
+public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
+
+    private AuthenticationSuccessHandler successHandler;
+    private AuthenticationFailureHandler failureHandler;
 
     @Override
     public Authentication attemptAuthentication( HttpServletRequest request, HttpServletResponse response ) throws AuthenticationException {
@@ -26,5 +32,23 @@ public class UserLoginFilter extends UsernamePasswordAuthenticationFilter {
 
 
         return super.attemptAuthentication(request, response);
+    }
+
+    @Override
+    public AuthenticationSuccessHandler getSuccessHandler() {
+        return successHandler;
+    }
+
+    public void setSuccessHandler(AuthenticationSuccessHandler successHandler) {
+        this.successHandler = successHandler;
+    }
+
+    @Override
+    public AuthenticationFailureHandler getFailureHandler() {
+        return failureHandler;
+    }
+
+    public void setFailureHandler(AuthenticationFailureHandler failureHandler) {
+        this.failureHandler = failureHandler;
     }
 }

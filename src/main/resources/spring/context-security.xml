@@ -24,60 +24,53 @@
     <http pattern="/favicon.ico"  security="none"/>
     <http pattern="/intro.html"  security="none"/>
     <http pattern="/test/**"  security="none"/>
-    <!--<http pattern="/admin/**"  security="none"/>-->
-    <!--<http pattern="/application/**"  security="none"/>-->
     <http pattern="/common/**"  security="none"/>
     <http pattern="/template/**"  security="none"/>
-    <http pattern="/user/adminLogin"  security="none"/>
     <http pattern="/casnote/**"  security="none"/>
     <http pattern="/mail/**"  security="none"/>
     <http pattern="/application/recommend/**"  security="none"/>
     <http pattern="/application/sendUrgeRecommendationMail"  security="none"/>
-    <!--<http pattern="/login"  security="none"/>-->
 
-    <http realm="admin" pattern="/admin/**"   auto-config="true"  use-expressions="true">
+    <http pattern="/admin/**" realm="admin"  auto-config="false"  use-expressions="true" entry-point-ref="adminLoginEntryPoint">
         <headers>
             <frame-options policy="SAMEORIGIN" />
         </headers>
         <csrf disabled="true"/>
-        <access-denied-handler error-page="/user/adminLogin.do?auth=true" />
+        <access-denied-handler error-page="/admin/login.do?auth=true" />
+        <intercept-url pattern="/admin/login*"  access="isAnonymous() or isAuthenticated()"/>
         <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
+
         <form-login login-processing-url="/login"
-                    login-page="/user/adminLogin?auth=true"
-                    default-target-url="/admin/main"
-                    always-use-default-target="false"
-                    authentication-failure-handler-ref="adminAuthenticationFailureHandler"
-                    authentication-failure-url="/user/adminLogin?fail=true" />
-        <logout logout-url="/logout" invalidate-session="true" logout-success-url="/admin/main"/>
+                    authentication-success-handler-ref="CustomAuthenticationSuccessHandler"
+                    authentication-failure-handler-ref="CustomAuthenticationFailureHandler"/>
+
+        <logout logout-url="/logout" success-handler-ref="customLogoutSuccessHandler" invalidate-session="true"/>
     </http>
 
-    <http realm="sysadmin" pattern="/sysadmin/**" auto-config="false" use-expressions="true"
-          entry-point-ref="loginEntryPoint">
-          <!-- access-denied-page는 web.xml에서 지정 -->
-          <!--entry-point-ref="loginEntryPoint" access-denied-page="/user/login.do?auth=true" >-->
+    <beans:bean id="adminLoginEntryPoint" class="com.apexsoft.framework.security.AdminAuthenticationEntryPoint">
+        <beans:constructor-arg name="loginFormUrl" value="/admin/login?auth=true" />
+    </beans:bean>
+
+    <http pattern="/sysadmin/**" realm="sysadmin" auto-config="false" use-expressions="true"
+          entry-point-ref="userLoginEntryPoint">
         <headers>
             <frame-options policy="SAMEORIGIN" />
         </headers>
         <csrf disabled="true"/>
         <intercept-url pattern="/sysadmin/**"  access="hasRole('ROLE_SYSADMIN')"/>
-        <!--<custom-filter position="FORM_LOGIN_FILTER" ref="customLoginFilter" />-->
-        <logout logout-url="/logout" invalidate-session="true" logout-success-url="/"/>
+        <logout logout-url="/logout" success-handler-ref="customLogoutSuccessHandler" invalidate-session="true"/>
     </http>
 
-    <!--<http auto-config="true" use-expressions="true" entry-point-ref="loginEntryPoint" access-denied-page="/user/login.do?auth=true" >-->
-    <http auto-config="false" use-expressions="true" entry-point-ref="loginEntryPoint">
-    <!--<http auto-config="true" use-expressions="true" entry-point-ref="loginEntryPoint">-->
+    <http auto-config="false" use-expressions="true" entry-point-ref="userLoginEntryPoint">
         <headers>
             <frame-options policy="SAMEORIGIN" />
         </headers>
         <csrf disabled="true"/>
-        <access-denied-handler error-page="/user/login?auth=true" />
+        <access-denied-handler error-page="/user/login?auth=fail" />
         <custom-filter position="FORM_LOGIN_FILTER" ref="customLoginFilter" />
         <intercept-url pattern="/index"  access="isAnonymous() or isAuthenticated()"/>
         <intercept-url pattern="/index.html"  access="isAnonymous() or isAuthenticated()"/>
         <intercept-url pattern="/index-en.html"  access="isAnonymous() or isAuthenticated()"/>
-        <!--<intercept-url pattern="/index.jsp"  access="isAnonymous() or isAuthenticated()"/>-->
-        <!--<intercept-url pattern="/index-locale.jsp"  access="isAnonymous() or isAuthenticated()"/>-->
         <intercept-url pattern="/user/login*"  access="isAnonymous() or isAuthenticated()"/>
         <intercept-url pattern="/user/agreement"  access="isAnonymous() or isAuthenticated()"/>
         <intercept-url pattern="/user/signup"  access="isAnonymous() or isAuthenticated()"/>
@@ -89,10 +82,9 @@
         <intercept-url pattern="/user/resetPwd"  access="isAnonymous() or isAuthenticated()"/>
         <intercept-url pattern="/user/savePwd"  access="isAnonymous() or isAuthenticated()"/>
         <intercept-url pattern="/upload/**"  access="isAuthenticated()"/>
-        <!-- intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" / -->
         <intercept-url pattern="/qna/**" access="isAnonymous() or isAuthenticated()" />
         <intercept-url pattern="/login"  access="isAnonymous() or isAuthenticated()"/>
-        <intercept-url pattern="/**" access="hasAnyRole('ROLE_USER', 'ROLE_SYSADMIN')" />
+        <intercept-url pattern="/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SYSADMIN')" />
 
         <!--<form-login login-page="/user/login?auth=true"-->
                     <!--login-processing-url="/login"-->
@@ -102,8 +94,10 @@
                     <!--authentication-failure-handler-ref="authenticationFailureHandler"-->
                     <!--authentication-failure-url="/user/login?fail=true" />-->
 
-        <logout logout-url="/logout" invalidate-session="true" logout-success-url="/"/>
+        <logout logout-url="/logout" success-handler-ref="customLogoutSuccessHandler" invalidate-session="true"/>
     </http>
+
+
 
     <beans:bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 
@@ -113,23 +107,31 @@
 
     <beans:bean id="userDetailsService" class="com.apexsoft.framework.security.UserDetailsServiceImpl" />
 
-    <!-- for CustomLoginFilter -->
-    <beans:bean id="loginEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+    <beans:bean id="userLoginEntryPoint" class="com.apexsoft.framework.security.UserAuthenticationEntryPoint">
         <beans:constructor-arg name="loginFormUrl" value="/user/login?auth=true" />
     </beans:bean>
 
     <beans:bean id="customLoginFilter" class="com.apexsoft.framework.security.CustomLoginFilter">
         <beans:property name="filterProcessesUrl" value="/login" />
         <beans:property name="authenticationManager" ref="authenticationManager" />
-        <beans:property name="authenticationSuccessHandler" ref="loginSuccessHandler" />
-        <beans:property name="authenticationFailureHandler" ref="authenticationFailureHandler" />
+        <beans:property name="authenticationSuccessHandler" ref="CustomAuthenticationSuccessHandler" />
+        <beans:property name="authenticationFailureHandler" ref="CustomAuthenticationFailureHandler" />
     </beans:bean>
 
-    <beans:bean id="loginSuccessHandler" class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+    <beans:bean id="CustomAuthenticationSuccessHandler" class="com.apexsoft.framework.security.handler.CustomAuthenticationSuccessHandler">
         <beans:property name="defaultTargetUrl" value="/application/mylist" />
         <beans:property name="alwaysUseDefaultTargetUrl" value="false" />
     </beans:bean>
-    <!-- for CustomLoginFilter -->
+
+    <beans:bean id="CustomAuthenticationFailureHandler" class="com.apexsoft.framework.security.handler.CustomAuthenticationFailureHandler">
+        <beans:property name="userTargetUrl" value="/" />
+        <beans:property name="adminTargetUrl" value="/admin/login" />
+    </beans:bean>
+
+    <beans:bean id="customLogoutSuccessHandler" class="com.apexsoft.framework.security.handler.CustomLogoutSuccessHandler">
+        <beans:property name="userTargetUrl" value="/" />
+        <beans:property name="adminTargetUrl" value="/admin/login" />
+    </beans:bean>
 
     <authentication-manager alias="authenticationManager">
         <authentication-provider user-service-ref="userDetailsService">
@@ -137,7 +139,4 @@
         </authentication-provider>
     </authentication-manager>
 
-    <beans:bean id="authenticationFailureHandler" class="com.apexsoft.framework.security.handler.YsAuthenticationFailureHandler" />
-
-    <beans:bean id="adminAuthenticationFailureHandler" class="com.apexsoft.framework.security.handler.AdminAuthenticationFailureHandler"></beans:bean>
 </beans:beans>
