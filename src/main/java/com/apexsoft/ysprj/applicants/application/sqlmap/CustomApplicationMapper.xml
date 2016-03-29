@@ -153,6 +153,7 @@
         and a.DEPT_CODE = b.DEPT_CODE
         and a.CORS_TYPE_CODE = b.CORS_TYPE_CODE
         and a.APPL_NO = #{applNo,jdbcType=INTEGER}
+        for update
     </select>
 
     <update id="updateApplIdSeqIdByNewSeq" parameterType="com.apexsoft.ysprj.applicants.application.domain.CustomNewSeq">
