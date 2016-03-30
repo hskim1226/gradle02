@@ -48,6 +48,9 @@ public class ChangeServiceImpl implements ChangeService {
     @Value("#{app['adms.enterYear']}")
     private String enterYear;
 
+    @Value("#{app['adms.enterEarlyYear']}")
+    private String enterEarlyYear;
+
     @Override
     public ExecutionContext createInfoChange( ChangeInfoForm changeInfoForm, String userId ) {
 
@@ -459,7 +462,7 @@ public class ChangeServiceImpl implements ChangeService {
 
         admsList = commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectAdmsNameByYear", enterYear, AdmissionName.class);
         // 2016-01 조기 전형 없으므로 아래 행 주석 처리
-//        admsList.addAll( commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectAdmsNameByYear","2016", AdmissionName.class));
+        admsList.addAll( commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectAdmsNameByYear", enterEarlyYear, AdmissionName.class));
         addShortAdmissionName(admsList);
 
         campList = commonService.retrieveCampus();
