@@ -1179,7 +1179,7 @@
 
 </section>
 <content tag="local-script">
-    <script src="http://dmaps.daum.net/map_js_init/postcode.js"></script>
+    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/daum-postcode.min.js"></script>
     <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery-ui.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function() {
