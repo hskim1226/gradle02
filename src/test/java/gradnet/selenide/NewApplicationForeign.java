@@ -38,10 +38,13 @@ public class NewApplicationForeign {
 
         // 특정 페이지만 테스트 할 때는 아래 내용 주석 처리
         open(baseUrl + "/index-en.html");
-        $("#toAdmsList").click();
+        J("window.scrollBy(0, 300)");
+        J("$('#toAdmsList').click()");
         $("#toForeignApply").click();
         $("#checkAll").scrollTo();
-        $("#checkAll").click();
+        J("window.scrollBy(0, -200)");
+        J("$('#checkAll').click()");
+        $("#composePaper").scrollTo();
         J("$('#composePaper').click()");
     }
 
@@ -139,6 +142,7 @@ public class NewApplicationForeign {
         J("document.getElementById('collegeList0\\.schlName').value = 'Indonesian National University'");    // readonly 는 DOM API나 jQuery로 변경 가능
         $("#collegeList0\\.schlCntrCode").scrollTo();
         $("#college-radio-0").click();
+        $("#collegeList0\\.grdaTypeCode").scrollTo();
         $("#collegeList0\\.collName").setValue("Education College");
         $("#collegeList0\\.majName").setValue("Children Education");
         $("#collegeList0\\.gradFormCode").selectOption("Percentage");
@@ -215,6 +219,8 @@ public class NewApplicationForeign {
         $("#file-input-0-0-1").setValue("/home/hanmomhanda/YS-DOC/축변환매트릭스(Axis Transformation Matrices).pdf");
         $("#upload-button-0-0-1").click();
         confirmAlert("File is uploaded successfully.");
+
+    $("#file-input-0-0-1").scrollTo();
 
         if ($("#file-delete-link-0-0-2").isDisplayed()) {
             $("#file-delete-link-0-0-2").click();
