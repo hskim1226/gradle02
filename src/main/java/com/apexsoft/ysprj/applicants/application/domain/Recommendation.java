@@ -246,4 +246,14 @@ public class Recommendation {
     public void setModDate(Date modDate) {
         this.modDate = modDate;
     }
+
+    public boolean isEditable() {
+        boolean isEditable = false;
+        if (RecommendStatus.TEMP.codeVal().equals(recStsCode)
+                || RecommendStatus.SENT.codeVal().equals(recStsCode)
+                || RecommendStatus.OPENED.codeVal().equals(recStsCode)) {
+            isEditable = true;
+        }
+        return isEditable;
+    }
 }

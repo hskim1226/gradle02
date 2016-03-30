@@ -42,7 +42,8 @@
                                         <c:forEach items="${recommendationList}" var="item" varStatus="itemStatus">
                                             <tr>
                                             <c:choose>
-                                                <c:when test='${item.getRecStsCode().equals("00001")}'>
+                                                <%--<c:when test='${item.getRecStsCode().equals("00001")}'>--%>
+                                                <c:when test='${item.isEditable()}'>
                                                     <td valign="middle" style="vertical-align: middle;"><span class="editable" data-recNo="${item.recNo}">${itemStatus.index+1}</span></td>
                                                     <td valign="middle" style="vertical-align: middle;"><span class="editable" data-recNo="${item.recNo}">${item.profName}</span></td>
                                                     <td valign="middle" style="vertical-align: middle;"><span class="editable" data-recNo="${item.recNo}">${item.profMailAddr}</span></td>
@@ -53,7 +54,7 @@
                                                     <td valign="middle" style="vertical-align: middle;">${item.profName}</td>
                                                     <td valign="middle" style="vertical-align: middle;">${item.profMailAddr}</td>
                                                     <td valign="middle" style="vertical-align: middle;">${pageContext.response.locale == 'en' ? item.recStsNameXxen : item.recStsName}
-                                                        <c:if test="${item.recStsCode != '00004'}"><button class="btn btn-primary btn-block btn-resend input-text" data-recNo="${item.recNo}" data-applNo="${item.applNo}" data-recSeq="${item.recSeq}"><spring:message code="L06332"/><%--메일 다시 보내기--%></button></c:if>
+                                                        <%--<c:if test="${item.recStsCode != '00004'}"><button class="btn btn-primary btn-block btn-resend input-text" data-recNo="${item.recNo}" data-applNo="${item.applNo}" data-recSeq="${item.recSeq}"><spring:message code="L06332"/>&lt;%&ndash;메일 다시 보내기&ndash;%&gt;</button></c:if>--%>
                                                     </td>
                                                 </c:otherwise>
                                             </c:choose>
