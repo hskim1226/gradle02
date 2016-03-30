@@ -440,11 +440,11 @@ public class AdminServiceImpl implements AdminService{
     private void addShortAdmissionName(List<AdmissionName> admsList){
         for( AdmissionName aAdms : admsList){
            if( admsNo.getGeneral().equals(aAdms.getAdmsNo())){
-                aAdms.setAdmsName("16년 전기 일반");
+                aAdms.setAdmsName("16년 후기 일반");
            }else if( admsNo.getForeign() .equals(aAdms.getAdmsNo())){
-               aAdms.setAdmsName("16년 전기 외국인");
+               aAdms.setAdmsName("16년 후기 외국인");
            }else if( admsNo.getEarly().equals(aAdms.getAdmsNo())){
-               aAdms.setAdmsName("16년 후기 조기");
+               aAdms.setAdmsName("17년 전기 조기");
            }
         }
     }
@@ -452,11 +452,11 @@ public class AdminServiceImpl implements AdminService{
         String admsName = "";
 
         if( admsNo.getGeneral().equals(admsCode)) {
-            admsName = "16년 전기 일반";
+            admsName = "16년 후기 일반";
         }else if( admsNo.getForeign().equals(admsCode)){
-            admsName ="16년 전기 외국인";
+            admsName ="16년 후기 외국인";
         }else if( admsNo.getEarly().equals(admsCode)){
-            admsName ="16년 후기 조기";
+            admsName ="17년 전기 조기";
         }
         return admsName;
     }
