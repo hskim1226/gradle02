@@ -36,24 +36,24 @@
             font-weight: 900;
         }
 
-        .btn-file {
-            position: relative;
-            overflow: hidden;
-        }
-        .btn-file input[type=file] {
-            position: absolute;
-            top: 0;
-            right: 0;
-            min-width: 100%;
-            min-height: 100%;
-            font-size: 100px;
-            text-align: right;
-            filter: alpha(opacity=0);
-            opacity: 0;
-            background: red;
-            cursor: inherit;
-            display: block;
-        }
+        /*.btn-file {*/
+            /*position: relative;*/
+            /*overflow: hidden;*/
+        /*}*/
+        /*.btn-file input[type=file] {*/
+            /*position: absolute;*/
+            /*top: 0;*/
+            /*right: 0;*/
+            /*min-width: 100%;*/
+            /*min-height: 100%;*/
+            /*font-size: 100px;*/
+            /*text-align: right;*/
+            /*filter: alpha(opacity=0);*/
+            /*opacity: 0;*/
+            /*background: red;*/
+            /*cursor: inherit;*/
+            /*display: block;*/
+        /*}*/
         input[readonly] {
             background-color: white !important;
             cursor: text !important;
@@ -196,9 +196,10 @@
             color: #f55;
         }
         .grad-notice {
-            margin-top: 5px;
-            margin-bottom: 5px;
-            padding-bottom: 5px;
+            /*position: relative;*/
+            /*margin-top: 5px;*/
+            /*margin-bottom: 5px;*/
+            /*padding-bottom: 5px;*/
             color: blue;
         }
     </style>
@@ -506,7 +507,9 @@
                         </div>
                         <div class="panel panel-darkgray0">
                             <div class="panel-heading"><spring:message code="L02201"/><%--대학원--%></div>
-                            <div class="col-sm-12 grad-notice"><label><spring:message code="U02201"/></label></div>    <%--박사 과정에 지원한 경우에는 대학원 최종 학교가 사정 기준이 됩니다.--%>
+                            <div class="panel-body grad-notice" style="padding-bottom: 0px;">
+                                <div class="col-sm-12"><label><spring:message code="U02201"/></label></div>    <%--박사 과정에 지원한 경우에는 대학원 최종 학교가 사정 기준이 됩니다.--%>
+                            </div>
                             <div class="panel-body">
                                 <div class="form-group-block-list">
                                     <c:forEach begin="0" end="${academy.graduateList.size() > 0 ? academy.graduateList.size() - 1 : 0}" varStatus="stat">
