@@ -91,7 +91,9 @@
                             <tr>
                                 <td align="left"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/common/button_pdf.gif"/>
                                     <a href="<spring:message code="L00624URL"/>" target="_blank">
-                                        <spring:message code="L00624"/><%--법학과 박사과정 연구업적목록(PDF)--%></a>&nbsp;&nbsp;&nbsp;<img src="<spring:eval expression="@app.getProperty('path.static')" />/img/common/button_hwp.gif"/>
+                                        <spring:message code="L00624"/><%--법학과 박사과정 연구업적목록(PDF)--%></a>&nbsp;&nbsp;&nbsp;
+                                    <br/>
+                                    <img src="<spring:eval expression="@app.getProperty('path.static')" />/img/common/button-xls.jpg"/>
                                     <a href="<spring:message code="L00625URL"/>" target="_blank">
                                         <spring:message code="L00625"/><%--(엑셀)--%></a></td>
                             </tr>
