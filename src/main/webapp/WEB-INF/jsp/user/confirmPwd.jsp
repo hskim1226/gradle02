@@ -59,7 +59,7 @@
                     </div>
                     <div class="col-sm-offset-1 col-sm-10">
                         <div class="col-sm-12 nopadding">
-                            <button class="btn btn-primary btn-lg btn-block btn-save input-text"><spring:message code="L00194"/><%--비밀번호 변경--%></button>
+                            <button id="changePwd" class="btn btn-primary btn-lg btn-block btn-save input-text"><spring:message code="L00194"/><%--비밀번호 변경--%></button>
                         </div>
                     </div>
                 </div>
@@ -101,7 +101,11 @@ $(document).ready(function() {
             form.submit();
         }
     };
-    $('.btn-save').on('click', formProcess);
+    $('#changePwd').on('click', formProcess);
+    $('body').on('keyup', function (e) {
+        if (e.keyCode == 13)
+            $('#changePwd').click();
+    });
     <%-- 하단 버튼 처리 --%>
 
     <%-- action 성공 여부 알림 처리 --%>

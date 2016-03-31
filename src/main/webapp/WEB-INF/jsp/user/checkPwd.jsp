@@ -35,7 +35,7 @@
                         <div class="form-group col-sm-12">
                             <div class="col-sm-offset-1 col-sm-10">
                                 <div class="col-sm-12">
-                                    <button class="btn btn-primary btn-lg btn-block btn-save input-text"><spring:message code="L00163"/><%--내 정보 확인--%></button>
+                                    <button id="showMyInfo" class="btn btn-primary btn-lg btn-block btn-save input-text"><spring:message code="L00163"/><%--내 정보 확인--%></button>
                                 </div>
                             </div>
                         </div>
@@ -62,7 +62,11 @@
                 alert('비밀 번호를 입력해 주세요.')
             }
         };
-        $('.btn-save').on('click', formProcess);
+        $('#showMyInfo').on('click', formProcess);
+        $('body').on('keyup', function (e) {
+            if (e.keyCode == 13)
+                $('#showMyInfo').click();
+        });
         <%-- 하단 버튼 처리 --%>
 
         <%-- action 성공 여부 알림 처리 --%>
