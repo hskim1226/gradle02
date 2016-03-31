@@ -553,10 +553,10 @@
                                             <div class="col-sm-12">
                                                 <div class="col-sm-4 nopadding">
                                                      <label class="radio-inline">
-                                                     <form:radiobutton path="application.gend" value="m" label="${msg.getMsg('L114')}"/>
+                                                     <form:radiobutton path="application.gend" value="m" label="${msg.getMsg('L114')}" cssClass="gendRadio"/>
                                                      </label>
                                                      <label class="radio-inline">
-                                                     <form:radiobutton path="application.gend" value="f" label="${msg.getMsg('L115')}"/>
+                                                     <form:radiobutton path="application.gend" value="f" label="${msg.getMsg('L115')}" cssClass="gendRadio"/>
                                                      </label>
                                                          <spring:bind path="application.gend">
                                                          <c:if test="${status.error}">
@@ -1383,6 +1383,31 @@
                 '<spring:message code="APEXJS_0010"/>'
         );
         <%-- 주민번호 길이 체크 --%>
+
+        <%-- 성별 체크 --%>
+        var checkGender = function(event) {
+            var thisRadio = event.target;
+            var rgstLatterInput = document.getElementById('application.rgstEncr');
+            var rgstLatterValue = '';
+            var firstDigit;
+            if (rgstLatterInput) {
+                rgstLatterValue = rgstLatterInput.value;
+            }
+            if (rgstLatterValue.length > 0) {
+                firstDigit = rgstLatterValue.substring(0, 1);
+
+                if (
+                    (firstDigit % 2 === 0 && thisRadio.value !== 'f') ||
+                    (firstDigit % 2 === 1 && thisRadio.value !== 'm')
+                ) {
+                    alert('<spring:message code="U01211"/>');
+                    thisRadio.checked = false;
+                }
+
+            }
+        };
+        $('.gendRadio').on('click', checkGender);
+        <%-- 성별 체크 --%>
 
         <%-- 메일 주소 validation --%>
         apex.emailCheck('emailOnly', '<spring:message code="APEXJS_0003"/>'); // 이메일 주소를 정확히 기재해 주세요.
