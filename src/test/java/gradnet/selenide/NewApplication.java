@@ -25,8 +25,8 @@ import static org.junit.Assert.fail;
 public class NewApplication {
 
     public static String baseUrl = "http://localhost:8080/yonsei";
-    public static String userId = "Abc777";
-    public static String password = "Abc77777";
+    public static String userId = "Abc333";
+    public static String password = "Abc33333";
 
     @BeforeClass
     public static void 로그인() throws Exception {
@@ -40,10 +40,13 @@ public class NewApplication {
 
         // 특정 페이지만 테스트 할 때는 아래 내용 주석 처리
         open(baseUrl);
-        $("#toAdmsList").click();
+        J("window.scrollBy(0, 300)");
+        J("$('#toAdmsList').click()");
         $("#toGeneralApply").click();
         $("#checkAll").scrollTo();
-        $("#checkAll").click();
+        J("window.scrollBy(0, -200)");
+        J("$('#checkAll').click()");
+        $("#composePaper").scrollTo();
         J("$('#composePaper').click()");
     }
 
@@ -287,13 +290,13 @@ public class NewApplication {
 
 
         // 원서 제출
-        if($("#submitApplication").is(Condition.enabled)) {
-            $("#submitApplication").click();
-            confirmAlert("원서 제출 후에는 원서 내용을 수정할 수 없습니다.\n\n계속하시겠습니까?");
-            confirmAlert("원서가 제출 되었습니다.");
-        } else {
-            fail("원서 제출 실행 안됨");
-        }
+//        if($("#submitApplication").is(Condition.enabled)) {
+//            $("#submitApplication").click();
+//            confirmAlert("원서 제출 후에는 원서 내용을 수정할 수 없습니다.\n\n계속하시겠습니까?");
+//            confirmAlert("원서가 제출 되었습니다.");
+//        } else {
+//            fail("원서 제출 실행 안됨");
+//        }
     }
 
     private void confirmAlert(String msg) {
