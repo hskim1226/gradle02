@@ -103,7 +103,9 @@
                             <tr>
                                 <td align="left"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/common/button_pdf.gif"/>
                                     <a href="<spring:message code="L00622URL"/>" target="_blank">
-                                        <spring:message code="L00622"/><%--원주의과대학 전일제 대학원생 장학금 지급 신청서--%></a>&nbsp;&nbsp;&nbsp;<img src="<spring:eval expression="@app.getProperty('path.static')" />/img/common/button_hwp.gif"/>
+                                        <spring:message code="L00622"/><%--원주의과대학 전일제 대학원생 장학금 지급 신청서--%></a>&nbsp;&nbsp;&nbsp;
+                                    <br/>
+                                    <img src="<spring:eval expression="@app.getProperty('path.static')" />/img/common/button_hwp.gif"/>
                                     <a href="<spring:message code="L00623URL"/>" target="_blank">
                                         <spring:message code="L00623"/><%--(아래한글)--%></a></td>
                             </tr>
