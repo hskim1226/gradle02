@@ -1179,7 +1179,8 @@
 
 </section>
 <content tag="local-script">
-    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/daum-postcode.min.js"></script>
+    <%--<script src="<spring:eval expression="@app.getProperty('path.static')" />/js/daum-postcode.min.js"></script>--%>
+    <script src="https://spi.maps.daum.net/imap/map_js_init/postcode.v2.js"></script>
     <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery-ui.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function() {
@@ -1647,27 +1648,35 @@
         var showDaumPostcode = function () {
             new daum.Postcode({
                 oncomplete: function(data) {
+                    // 다음 주소 검색 v2 적용으로 아래 제거
+
                     // 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
                     // 우편번호와 주소 및 영문주소 정보를 해당 필드에 넣는다.
 //                        document.getElementById('postcode1').value = data.postcode1;
 //                        document.getElementById('postcode2').value = data.postcode2;
-                    if (isStreetAddress(data.address1)) {
-                        document.getElementById('zipCode').value = data.postcode1 + data.postcode2;
-                        document.getElementById('address').value = data.address1;
-                        document.getElementById('addressDetail').focus();
-                        // iframe을 넣은 element를 안보이게 한다.
-                        closeDaumPostCode();
-                    } else {
-                        // iframe을 넣은 element를 안보이게 한다.
-                        closeDaumPostCode();
-                        confirm('<spring:message code="U01501"/>'); // 주소를 다시 검색해서 도로명 주소를 사용해 주시기 바랍니다.
-                        document.getElementById('zipCode').value = '';
-                        document.getElementById('zipCode').setAttribute('value', '');
-                        document.getElementById('address').value = '';
-                        document.getElementById('address').setAttribute('value', '');
-                        $('#searchAddress').trigger('click');
-                    }
+                    <%--if (isStreetAddress(data.address1)) {--%>
+                        <%--document.getElementById('zipCode').value = data.postcode1 + data.postcode2;--%>
+                        <%--document.getElementById('address').value = data.address1;--%>
+                        <%--document.getElementById('addressDetail').focus();--%>
+                        <%--// iframe을 넣은 element를 안보이게 한다.--%>
+                        <%--closeDaumPostCode();--%>
+                    <%--} else {--%>
+                        <%--// iframe을 넣은 element를 안보이게 한다.--%>
+                        <%--closeDaumPostCode();--%>
+                        <%--confirm('<spring:message code="U01501"/>'); // 주소를 다시 검색해서 도로명 주소를 사용해 주시기 바랍니다.--%>
+                        <%--document.getElementById('zipCode').value = '';--%>
+                        <%--document.getElementById('zipCode').setAttribute('value', '');--%>
+                        <%--document.getElementById('address').value = '';--%>
+                        <%--document.getElementById('address').setAttribute('value', '');--%>
+                        <%--$('#searchAddress').trigger('click');--%>
+                    <%--}--%>
 
+                    // 다음 주소 검색 v2 적용
+                    document.getElementById('zipCode').value = data.postcode1 + data.postcode2;
+                    document.getElementById('address').value = data.address;
+                    document.getElementById('addressDetail').focus();
+                    // iframe을 넣은 element를 안보이게 한다.
+                    closeDaumPostCode();
 
                 },
                 width : '100%',
@@ -1681,18 +1690,19 @@
 //        $('#searchAddress').on('click', showDaumPostcode);
         $('#searchAddress').on('click', function (e) {
             e.preventDefault();
-            $( "#street-name-notice" ).dialog({
-                modal: true,
-                width: 380,
-                buttons: [{
-                        text: '<spring:message code="L01507"/>', // 확인
-                        click: function() {
-                            $(this).dialog("close");
-                            showDaumPostcode();
-                        }
-                }]
-            });
-//            showDialog(true, '#modal_popup4');
+            // 다음 주소 검색 v2 적용으로 아래 내용 삭제
+            <%--$( "#street-name-notice" ).dialog({--%>
+                <%--modal: true,--%>
+                <%--width: 380,--%>
+                <%--buttons: [{--%>
+                        <%--text: '<spring:message code="L01507"/>', // 확인--%>
+                        <%--click: function() {--%>
+                            <%--$(this).dialog("close");--%>
+                            <%--showDaumPostcode();--%>
+                        <%--}--%>
+                <%--}]--%>
+            <%--});--%>
+            showDaumPostcode();
         });
 
         <%-- 다음 주소 검색 끝 --%>
