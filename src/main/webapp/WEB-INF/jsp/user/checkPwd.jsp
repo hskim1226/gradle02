@@ -59,7 +59,7 @@
                 form.action = "${contextPath}/user/view";
                 form.submit();
             } else {
-                alert('비밀 번호를 입력해 주세요.')
+                alert('<spring:message code="U00161"/>');  <%--비밀 번호를 입력해 주세요.--%>
             }
         };
         $('#showMyInfo').on('click', formProcess);

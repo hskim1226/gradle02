@@ -197,7 +197,7 @@ public class UserAccountServiceImpl implements UserAccountService {
             ec.setData(userFromDB);
         } else {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(MessageResolver.getMessage("U105"));
+            ec.setMessage(MessageResolver.getMessage("U00130"));
         }
         return ec;
     }

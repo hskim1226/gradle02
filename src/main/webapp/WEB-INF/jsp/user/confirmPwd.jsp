@@ -81,7 +81,7 @@ $(document).ready(function() {
         if (pwd1.length > 0 && pwd2.length > 0 && pwd1 == pwd2) {
             pwdOk = true;
         } else {
-            alert('비밀번호가 일치하지 않습니다.');
+            alert('<spring:message code="U00130"/>');
             pwd.focus();
         }
         return pwdOk;
