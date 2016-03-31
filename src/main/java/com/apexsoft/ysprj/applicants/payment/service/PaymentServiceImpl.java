@@ -333,6 +333,15 @@ public class PaymentServiceImpl implements PaymentService {
                     //카드 또는 계좌이체에 대한 DB 처리
 //                    registerPaymentSuccess(payment, xpay);
 
+                    // userId를 위한 application 조회
+                    Application application = retrieveApplication(payment.getApplNo());
+
+                    //결제 정보 처리 (APPL_PAY_CS)
+                    ApplicationPaymentCurStat applPay2 = updatePayCs(application, paymentResult);
+
+                    //결제 트랜젝션 정보 처리 (APPL_PAY_TR)
+                    registerPaymentTransaction(applPay2);
+
                     //결제 성공에 대한 화면 처리
                     transactionVO.setSysMsg(transactionVO.getSysMsg() + "최종결제요청 결과 성공 DB처리하시기 바랍니다.<br>");
                     transactionVO.setUserMsg(MessageResolver.getMessage("U002"));
@@ -345,6 +354,15 @@ public class PaymentServiceImpl implements PaymentService {
                     // TODO 아래 정보는 어디에 쓰이는지 모르겠음
                     payment.setLGD_FINANCENAME( xpay.Response("LGD_FINANCENAME", 0) );
                     payment.setLGD_ACCOUNTNUM( xpay.Response("LGD_ACCOUNTNUM", 0) );
+
+                    // userId를 위한 application 조회
+                    Application application = retrieveApplication(payment.getApplNo());
+
+                    //결제 정보 처리 (APPL_PAY_CS)
+                    ApplicationPaymentCurStat applPay2 = updatePayCs(application, paymentResult);
+
+                    //결제 트랜젝션 정보 처리 (APPL_PAY_TR)
+                    registerPaymentTransaction(applPay2);
 
                     //결제 성공에 대한 화면 처리
 //                    msg = msg + "<br><br> 가상계좌정보";
@@ -398,11 +416,6 @@ public class PaymentServiceImpl implements PaymentService {
         //수험번호, 결제완료 상태 적용
         updateApplSts(application, customNewSeq, paymentResult);
 
-        //결제 정보 처리 (APPL_PAY_CS)
-        ApplicationPaymentCurStat applPay = updatePayCs(application, paymentResult);
-
-        //결제 트랜젝션 정보 처리 (APPL_PAY_TR)
-        registerPaymentTransaction(applPay);
 
         //APPL_DOC에 수험번호가 채번된 원서, 수험표 정보 저장
         documentService.saveApplicationPaperInfo(application);
