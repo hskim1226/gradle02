@@ -115,9 +115,11 @@
                             <li><spring:message code="L00032"/></li>  <%--서울 마포구 양화로 156, 1121(동교동, 엘지팰리스)--%>
                             <li><spring:message code="L00033"/> <span><spring:message code="L00034"/></span></li>  <%--대표이사--%>  <%--김도훈--%>
                             <li><spring:message code="L00035"/> <span><spring:message code="L00036"/></span></li>  <%--사업자등록번호--%>  <%--105-87-66045--%>
-                            <li><spring:message code="L00037"/> <span><spring:message code="L00038"/></span></li>  <%--전화--%>  <%--1899-1016--%>
                         </ul>
-
+                        <ul class="txt_list1">
+                            <li><spring:message code="L00037"/> <span><spring:message code="L00038"/></span></li>  <%--전화--%>  <%--1899-1016--%>
+                            <li><spring:message code="L00037"/> <span><spring:message code="L00047"/></span></li>  <%--전화--%>  <%--다른전화--%>
+                        </ul>
                         <ul class="txt_list1">
                             <li><spring:message code="L00039"/> <span><spring:message code="L00040"/></span></li>  <%--통신판매업신고번호--%>  <%--서울마포-1109호--%>
                             <li><spring:message code="L00041"/> <span><spring:message code="L00042"/></span></li>  <%--개인정보관리책임자--%>  <%--김도훈--%>
