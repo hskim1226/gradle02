@@ -1360,7 +1360,8 @@
                     fileInputId = this.getAttribute('data-file-input-id'),
                     fileInput = document.getElementById(fileInputId),
                     fileInputName = fileInput.getAttribute("name"),
-                    fileName = fileInput.files[0].name,
+                    file = fileInput.files[0],
+                    fileName = file ? file.name : '',
                     imgYn = document.getElementById(this.getAttribute('data-img-yn-id')).value,
                     targetFileDownloadLinkId = this.getAttribute('data-file-download-link-id'),
                     targetFileDeleteLinkId = this.getAttribute('data-file-delete-link-id'),
@@ -1371,8 +1372,8 @@
                     extIsOk = false,
                     checkboxId = this.getAttribute('data-checkbox-id'),
                     targetButton = this,
-                    fileNameWithoutFake = fileInput.files[0].name,
-                    fileSize = fileInput.files[0].size
+//                    fileNameWithoutFake = fileInput.files[0].name,
+                    fileSize = file ? file.name : -1;
                     ;
             if (fileName.length > 80) {
                 alert('<spring:message code="U04513"/>');  /*파일 경로가 너무 깁니다. \\n\\n파일을 PC의 바탕화면이나 D: 드라이브 바로 아래로 복사하신 후에 업로드해 주세요.*/
@@ -1380,15 +1381,15 @@
                 return false;
             }
             if (
-                fileNameWithoutFake.indexOf('\\') > -1 ||
-                fileNameWithoutFake.indexOf('/') > -1 ||
-                fileNameWithoutFake.indexOf(':') > -1 ||
-                fileNameWithoutFake.indexOf('*') > -1 ||
-                fileNameWithoutFake.indexOf('?') > -1 ||
-                fileNameWithoutFake.indexOf('\"') > -1 ||
-                fileNameWithoutFake.indexOf('<') > -1 ||
-                fileNameWithoutFake.indexOf('>') > -1 ||
-                fileNameWithoutFake.indexOf('|') > -1
+                fileName.indexOf('\\') > -1 ||
+                fileName.indexOf('/') > -1 ||
+                fileName.indexOf(':') > -1 ||
+                fileName.indexOf('*') > -1 ||
+                fileName.indexOf('?') > -1 ||
+                fileName.indexOf('\"') > -1 ||
+                fileName.indexOf('<') > -1 ||
+                fileName.indexOf('>') > -1 ||
+                fileName.indexOf('|') > -1
 
 //                fileNameWithoutFake.indexOf("\'") > -1 ||
 //                fileNameWithoutFake.indexOf('~') > -1 ||
