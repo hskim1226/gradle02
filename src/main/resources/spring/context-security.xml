@@ -124,7 +124,7 @@
     </beans:bean>
 
     <beans:bean id="CustomAuthenticationFailureHandler" class="com.apexsoft.framework.security.handler.CustomAuthenticationFailureHandler">
-        <beans:property name="userTargetUrl" value="/" />
+        <beans:property name="userTargetUrl" value="/user/login" />
         <beans:property name="adminTargetUrl" value="/admin/login" />
     </beans:bean>
 

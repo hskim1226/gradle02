@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,7 +41,7 @@ public class CustomAuthenticationFailureHandler implements org.springframework.s
 			req.setAttribute("LOGIN_FAILURE", true);
 			targetUrl = userTargetUrl;
 		}
-		res.sendRedirect(req.getContextPath() + targetUrl);
+		res.sendRedirect(req.getContextPath() + targetUrl + "?auth=fail");
 
 // sendRedirect 방식을 쓰면 일단 요청이 사용자에게 반환되고, 사용자가 다시 /user/login?auth=fail 로 GET 요청을 날린 것과 같게 된다.
 // 장점 : 사용자에게 보여지는 주소 창에 j_spring_security_check.do 와 같은 내부 내용을 보여주지 않는다.
