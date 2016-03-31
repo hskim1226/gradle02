@@ -52,7 +52,7 @@
                                 <c:choose>
                                     <c:when test="${myList.size() == 0}">
                                         <tr>
-                                            <td colspan="6">지원 내역이 없습니다.</td>
+                                            <td colspan="6"><spring:message code="U00243"/></td>  <%--지원 내역이 없습니다.--%>
                                         </tr>
                                     </c:when>
                                     <c:otherwise>
