@@ -18,6 +18,8 @@ public interface PDFService {
 
     ExecutionContext processApplicationFileWithApplId(Application application);
 
+    boolean checkPageLimit(File file, int applNo, int maxPage);
+
     // FilePersistenceService의 uploadToFileRepo사용하도록 변경
 //    ExecutionContext uploadToS3(String uploadDir, String uploadFileName, File file, boolean isDelete);
 }

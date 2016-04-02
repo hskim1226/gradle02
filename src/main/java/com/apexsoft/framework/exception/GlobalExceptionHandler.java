@@ -4,30 +4,22 @@ import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.file.exception.*;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.mybatis.spring.MyBatisSystemException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by hanmomhanda on 15. 1. 25.
@@ -159,7 +151,7 @@ public class GlobalExceptionHandler {
                                                       FileNoticeException e){
         ExecutionContext ec = e.getExecutionContext();
         ErrorInfo eInfo = ec.getErrorInfo();
-        ec.setMessage(MessageResolver.getMessage(e.getUserMessageCode()));
+        ec.setMessage(e.getUserMessage());
         logger.debug("FileNoticeException Occured :: URL=" + request.getRequestURL());
         logger.debug("Message:: " + StringUtil.getEmptyIfNull(ec.getErrCode()));
         logger.debug("ErrorCode:: " + StringUtil.getEmptyIfNull(e.getErrorCode()));

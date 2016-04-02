@@ -1415,8 +1415,15 @@
                 $('#overlay').hide();
                 return false;
             }
-            if (fileSize > ${fileMaxSize}) {
-                alert('<spring:message code="U04524" arguments="${fileMaxSize/1024/1024}"/>');
+            if (fileSize && fileSize > ${fileMaxSize}) {
+                alert('<spring:message code="U04524" arguments="${fileMaxSize/1024/1024}"/>'); // 파일 크기는 ##를 넘을 수 없습니다.
+                document.getElementById(checkboxId).checked = false;
+                if (docItemName.type == 'text')
+                    docItemName.value = '';
+console.dir(fileInput);
+                fileInput.files.length = 0;
+console.dir(fileInput);
+                fileInput.value = "";
                 $('#overlay').hide();
                 return false;
             }

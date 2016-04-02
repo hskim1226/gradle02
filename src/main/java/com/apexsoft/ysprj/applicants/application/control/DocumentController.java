@@ -23,6 +23,7 @@ import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import com.apexsoft.ysprj.applicants.common.util.WebUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -38,9 +39,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.URLEncoder;
 import java.security.Principal;
 import java.util.HashMap;
@@ -92,6 +91,12 @@ public class DocumentController {
 
     @Value("#{app['file.maxPage']}")
     private String fileMaxPage;
+
+    @Value("#{app['site.tel']}")
+    private String siteTel;
+
+    @Value("#{app['site.helpdesk']}")
+    private String helpdeskMail;
 
     @Autowired
     WebUtil webUtil;
@@ -207,6 +212,8 @@ public class DocumentController {
             mv = getErrorMV("common/error", ec);
         }
         mv.addObject("isSYSADMIN", "Apex1234".equals(principal.getName()));
+        mv.addObject("fileMaxSize", Integer.parseInt(fileMaxSize) * 1024 * 1024);
+        mv.addObject("fileMaxPage", fileMaxPage);
         return mv;
     }
 
@@ -336,6 +343,8 @@ public class DocumentController {
             return mv;
         }
         mv.addObject("isSYSADMIN", "Apex1234".equals(principal.getName()));
+        mv.addObject("fileMaxSize", Integer.parseInt(fileMaxSize) * 1024 * 1024);
+        mv.addObject("fileMaxPage", fileMaxPage);
         return mv;
     }
 
@@ -406,187 +415,35 @@ public class DocumentController {
                     ExecutionContext ec = null;
                     String jsonFileMetaForm = null;
                     FileInfo fileInfo = null;
-                    String uploadDir = getDirectory(fileMetaForm);
-                    String uploadFileName = "";
+
                     for ( FileItem fileItem : fileItems){
-                        // FOR MANAGE
-//                        if (fileItem.getFile().length() > MAX_LENGTH) {
-//                            ec = new ExecutionContext(ExecutionContext.FAIL);
-//                            Map<String, String> errorInfo = new HashMap<String, String>();
-//                            errorInfo.put("applNo", String.valueOf(document.getApplNo()));
-//                            ec.setErrorInfo(new ErrorInfo(errorInfo));
-//                            throw new FileNoticeException(ec, "U04301", "ERR0060");
-//                        }
 
+                        // 파일 크기 제한 체크
+                        checkFileSize(fileItem, document);
 
-                        // FOR MANAGE
-//                        if (fileItem.getOriginalFileName().toLowerCase().endsWith("pdf")) {
-//                            PDDocument pdf = null;
-//                            try {
-//                                pdf = PDDocument.load(fileItem.getFile());
-//                            } catch (FileNoticeException e) {
-//                                ec = new ExecutionContext(ExecutionContext.FAIL);
-//                                Map<String, String> errorInfo = new HashMap<String, String>();
-//                                errorInfo.put("applNo", String.valueOf(document.getApplNo()));
-//                                errorInfo.put("originalFileName", fileItem.getOriginalFileName());
-//                                ec.setErrorInfo(new ErrorInfo(errorInfo));
-//                                throw new FileNoticeException(ec, "U04514", "ERR0060");
-//                            } catch (IOException e) {
-//                                logger.error("Upload PDF is NOT loaded to PDDocument, DocumentController.fileUpload()");
-//                                logger.error("modId : " + document.getModId());
-//                                logger.error("applNo: " + document.getApplNo());
-//                                logger.error("orgFileName: " + fileItem.getOriginalFileName());
-//                                ec = new ExecutionContext(ExecutionContext.FAIL);
-//                                Map<String, String> errorInfo = new HashMap<String, String>();
-//                                errorInfo.put("applNo", String.valueOf(document.getApplNo()));
-//                                errorInfo.put("originalFileName", fileItem.getOriginalFileName());
-//                                ec.setErrorInfo(new ErrorInfo(errorInfo));
-//                                throw new FileNoticeException(ec, "U04518", "ERR0060");
-//                            } finally {
-//                                if (pdf != null) {
-//                                    try {
-//                                        pdf.close();
-//                                    } catch (IOException e) {
-//                                        logger.error("PDF is NOT closed, DocumentController.fileUpload()");
-//                                    }
-//                                }
-//                            }
-//                        }
-                        String originalFileName = fileItem.getOriginalFileName();
+                        // 페이지 제한 체크
+                        checkFilePage(fileItem, document);
 
-                        String ext = originalFileName.substring(originalFileName.lastIndexOf('.')+1).toLowerCase();
+                        // 넘버링 가능 여부 테스트
+                        checkNumbering(fileItem, fileMetaForm);
+
                         FileInputStream fis = null;
 
-//                        // PDF 합치지 않고 넘버링만 하기로 하여 주석 처리
-//                        if ("pdf".equals(ext)) {
-//                            // 국내 대학 증빙은 pdDocument.isEncrypted() == false이지만 합칠 때 오류 발생하므로
-//                            // 아래와 같이 직접 합쳐보는 방식으로 확인
-//                            String tmpFileFullPath = "/opt/ysproject/temp/pdf-test-" + document.getApplNo() + ".pdf";
-//
-//                            try {
-//                                fis = new FileInputStream(fileItem.getFile());
-//                            } catch (FileNotFoundException e) {
-//                                e.printStackTrace();
-//                            }
-//
-//                            ByteArrayOutputStream baos = StreamUtil.getBaosFromInputStream(fis);
-//
-//                            PDFMergerUtility mergerUtility = new PDFMergerUtility();
-//                            mergerUtility.setDestinationFileName(tmpFileFullPath);
-//                            org.springframework.core.io.Resource pdfResource = new ClassPathResource("pdf/merge-sample.pdf");
-//                            InputStream mergeSamplePdf = null;
-//                            try {
-//                                mergeSamplePdf = pdfResource.getInputStream();
-//                            } catch (IOException e) {
-//                                e.printStackTrace();
-//                            }
-//                            mergerUtility.addSource(mergeSamplePdf);
-//                            try {
-//                                mergerUtility.addSource(new ByteArrayInputStream(baos.toByteArray()));
-//                                mergerUtility.mergeDocuments(MemoryUsageSetting.setupMixed(500*1024*1024));
-//                            } catch (Exception e) {
-//                                logger.debug("merging PDF files fails, in DocumentController.handleEvent(), FileName : " + fileItem.getOriginalFileName());
-//                                ExecutionContext ec1 = new ExecutionContext(ExecutionContext.FAIL);
-//                                ec1.setResult(ExecutionContext.FAIL);
-//                                ec1.setMessage(MessageResolver.getMessage("U06102"));
-//                                ec1.setErrCode("ERR1104");
-//                                Map<String, String> errorInfo = new HashMap<String, String>();
-//                                errorInfo.put("applNo", String.valueOf(document.getApplNo()));
-//                                errorInfo.put("fileName", fileItem.getOriginalFileName());
-//                                ec1.setErrorInfo(new ErrorInfo(errorInfo));
-//                                throw new PDFMergeException(ec1, "U06105", "ERR1104");
-//                            } finally {
-//                                FileUtils.deleteQuietly(new File(tmpFileFullPath));
-//                            }
-//                        }
-
-                        // 넘버링 테스트
-                        if ("pdf".equals(ext)) {
-                            File aFile = fileItem.getFile(); // tomcat의 temp 폴더에 있는 임시 파일
-
-//                            File tmpDir = FileUtils.getTempDirectory();
-//                            File tmpFile = new File(tmpDir + "/" + principal.getName(), "tmpForNumberingCheck");
-//                            try {
-//                                FileUtils.copyFile(aFile, tmpFile);
-//                            } catch (IOException e) {
-//                                // 아래의 getPageNumberedPDF에서 예외 처리
-//                            }
-//                            pdfService.getPageNumberedPDF(tmpFile, Integer.parseInt(fileMetaForm.getApplNo()));
-//                            tmpFile.delete();
-                            File tmpDir = FileUtils.getTempDirectory();
-                            File copiedFile= new File(tmpDir + "/" + "copy-" + aFile.getName());
-                            try {
-                                FileUtils.copyFile(aFile, copiedFile);
-                            } catch (IOException e) {
-                                // 아래의 getPageNumberedPDF에서 예외 처리
-                            }
-                            pdfService.getPageNumberedPDF(copiedFile, Integer.parseInt(fileMetaForm.getApplNo()));
-                            copiedFile.delete();
-                        }
+                        // PDF 합치지 않고 넘버링만 하기로 하여 주석 처리
+//                        mergeFile(document, fileItem);
 
                         try{
-                            uploadDir = getDirectory(fileMetaForm);
-                            uploadFileName = createFileName(fileMetaForm, fileItem);
-                            try {
-                                fileInfo = persistence.save(uploadDir, uploadFileName, originalFileName,
-                                        fis = new FileInputStream(fileItem.getFile())
-                                );
-                            } catch (EncryptedPDFException e) {
-                                ec = new ExecutionContext(ExecutionContext.FAIL);
-                                Map<String, String> errorInfo = new HashMap<String, String>();
-                                errorInfo.put("applNo", String.valueOf(document.getApplNo()));
-                                errorInfo.put("originalFileName", fileItem.getOriginalFileName());
-                                ec.setErrorInfo(new ErrorInfo(errorInfo));
-                                throw new EncryptedPDFException(ec, "U04514", "ERR1101");
-                            } catch (WrongFileFormatException e) {
-                                ec = new ExecutionContext(ExecutionContext.FAIL);
-                                Map<String, String> errorInfo = new HashMap<String, String>();
-                                errorInfo.put("applNo", String.valueOf(document.getApplNo()));
-                                errorInfo.put("originalFileName", fileItem.getOriginalFileName());
-                                ec.setErrorInfo(new ErrorInfo(errorInfo));
-                                throw new WrongFileFormatException(ec, "U06106", "ERR1101", fileItem.getOriginalFileName());
-                            } catch (IOException ioe) {
-                                if (ioe.getCause().getCause() instanceof DataFormatException) {
-                                    ec = new ExecutionContext(ExecutionContext.FAIL);
-                                    Map<String, String> errorInfo = new HashMap<String, String>();
-                                    errorInfo.put("applNo", String.valueOf(document.getApplNo()));
-                                    errorInfo.put("originalFileName", fileItem.getOriginalFileName());
-                                    ec.setErrorInfo(new ErrorInfo(errorInfo));
-                                    throw new PasswordedPDFException(ec, "U04515", "ERR0052");
-                                } else {
-                                    logger.error("PDF NOT loaded to PDDocument, DocumentController.fileUpload(), modId : " + document.getModId() + ", applNo: " + document.getApplNo() + ", orgFileName: " + fileItem.getOriginalFileName());
-                                    ec = new ExecutionContext(ExecutionContext.FAIL);
-                                    Map<String, String> errorInfo = new HashMap<String, String>();
-                                    errorInfo.put("applNo", String.valueOf(document.getApplNo()));
-                                    errorInfo.put("originalFileName", fileItem.getOriginalFileName());
-                                    ec.setErrorInfo(new ErrorInfo(errorInfo));
-                                    throw new FileNoticeException(ec, "U04518", "ERR0052");
-//                                throw getYSBizException(document, principal, "U339", "ERR0063");
-                                }
-                            }
+                            // 파일의 물리적 저장
+                            fileInfo = persist(fileMetaForm, fileItem, persistence, document);
 
-                            String path = fileInfo.getDirectory();
+                            // 파일 정보 DB 저장
+                            ExecutionContext ec1 = saveToDB(fileInfo, fileMetaForm, fileItem, document);
 
-                            fileMetaForm.setPath(path);
-                            fileMetaForm.setFileName(fileInfo.getFileName());
-                            fileMetaForm.setOriginalFileName(originalFileName);
+                            // 저장 결과 fileMetaForm
+                            FileMetaForm resultMeta = getResultFileMetaForm(fileMetaForm, ec1);
 
-                            document.setFilePath(fileInfo.getDirectory());
-                            document.setFileName(fileInfo.getFileName());
-                            document.setOrgFileName(originalFileName);
-                            document.setFileExt(originalFileName.substring(originalFileName.lastIndexOf('.') + 1));
-                            document.setPageCnt(fileInfo.getPageCnt());
-                            document.setModId(fileMetaForm.getUserId());
-                            ec = documentService.saveOneDocument(document);
-
-                            if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
-                                fileMetaForm.setTotalApplicationDocument((TotalApplicationDocument)ec.getData());
-                                fileMetaForm.setResultMessage(MessageResolver.getMessage("U348"));
-                            } else {
-                                fileMetaForm.setResultMessage(MessageResolver.getMessage("U339"));
-                            }
-
-                            jsonFileMetaForm = objectMapper.writeValueAsString(fileMetaForm);
+                            // json 문자열로 변환
+                            jsonFileMetaForm = objectMapper.writeValueAsString(resultMeta);
 
                         } catch (AmazonServiceException ase) {
                             ec = new ExecutionContext(ExecutionContext.FAIL);
@@ -633,6 +490,184 @@ public class DocumentController {
 
                     return jsonFileMetaForm;
                 }
+
+                private void checkFileSize(FileItem fileItem, TotalApplicationDocument document) {
+                    if (fileItem.getFile().length() > Integer.parseInt(fileMaxSize) * 1024 * 1024) {
+                        ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+                        Map<String, String> errorInfo = new HashMap<String, String>();
+                        errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+                        ec.setErrorInfo(new ErrorInfo(errorInfo));
+                        throw new FileNoticeException(ec,
+                                MessageResolver.getMessage("U04524", new Object[] { fileMaxSize }),
+                                "ERR0060");
+                    }
+                }
+
+                private void checkFilePage(FileItem fileItem, TotalApplicationDocument document) {
+                    if (!pdfService.checkPageLimit(fileItem.getFile(), document.getApplNo(), Integer.parseInt(fileMaxPage))) {
+                        ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+                        Map<String, String> errorInfo = new HashMap<String, String>();
+                        errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+                        ec.setErrorInfo(new ErrorInfo(errorInfo));
+                        throw new FileNoticeException(ec,
+                                MessageResolver.getMessage("U04533", new Object[] { fileMaxPage }),
+                                "ERR0064");
+                    }
+                }
+
+                private void checkNumbering(FileItem fileItem, FileMetaForm fileMetaForm) {
+
+                    File aFile = fileItem.getFile(); // tomcat의 temp 폴더에 있는 임시 파일
+                    File tmpDir = FileUtils.getTempDirectory();
+                    File copiedFile= new File(tmpDir + "/" + "copy-" + aFile.getName());
+                    try {
+                        FileUtils.copyFile(aFile, copiedFile);
+                    } catch (IOException e) {
+                        System.err.println("Exception in 파일 넘버링 체크");
+                        e.printStackTrace();
+                        Map<String, String> errMap = new HashMap<>();
+                        errMap.put("applNo", String.valueOf(fileMetaForm.getApplNo()));
+                        errMap.put("fileName", fileItem.getOriginalFileName());
+                        ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+                        ec.setErrorInfo(new ErrorInfo(errMap));
+                        throw new FileNoticeException(ec,
+                                MessageResolver.getMessage("U04534"),
+                                "ERR0065");
+                    }
+
+                    // 모든 페이지에 대한 넘버링을 테스트 할 필요가 있냐/없냐에서
+                    // 있다로 판단해서 아래의 메서드로 전체 페이지에 대한 넘버링 테스트 수행
+                    pdfService.getPageNumberedPDF(copiedFile, Integer.parseInt(fileMetaForm.getApplNo()));
+                    copiedFile.delete();
+                }
+
+                private FileInfo persist(FileMetaForm fileMetaForm, FileItem fileItem,
+                                     FilePersistenceManager persistence,
+                                     TotalApplicationDocument document) {
+                    String uploadDir = getDirectory(fileMetaForm);
+                    String uploadFileName = createFileName(fileMetaForm, fileItem);
+                    String originalFileName = fileItem.getOriginalFileName();
+                    FileInputStream fis = null;
+                    ExecutionContext ec;
+                    FileInfo fileInfo = null;
+                    try {
+                        fileInfo = persistence.save(uploadDir, uploadFileName, originalFileName,
+                                fis = new FileInputStream(fileItem.getFile())
+                        );
+                    } catch (EncryptedPDFException e) {
+                        ec = new ExecutionContext(ExecutionContext.FAIL);
+                        Map<String, String> errorInfo = new HashMap<String, String>();
+                        errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+                        errorInfo.put("originalFileName", fileItem.getOriginalFileName());
+                        ec.setErrorInfo(new ErrorInfo(errorInfo));
+                        throw new EncryptedPDFException(ec, "U04514", "ERR1101");
+                    } catch (WrongFileFormatException e) {
+                        ec = new ExecutionContext(ExecutionContext.FAIL);
+                        Map<String, String> errorInfo = new HashMap<String, String>();
+                        errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+                        errorInfo.put("originalFileName", fileItem.getOriginalFileName());
+                        ec.setErrorInfo(new ErrorInfo(errorInfo));
+                        throw new WrongFileFormatException(ec, "U06106", "ERR1101", fileItem.getOriginalFileName());
+                    } catch (IOException ioe) {
+                        if (ioe.getCause().getCause() instanceof DataFormatException) {
+                            ec = new ExecutionContext(ExecutionContext.FAIL);
+                            Map<String, String> errorInfo = new HashMap<String, String>();
+                            errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+                            errorInfo.put("originalFileName", fileItem.getOriginalFileName());
+                            ec.setErrorInfo(new ErrorInfo(errorInfo));
+                            throw new PasswordedPDFException(ec, "U04515", "ERR0052");
+                        } else {
+                            logger.error("PDF NOT loaded to PDDocument, DocumentController.fileUpload(), modId : " + document.getModId() + ", applNo: " + document.getApplNo() + ", orgFileName: " + fileItem.getOriginalFileName());
+                            ec = new ExecutionContext(ExecutionContext.FAIL);
+                            Map<String, String> errorInfo = new HashMap<String, String>();
+                            errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+                            errorInfo.put("originalFileName", fileItem.getOriginalFileName());
+                            ec.setErrorInfo(new ErrorInfo(errorInfo));
+                            throw new FileNoticeException(ec,
+                                    MessageResolver.getMessage("U04518"), "ERR0052");
+                        }
+                    } finally {
+                        try {
+                            if (fis!= null) fis.close();
+                        } catch (IOException e) {}
+                    }
+                    return fileInfo;
+                }
+
+                private ExecutionContext saveToDB(FileInfo fileInfo, FileMetaForm fileMetaForm, FileItem fileItem,
+                                      TotalApplicationDocument document) throws JsonProcessingException {
+                    ExecutionContext ec;
+                    String originalFileName = fileItem.getOriginalFileName();
+                    String path = fileInfo.getDirectory();
+
+                    fileMetaForm.setPath(path);
+                    fileMetaForm.setFileName(fileInfo.getFileName());
+                    fileMetaForm.setOriginalFileName(originalFileName);
+
+                    document.setFilePath(fileInfo.getDirectory());
+                    document.setFileName(fileInfo.getFileName());
+                    document.setOrgFileName(originalFileName);
+                    document.setFileExt(originalFileName.substring(originalFileName.lastIndexOf('.') + 1));
+                    document.setPageCnt(fileInfo.getPageCnt());
+                    document.setModId(fileMetaForm.getUserId());
+                    ec = documentService.saveOneDocument(document);
+
+                    return ec;
+                }
+
+                private FileMetaForm getResultFileMetaForm(FileMetaForm fileMetaForm, ExecutionContext ec) {
+                    if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
+                        fileMetaForm.setTotalApplicationDocument((TotalApplicationDocument)ec.getData());
+                        fileMetaForm.setResultMessage(MessageResolver.getMessage("U348"));
+                    } else {
+                        fileMetaForm.setResultMessage(MessageResolver.getMessage("U339"));
+                    }
+                    return fileMetaForm;
+                }
+
+                // 파일 합치기 하지 않으므로 주석 처리
+//                private void mergeFile(TotalApplicationDocument document, FileItem fileItem) {
+//                    // 국내 대학 증빙은 pdDocument.isEncrypted() == false이지만 합칠 때 오류 발생하므로
+//                    // 아래와 같이 직접 합쳐보는 방식으로 확인
+//                    String tmpFileFullPath = "/opt/ysproject/temp/pdf-test-" + document.getApplNo() + ".pdf";
+//                    FileInputStream fis = null;
+//                    try {
+//                        fis = new FileInputStream(fileItem.getFile());
+//                    } catch (FileNotFoundException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    ByteArrayOutputStream baos = StreamUtil.getBaosFromInputStream(fis);
+//
+//                    PDFMergerUtility mergerUtility = new PDFMergerUtility();
+//                    mergerUtility.setDestinationFileName(tmpFileFullPath);
+//                    org.springframework.core.io.Resource pdfResource = new ClassPathResource("pdf/merge-sample.pdf");
+//                    InputStream mergeSamplePdf = null;
+//                    try {
+//                        mergeSamplePdf = pdfResource.getInputStream();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                    mergerUtility.addSource(mergeSamplePdf);
+//                    try {
+//                        mergerUtility.addSource(new ByteArrayInputStream(baos.toByteArray()));
+//                        mergerUtility.mergeDocuments(MemoryUsageSetting.setupMixed(500*1024*1024));
+//                    } catch (Exception e) {
+//                        logger.debug("merging PDF files fails, in DocumentController.handleEvent(), FileName : " + fileItem.getOriginalFileName());
+//                        ExecutionContext ec1 = new ExecutionContext(ExecutionContext.FAIL);
+//                        ec1.setResult(ExecutionContext.FAIL);
+//                        ec1.setMessage(MessageResolver.getMessage("U06102"));
+//                        ec1.setErrCode("ERR1104");
+//                        Map<String, String> errorInfo = new HashMap<String, String>();
+//                        errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+//                        errorInfo.put("fileName", fileItem.getOriginalFileName());
+//                        ec1.setErrorInfo(new ErrorInfo(errorInfo));
+//                        throw new PDFMergeException(ec1, "U06105", "ERR1104");
+//                    } finally {
+//                        FileUtils.deleteQuietly(new File(tmpFileFullPath));
+//                    }
+//                }
+
             }, FileMetaForm.class, TotalApplicationDocument.class);
         } catch (YSBizException ybe) {
             System.err.println("Error in DocumentController.fileUpload()");

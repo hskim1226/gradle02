@@ -13,7 +13,7 @@ public class FileNoticeException extends NestedRuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
-	private String userMessageCode;
+	private String userMessage;
 
 	private String errorCode;
 
@@ -41,10 +41,10 @@ public class FileNoticeException extends NestedRuntimeException {
 		this.ec = ec;
 	}
 
-	public FileNoticeException(ExecutionContext ec, String messageCode, String errorCode) {
+	public FileNoticeException(ExecutionContext ec, String userMessage, String errorCode) {
 		super(ec.getMessage());
 		this.ec = ec;
-		this.userMessageCode = messageCode;
+		this.userMessage = userMessage;
 		this.errorCode = errorCode;
 	}
 
@@ -56,8 +56,8 @@ public class FileNoticeException extends NestedRuntimeException {
 		return errorCode;
 	}
 
-	public String getUserMessageCode() {
-		return userMessageCode;
+	public String getUserMessage() {
+		return userMessage;
 	}
 
 }

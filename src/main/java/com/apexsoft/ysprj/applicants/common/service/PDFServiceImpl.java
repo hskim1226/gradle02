@@ -543,4 +543,13 @@ public class PDFServiceImpl implements PDFService {
 //        ec.setData(fileInfo);
 //        return ec;
 //    }
+
+
+    @Override
+    public boolean checkPageLimit(File file, int applNo, int maxPage) {
+        Application application = new Application();
+        application.setApplNo(applNo);
+        int pageCounts = getPdfPageCount(file, application);
+        return pageCounts <= maxPage;
+    }
 }
