@@ -287,7 +287,7 @@ public class NewApplicationForeign {
             confirmAlert("Do you want to delete uploaded file?");
             confirmAlert("File is deleted.");
         }
-        $("#file-input-3-0-1").setValue("/home/hanmomhanda/YS-DOC/114호_공학_트렌드_WEB_UI_개발_Part_1.pdf");
+        $("#file-input-3-0-1").setValue("/home/hanmomhanda/YS-DOC/축변환매트릭스{Axis Transformation Matrices}`~,!@#[$%^]-_=+&(').pdf");
         $("#upload-button-3-0-1").click();
         confirmAlert("File is uploaded successfully.");
 

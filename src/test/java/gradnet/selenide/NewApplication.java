@@ -227,7 +227,7 @@ public class NewApplication {
             confirmAlert("첨부한 파일을 삭제하시겠습니까?");
             confirmAlert("첨부 파일을 삭제했습니다.");
         }
-        $("#file-input-1-0-0-1").setValue("/home/hanmomhanda/YS-DOC/제62차 SW 테스트 전문가 양성 교육(일반).pdf");
+        $("#file-input-1-0-0-1").setValue("/home/hanmomhanda/YS-DOC/축변환매트릭스{Axis Transformation Matrices}`~,!@#$%^-_=+&(').pdf");
         $("#upload-button-1-0-0-1").click();
         confirmAlert("파일이 업로드 되었습니다.");
 
@@ -238,7 +238,7 @@ public class NewApplication {
             confirmAlert("첨부한 파일을 삭제하시겠습니까?");
             confirmAlert("첨부 파일을 삭제했습니다.");
         }
-        $("#file-input-2-0").setValue("/home/hanmomhanda/YS-DOC/83호_공학_트렌드_GIT_Flow를_활용한_효과적인_소스_형상_관리_Part_2.pdf");
+        $("#file-input-2-0").setValue("/home/hanmomhanda/YS-DOC/축변환매트릭스{Axis Transformation Matrices}`~,!@#[$%^]-_=+&(').pdf");
         $("#upload-button-2-0").click();
         confirmAlert("파일이 업로드 되었습니다.");
 

@@ -124,7 +124,7 @@ public class NonJUnitSelenideNewApplicationForeign extends NewApplicationForeign
             confirmAlert("File is deleted.");
         }
 //        $("#file-input-1-0-0-0").setValue(docRoot + "YS-DOC/" + num + "/3메가이상-253페이지-progit.ko.pdf");
-        $("#file-input-1-0-0-0").setValue(docRoot + "YS-DOC/" + num + "/축변환매트릭스(Axis Transformation Matrices).pdf");
+        $("#file-input-1-0-0-0").setValue(docRoot + "YS-DOC/" + num + "/축변환매트릭스{Axis Transformation Matrices}`~,!@#[$%^]-_=+&(').pdf");
         $("#upload-button-1-0-0-0").click();
         confirmAlert("File is uploaded successfully.");
 
