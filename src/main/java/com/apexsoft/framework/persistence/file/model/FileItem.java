@@ -49,4 +49,10 @@ public final class FileItem {
 	public File getFile() {
 		return file;
 	}
+
+	public boolean isPDF() {
+		String originalFileName = getOriginalFileName();
+		String fileExt = originalFileName.substring(originalFileName.lastIndexOf('.') + 1);
+		return "pdf".equals(fileExt.toLowerCase());
+	}
 }

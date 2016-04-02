@@ -421,11 +421,13 @@ public class DocumentController {
                         // 파일 크기 제한 체크
                         checkFileSize(fileItem, document);
 
-                        // 페이지 제한 체크
-                        checkFilePage(fileItem, document);
+                        if (fileItem.isPDF()) {
+                            // 페이지 제한 체크
+                            checkFilePage(fileItem, document);
 
-                        // 넘버링 가능 여부 테스트
-                        checkNumbering(fileItem, fileMetaForm);
+                            // 넘버링 가능 여부 테스트
+                            checkNumbering(fileItem, fileMetaForm);
+                        }
 
                         FileInputStream fis = null;
 
