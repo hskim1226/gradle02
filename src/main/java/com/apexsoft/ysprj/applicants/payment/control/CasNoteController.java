@@ -40,7 +40,7 @@ public class CasNoteController {
      */
     @RequestMapping(value="/notice")
     public String processCasNote( HttpServletRequest request ) {
-System.out.println("[DEBUG] processCasNote invoked.");
+//System.out.println("[DEBUG] processCasNote invoked.");
         String LGD_RESPCODE = "";           // 응답코드: 0000(성공) 그외 실패
         String LGD_RESPMSG = "";            // 응답메세지
         String LGD_MID = "";                // 상점아이디
@@ -123,14 +123,14 @@ System.out.println("[DEBUG] processCasNote invoked.");
 
             // 이미 LG U+ 측에서 입금 확인이 되어 결제 완료되었으므로 DB 처리만 한다.
             Application application = paymentService.registerCasNote(applPay);
-System.out.println("[DEBUG] registerCasNote succeeded.");
+
             // 원서 수험표, 생성, S3 업로드
             paymentService.processApplicationFiles(application);
-System.out.println("[DEBUG] registerCasNote-S3업로드 succeeded.");
+
 
             // 지원 완료 알림 메일 발송
             paymentService.sendNotification(application);
-System.out.println("[DEBUG] registerCasNote-S3업로드-메일발송 succeeded.");
+
 
             //수험표, 지원서 생섬 및 Merge
 //            String urlHead = "http://localhost:" + Integer.toString(request.getLocalPort()) + request.getContextPath();
