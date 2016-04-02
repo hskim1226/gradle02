@@ -40,7 +40,7 @@ public class CasNoteController {
      */
     @RequestMapping(value="/notice")
     public String processCasNote( HttpServletRequest request ) {
-
+System.out.println("[DEBUG] processCasNote invoked.");
         String LGD_RESPCODE = "";           // 응답코드: 0000(성공) 그외 실패
         String LGD_RESPMSG = "";            // 응답메세지
         String LGD_MID = "";                // 상점아이디
