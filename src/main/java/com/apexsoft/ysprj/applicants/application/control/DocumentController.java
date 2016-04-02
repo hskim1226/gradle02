@@ -155,7 +155,10 @@ public class DocumentController {
                                     ModelAndView mv) {
         webUtil.blockGetMethod(request, formData.getApplication());
         mv.setViewName(TARGET_VIEW);
-        if (bindingResult.hasErrors()) return mv;
+        if (bindingResult.hasErrors()) {
+            setFileLimit(mv);
+            return mv;
+        }
 
         mv.addObject("isSYSADMIN", "Apex1234".equals(principal.getName()));
 
@@ -164,8 +167,7 @@ public class DocumentController {
         Map<String, Object> map = (Map<String, Object>)ec.getData();
         addObjectToMV(mv, map, ec);
         mv.addObject("filePrefix", filePrefix);
-        mv.addObject("fileMaxSize", Integer.parseInt(fileMaxSize) * 1024 * 1024);
-        mv.addObject("fileMaxPage", fileMaxPage);
+        setFileLimit(mv);
         return mv;
     }
 
@@ -192,6 +194,7 @@ public class DocumentController {
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) {
             mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
+            setFileLimit(mv);
             return mv;
         }
 
@@ -212,8 +215,7 @@ public class DocumentController {
             mv = getErrorMV("common/error", ec);
         }
         mv.addObject("isSYSADMIN", "Apex1234".equals(principal.getName()));
-        mv.addObject("fileMaxSize", Integer.parseInt(fileMaxSize) * 1024 * 1024);
-        mv.addObject("fileMaxPage", fileMaxPage);
+        setFileLimit(mv);
         return mv;
     }
 
@@ -273,6 +275,7 @@ public class DocumentController {
         if (bindingResult.hasErrors()) {
             mv.setViewName("application/document");
             mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
+            setFileLimit(mv);
             return mv;
         }
 
@@ -343,9 +346,13 @@ public class DocumentController {
             return mv;
         }
         mv.addObject("isSYSADMIN", "Apex1234".equals(principal.getName()));
+        setFileLimit(mv);
+        return mv;
+    }
+
+    private void setFileLimit(ModelAndView mv) {
         mv.addObject("fileMaxSize", Integer.parseInt(fileMaxSize) * 1024 * 1024);
         mv.addObject("fileMaxPage", fileMaxPage);
-        return mv;
     }
 
     /**
