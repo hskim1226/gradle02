@@ -315,6 +315,11 @@
             color: red;
             font-weight: 900;
         }
+        .hr-in-div {
+            background: #3355cc;
+            height: 2px;
+            margin-bottom: 1.2em;
+        }
     </style>
 </head>
 <body>
@@ -393,6 +398,9 @@
                                 <p><spring:message code="U04102"/><%--만약 한 가지 종류의 서류가 여러 개의 PDF 파일로 되어 있다면,
                                     하나의 PDF 파일로 합친 후 업로드 하시기 바랍니다.--%></p>
 
+                                <p><spring:message code="U04118"/><%--인터넷에서 '한글 문서 PDF 변환'으로 검색하면 아래 한글 문서를 PDF 파일로 변환할 수 있는--%><br/>
+                                    <spring:message code="U04119"/><%--다양한 방법이 있으니 참고하시기 바랍니다.--%></p>
+
                                 <p><spring:message code="U04103"/><%--PDF 파일 합치기는 전용프로그램이나 인터넷 서비스를 이용하시기 바랍니다.--%></p>
 
                                 <spring:message code="U04104"/><%--예)--%><br/>
@@ -400,6 +408,8 @@
                                 <a href="http://www.pdfmerge.com/" target="_blank"><spring:message code="U04106"/><%--http://www.pdfmerge.com/--%></a><br/>
 
                                 <p><spring:message code="U04107"/><%--예시 사이트에서 발생하는 모든 문제는 당사에서 책임지지 않습니다.--%></p>
+
+                                <div class="hr-in-div"></div>
 
                                 <p><spring:message code="U04108"/><%--사진 파일은 JPG, GIF, PNG 파일만 업로드 가능합니다.--%></p>
 
@@ -409,21 +419,20 @@
                                 <a href="http://apps.pixlr.com/editor/" target="_blank"><spring:message code="U04110"/><%--http://apps.pixlr.com/editor/--%></a><br/>
                                 <a href="http://www.fotor.com/" target="_blank"><spring:message code="U04111"/><%--http://www.fotor.com/--%></a><br/>
                                 <p><spring:message code="U04112"/><%--예시 사이트에서 발생하는 모든 문제는 당사에서 책임지지 않습니다.--%></p>
-                                <hr/>
+
+                                <div class="hr-in-div"></div>
+
                                 <p class="inline-notice"><spring:message code="U04113"/><%--파일 첨부 시 주의사항--%></p>
                                 <span class="inline-notice"><spring:message code="U04114"/></span><%--1. 문서별로 1개의 파일만 첨부 가능합니다.--%><br/>
                                 <span class="inline-notice"><spring:message code="U04115"/></span><%--2. 사진 및 문서의 해상도와 가독성 여부를 반드시 확인하세요.--%><br/>
                                 <span class="inline-notice-red"><spring:message code="U04116"/></span><%--3. 스캔시에는 300dpi 이상으로 스캔하시기 바랍니다.--%><br/>
                                 <span class="inline-notice"><spring:message code="U04117"/></span><%--4. 문서 크기는 A4 크기로 생성하여 첨부하셔야 합니다.--%><br/>
-                                <span class="inline-notice-red-big"><spring:message code="U04124"/></span><%--5. 암호화 된 PDF는 제출하시면 안됩니다.--%><br/>
-                                <span class="inline-notice-small"><spring:message code="U04125"/></span><%--예를 들어 TOEFL iBT 성적표의 경우 비밀번호는 없지만, 파일 자체는 암호화 되어 있습니다.--%><br/>
-                                <span class="inline-notice-red-big"><spring:message code="U04126"/></span><%--6. 파일명에 '/'나 '\'와 같은 특수문자가 있으면 정상 동작하지 않을 수 있으니, 제거 후 올려 주세요.--%><br/>
+                                <%--<span class="inline-notice-red-big"><spring:message code="U04124"/></span>&lt;%&ndash;5. 암호화 된 PDF는 제출하시면 안됩니다.&ndash;%&gt;<br/>--%>
+                                <%--<span class="inline-notice-small"><spring:message code="U04125"/></span>&lt;%&ndash;예를 들어 TOEFL iBT 성적표의 경우 비밀번호는 없지만, 파일 자체는 암호화 되어 있습니다.&ndash;%&gt;<br/>--%>
+                                <span class="inline-notice-red"><spring:message code="U04126"/></span><%--6. 파일명에 '/'나 '\'와 같은 특수문자가 있으면 정상 동작하지 않을 수 있으니, 제거 후 올려 주세요.--%><br/>
                                 </p>
 
-                                <p><spring:message code="U04118"/><%--인터넷에서 '한글 문서 PDF 변환'으로 검색하면 아래 한글 문서를 PDF 파일로 변환할 수 있는--%><br/>
-                                    <spring:message code="U04119"/><%--다양한 방법이 있으니 참고하시기 바랍니다.--%></p>
-
-                                <p><spring:message code="U04120"/><%--파일 업로드 후 오른쪽의 '내려받기' 버튼을 클릭해서 파일이 올바르게 업로드 되었는지 확인할 수 있습니다.--%></p>
+                                <div class="hr-in-div"></div>
 
                                 <p style="font-size: 14px; color: blue"><b><spring:message code="U04121"/></b><%--입학 신청과 관련하여 제출 또는 업로드 해야 할 서류나 파일에 대한 정보는 모집 요강을 반드시 참고하시기 바랍니다.--%><br/>
                                     <b><spring:message code="U04122"/></b><%--제출 해야 할 서류나 파일의 누락에 대한 책임은 지원 신청자 본인에게 있습니다.--%></p>
