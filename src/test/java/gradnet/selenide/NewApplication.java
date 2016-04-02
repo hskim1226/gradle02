@@ -247,7 +247,8 @@ public class NewApplication {
             confirmAlert("첨부한 파일을 삭제하시겠습니까?");
             confirmAlert("첨부 파일을 삭제했습니다.");
         }
-        $("#file-input-2-1").setValue("/home/hanmomhanda/YS-DOC/79호_공학_트렌드_웹성능테스트-part_2.pdf");
+//        $("#file-input-2-1").setValue("/home/hanmomhanda/YS-DOC/3메가이상-253페이지-progit.ko.pdf");
+        $("#file-input-2-1").setValue("/home/hanmomhanda/YS-DOC/2014-동해물과백두산이마르고닳도록하느님이보우하사우리나라만세무궁화삼천리화려강산대한사람대한으로길이보전하세.pdf");
         $("#upload-button-2-1").click();
         confirmAlert("파일이 업로드 되었습니다.");
 
@@ -290,13 +291,13 @@ public class NewApplication {
 
 
         // 원서 제출
-//        if($("#submitApplication").is(Condition.enabled)) {
-//            $("#submitApplication").click();
-//            confirmAlert("원서 제출 후에는 원서 내용을 수정할 수 없습니다.\n\n계속하시겠습니까?");
-//            confirmAlert("원서가 제출 되었습니다.");
-//        } else {
-//            fail("원서 제출 실행 안됨");
-//        }
+        if($("#submitApplication").is(Condition.enabled)) {
+            $("#submitApplication").click();
+            confirmAlert("원서 제출 후에는 원서 내용을 수정할 수 없습니다.\n\n계속하시겠습니까?");
+            confirmAlert("원서가 제출 되었습니다.");
+        } else {
+            fail("원서 제출 실행 안됨");
+        }
     }
 
     private void confirmAlert(String msg) {

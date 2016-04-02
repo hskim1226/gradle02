@@ -123,7 +123,8 @@ public class NonJUnitSelenideNewApplicationForeign extends NewApplicationForeign
             confirmAlert("Do you want to delete uploaded file?");
             confirmAlert("File is deleted.");
         }
-        $("#file-input-1-0-0-0").setValue(docRoot + "YS-DOC/" + num + "/3메가이상-253페이지-progit.ko.pdf");
+//        $("#file-input-1-0-0-0").setValue(docRoot + "YS-DOC/" + num + "/3메가이상-253페이지-progit.ko.pdf");
+        $("#file-input-1-0-0-0").setValue(docRoot + "YS-DOC/" + num + "/축변환매트릭스(Axis Transformation Matrices).pdf");
         $("#upload-button-1-0-0-0").click();
         confirmAlert("File is uploaded successfully.");
 
@@ -143,7 +144,8 @@ public class NonJUnitSelenideNewApplicationForeign extends NewApplicationForeign
             confirmAlert("Do you want to delete uploaded file?");
             confirmAlert("File is deleted.");
         }
-        $("#file-input-1-0-1-0").setValue(docRoot + "YS-DOC/" + num + "/3메가이상-253페이지-progit.ko.pdf");
+//        $("#file-input-1-0-1-0").setValue(docRoot + "YS-DOC/" + num + "/3메가이상-253페이지-progit.ko.pdf");
+        $("#file-input-1-0-1-0").setValue(docRoot + "YS-DOC/" + num + "/축변환매트릭스(Axis Transformation Matrices).pdf");
         $("#upload-button-1-0-1-0").click();
         confirmAlert("File is uploaded successfully.");
 
@@ -163,7 +165,8 @@ public class NonJUnitSelenideNewApplicationForeign extends NewApplicationForeign
             confirmAlert("Do you want to delete uploaded file?");
             confirmAlert("File is deleted.");
         }
-        $("#file-input-3-0-0").setValue(docRoot + "YS-DOC/" + num + "/3메가이상-253페이지-progit.ko.pdf");
+//        $("#file-input-3-0-0").setValue(docRoot + "YS-DOC/" + num + "/3메가이상-253페이지-progit.ko.pdf");
+        $("#file-input-3-0-0").setValue(docRoot + "YS-DOC/" + num + "/제62차 SW 테스트 전문가 양성 교육(일반).pdf");
         $("#upload-button-3-0-0").click();
         confirmAlert("File is uploaded successfully.");
 
@@ -183,7 +186,8 @@ public class NonJUnitSelenideNewApplicationForeign extends NewApplicationForeign
             confirmAlert("Do you want to delete uploaded file?");
             confirmAlert("File is deleted.");
         }
-        $("#file-input-3-0-3").setValue(docRoot + "YS-DOC/" + num + "/3메가이상-253페이지-progit.ko.pdf");
+//        $("#file-input-3-0-3").setValue(docRoot + "YS-DOC/" + num + "/3메가이상-253페이지-progit.ko.pdf");
+        $("#file-input-3-0-3").setValue(docRoot + "YS-DOC/" + num + "/114호_공학_트렌드_WEB_UI_개발_Part_1.pdf");
         $("#upload-button-3-0-3").click();
         confirmAlert("File is uploaded successfully.");
 

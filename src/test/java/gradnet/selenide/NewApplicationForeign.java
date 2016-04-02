@@ -17,8 +17,8 @@ import static org.junit.Assert.fail;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class NewApplicationForeign {
 
-//    public static String baseUrl = "http://localhost:8080/yonsei";
-    public static String baseUrl = "https://www.gradnet.co.kr/yonsei";
+    public static String baseUrl = "http://localhost:8080/yonsei";
+//    public static String baseUrl = "https://www.gradnet.co.kr/yonsei";
     public static String userId = "Eng333";
     public static String password = "Eng33333";
 
@@ -298,7 +298,8 @@ public class NewApplicationForeign {
             confirmAlert("Do you want to delete uploaded file?");
             confirmAlert("File is deleted.");
         }
-        $("#file-input-3-0-3").setValue("/home/hanmomhanda/YS-DOC/3메가이상-253페이지-progit.ko.pdf");
+//        $("#file-input-3-0-3").setValue("/home/hanmomhanda/YS-DOC/3메가이상-253페이지-progit.ko.pdf");
+        $("#file-input-3-0-3").setValue("/home/hanmomhanda/YS-DOC/2014-동해물과백두산이마르고닳도록하느님이보우하사우리나라만세무궁화삼천리화려강산대한사람대한으로길이보전하세.pdf");
         $("#upload-button-3-0-3").click();
         confirmAlert("File is uploaded successfully.");
 
