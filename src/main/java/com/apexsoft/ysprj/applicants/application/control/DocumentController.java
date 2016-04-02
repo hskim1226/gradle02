@@ -87,6 +87,12 @@ public class DocumentController {
     @Value("#{app['file.prefix']}")
     private String filePrefix;
 
+    @Value("#{app['file.maxSize']}")
+    private String fileMaxSize;
+
+    @Value("#{app['file.maxPage']}")
+    private String fileMaxPage;
+
     @Autowired
     WebUtil webUtil;
 
@@ -153,6 +159,8 @@ public class DocumentController {
         Map<String, Object> map = (Map<String, Object>)ec.getData();
         addObjectToMV(mv, map, ec);
         mv.addObject("filePrefix", filePrefix);
+        mv.addObject("fileMaxSize", Integer.parseInt(fileMaxSize) * 1024 * 1024);
+        mv.addObject("fileMaxPage", fileMaxPage);
         return mv;
     }
 

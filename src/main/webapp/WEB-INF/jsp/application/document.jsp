@@ -1373,7 +1373,7 @@
                     checkboxId = this.getAttribute('data-checkbox-id'),
                     targetButton = this,
 //                    fileNameWithoutFake = fileInput.files[0].name,
-                    fileSize = file ? file.name : -1;
+                    fileSize = file ? file.size : -1;
                     ;
             if (fileName.length > 80) {
                 alert('<spring:message code="U04513"/>');  /*파일 경로가 너무 깁니다. \\n\\n파일을 PC의 바탕화면이나 D: 드라이브 바로 아래로 복사하신 후에 업로드해 주세요.*/
@@ -1406,8 +1406,8 @@
                 $('#overlay').hide();
                 return false;
             }
-            if (fileSize > 1024 * 1024 * 30) {
-                alert('<spring:message code="U04524" arguments="30"/>');
+            if (fileSize > ${fileMaxSize}) {
+                alert('<spring:message code="U04524" arguments="${fileMaxSize/1024/1024}"/>');
                 $('#overlay').hide();
                 return false;
             }
