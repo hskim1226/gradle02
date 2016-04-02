@@ -256,15 +256,20 @@ public class PaymentController {
         payment.setApplNo(applNo);
         ExecutionContext<PaymentResult> ecPayResult = paymentService.executePayment(payment, transactionVO);
         PaymentResult paymentResult = ecPayResult.getData();
-        String respStr = paymentResult.getPayType();
 
-        paymentService.updateStatus(payment, paymentResult);
-
-        paymentService.processApplicationFiles(application);
-        paymentService.sendNotification(application);
-
-        if( respStr.equals("SC0040") ) {
+        if( paymentResult.isCasNote() ) {
+            // 원서 상태 입금 대기로 수정
+            paymentService.updateCasNoteStatus(payment, paymentResult);
             return "xpay/waitPay";
+        } else if (paymentResult.isCardOrRealtimeTransfer()) { // 카드, 실시간 계좌
+            // 채번, 원서 상태, 원서/수험표 정보 저장
+            paymentService.makeApplicationCompleted(payment, paymentResult);
+
+            // 파일 처리
+            paymentService.processApplicationFiles(application);
+
+            // 알림
+            paymentService.sendNotification(application);
         }
 
         return "xpay/result";

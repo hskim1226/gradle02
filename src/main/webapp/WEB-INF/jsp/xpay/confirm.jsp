@@ -193,10 +193,9 @@
         </div>
         <div class="popupbody" style="display:${pageContext.response.locale == 'en' ?'none':'visible'}">
             <h4><strong>
-                1. 결제 모듈은 인터넷 익스플로러 (9.0 이상) 32Bit 버전만 지원됩니다.<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;64Bit 버전을 실행중이신 분은 ActiveX 설치에 문제가 발생할 수 있습니다.<br>
+                1. 결제 모듈은 인터넷 익스플로러 (9.0 이상) 버전만 지원됩니다.<br>
                 2. 크롬, 사파리 등의 웹브라우저에서는 결제를 진행하실 수 없습니다.<br>
-                3. 국내 카드와 UnionPay가 지원됩니다.(해외 비자, 마스터 카드 불가)<br>
+                3. 국내 카드 및 VISA, MASTER, JCB, UnionPay 카드가 지원됩니다.<br>
                 4. 결제 프로그램의 설치에 관한 문제는 유플러스 전자결제(1544-7772)로 문의하시기 바랍니다.<br><br>
                 <font color="red" size="3"> [[ 결제가 불가능한 경우 ]] <br></font>
                 시스템에서 결제가 불가능한 경우 아래 계좌로 입금 해주시기 바랍니다.<br>
@@ -214,11 +213,9 @@
         </div>
         <div class="popupbody" style="display:${pageContext.response.locale == 'en' ?'visible':'none'}">
             <h4><strong>
-                1. Only UnionPay Card and Korean Local Card is supported.<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;Visa card, Master card, etc. are NOT supported.<br>
-                2. Only Internet Explorer (9.0 or above) 32Bit is supported.<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;You may have problem with ActiveX Installation in 64Bit version.<br>
-                3. Browsers except Internet Explorer (like Chrome, Safari, Firefox, ...)<br>
+                1. VISA, MASTER, JCB, UnionPay, Korean Local Card is supported.<br>
+                2. Only Internet Explorer (9.0 or above) is supported.<br>
+                3. Browsers except Internet Explorer (like Chrome, Safari, ...)<br>
                 &nbsp;&nbsp;&nbsp;&nbsp;are NOT supported for payment.<br><br>
                 <font color="red" size="3"> [[ If the payment is NOT possible in the System ]] <br><br></font>
                 &nbsp;&nbsp;Please use Wire Transfer instead.<br/>

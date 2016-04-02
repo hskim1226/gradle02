@@ -22,7 +22,9 @@ public interface PaymentService {
 
     <T> ExecutionContext<T> executePayment( Payment payment, TransactionVO transactionVO );
 
-    void updateStatus(Payment payment, PaymentResult paymentResult);
+    void makeApplicationCompleted(Payment payment, PaymentResult paymentResult);
+
+    void updateCasNoteStatus(Payment payment, PaymentResult paymentResult);
 
     void processApplicationFiles(Application application);
 

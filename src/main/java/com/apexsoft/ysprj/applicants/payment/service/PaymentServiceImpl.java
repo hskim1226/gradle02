@@ -328,7 +328,7 @@ public class PaymentServiceImpl implements PaymentService {
                 paymentResult.setPaymentCurStat(applPay);
 
                 transactionVO.setApplNo(payment.getApplNo());
-                if( "SC0010".equals(payType) || "SC0030".equals(payType) ) {
+                if( paymentResult.isCardOrRealtimeTransfer() ) {
 
                     //카드 또는 계좌이체에 대한 DB 처리
 //                    registerPaymentSuccess(payment, xpay);
@@ -346,7 +346,7 @@ public class PaymentServiceImpl implements PaymentService {
                     transactionVO.setSysMsg(transactionVO.getSysMsg() + "최종결제요청 결과 성공 DB처리하시기 바랍니다.<br>");
                     transactionVO.setUserMsg(MessageResolver.getMessage("U002"));
 
-                } else if( "SC0040".equals(payType) ) {
+                } else if( paymentResult.isCasNote() ) {
 
                     //가상계좌 입금대기에 대한 DB 처리
 //                    registerPaymentWait(payment, xpay);
@@ -407,19 +407,28 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public void updateStatus(Payment payment, PaymentResult paymentResult) {
-        Application application = retrieveApplication(payment.getApplNo());
+    public void makeApplicationCompleted(Payment payment, PaymentResult paymentResult) {
 
         //수험번호 채번 및 적용
         CustomNewSeq customNewSeq = updateApplId(payment.getApplNo());
 
         //수험번호, 결제완료 상태 적용
-        updateApplSts(application, customNewSeq, paymentResult);
-
+        Application application = retrieveApplication(payment.getApplNo());
+        setApplIdAndMakeApplicationCompleted(application, customNewSeq);
 
         //APPL_DOC에 수험번호가 채번된 원서, 수험표 정보 저장
         documentService.saveApplicationPaperInfo(application);
         documentService.saveAdmissionSlipPaperInfo(application);
+    }
+
+    @Override
+    public void updateCasNoteStatus(Payment payment, PaymentResult paymentResult) {
+        Application application = retrieveApplication(payment.getApplNo());
+        application.setApplStsCode(ApplicationStatus.PAYMENT_WAIT.codeVal());
+        int r2 = commonDAO.updateItem(application, "com.apexsoft.ysprj.applicants.application.sqlmap.", "ApplicationMapper");
+        if (r2 != 1) {
+            exceptionThrower("U05204", "ERR0304", application.getApplNo());
+        }
     }
 
     private CustomNewSeq updateApplId(int applNo) {
@@ -435,16 +444,13 @@ public class PaymentServiceImpl implements PaymentService {
         return customNewSeq;
     }
 
-    private void updateApplSts(Application application, CustomNewSeq customNewSeq, PaymentResult paymentResult) {
+
+    private void setApplIdAndMakeApplicationCompleted(Application application, CustomNewSeq customNewSeq) {
         application.setApplId(getApplId(application, customNewSeq.getNewSeq()));
         application.setApplDate(new Date());
 
-        String payType = paymentResult.getPayType();
-        if( "SC0010".equals(payType) || "SC0030".equals(payType) ) {
-            application.setApplStsCode(ApplicationStatus.COMPLETED.codeVal());
-        } else if ("SC0040".equals(payType)) {
-            application.setApplStsCode(ApplicationStatus.PAYMENT_WAIT.codeVal());
-        }
+        application.setApplStsCode(ApplicationStatus.COMPLETED.codeVal());
+
         int r2 = commonDAO.updateItem(application, "com.apexsoft.ysprj.applicants.application.sqlmap.", "ApplicationMapper");
         if (r2 != 1) {
             exceptionThrower("U05204", "ERR0304", application.getApplNo());
@@ -705,13 +711,12 @@ public class PaymentServiceImpl implements PaymentService {
      */
     public Application registerCasNote(ApplicationPaymentCurStat applPay) {
 
-        Application application = retrieveApplication(applPay.getApplNo());
-
         //LGD_OID로 해당 결제 조회
         ApplicationPaymentCurStatExample param = new ApplicationPaymentCurStatExample();
         param.createCriteria().andLgdOidEqualTo(applPay.getLgdOid());
 
         ApplicationPaymentCurStat orgApplPay = commonDAO.queryForObject(NAME_SPACE+"ApplicationPaymentCurStatMapper.selectByExample", param, ApplicationPaymentCurStat.class);
+
         applPay.setApplNo(orgApplPay.getApplNo());
         applPay.setPayStsCode("00002");
         applPay.setModId("cas_note");
@@ -741,11 +746,8 @@ public class PaymentServiceImpl implements PaymentService {
 
 
         //수험번호, 결제완료 상태 적용
-        PaymentResult paymentResult = new PaymentResult();
-        // updateApplSts()에서 상태를 ApplicationStatus.COMPLETED로 하도록
-        // fake로 "SC0010" 설정
-        paymentResult.setPayType("SC0010");
-        updateApplSts(application, customNewSeq, paymentResult);
+        Application application = retrieveApplication(orgApplPay.getApplNo());
+        setApplIdAndMakeApplicationCompleted(application, customNewSeq);
 
 
 
@@ -756,6 +758,7 @@ public class PaymentServiceImpl implements PaymentService {
         documentService.saveApplicationPaperInfo(application);
         documentService.saveAdmissionSlipPaperInfo(application);
 
+//        아래는 CasNoteController로 이동
 //        // 원서 수험표, 생성, S3 업로드
 //        genAndUploadApplicationFormAndSlipFile(application);
 //
@@ -772,8 +775,6 @@ public class PaymentServiceImpl implements PaymentService {
      * DB 처리만 이 메서드에서 담당한다.
      */
     public ExecutionContext registerManualPay( ApplicationPaymentTransaction applPayTr ) {
-
-        Application application = retrieveApplication(applPayTr.getApplNo());
 
         ExecutionContext ec = new ExecutionContext();
         Date date = new Date();
@@ -809,11 +810,8 @@ public class PaymentServiceImpl implements PaymentService {
 
 
         //수험번호, 결제완료 상태 적용
-        PaymentResult paymentResult = new PaymentResult();
-        // updateApplSts()에서 상태를 ApplicationStatus.COMPLETED로 하도록
-        // fake로 "SC0010" 설정
-        paymentResult.setPayType("SC0010");
-        updateApplSts(application, customNewSeq, paymentResult);
+        Application application = retrieveApplication(applPayTr.getApplNo());
+        setApplIdAndMakeApplicationCompleted(application, customNewSeq);
 
 
 //        //결제 트랜젝션 정보 처리 (APPL_PAY_TR)
@@ -837,6 +835,7 @@ public class PaymentServiceImpl implements PaymentService {
         documentService.saveApplicationPaperInfo(application);
         documentService.saveAdmissionSlipPaperInfo(application);
 
+//        아래는 CasNoteController로 이동
 //        // 원서 수험표, 생성, S3 업로드
 //        genAndUploadApplicationFormAndSlipFile(application);
 //
