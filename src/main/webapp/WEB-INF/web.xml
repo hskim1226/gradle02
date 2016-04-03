@@ -20,7 +20,7 @@
     </context-param>
     <context-param>
         <param-name>spring.profiles.default</param-name>
-        <param-value>svr2</param-value>
+        <param-value>aws</param-value>
     </context-param>
 
     <filter>
