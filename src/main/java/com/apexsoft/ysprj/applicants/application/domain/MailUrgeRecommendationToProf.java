@@ -32,11 +32,10 @@ public class MailUrgeRecommendationToProf extends Mail {
     public void makeContents() {
         Recommendation recommendation = (Recommendation) getInfo();
         Map<Object, String> contentsParam = getContentsParam();
-        String contextPath = contentsParam.get("contextPath");
         String siteURL = contentsParam.get("siteURL");
-        String linkText = siteURL + contextPath +
-                "/application/recommend?key=" + recommendation.getRecKey() +
-                "&lang=en";
+        String linkText = getLinkText(siteURL, contentsParam, recommendation);
+        String alternativeURL = contentsParam.get("alternativeURL");
+        String alternativeLinkText = getLinkText(alternativeURL, contentsParam, recommendation);
         String dueTimeString = contentsParam.get("dueTime");
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         Date dueTime = null;
@@ -73,7 +72,10 @@ public class MailUrgeRecommendationToProf extends Mail {
                 .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_LINK_NOTICE"))
                 .append(NEW_LINE2)
                 .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_LINK",
-                        new Object[]{linkText}))
+                        new Object[]{ linkText }))
+                .append(NEW_LINE2)
+                .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_ALTERNATIVE_LINK",
+                        new Object[]{ linkText }))
                 .append(NEW_LINE2)
                 .append(MessageResolver.getMessage("MAIL_URGENCY_RECOMMENDATION_BODY_LINK_NOT_WORK_01"))
                 .append(NEW_LINE2)
@@ -93,5 +95,12 @@ public class MailUrgeRecommendationToProf extends Mail {
                 .append(NEW_LINE2)
                 .append(MessageResolver.getMessage("MAIL_COMMON_SITE_URL"))
                 .toString());
+    }
+
+    private String getLinkText(String url, Map<Object, String> contentsParam, Recommendation recommendation) {
+        String contextPath = contentsParam.get("contextPath");
+        return url + contextPath +
+                "/application/recommend?key=" + recommendation.getRecKey() +
+                "&lang=en";
     }
 }

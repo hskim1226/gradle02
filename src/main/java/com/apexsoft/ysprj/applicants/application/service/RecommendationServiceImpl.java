@@ -63,6 +63,9 @@ public class RecommendationServiceImpl implements RecommendationService {
     @Value("#{app['file.midPath']}")
     private String midPath;
 
+    @Value("#{app['recommendation.alternative.url']}")
+    private String recommendAlternativeURL;
+
     private final String APP_NULL_STATUS = "00000";      // 에러일 때 반환값
 
     @Autowired
@@ -242,6 +245,7 @@ public class RecommendationServiceImpl implements RecommendationService {
         mail.setSubject(recommendation.getReqSubject());
         mail.withContentsParam("contextPath", context.getContextPath())
                 .withContentsParam("siteURL", SITE_URL)
+                .withContentsParam("alternativeURL", recommendAlternativeURL)
                 .withContentsParam("dueTime", REC_DUE_DATE);
         mail.makeContents();
         recommendation.setMailContents(mail.getContents());
@@ -623,6 +627,7 @@ public class RecommendationServiceImpl implements RecommendationService {
             mailToProf.setInfoType(Recommendation.class);
             mailToProf.withContentsParam("contextPath", context.getContextPath())
                     .withContentsParam("siteURL", SITE_URL)
+                    .withContentsParam("alternativeURL", recommendAlternativeURL)
                     .withContentsParam("instNameEN", INST_NAME_EN)
                     .withContentsParam("dueTime", REC_DUE_DATE);
             mailToProf.makeContents();

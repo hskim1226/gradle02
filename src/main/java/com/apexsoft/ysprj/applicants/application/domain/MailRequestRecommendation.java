@@ -28,11 +28,17 @@ public class MailRequestRecommendation extends Mail {
     public void makeContents() {
         Recommendation recommendation = (Recommendation) getInfo();
         Map<Object, String> contentsParam = getContentsParam();
-        String contextPath = contentsParam.get("contextPath");
+//        String contextPath = contentsParam.get("contextPath");
         String siteURL = contentsParam.get("siteURL");
-        String linkText = siteURL + contextPath +
-                "/application/recommend?key=" + recommendation.getRecKey() +
-                "&lang=en";
+//        String linkText = siteURL + contextPath +
+//                "/application/recommend?key=" + recommendation.getRecKey() +
+//                "&lang=en";
+        String linkText = getLinkText(siteURL, contentsParam, recommendation);
+        String alternativeURL = contentsParam.get("alternativeURL");
+//        String alternativeLinkText = alternativeURL + contextPath +
+//                "/application/recommend?key=" + recommendation.getRecKey() +
+//                "&lang=en";
+        String alternativeLinkText = getLinkText(alternativeURL, contentsParam, recommendation);
         String NEW_LINE1 = "\n";
         String NEW_LINE2 = "\n\n";
 
@@ -66,7 +72,10 @@ public class MailRequestRecommendation extends Mail {
                 .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_LINK_NOTICE"))
                 .append(NEW_LINE2)
                 .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_LINK",
-                        new Object[]{linkText}))
+                        new Object[]{ linkText }))
+                .append(NEW_LINE2)
+                .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_ALTERNATIVE_LINK",
+                        new Object[]{ alternativeLinkText }))
                 .append(NEW_LINE2)
                 .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_FOOTER_01"))
                 .append(NEW_LINE2)
@@ -78,5 +87,12 @@ public class MailRequestRecommendation extends Mail {
                 .append(NEW_LINE1)
                 .append(MessageResolver.getMessage("MAIL_COMMON_SITE_URL"));
         setContents(sb.toString());
+    }
+
+    private String getLinkText(String url, Map<Object, String> contentsParam, Recommendation recommendation) {
+        String contextPath = contentsParam.get("contextPath");
+        return url + contextPath +
+                "/application/recommend?key=" + recommendation.getRecKey() +
+                "&lang=en";
     }
 }
