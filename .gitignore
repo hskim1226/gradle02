@@ -1,6 +1,7 @@
 *.class
 *.log
 build/
+src/main/webapp/WEB-INF/web.xml
 
 #Eclipse
 .classpath
