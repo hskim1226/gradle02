@@ -56,7 +56,7 @@
     <div class="logo">
         <h1><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/h1_logo.png" alt="gradnet" /></h1>
     </div>
-    <div class="date_info"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/img_icon1.png" alt="" /> <strong>원서접수기간 :</strong> 2014-04-07 09:30 ~ 2014-04-10 16:30</div>
+    <div class="date_info"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/img_icon1.png" alt="" /> <strong>원서접수기간 : </strong><spring:message code="L00413"/></div>
     <div class="gnb">
         <ul>
             <li><a href="${contextPath}/admin/main"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/btn_home.png" alt="Home" /></a></li>

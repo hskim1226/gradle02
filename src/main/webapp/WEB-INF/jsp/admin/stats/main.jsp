@@ -34,24 +34,24 @@
                             <c:when test="${corsCntList.admsNo == app['adms.general']}">
                                 <c:choose>
                                 <c:when test="${corsCntList.applAttrCode == '00001'}">
-                                    <th scope="row" class="text-left"><span class="tit1">일반-일반</a></span></th>
+                                    <th scope="row" class="text-left"><span class="tit1">일반-일반</span></th>
                                 </c:when>
                                 <c:when test="${corsCntList.applAttrCode == '00002'}">
-                                    <th scope="row" class="text-left"><span class="tit1">일반-학연산</a></span></th>
+                                    <th scope="row" class="text-left"><span class="tit1">일반-학연산</span></th>
                                 </c:when>
                                 <c:when test="${corsCntList.applAttrCode == '00003'}">
-                                    <th scope="row" class="text-left"><span class="tit1">일반-위탁</a></span></th>
+                                    <th scope="row" class="text-left"><span class="tit1">일반-위탁</span></th>
                                 </c:when>
                                 <c:when test="${corsCntList.applAttrCode == '00004'}">
-                                    <th scope="row" class="text-left"><span class="tit1">일반-새터민</a></span></th>
+                                    <th scope="row" class="text-left"><span class="tit1">일반-새터민</span></th>
                                 </c:when>
                                 </c:choose>
                             </c:when>
                             <c:when test="${corsCntList.admsNo == app['adms.foreign']}">
-                                <th scope="row" class="text-left"><span class="tit1">외국인전형</a></span></th>
+                                <th scope="row" class="text-left"><span class="tit1">외국인전형</span></th>
                             </c:when>
                             <c:when test="${corsCntList.admsNo == app['adms.early']}">
-                                <th scope="row" class="text-left"><span class="tit1">조기전형</a></span></th>
+                                <th scope="row" class="text-left"><span class="tit1">조기전형</span></th>
                             </c:when>
                         </c:choose>
                         <td>석사 ${corsCntList.cnt1}명</td>
