@@ -186,7 +186,7 @@ public class DocumentServiceImpl implements DocumentService {
         int r1, applNo = application.getApplNo();
 
         // 동일한 주민번호로 제출된 원서 존재 여부 확인
-        if ("TRUE".equals(allowSameRRN)) {
+        if ("FALSE".equals(allowSameRRN)) {
 //            if (!"C".equals(application.getAdmsTypeCode()) && !"D".equals(application.getAdmsTypeCode())) {
             if (!application.isForeignAppl()) {
                 if (isRgstNoDuplicate(applNo)) {
