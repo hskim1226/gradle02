@@ -24,7 +24,9 @@ import static org.junit.Assert.fail;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class NewApplication {
 
-    public static String baseUrl = "http://localhost:8080/yonsei";
+//    public static String baseUrl = "http://localhost:8080/yonsei";
+    //    public static String baseUrl = "https://www.gradnet.co.kr/yonsei";
+    public static String baseUrl = "http://52.79.125.54:8080/yonsei";
     public static String userId = "Abc333";
     public static String password = "Abc33333";
 
@@ -227,7 +229,7 @@ public class NewApplication {
             confirmAlert("첨부한 파일을 삭제하시겠습니까?");
             confirmAlert("첨부 파일을 삭제했습니다.");
         }
-        $("#file-input-1-0-0-1").setValue("/home/hanmomhanda/YS-DOC/축변환매트릭스{Axis Transformation Matrices}`~,!@#$%^-_=+&(').pdf");
+        $("#file-input-1-0-0-1").setValue("/home/hanmomhanda/YS-DOC/축변환매트릭스{Axis Transformation Matrices}`~,!@#[$%^]-_=+&(').pdf");
         $("#upload-button-1-0-0-1").click();
         confirmAlert("파일이 업로드 되었습니다.");
 
