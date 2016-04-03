@@ -64,7 +64,8 @@
                     </tbody>
                 </table>
             </div>
-            <a href="${contextPath}/admin/stats/category" class="btn_more" id="" ><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/btn_more.png" alt="더보기" /></a>
+            <%-- 아래 링크에 해당하는 컨트롤러 없어서 주석 처리 --%>
+            <%--<a href="${contextPath}/admin/stats/category" class="btn_more" id="" ><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/btn_more.png" alt="더보기" /></a>--%>
         </div>
 
         <!-- /notice_board -->
@@ -133,7 +134,8 @@
                 </tbody>
             </table>
         </div>
-        <a href="${contextPath}/admin/stats/daily" class="btn_more"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/btn_more.png" alt="더보기" /></a> </div>
+        <%-- 아래 링크에 해당하는 컨트롤러 없어서 주석 처리 --%>
+        <%--<a href="${contextPath}/admin/stats/daily" class="btn_more"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/btn_more.png" alt="더보기" /></a> </div>--%>
     <!-- /counter -->
 
 </div>

@@ -172,7 +172,7 @@ public class AdminStatsController {
     }
 
     //학과별 미결제 인원수 통계 화면
-    @RequestMapping(value="/search/unpaidCnt/search")
+    @RequestMapping(value="/stats/unpaidCnt/search")
     @ResponseBody
     public String searchStatsUnpaid(CourseSearchGridForm searchForm)
             throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {

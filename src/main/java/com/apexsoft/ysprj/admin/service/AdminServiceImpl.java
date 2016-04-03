@@ -409,7 +409,7 @@ public class AdminServiceImpl implements AdminService{
                 aCode.setCodeVal(abridgeAdmsCodeName(aCode.getCode()));
             }
 
-
+            ecDataMap.put("applCntList", applCntList);
             ecDataMap.put("chgCntList", chgCntList);
             ecDataMap.put("chgList", tempInfoList);
             ecDataMap.put("weekCntList",weekCntList);

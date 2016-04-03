@@ -75,14 +75,15 @@
     <div id="recru" class="snb_box1">
         <h2 class="lang-kor-malgun"><span>모집구분</span></h2>
         <div class="box_con">
-        <c:forEach var="applCntList" items="${applCntList}" varStatus="status">
+        <c:forEach items="${applCntList}" var="applCntList" varStatus="status">
 
             <li><span style="width: 142px; float: left" >${applCntList.codeVal}</span><span class="number"  style ="float:left; width:40px; color:#ffd800; text-align:right"><strong>${applCntList.cnt}</strong> 명</span></li>
         </c:forEach>
 
         <!-- /목록 리스트 -->
         </div>
-        <a href="#open" title="목록 펼치기" id="recru_select" class="btn_more"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/btn_menu1.png" alt="목록"></a> </div>
+        <%--<a href="#open" title="목록 펼치기" id="recru_select" class="btn_more"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/btn_menu1.png" alt="목록"></a> --%>
+    </div>
     <!-- /recru -->
 
     <div id="state" class="snb_box1">
@@ -91,11 +92,13 @@
             <ul>
                 <li><span class="tit" id="currCnt">현재접수인원</span><span class="number"><strong>${adminInfo.currCnt}</strong> 명</span></li>
                 <li><span class="tit" id="unpaidCnt">미결제인원</span><span class="number"><strong>${adminInfo.unpaidCnt}</strong> 명</span></li>
-                <li><span class="tit" id="unpaidCnt">원서작성중인원</span><span class="number"><strong>${adminInfo.uncmplCnt}</strong> 명</span></li>
+                <li><span class="tit" id="uncmplCnt">원서작성중인원</span><span class="number"><strong>${adminInfo.uncmplCnt}</strong> 명</span></li>
                 <li><span class="tit" id="changeCnt">지원취소/변경인원</span><span class="number"><strong>${adminInfo.changeCnt}</strong> 명</span></li>
             </ul>
         </div>
-        <a href="#" title="새로고침" class="btn_more"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/btn_menu1.png" alt="새로고침"></a> </div>
+        <%--<a href="#" title="새로고침" class="btn_more"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/btn_menu1.png" alt="새로고침"></a> </div>--%>
+        <a href="javascript:location.reload();" title="새로고침" class="btn_more"><i class="fa fa-refresh fa-2x" style="vertical-align: middle; line-height:15px; color: #ccc"></i></a>
+    </div>
     <!-- /state -->
 
     <div class="menu_wrap">

@@ -7,8 +7,8 @@
 <body>
 <div class="content">
     <div class="con_tit">
-        <h2><span>전형별 상세 지원현황</span></h2>
-        <div class="location"> HOME &gt; 통계 &gt; <span>전형별 상세 지원현황</span> </div>
+        <h2><span>학과별 상세 지원현황</span></h2>
+        <div class="location"> HOME &gt; 통계 &gt; <span>학과별 상세 지원현황</span> </div>
 
     </div>
     <div class="con_section">
