@@ -1207,7 +1207,7 @@
 //                    console.log(fileNameWithoutFake);
 //                    console.log('-------------------');
 
-                    if (fileNameWithoutFake.indexOf(':/')) {
+                    if (fileNameWithoutFake.indexOf(':/') >= 0) {
                         fileNameWithoutFake = fileNameWithoutFake.substring(fileNameWithoutFake.lastIndexOf('/')+1);
 //                        console.log(fileNameWithoutFake);
 //                        console.log('======================================================');
