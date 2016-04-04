@@ -83,7 +83,7 @@
                 e.preventDefault();
 
                 var form = document.getElementById('PAY_DO');
-                form.action = "${contextPath}/payment/admin/exepaymanual";
+                form.action = "${contextPath}/sysadmin/pay-manual";
                 form.submit();
             });
 
