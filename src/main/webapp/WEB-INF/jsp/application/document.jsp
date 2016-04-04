@@ -1369,8 +1369,9 @@
                     fileInputId = this.getAttribute('data-file-input-id'),
                     fileInput = document.getElementById(fileInputId),
                     fileInputName = fileInput.getAttribute("name"),
-                    file = fileInput.files[0],
-                    fileName = file ? file.name : '',
+//                    file = fileInput.files[0],
+//                    fileName = file ? file.name : '',
+                    fileName = fileInput.files ? fileInput.files[0].name : fileInput.value ? fileInput.value : '',
                     imgYn = document.getElementById(this.getAttribute('data-img-yn-id')).value,
                     targetFileDownloadLinkId = this.getAttribute('data-file-download-link-id'),
                     targetFileDeleteLinkId = this.getAttribute('data-file-delete-link-id'),
@@ -1382,8 +1383,18 @@
                     checkboxId = this.getAttribute('data-checkbox-id'),
                     targetButton = this,
 //                    fileNameWithoutFake = fileInput.files[0].name,
-                    fileSize = file ? file.size : -1;
+//                    fileSize = file ? file.size : -1;
+                    fileSize = fileInput.files ? fileInput.files[0].size : -1; // IE9 이하는 서버에서 사이즈 체크하도록
                     ;
+
+            if (fileName.indexOf(':/') >= 0) {
+                fileName = fileName.substring(fileName.lastIndexOf('/')+1);
+            }
+
+            if (fileName.indexOf(':\\') >= 0) {
+                fileName = fileName.substring(fileName.lastIndexOf('\\')+1);
+            }
+
             if (fileName.length > 80) {
                 alert('<spring:message code="U04513"/>');  /*파일 경로가 너무 깁니다. \\n\\n파일을 PC의 바탕화면이나 D: 드라이브 바로 아래로 복사하신 후에 업로드해 주세요.*/
                 $('#overlay').hide();
@@ -1420,9 +1431,9 @@
                 document.getElementById(checkboxId).checked = false;
                 if (docItemName.type == 'text')
                     docItemName.value = '';
-console.dir(fileInput);
-                fileInput.files.length = 0;
-console.dir(fileInput);
+//console.dir(fileInput);
+//                fileInput.files.length = 0;
+//console.dir(fileInput);
                 fileInput.value = "";
                 $('#overlay').hide();
                 return false;
