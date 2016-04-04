@@ -555,9 +555,11 @@ public class DocumentServiceImpl implements DocumentService {
             param.setDocGrp(aRec.getRecNo());
             ApplicationDocument aDoc = commonDAO.queryForObject(NAME_SPACE +
                     "CustomApplicationDocumentMapper.selectApplicationDocumentOfRecommendation", param, ApplicationDocument.class);
-            String recFilePath = aDoc.getFilePath();
-            File recFile = filePersistenceService.getFileFromFileRepo(BASE_DIR, recFilePath);
-            files.add(recFile);
+            if (aDoc != null) {
+                String recFilePath = aDoc.getFilePath();
+                File recFile = filePersistenceService.getFileFromFileRepo(BASE_DIR, recFilePath);
+                files.add(recFile);
+            }
         }
         return files;
     }
