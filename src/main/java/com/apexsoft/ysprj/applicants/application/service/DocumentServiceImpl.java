@@ -938,7 +938,8 @@ public class DocumentServiceImpl implements DocumentService {
                 pCont.setImgYn("Y");
             }
 //            if( pCont.getMsgNo()!= null && pCont.getMsgNo()!= "" ) { // 4/8에러 발생
-            if( pCont.getMsgNo()!= null && "".equals(pCont.getMsgNo())) { // 4/8에러 고침
+//            if( pCont.getMsgNo()!= null && "".equals(pCont.getMsgNo())) { // 4/8에러 고침
+            if( pCont.getMsgNo()!= null && !StringUtils.isEmpty(pCont.getMsgNo())) { // 4/8에러 고침
                 pCont.setMsg(MessageResolver.getMessage(pCont.getMsgNo()));
             }
             pList.add(pCont);
