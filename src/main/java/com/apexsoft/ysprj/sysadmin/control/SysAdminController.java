@@ -5,7 +5,10 @@ import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.mail.Mail;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
-import com.apexsoft.ysprj.applicants.application.domain.*;
+import com.apexsoft.ysprj.applicants.application.domain.Application;
+import com.apexsoft.ysprj.applicants.application.domain.CustomMyList;
+import com.apexsoft.ysprj.applicants.application.domain.ParamForApplication;
+import com.apexsoft.ysprj.applicants.application.domain.Recommendation;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.application.service.RecommendationService;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
@@ -17,7 +20,6 @@ import com.apexsoft.ysprj.sysadmin.service.SysAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -311,6 +313,10 @@ public class SysAdminController {
         ExecutionContext ecGenAppl = birtService.generateBirtFile(application.getApplNo(), reportName);
         reportName = "yonsei-adms-" + lang;
         ExecutionContext ecGenAdms = birtService.generateBirtFile(application.getApplNo(), reportName);
+
+        // 원서 및 수험표 업로드
+        paymentService.processApplicationFiles(application);
+
         ExecutionContext ecPdfMerge = pdfService.genAndUploadPDFByApplicants(application);
         if ( ExecutionContext.FAIL.equals(ecGenAppl.getResult()))
             throw new YSBizException(ecGenAppl);
