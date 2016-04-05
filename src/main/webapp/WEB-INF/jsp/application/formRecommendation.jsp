@@ -97,6 +97,10 @@
                             <%--</div>--%>
                             <div class="spacer-tiny">&nbsp;</div>
                             <div class="col-sm-12 text-gray">
+                                <label class="text-gray" style="text-align: left"><spring:message code="U06739"/><%--본 화면의 URL을 기록해두셔...--%></label>
+                            </div>
+                            <div class="spacer-tiny">&nbsp;</div>
+                            <div class="col-sm-12 text-gray">
                                 <label class="text-gray" style="text-align: left"><spring:message code="U06733"/><%--지원자에게 추천서 등록 완료...--%></label>
                             </div>
                             <div class="spacer-tiny">&nbsp;</div>
@@ -294,6 +298,7 @@ $(document).ready(function() {
 
     <%-- 하단 버튼 처리 --%>
     $('#btnComplete').click(function(e) {
+        e.preventDefault();
         var fileInput = document.getElementById('fileRec'),
                 fileName = fileInput.value,
                 regexpPDF = (/\.(pdf)$/i);
@@ -315,6 +320,8 @@ $(document).ready(function() {
                 $('#overlay').hide();
                 return false;
             }
+        } else {
+            alert("<spring:message code="U06740"/>");
         }
     });
     <%-- 하단 버튼 처리 --%>
