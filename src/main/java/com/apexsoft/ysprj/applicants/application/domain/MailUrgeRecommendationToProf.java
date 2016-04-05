@@ -53,7 +53,7 @@ public class MailUrgeRecommendationToProf extends Mail {
                 .append(MessageResolver.getMessage("MAIL_URGENCY_RECOMMENDATION_HEADER03"))
                 .append(NEW_LINE2)
                 .append(MessageResolver.getMessage("MAIL_URGENCY_RECOMMENDATION_HEADER04",
-                        new Object[]{"2015-10-18 18:00 (Korean Time)"}))
+                        new Object[]{dueTimeString}))
 //                        new Object[]{dueTimeString}))
 //                .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_INFO_TITLE"))
 //                .append(NEW_LINE1)
@@ -75,7 +75,7 @@ public class MailUrgeRecommendationToProf extends Mail {
                         new Object[]{ linkText }))
                 .append(NEW_LINE2)
                 .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_ALTERNATIVE_LINK",
-                        new Object[]{ linkText }))
+                        new Object[]{ alternativeLinkText }))
                 .append(NEW_LINE2)
                 .append(MessageResolver.getMessage("MAIL_URGENCY_RECOMMENDATION_BODY_LINK_NOT_WORK_01"))
                 .append(NEW_LINE2)
@@ -100,7 +100,7 @@ public class MailUrgeRecommendationToProf extends Mail {
     private String getLinkText(String url, Map<Object, String> contentsParam, Recommendation recommendation) {
         String contextPath = contentsParam.get("contextPath");
         return url + contextPath +
-                "/application/recommend?key=" + recommendation.getRecKey() +
-                "&lang=en";
+                "/application/recommend/" + recommendation.getRecKey() +
+                "/en";
     }
 }

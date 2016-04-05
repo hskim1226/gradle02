@@ -304,8 +304,9 @@
     <select id="selectUncompletedRecs" resultMap="BaseResultMap">
         select a.*
         from APPL_REC a, APPL b
-        where a.REC_STS_CODE in ('00002', '00003')
-        and a.APPL_NO = b.APPL_NO;
+        where a.APPL_NO = b.APPL_NO
+        and b.APPL_STS_CODE != '00022'
+        and a.REC_STS_CODE in ('00002', '00003');
     </select>
 
     <select id="selectUncompletedRecsTest" resultMap="BaseResultMap">

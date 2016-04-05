@@ -32,7 +32,9 @@
 <content tag="local-script">
 <script>
 <%-- 단어 잘림 방지 --%>
-$('.word-keep-all').wordBreakKeepAll();
+$(document).ready(function() {
+    $('.word-keep-all').wordBreakKeepAll();
+});
 </script>
 </content>
 </body>
