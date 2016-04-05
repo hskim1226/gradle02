@@ -225,8 +225,14 @@ public class PaymentController {
         }
 
         ExecutionContext ec = new ExecutionContext();
-
-        Application application = paymentService.retrieveApplication(model.getApplication().getApplNo());
+        Application application = null;
+try {
+       application = paymentService.retrieveApplication(model.getApplication().getApplNo());
+} catch (NullPointerException e) {
+    logger.error("<processXPay> - model : " + model);
+    logger.error("<processXPay> - model.getApplication() : " + model.getApplication());
+    logger.error("<processXPay> - model.getApplication().getApplNo() : " + model.getApplication().getApplNo());
+}
 
         if (application == null) {
             logger.error("application is null in PaymentController.processXPay(), applNo : " + payment.getApplNo() +
