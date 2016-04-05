@@ -276,8 +276,14 @@
 
                     if( "0000" == LGD_RESPCODE ) { //인증성공
                         document.getElementById('applNo').value = "${payment.applNo}";
-                        document.getElementById('LGD_PAYINFO').submit();
-                        document.getElementById('spinner').style.display = 'block';
+                        // ActiveX 설치 과정에서 알 수 없는 이유로 applNo가 유실되는 문제에 대한 회피
+                        if (document.getElementById('applNo').value == "") {
+                            alert("<spring:message code="U05110"/>");
+                            $("#overlay").hide();
+                        } else {
+                            document.getElementById('LGD_PAYINFO').submit();
+                            document.getElementById('spinner').style.display = 'block';
+                        }
 
                     } else { //인증실패
 
