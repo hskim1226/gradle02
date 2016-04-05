@@ -18,10 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -358,9 +355,9 @@ public class PreApplicationController {
      * @param mv
      * @return
      */
-    @RequestMapping(value = "/recommend", method = RequestMethod.GET)
-    public ModelAndView recommendationForm(@RequestParam(value = "key") String key,
-                                           @RequestParam(value = "lang") String lang,
+    @RequestMapping(value = "/recommend/{key}/{lang}", method = RequestMethod.GET)
+    public ModelAndView recommendationForm(@PathVariable(value = "key") String key,
+                                           @PathVariable(value = "lang") String lang,
                                            HttpServletRequest request,
                                            ModelAndView mv) {
         Locale locale = null;

@@ -92,7 +92,7 @@ public class MailRequestRecommendation extends Mail {
     private String getLinkText(String url, Map<Object, String> contentsParam, Recommendation recommendation) {
         String contextPath = contentsParam.get("contextPath");
         return url + contextPath +
-                "/application/recommend?key=" + recommendation.getRecKey() +
-                "&lang=en";
+                "/application/recommend/" + recommendation.getRecKey() +
+                "/en";
     }
 }
