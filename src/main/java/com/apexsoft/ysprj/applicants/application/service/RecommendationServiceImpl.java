@@ -664,7 +664,11 @@ public class RecommendationServiceImpl implements RecommendationService {
         Recommendation rec = null;
         for (Mail mail : failedList) {
             rec = (Recommendation)mail.getInfo();
-            System.out.println("[Failed : " + ++i + "] APPL_NO : " + rec.getApplNo() + ", To : " + mail.getTo());
+            StringBuilder tos = new StringBuilder();
+            for (String to : mail.getTo()) {
+                tos.append("  ").append(to);
+            }
+            System.out.println("[Failed : " + ++i + "] APPL_NO : " + rec.getApplNo() + ", To : " + tos.toString());
         }
         ec.setData(failedList);
         return ec;
