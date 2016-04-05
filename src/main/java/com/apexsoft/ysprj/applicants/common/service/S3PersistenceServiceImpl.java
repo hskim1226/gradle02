@@ -13,6 +13,8 @@ import com.apexsoft.ysprj.applicants.common.domain.FileWrapper;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -38,6 +40,8 @@ public class S3PersistenceServiceImpl implements FilePersistenceService {
     @Value("#{app['s3.storageClass']}")
     private String s3StorageClass;
 
+    private static final Logger logger = LoggerFactory.getLogger(S3PersistenceServiceImpl.class);
+
     @Override
     public FileMeta createFileMeta(Object object) {
         FileMeta fileMeta = null;
@@ -55,7 +59,13 @@ public class S3PersistenceServiceImpl implements FilePersistenceService {
 
     @Override
     public FileWrapper getFileWrapperFromFileRepo(String filePath) {
-        S3Object s3Object = s3Client.getObject(new GetObjectRequest(s3BucketName, filePath));
+        S3Object s3Object = null;
+        try {
+            s3Object = s3Client.getObject(new GetObjectRequest(s3BucketName, filePath));
+        } catch (AmazonS3Exception e) {
+            logger.error("[S3DownloadException] filePath : " + filePath);
+            throw e;
+        }
         FileWrapper fileWrapper = new FileWrapper(s3Object.getObjectContent(),
                                                   createFileMeta(s3Object.getObjectMetadata()));
         return fileWrapper;

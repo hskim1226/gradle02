@@ -485,7 +485,7 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     /**
-     * 수험표와 지원자가 업로드 한 파일이 묶여있는 zip 파일 다운로드
+     * 파일 다운로드
      *
      * @param application
      * @param type
