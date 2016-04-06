@@ -83,19 +83,20 @@ public class BirtServiceImpl implements BirtService {
     @Value("#{app['site.helpdesk']}")
     private String helpdeskMail;
 
-    private Application application;
+//    private Application application;
 
     /**
      * Birt로 파일 생성 및 서버 로컬에 저장
      *
-     * @param applNo
+     * @param application
      * @param birtRptFileName
      * @return
      */
     @Override
-    public ExecutionContext generateBirtFile(int applNo, String birtRptFileName) {
+//    public ExecutionContext generateBirtFile(int applNo, String birtRptFileName) {
+    public ExecutionContext generateBirtFile(Application application, String birtRptFileName) {
 
-        ExecutionContext ec = processBirt(applNo, birtRptFileName);
+        ExecutionContext ec = processBirt(application, birtRptFileName);
         Map<String, Object> map = (Map<String, Object>)ec.getData();
         map.put("reportFormat", REPORT_FORMAT);
         map.put("reportName", birtRptFileName);
@@ -119,7 +120,7 @@ public class BirtServiceImpl implements BirtService {
             ecError.setErrCode("ERR0072");
 
             Map<String, String> errorInfo = new HashMap<String, String>();
-            errorInfo.put("applNo", String.valueOf(applNo));
+            errorInfo.put("applNo", String.valueOf(application.getApplNo()));
 
             ecError.setErrorInfo(new ErrorInfo(errorInfo));
             throw new YSBizException(ecError);
@@ -147,9 +148,11 @@ public class BirtServiceImpl implements BirtService {
 
     //원서 정보 수험표 정보 모두 여기서 추출
     @Override
-    public ExecutionContext processBirt(int applNo, String birtRptFileName) {
+//    public ExecutionContext processBirt(int applNo, String birtRptFileName) {
+    public ExecutionContext processBirt(Application application, String birtRptFileName) {
         Map<String, Object> rptInfoMap = new HashMap<String, Object>();
 
+        int applNo = application.getApplNo();
         ExecutionContext ecBasis = basisService.retrieveBasis(applNo);
         Basis basis = ((Map<String, Basis>)ecBasis.getData()).get("basis");
         application = basis.getApplication();
@@ -158,7 +161,7 @@ public class BirtServiceImpl implements BirtService {
         Map<String, Object> basisInfo = getBasisInfo(basis);
         rptInfoMap.putAll(basisInfo);
 
-        Map<String, Object> academyInfo = getAcademyInfo(applNo);
+        Map<String, Object> academyInfo = getAcademyInfo(application);
         rptInfoMap.putAll(academyInfo);
 
         Map<String, Object> langCareerInfo = getLangCareerInfo(applNo);
@@ -187,6 +190,7 @@ public class BirtServiceImpl implements BirtService {
     private Map<String,Object> getBasisInfo(Basis basis) {
         Map<String, Object> basisInfo = new HashMap<String, Object>();
 
+        Application application = basis.getApplication();
         ApplicationGeneral applicationGeneral = basis.getApplicationGeneral();
         ApplicationForeigner applicationForeigner = basis.getApplicationForeigner();
 
@@ -319,9 +323,10 @@ public class BirtServiceImpl implements BirtService {
         return basisInfo;
     }
 
-    private Map<String,Object> getAcademyInfo(int applNo) {
+//    private Map<String,Object> getAcademyInfo(int applNo) {
+    private Map<String,Object> getAcademyInfo(Application application) {
         Map<String, Object> academyInfo = new HashMap<String, Object>();
-        ExecutionContext ecAcademy = academyService.retrieveAcademy(applNo);
+        ExecutionContext ecAcademy = academyService.retrieveAcademy(application.getApplNo());
         Academy academy = ((Map<String, Academy>)ecAcademy.getData()).get("academy");
 
         List<CustomApplicationAcademy> collegeList = academy.getCollegeList();

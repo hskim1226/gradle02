@@ -89,7 +89,11 @@ public class BirtController {
         mv.setViewName("pdfSingleFormatBirtView");
         mv.addObject("reportFormat", reportFormat);
         mv.addObject("reportName", reportName);
-        ExecutionContext ec = birtService.processBirt(applNo, reportName);
+
+        Application application = new Application();
+        application.setApplNo(applNo);
+
+        ExecutionContext ec = birtService.processBirt(application, reportName);
         mv.addAllObjects((Map<String, Object>)ec.getData());
         return mv;
     }
@@ -121,7 +125,7 @@ public class BirtController {
             int applNo = application.getApplNo();
             mv.addObject("reportFormat", REPORT_FORMAT);
             mv.addObject("reportName", reportName);
-            ExecutionContext ec = birtService.processBirt(applNo, reportName);
+            ExecutionContext ec = birtService.processBirt(application, reportName);
             bigDataMap = (Map<String, Object>)ec.getData();
             mv.addAllObjects(bigDataMap);
             logger.debug("in BirtController bigDataMap clear start");
@@ -162,7 +166,7 @@ public class BirtController {
             mv.setViewName("pdfSingleFormatBirtSaveToFile");
             mv.addObject("reportFormat", REPORT_FORMAT);
             mv.addObject("reportName", reportName);
-            ExecutionContext ec = birtService.processBirt(applNo, reportName);
+            ExecutionContext ec = birtService.processBirt(application, reportName);
             mv.addAllObjects((Map<String, Object>)ec.getData());
         }
 
@@ -198,7 +202,7 @@ public class BirtController {
             mv.setViewName("pdfSingleFormatBirtSaveToFile");
             mv.addObject("reportFormat", REPORT_FORMAT);
             mv.addObject("reportName", reportName);
-            ExecutionContext ec = birtService.processBirt(applNo, reportName);
+            ExecutionContext ec = birtService.processBirt(application, reportName);
             mv.addAllObjects((Map<String, Object>)ec.getData());
         }
 

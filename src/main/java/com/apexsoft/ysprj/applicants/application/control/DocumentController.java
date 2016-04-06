@@ -793,7 +793,8 @@ public class DocumentController {
         // 타 대학원 확장 시 TODO - 학교 이름을 파라미터로 받도록
         String lang = application.isForeignAppl() ? "en" : "kr";
         String reportName = "yonsei-" + reqType + "-" + lang;
-        ExecutionContext ecGenerate = birtService.generateBirtFile(application.getApplNo(), reportName);
+//        ExecutionContext ecGenerate = birtService.generateBirtFile(application.getApplNo(), reportName);
+        ExecutionContext ecGenerate = birtService.generateBirtFile(application, reportName);
         Map<String, Object> map = (Map<String, Object>)ecGenerate.getData();
 
         String fileDir = (String)map.get("pdfDirectoryFullPath");

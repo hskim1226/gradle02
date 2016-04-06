@@ -310,9 +310,9 @@ public class SysAdminController {
                 applNo, Application.class);
         String lang = application.isForeignAppl() ? "en" : "kr";
         String reportName = "yonsei-appl-" + lang;
-        ExecutionContext ecGenAppl = birtService.generateBirtFile(application.getApplNo(), reportName);
+        ExecutionContext ecGenAppl = birtService.generateBirtFile(application, reportName);
         reportName = "yonsei-adms-" + lang;
-        ExecutionContext ecGenAdms = birtService.generateBirtFile(application.getApplNo(), reportName);
+        ExecutionContext ecGenAdms = birtService.generateBirtFile(application, reportName);
 
         // 원서 및 수험표 업로드
         paymentService.processApplicationFiles(application);
@@ -363,7 +363,7 @@ public class SysAdminController {
             String reportName = "yonsei-appl-" + lang;
             ExecutionContext ecGenAppl = new ExecutionContext();
             try {
-                ecGenAppl = birtService.generateBirtFile(application.getApplNo(), reportName);
+                ecGenAppl = birtService.generateBirtFile(application, reportName);
             } catch (Exception e) {
                 ecGenAppl.setResult(ExecutionContext.FAIL);
             }
@@ -371,7 +371,7 @@ public class SysAdminController {
             reportName = "yonsei-adms-" + lang;
             ExecutionContext ecGenAdms = new ExecutionContext();
             try {
-                ecGenAdms = birtService.generateBirtFile(application.getApplNo(), reportName);
+                ecGenAdms = birtService.generateBirtFile(application, reportName);
             } catch (Exception e) {
                 ecGenAdms.setResult(ExecutionContext.FAIL);
             }

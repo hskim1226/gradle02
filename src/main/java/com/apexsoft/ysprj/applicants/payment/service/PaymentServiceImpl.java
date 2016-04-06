@@ -967,10 +967,10 @@ public class PaymentServiceImpl implements PaymentService {
         String lang = application.isForeignAppl() ? "en" : "kr";
         String reportName = "yonsei-appl-" + lang;
         stage = "before generate ApplForm";
-        ExecutionContext ecGenAppl = birtService.generateBirtFile(application.getApplNo(), reportName);
+        ExecutionContext ecGenAppl = birtService.generateBirtFile(application, reportName);
         reportName = "yonsei-adms-" + lang;
         stage = "before generate ApplSlip";
-        ExecutionContext ecGenAdms = birtService.generateBirtFile(application.getApplNo(), reportName);
+        ExecutionContext ecGenAdms = birtService.generateBirtFile(application, reportName);
         stage = "before generate PDF and Upload";
 //            ExecutionContext ecUpload = pdfService.genAndUploadPDFByApplicants(application);
         ExecutionContext ecUpload = pdfService.processApplicationFileWithApplId(application);

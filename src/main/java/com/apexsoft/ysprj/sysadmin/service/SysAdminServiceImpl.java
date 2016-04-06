@@ -83,7 +83,7 @@ public class SysAdminServiceImpl implements  SysAdminService {
         ExecutionContext ecGenAppl = null;
 
         try {
-            ecGenAppl = birtService.generateBirtFile(applNo, reportName);
+            ecGenAppl = birtService.generateBirtFile(application, reportName);
         } catch (Exception e) {
             ecGenAppl = new ExecutionContext(ExecutionContext.FAIL);
         } finally {
@@ -93,7 +93,7 @@ public class SysAdminServiceImpl implements  SysAdminService {
         reportName = "yonsei-adms-" + lang;
         ExecutionContext ecGenAdms = null;
         try {
-            ecGenAdms = birtService.generateBirtFile(applNo, reportName);
+            ecGenAdms = birtService.generateBirtFile(application, reportName);
         } catch (Exception e) {
             ecGenAdms = new ExecutionContext(ExecutionContext.FAIL);
         } finally {
