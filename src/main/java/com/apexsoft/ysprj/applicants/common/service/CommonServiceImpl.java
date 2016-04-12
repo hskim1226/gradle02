@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -21,8 +20,6 @@ public class CommonServiceImpl implements CommonService {
     @Autowired
     private CommonDAO commonDAO;
 
-    @Autowired
-    private HttpServletRequest request;
 
     /**
      * 지원 구분(일반, 학연산, 위탁) 조회

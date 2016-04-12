@@ -171,45 +171,6 @@ public class SysAdminServiceImpl implements  SysAdminService {
         long start = System.currentTimeMillis();
         long totalVolume = 0;
 
-//        BackUpApplDoc backUpApplDoc = backUpApplDocList.get(0);
-//        for (BackUpApplDoc backUpApplDoc : backUpApplDocList) {
-//
-//            S3Object object = null;
-//            Application appl = new Application();
-//            appl.setApplNo(backUpApplDoc.getApplNo());
-//            appl.setUserId(backUpApplDoc.getUserId());
-//            appl.setAdmsNo(backUpApplDoc.getAdmsNo());
-//            String fullPath = FileUtil.getFinalMergedFileFullPath(s3BucketName, midPath, appl);
-//            String filePath = fullPath.substring(s3BucketName.length() + 1);
-//            String applicantName = StringUtil.getEmptyIfNull(backUpApplDoc.getKorName()).equals(StringUtil.EMPTY_STRING) ?
-//                    backUpApplDoc.getEngName() + "-" + backUpApplDoc.getEngSur() :
-//                    backUpApplDoc.getKorName();
-//            String targetFilePath = new StringBuilder().append(midPath).append("/")
-//                    .append(backUpApplDoc.getCampName()).append("/")
-//                    .append(backUpApplDoc.getCollName()).append("/")
-//                    .append(backUpApplDoc.getDeptName()).append("/")
-//                    .append(backUpApplDoc.getApplId()).append("_").append(applicantName).append(".pdf")
-//                    .toString();
-//            try {
-//                object = s3Client.getObject(new GetObjectRequest(s3BucketName, filePath));
-//                InputStream inputStream = object.getObjectContent();
-//                FileUtils.copyInputStreamToFile(inputStream, new File(backupDir, targetFilePath));
-//            } catch (Exception e) {
-//                ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
-//                logger.error("Err in s3Client.getObject in SysAdminServiceImpl.savePdf");
-//                logger.error(e.getMessage());
-//                logger.error("bucketName : [" + s3BucketName + "]");
-//                logger.error("applNo : [" + appl.getApplNo() + "]");
-//                logger.error("filePath : [" + filePath +"]");
-//                throw new YSBizException(ec);
-//            }
-//            downloadedCount++;
-//            totalVolume += object.getObjectMetadata().getContentLength();
-//            System.out.println(downloadedCount + "/" + backUpApplDocList.size() + ", totalVolume - " + totalVolume + " : " + targetFilePath);
-//        }
-
-
-
         BlockingQueue<BackUpApplDoc> applInfoQue = new ArrayBlockingQueue<BackUpApplDoc>(1024);
 //        BlockingQueue<S3Object> s3ObjQue = new ArrayBlockingQueue<S3Object>(300);
 

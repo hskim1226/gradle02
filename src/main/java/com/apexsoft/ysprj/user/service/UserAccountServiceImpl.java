@@ -105,13 +105,6 @@ public class UserAccountServiceImpl implements UserAccountService {
         return ec;
     }
 
-//    @Override
-//    public Integer resetPassword(User user) {
-//        StringKeyGenerator generator = KeyGenerators.string();
-//        String key = generator.generateKey();
-//        user.setPswd(key);
-//        return changePassword(user);
-//    }
 
     @Override
     public Integer changePassword(User user) {
@@ -139,26 +132,6 @@ public class UserAccountServiceImpl implements UserAccountService {
         return context;
     }
 
-//    @Override
-//    public void modifyUsersGrade(String[] usernames, String[] grades) {
-//        if ( usernames == null || grades == null ){
-//            return;
-//        }
-//        for (int inx=0 ; inx < usernames.length ; inx++ ){
-//            User usersVO = usersDAO.selectByPk(usernames[inx]);
-//            if ( Integer.parseInt(grades[inx])==usersVO.getGrade()) {
-//                continue;
-//            }
-//            usersDAO.updateUsersGrade(usernames[inx], grades[inx]);
-//
-//            if ( "8".equals(grades[inx]) ){
-//                usersDAO.insert(new Authorities().setUsername(usernames[inx]).setAuthority(ROLE_ADMIN));
-//            } else {
-//                usersDAO.delete(new Authorities().setUsername(usernames[inx]).setAuthority(ROLE_ADMIN));
-//            }
-//
-//        }
-//    }
 
     @Override
     public ExecutionContext modifyUser( User user) {

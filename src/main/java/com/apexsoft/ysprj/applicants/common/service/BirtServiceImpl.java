@@ -83,8 +83,6 @@ public class BirtServiceImpl implements BirtService {
     @Value("#{app['site.helpdesk']}")
     private String helpdeskMail;
 
-//    private Application application;
-
     /**
      * Birt로 파일 생성 및 서버 로컬에 저장
      *
@@ -93,7 +91,6 @@ public class BirtServiceImpl implements BirtService {
      * @return
      */
     @Override
-//    public ExecutionContext generateBirtFile(int applNo, String birtRptFileName) {
     public ExecutionContext generateBirtFile(Application application, String birtRptFileName) {
 
         ExecutionContext ec = processBirt(application, birtRptFileName);
@@ -148,7 +145,6 @@ public class BirtServiceImpl implements BirtService {
 
     //원서 정보 수험표 정보 모두 여기서 추출
     @Override
-//    public ExecutionContext processBirt(int applNo, String birtRptFileName) {
     public ExecutionContext processBirt(Application application, String birtRptFileName) {
         Map<String, Object> rptInfoMap = new HashMap<String, Object>();
 
@@ -323,7 +319,6 @@ public class BirtServiceImpl implements BirtService {
         return basisInfo;
     }
 
-//    private Map<String,Object> getAcademyInfo(int applNo) {
     private Map<String,Object> getAcademyInfo(Application application) {
         Map<String, Object> academyInfo = new HashMap<String, Object>();
         ExecutionContext ecAcademy = academyService.retrieveAcademy(application.getApplNo());

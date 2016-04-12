@@ -1,8 +1,6 @@
 package com.apexsoft.ysprj.applicants.payment.control;
 
-import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
-import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPaymentCurStat;
 import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
@@ -20,13 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 public class CasNoteController {
 
     @Autowired
-    private CommonDAO commonDAO;
-
-    @Autowired
     private PaymentService paymentService;
-
-    @Autowired
-    private BirtService birtService;
 
     @Autowired
     PDFService pdfService;
@@ -130,123 +122,8 @@ public class CasNoteController {
 
             // 지원 완료 알림 메일 발송
             paymentService.sendNotification(application);
-
-
-            //수험표, 지원서 생섬 및 Merge
-//            String urlHead = "http://localhost:" + Integer.toString(request.getLocalPort()) + request.getContextPath();
-//            genApplFileAndMerge( applNo, urlHead );
-//            genSlipFile( applNo, urlHead );
-
-            // 수험표, 지원서 생성 및 Merge
-            // 타 대학원 확장 시 TODO - 학교 이름을 파라미터로 받도록
-//            Application application = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.ApplicationMapper.selectByPrimaryKey",
-//                    applNo, Application.class);
-//            String admsTypeCode = application.getAdmsTypeCode();
-//            String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
-//            String reportName = "yonsei-appl-" + lang;
-//            ExecutionContext ecGenAppl = birtService.generateBirtFile(application.getApplNo(), reportName);
-//            reportName = "yonsei-adms-" + lang;
-//            ExecutionContext ecGenAdms = birtService.generateBirtFile(application.getApplNo(), reportName);
-//            ExecutionContext ecPdfMerge = pdfService.genAndUploadPDFByApplicants(application);
-//            if ( ExecutionContext.FAIL.equals(ecGenAppl.getResult()) ||
-//                 ExecutionContext.FAIL.equals(ecGenAdms.getResult()) ||
-//                 ExecutionContext.FAIL.equals(ecPdfMerge.getResult()) ) {
-//                throw new YSBizException();
-//            }
         }
 
         return "xpay/casnote";
     }
-
-//    PaymentServiceImpl.genAndUploadApplicationFormAndSlipFile()에서 처리하므로 여기서는 제거
-//
-//    @Async
-//    private void genApplFileAndMerge( int applNo, String urlHead ) {
-//
-//        httpClient( urlHead + "/casnote/generate/application", Integer.toString(applNo) );
-//        httpClient( urlHead + "/casnote//merge/applicant", Integer.toString(applNo));
-//
-//    }
-//
-//    @Async
-//    private void genSlipFile( int applNo, String urlHead ) {
-//
-//        httpClient( urlHead + "/casnote/generate/slip", Integer.toString(applNo) );
-//
-//    }
-//
-//    private void httpClient( String urlAddr, String ApplNo ) {
-//
-//        try {
-//
-//            HttpClient httpClient = new HttpClient();
-//            PostMethod postMethod = new PostMethod( urlAddr );
-//
-//            NameValuePair[] params = new NameValuePair[1];
-//            params[0] = new NameValuePair( "application.applNo", ApplNo );
-//
-//            postMethod.addParameters(params);
-//            postMethod.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
-//
-//            httpClient.executeMethod(postMethod);
-//
-//        } catch( Exception e) {
-//
-//        }
-//
-//    }
-//
-//    @RequestMapping(value = "/generate/application")
-//    public ModelAndView generateApplicationFile( BirtRequest birtRequest, Principal principal, ModelAndView mv ) {
-//
-//        System.out.println("   ** 지원서 pdf 처리 시작");
-//
-//        int applNo = birtRequest.getApplication().getApplNo();
-//
-//        mv.setViewName("pdfSingleFormatBirtSaveToFile");
-//        mv.addObject("reportFormat", "pdf");
-//        mv.addObject("reportName", "yonsei-appl-kr");
-//        ExecutionContext ec = birtService.processBirt(applNo, "yonsei-appl-kr");
-//        mv.addAllObjects((Map<String, Object>)ec.getData());
-//
-//        System.out.println("   ** 지원서 pdf 처리 끝");
-//
-//        return mv;
-//    }
-//
-//    @RequestMapping(value="/generate/slip")
-//    public ModelAndView generateSlipFile( BirtRequest birtRequest, Principal principal, ModelAndView mv ) {
-//
-//        System.out.println("   ** 수험표 pdf 처리 시작");
-//
-//        int applNo = birtRequest.getApplication().getApplNo();
-//
-//        mv.setViewName("pdfSingleFormatBirtSaveToFile");
-//        mv.addObject("reportFormat", "pdf");
-//        mv.addObject("reportName", "yonsei-adms-kr");
-//        ExecutionContext ec = birtService.processBirt(applNo, "yonsei-adms-kr");
-//        mv.addAllObjects((Map<String, Object>)ec.getData());
-//
-//        System.out.println("   ** 수험표 pdf 처리 끝");
-//
-//        return mv;
-//    }
-//
-//    @RequestMapping(value="/merge/applicant")
-//    public String mergeByApplicant( BirtRequest birtRequest ) {
-//
-//        System.out.println("   ** Merge 처리 시작");
-//
-////        int applNo = birtRequest.getApplication().getApplNo();
-//        ExecutionContext ec = pdfService.genAndUploadPDFByApplicants(birtRequest.getApplication());
-//
-//        System.out.println("   ** Merge 처리 끝");
-//
-//        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
-//            return ExecutionContext.SUCCESS;
-//        } else {
-//            return ExecutionContext.FAIL;
-//        }
-//    }
-
 }

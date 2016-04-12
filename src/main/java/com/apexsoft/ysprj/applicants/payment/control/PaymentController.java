@@ -55,8 +55,6 @@ public class PaymentController {
     @Value("#{app['pay.platform']}")
     private String payPlatform;
 
-    //private String LGD_MID = payPlatform.equals("test") ? "t" + PaymentConfig.CST_MID : PaymentConfig.CST_MID;
-
     @Value("#{app['pay.casnoteurl']}")
     private String casnoteURL;
 
@@ -226,7 +224,7 @@ public class PaymentController {
 
         ExecutionContext ec = new ExecutionContext();
         Application application = null;
-try {
+try { // xpay/confirm.jsp에 보면 model.getApplication.getApplNo()가 null 일 수가 없음에도 운영 시 꽤 자주 발생
        application = paymentService.retrieveApplication(model.getApplication().getApplNo());
 } catch (NullPointerException e) {
     logger.error("<processXPay> - model : " + model);

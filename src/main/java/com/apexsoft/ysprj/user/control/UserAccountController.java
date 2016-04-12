@@ -158,12 +158,6 @@ public class UserAccountController {
         return userAccountService.isUserIdAvailable(user);
     }
 
-//    @RequestMapping(value = "/detail")
-//    public String detail(Model model, Principal principal) {
-//        User user = userAccountService.retrieveUser(principal.getName());
-//        model.addAttribute(user);
-//        return "unused/showDetail";
-//    }
 
     /**
      * 아이디 찾기 정보 입력 화면

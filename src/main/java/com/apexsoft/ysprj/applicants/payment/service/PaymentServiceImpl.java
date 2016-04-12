@@ -111,56 +111,6 @@ public class PaymentServiceImpl implements PaymentService {
         return ec;
     }
 
-/*
-    @Override
-    public ExecutionContext saveApplicationPayment2(Application application) {
-
-        ExecutionContext ec = new ExecutionContext();
-
-        int applNo = application.getApplNo();
-
-        CustomPayInfo customPayInfo = commonDAO.queryForObject(NAME_SPACE + "CustomApplicationPaymentMapper.selectPayInfoByApplNo",
-                applNo, CustomPayInfo.class);
-        int paySeq = customPayInfo.getPaySeq();
-        int admsFee = customPayInfo.getAdmsFee();
-        int rInsert = 0, rUpdate = 0;
-        ApplicationPayment ap = new ApplicationPayment();
-
-        if (paySeq == 0) {
-            int seqFromDB = commonDAO.queryForInt(NAME_SPACE + "CustomApplicationPaymentMapper.getSeq", applNo);
-            ap.setApplNo(applNo);
-            ap.setPaySeq(seqFromDB + 1);
-            ap.setExpPayAmt(admsFee);
-            ap.setPayStsCode("00001");
-            ap.setCreId(application.getUserId());
-            ap.setCreDate(new Date());
-            rInsert = commonDAO.insertItem(ap, NAME_SPACE, "ApplicationPaymentMapper");
-        } else {
-            ap.setApplNo(applNo);
-            ap.setPaySeq(paySeq);
-            ap.setExpPayAmt(admsFee);
-            ap.setModId(application.getUserId());
-            ap.setModDate(new Date());
-            rUpdate = commonDAO.updateItem(ap, NAME_SPACE, "ApplicationPaymentMapper");
-        }
-
-        if (rInsert == 1 || rUpdate == 1) {
-            ec.setResult(ExecutionContext.SUCCESS);
-            ec.setMessage(MessageResolver.getMessage("U335"));
-        } else {
-            ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(MessageResolver.getMessage("U336"));
-            String errCode = null;
-            if ( rInsert != 1 ) errCode = "ERR0101";
-            else if ( rUpdate != 1 ) errCode = "ERR0103";
-            ec.setErrCode(errCode);
-            throw new YSBizException(ec);
-        }
-
-        return ec;
-    }
-*/
-
     @Override
     public ExecutionContext retrieveConfirmInfo( Payment payment ) {
 
@@ -563,145 +513,6 @@ public class PaymentServiceImpl implements PaymentService {
         }
     }
 
-//    private ExecutionContext registerPaymentSuccess(Payment payment, XPayClient xpay ) {
-//
-//        ExecutionContext ec = new ExecutionContext();
-//        int r1 = 0, r2 = 0, r3 = 0;
-//
-//        //수헙번호 순번 조회
-//        CustomNewSeq customNewSeq = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.CustomApplicationMapper.selectNewSeq",
-//                payment.getApplNo(), CustomNewSeq.class);
-//        //수험번호 순번 갱신
-//        r1 = commonDAO.updateItem(customNewSeq, "com.apexsoft.ysprj.applicants.application.sqlmap.", "CustomApplicationMapper.", "updateApplIdSeqIdByNewSeq");
-//
-//        //수험번호, 결제완료 상태 적용
-//        Application application = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.ApplicationMapper.selectByPrimaryKey",
-//                payment.getApplNo(), Application.class);
-//        application.setApplId(getApplId(application, customNewSeq.getNewSeq()));
-//        application.setApplDate(new Date());
-//        application.setApplStsCode(ApplicationStatus.COMPLETED.codeVal());
-//        r2 = commonDAO.updateItem(application, "com.apexsoft.ysprj.applicants.application.sqlmap.", "ApplicationMapper");
-//
-//        //결제 정보 처리 (APPL_PAY_CS)
-//        ApplicationPaymentCurStat applPay = new ApplicationPaymentCurStat();
-//        applPay.setApplNo(payment.getApplNo());
-//        applPay.setPayTypeCode(xpay.Response("LGD_PAYTYPE", 0));
-//        String payAmt = xpay.Response("LGD_AMOUNT", 0);
-//        if( payAmt != null && !payAmt.equals("") )
-//            applPay.setPayAmt(Integer.valueOf(payAmt));
-//        applPay.setPayDate(xpay.Response("LGD_PAYDATE", 0));
-//        applPay.setLgdOid(xpay.Response("LGD_OID", 0));
-//        applPay.setLgdTid(xpay.Response("LGD_TID", 0));
-//        applPay.setPayStsCode("00002");
-//        applPay.setModId(application.getUserId());
-//        applPay.setModDate(new Date());
-//        r3 = commonDAO.updateItem(applPay, NAME_SPACE, "ApplicationPaymentCurStatMapper");
-//
-//        //결제 트랜젝션 정보 처리 (APPL_PAY_TR)
-//        registerPaymentTransaction(applPay);
-//
-//        //APPL_DOC에 수험번호가 채번된 원서, 수험표 정보 저장
-//        documentService.saveApplicationPaperInfo(application);
-//        documentService.saveAdmissionSlipPaperInfo(application);
-//
-//
-//
-//        // 원서 수험표, 생성, S3 업로드
-//        genAndUploadApplicationFormAndSlipFile(application);
-//
-////        // 원서, 수험표 S3로 업로드
-////        if (ExecutionContext.SUCCESS.equals(ecGen.getResult())) {
-////            uploadApplicationFormAndSlipFileToS3(application);
-////        } else {
-////            // throw YSBizException으로 적당한 예외 정보 전송
-////        }
-//
-//        /*
-//        int paySeq = commonDAO.queryForInt(NAME_SPACE+"CustomApplicationPaymentMapper.getSeq", payment.getApplNo());
-//
-//        ApplicationPayment applPay = new ApplicationPayment();
-//        applPay.setApplNo(payment.getApplNo());
-//        applPay.setPaySeq(paySeq);
-//        applPay.setPayTypeCode(xpay.Response("LGD_PAYTYPE", 0));
-//        String payAmt = xpay.Response("LGD_AMOUNT", 0);
-//        if( payAmt != null && !payAmt.equals("") )
-//            applPay.setPayAmt(Integer.valueOf(payAmt));
-//        applPay.setPayDate(xpay.Response("LGD_PAYDATE", 0));
-//        applPay.setLgdOid(xpay.Response("LGD_OID", 0));
-//        applPay.setLgdTid(xpay.Response("LGD_TID", 0));
-//        applPay.setPayStsCode("00002");
-//        r3 = commonDAO.updateItem(applPay, NAME_SPACE, "ApplicationPaymentMapper");
-//        */
-//
-//        if( r1>0 && r2>0 && r3>0 ) {
-//            ec.setResult(ExecutionContext.SUCCESS);
-//            // 결제 완료 메일 발송
-//            sendMail(application);
-//        } else {
-//            ec.setResult(ExecutionContext.FAIL);
-//        }
-//
-//
-//
-//        return ec;
-//    }
-
-
-//    private ExecutionContext registerPaymentWait( Payment payment, XPayClient xpay ) {
-//
-//        ExecutionContext ec = new ExecutionContext();
-//        int r1 = 0, r2 = 0;
-//
-////        결제완료 상태 적용
-//        Application application = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.ApplicationMapper.selectByPrimaryKey",
-//                payment.getApplNo(), Application.class);
-//        application.setApplStsCode("00021");
-//        r1 = commonDAO.updateItem(application, "com.apexsoft.ysprj.applicants.application.sqlmap.", "ApplicationMapper");
-//
-////        결제 정보 처리 (APPL_PAY_CS)
-//        ApplicationPaymentCurStat applPay = new ApplicationPaymentCurStat();
-//        applPay.setApplNo(payment.getApplNo());
-//        applPay.setPayTypeCode(xpay.Response("LGD_PAYTYPE", 0));
-//        String payAmt = xpay.Response("LGD_CASCAMOUNT", 0);
-//        if( payAmt != null && !payAmt.equals("") )
-//            applPay.setPayAmt(Integer.valueOf(payAmt));
-//        applPay.setLgdOid(xpay.Response("LGD_OID", 0));
-//        applPay.setLgdTid(xpay.Response("LGD_TID", 0));
-//        applPay.setPayStsCode("00005");
-//        applPay.setModId(application.getUserId());
-//        applPay.setModDate(new Date());
-//        r2 = commonDAO.updateItem(applPay, NAME_SPACE, "ApplicationPaymentCurStatMapper");
-//
-////        결제 트랜젝션 정보 처리 (APPL_PAY_TR)
-//        registerPaymentTransaction(applPay);
-//
-//        /*
-//        int paySeq = commonDAO.queryForInt(NAME_SPACE+"CustomApplicationPaymentMapper.getSeq", payment.getApplNo());
-//
-//        ApplicationPayment applPay = new ApplicationPayment();
-//        applPay.setApplNo(payment.getApplNo());
-//        applPay.setPaySeq(paySeq);
-//        applPay.setPayTypeCode(xpay.Response("LGD_PAYTYPE", 0));
-//        String payAmt = xpay.Response("LGD_AMOUNT", 0);
-//        if( payAmt != null && !payAmt.equals("") )
-//            applPay.setPayAmt(Integer.valueOf(payAmt));
-//        applPay.setPayDate(xpay.Response("LGD_PAYDATE", 0));
-//        applPay.setLgdOid(xpay.Response("LGD_OID", 0));
-//        applPay.setLgdTid(xpay.Response("LGD_TID", 0));
-//        applPay.setPayStsCode("00005");
-//        r2 = commonDAO.updateItem(applPay, NAME_SPACE, "ApplicationPaymentMapper");
-//        */
-//
-//        if( r1>0 && r2>0 ) {
-//            ec.setResult(ExecutionContext.SUCCESS);
-//        } else {
-//            ec.setResult(ExecutionContext.FAIL);
-//        }
-//
-//        return ec;
-//    }
-
-
     @Override
     /**
      * 가상 계좌 입금 완료 시 LG U+ 측에서 호출하는 메서드
@@ -963,16 +774,12 @@ public class PaymentServiceImpl implements PaymentService {
 
     private ExecutionContext genAndUploadApplicationFormAndSlipFile(Application application) {
         ExecutionContext ec = new ExecutionContext();
-        String stage = null;
         String lang = application.isForeignAppl() ? "en" : "kr";
         String reportName = "yonsei-appl-" + lang;
-        stage = "before generate ApplForm";
         ExecutionContext ecGenAppl = birtService.generateBirtFile(application, reportName);
         reportName = "yonsei-adms-" + lang;
-        stage = "before generate ApplSlip";
         ExecutionContext ecGenAdms = birtService.generateBirtFile(application, reportName);
-        stage = "before generate PDF and Upload";
-//            ExecutionContext ecUpload = pdfService.genAndUploadPDFByApplicants(application);
+
         ExecutionContext ecUpload = pdfService.processApplicationFileWithApplId(application);
 
         if ( ExecutionContext.FAIL.equals(ecGenAppl.getResult()))

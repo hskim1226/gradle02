@@ -66,13 +66,13 @@ public class DocumentController {
     private BirtService birtService;
 
     @Autowired
-    PDFService pdfService;
+    private PDFService pdfService;
 
     @Autowired
     private DocumentValidator documentValidator;
 
     @Autowired
-    LocaleResolver localeResolver;
+    private LocaleResolver localeResolver;
 
     @Autowired
     private ObjectMapper objectMapper;
