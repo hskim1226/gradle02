@@ -30,6 +30,7 @@
     <http pattern="/mail/**"  security="none"/>
     <http pattern="/application/recommend/**"  security="none"/>
     <http pattern="/application/sendUrgeRecommendationMail"  security="none"/>
+    <http pattern="/postApplication/**"  security="none"/>
 
     <http pattern="/admin/**" realm="admin"  auto-config="false"  use-expressions="true" entry-point-ref="adminLoginEntryPoint">
         <headers>

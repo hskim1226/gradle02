@@ -848,4 +848,11 @@
       MOD_DATE = #{modDate,jdbcType=TIMESTAMP}
     where APPL_NO = #{applNo,jdbcType=INTEGER}
   </update>
+
+  <select id="findApplIdByEmail" parameterType="java.lang.String" resultType="java.lang.String">
+    select
+    APPL_ID
+    from APPL
+    where MAIL_ADDR = #{email,jdbcType=VARCHAR}
+  </select>
 </mapper>

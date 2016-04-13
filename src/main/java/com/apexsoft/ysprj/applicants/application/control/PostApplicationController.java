@@ -1,16 +1,16 @@
 package com.apexsoft.ysprj.applicants.application.control;
 
 import com.apexsoft.ysprj.applicants.application.domain.Application;
+import com.apexsoft.ysprj.applicants.application.service.BasisService;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.common.domain.BirtRequest;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -34,6 +34,12 @@ public class PostApplicationController {
 
     @Autowired
     private DocumentService documentService;
+
+    @Autowired
+    private BasisService basisService;
+
+    @Autowired
+    private ObjectMapper jacksonObjectMapper;
 
     /**
      * 신청 완료된 원서나 수험표를 S3에서 다운로드
@@ -67,6 +73,16 @@ public class PostApplicationController {
         response.setContentLength(bytes.length);
 
         return bytes;
+    }
+
+    @RequestMapping(value = "/applId", method = RequestMethod.GET)
+    @ResponseBody
+    public String findApplIdByEmailAddress(@RequestParam("email") String email) throws JsonProcessingException {
+        String applId = basisService.findApplIdByEmail(email);
+        Application application = new Application();
+        application.setApplId(applId);
+        String result = jacksonObjectMapper.writeValueAsString(application);
+        return result;
     }
 
 }

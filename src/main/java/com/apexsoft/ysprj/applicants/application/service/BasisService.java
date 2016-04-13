@@ -21,4 +21,6 @@ public interface BasisService {
     ExecutionContext cancelBasis(Basis basis);
 
     <T> ExecutionContext retrieveInfoListByParamObj(Object parameter, String mapperNameSqlId, Class<T> clazz);
+
+    String findApplIdByEmail(String email);
 }
