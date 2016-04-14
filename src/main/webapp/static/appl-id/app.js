@@ -8,12 +8,12 @@ angularApp.config( function($routeProvider) {
 
         .when('/', {
             templateUrl: 'form.html',
-            controller: 'mainConrtroller'
+            controller: 'mainController'
         })
 
         .when('/find', {
             templateUrl: 'result.html',
-            controller: 'findConrtroller'
+            controller: 'findController'
         })
 
 });
@@ -24,7 +24,7 @@ angularApp.service('applIdService', function() {
 });
 
 // CONTROLLERS
-angularApp.controller('mainConrtroller', ['$scope', '$http', 'applIdService', function ($scope, $http, applIdService) {
+angularApp.controller('mainController', ['$scope', '$http', 'applIdService', function ($scope, $http, applIdService) {
 
     $scope.email = applIdService.email;
 
@@ -34,7 +34,7 @@ angularApp.controller('mainConrtroller', ['$scope', '$http', 'applIdService', fu
 
 }]);
 
-angularApp.controller('findConrtroller', ['$scope', '$http', 'applIdService', function ($scope, $http, applIdService) {
+angularApp.controller('findController', ['$scope', '$http', 'applIdService', function ($scope, $http, applIdService) {
 
     $scope.email = applIdService.email;
 

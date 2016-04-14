@@ -854,5 +854,6 @@
     APPL_ID
     from APPL
     where MAIL_ADDR = #{email,jdbcType=VARCHAR}
+    and APPL_STS_CODE = '00020'
   </select>
 </mapper>

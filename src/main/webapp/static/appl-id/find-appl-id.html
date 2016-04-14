@@ -23,8 +23,8 @@
 <header>
     <nav class="navbar navbar-default">
         <div class="container">
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="./find?email="><i class="fa fa-home"></i> Home</a></li>
+            <ul class="nav navbar-nav navbar-text">
+                <li>Find your Application ID by your email address</li>
             </ul>
         </div>
     </nav>
@@ -35,5 +35,14 @@
     <div ng-view></div>
 
 </div>
+<script src="https://degssjxos9mty.cloudfront.net/static/js/jquery.min.js"></script>
+<script>
+$(document).ready( function() {
+    $('body').on('keyup', function (e) {
+        if (e.keyCode == 13)
+            document.location = '#/find';
+    });
+});
+</script>
 </body>
 </html>
