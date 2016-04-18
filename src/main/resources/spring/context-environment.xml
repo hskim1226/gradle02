@@ -13,8 +13,8 @@
 		<util:properties id="app" location="classpath:properties/config/app.dev.properties" />
 	</beans>
 
-    <beans profile="svr2">
-        <util:properties id="app" location="classpath:properties/config/app.svr2.properties" />
+    <beans profile="svr">
+        <util:properties id="app" location="classpath:properties/config/app.svr.properties" />
     </beans>
 
     <beans profile="aws">

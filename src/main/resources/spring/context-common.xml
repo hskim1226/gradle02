@@ -53,7 +53,7 @@
     <task:executor id="executor" pool-size="20" queue-capacity="200" rejection-policy="ABORT"/>
     <task:annotation-driven executor="executor"/>
 
-    <beans profile="dev,svr2,aws">
+    <beans profile="dev,svr,aws">
     </beans>
 
 
