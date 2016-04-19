@@ -1,9 +1,7 @@
 package com.apexsoft.ysprj.user.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
-import com.apexsoft.framework.persistence.dao.page.PageInfo;
 import com.apexsoft.ysprj.user.domain.User;
-import com.apexsoft.ysprj.user.web.form.UserSearchForm;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.List;

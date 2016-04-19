@@ -75,6 +75,7 @@ public class PostApplicationController {
         return bytes;
     }
 
+    // 수험번호 확인
     @RequestMapping(value = "/applId", method = RequestMethod.GET)
     @ResponseBody
     public String findApplIdByEmailAddress(@RequestParam("email") String email) throws JsonProcessingException {
