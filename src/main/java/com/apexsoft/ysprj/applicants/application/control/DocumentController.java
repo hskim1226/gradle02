@@ -634,65 +634,13 @@ public class DocumentController {
                     return fileMetaForm;
                 }
 
-                // 파일 합치기 하지 않으므로 주석 처리
-//                private void mergeFile(TotalApplicationDocument document, FileItem fileItem) {
-//                    // 국내 대학 증빙은 pdDocument.isEncrypted() == false이지만 합칠 때 오류 발생하므로
-//                    // 아래와 같이 직접 합쳐보는 방식으로 확인
-//                    String tmpFileFullPath = "/opt/ysproject/temp/pdf-test-" + document.getApplNo() + ".pdf";
-//                    FileInputStream fis = null;
-//                    try {
-//                        fis = new FileInputStream(fileItem.getFile());
-//                    } catch (FileNotFoundException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                    ByteArrayOutputStream baos = StreamUtil.getBaosFromInputStream(fis);
-//
-//                    PDFMergerUtility mergerUtility = new PDFMergerUtility();
-//                    mergerUtility.setDestinationFileName(tmpFileFullPath);
-//                    org.springframework.core.io.Resource pdfResource = new ClassPathResource("pdf/merge-sample.pdf");
-//                    InputStream mergeSamplePdf = null;
-//                    try {
-//                        mergeSamplePdf = pdfResource.getInputStream();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                    mergerUtility.addSource(mergeSamplePdf);
-//                    try {
-//                        mergerUtility.addSource(new ByteArrayInputStream(baos.toByteArray()));
-//                        mergerUtility.mergeDocuments(MemoryUsageSetting.setupMixed(500*1024*1024));
-//                    } catch (Exception e) {
-//                        logger.debug("merging PDF files fails, in DocumentController.handleEvent(), FileName : " + fileItem.getOriginalFileName());
-//                        ExecutionContext ec1 = new ExecutionContext(ExecutionContext.FAIL);
-//                        ec1.setResult(ExecutionContext.FAIL);
-//                        ec1.setMessage(MessageResolver.getMessage("U06102"));
-//                        ec1.setErrCode("ERR1104");
-//                        Map<String, String> errorInfo = new HashMap<String, String>();
-//                        errorInfo.put("applNo", String.valueOf(document.getApplNo()));
-//                        errorInfo.put("fileName", fileItem.getOriginalFileName());
-//                        ec1.setErrorInfo(new ErrorInfo(errorInfo));
-//                        throw new PDFMergeException(ec1, "U06105", "ERR1104");
-//                    } finally {
-//                        FileUtils.deleteQuietly(new File(tmpFileFullPath));
-//                    }
-//                }
 
             }, FileMetaForm.class, TotalApplicationDocument.class);
         } catch (YSBizException ybe) {
             System.err.println("Error in DocumentController.fileUpload()");
             ybe.printStackTrace();
-//            logger.error("ErrorInfo :: " + ybe.getExecutionContext().getErrorInfo().toString() + ", ErrorType :: " + ybe.toString() + ", SimpleStackTrace ::" +
-//                    StackTraceFilter.getFilteredCallStack(ybe.getStackTrace(), "com.apexsoft", false));
             ec = ybe.getExecutionContext();
-//            ec.setMessage(MessageResolver.getMessage("U339"));
-//            ec.setErrCode("ERR0052");
-//            Map<String, String> errorInfo = new HashMap<String, String>();
-//            errorInfo.put("applNo", String.valueOf(document.getApplNo()));
-//            errorInfo.put("docSeq", String.valueOf(document.getDocSeq()));
-//            errorInfo.put("AWS Error Message", ace.getMessage());
-//            ec.setErrorInfo(new ErrorInfo(errorInfo));
             throw new PDFNotNumberedException(ec);
-//            throw new YSBizException(ec);
         }
 
         ec.setData(returnFileMetaForm);
@@ -747,9 +695,7 @@ public class DocumentController {
      * @return
      * @throws IOException
      */
-//    @RequestMapping(value="/attached/{admsNo}/{applNo}/{fileName:.+}/{originalFileName}")
     @RequestMapping(value="/fileDelete/{applNo}/{docSeq}", method=RequestMethod.POST)
-//    @RequestMapping(value="/fileDelete/{applNo}/{docSeq}")
     @ResponseBody
     public ExecutionContext fileDelete(@PathVariable("applNo") int applNo,
                                        @PathVariable("docSeq") int docSeq,
