@@ -47,9 +47,6 @@ public class PDFServiceImpl implements PDFService {
     @Autowired
     DocumentService documentService;
 
-    @Resource
-    FilePersistenceManager s3PersistenceManager;
-
     @Autowired
     FilePersistenceService filePersistenceService;
 
@@ -493,57 +490,8 @@ public class PDFServiceImpl implements PDFService {
 
     // S3에 파일 업로드
     private void uploadToFileRepo(File file, int applNo) {
-
-//        String s3FilePath = getS3FilePath(file); // 이건 합침 파일 올릴때 사용
         filePersistenceService.uploadToFileRepo(fileBaseDir, file, applNo);
     }
-
-    // S3 버킷 아래에 업로드 할 위치 반환
-    private String getS3FilePath(File file) {
-        String applPaperLocalFilePath = file.getAbsolutePath();
-        String s3FilePath = FilePathUtil.getS3PathFromLocalFullPath(applPaperLocalFilePath, fileBaseDir);
-        return s3FilePath;
-    }
-
-    // FilePersistenceService의 uploadToFileRepo로 변경
-//    @Deprecated
-//    @Override
-//    public ExecutionContext uploadToS3(String uploadDir, String uploadFileName, File file, boolean isDelete) {
-//        ExecutionContext ec = new ExecutionContext();
-//        String originalFileName = uploadFileName;
-//        FileInfo fileInfo = null;
-//        FileInputStream fis = null;
-//        try {
-//            fis = new FileInputStream(file);
-//            fileInfo = s3PersistenceManager.save(uploadDir, uploadFileName, originalFileName, fis);
-//            if (isDelete)
-//                file.delete();
-//        } catch (EncryptedPDFException e) {
-//            Map<String, String> errorInfo = new HashMap<String, String>();
-//            errorInfo.put("uploadDir", uploadDir);
-//            errorInfo.put("originalFileName", originalFileName);
-//            exceptionThrower(errorInfo, "U04514", "ERR0052");
-//        } catch (IOException ioe) {
-//            if (ioe.getCause().getCause() instanceof DataFormatException) {
-//                Map<String, String> errorInfo = new HashMap<String, String>();
-//                errorInfo.put("uploadDir", uploadDir);
-//                errorInfo.put("originalFileName", originalFileName);
-//                exceptionThrower(errorInfo, "U04515", "ERR0052");
-//            } else {
-//                logger.error("Upload PDF is NOT loaded to PDDocument in " + Thread.currentThread().getStackTrace()[1]);
-//                Map<String, String> errorInfo = new HashMap<String, String>();
-//                errorInfo.put("uploadDir", uploadDir);
-//                errorInfo.put("originalFileName", originalFileName);
-//                exceptionThrower(errorInfo, "U04518", "ERR0052");
-//            }
-//        } finally {
-//            if (fis != null)
-//                try { fis.close(); } catch (IOException e) {}
-//        }
-//        ec.setData(fileInfo);
-//        return ec;
-//    }
-
 
     @Override
     public boolean checkPageLimit(File file, int applNo, int maxPage) {

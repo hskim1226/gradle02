@@ -99,27 +99,6 @@ public class S3PersistenceManagerImpl implements FilePersistenceManager {
                     pdfFile = PDDocument.load(new ByteArrayInputStream(baos.toByteArray()));
                     pageCnt = pdfFile.getNumberOfPages();
 //                    AccessPermission pdfPermission = pdfFile.getCurrentAccessPermission();
-
-
-
-//                    // PDF 합치지 않고 넘버링만 하기로하여 주석 처리
-//                    // TOEFL iBT 등 증빙은 pdfFile.isEncrypted() == true
-//                    if (pdfFile.isEncrypted()) {
-//                        throw new EncryptedPDFException(orgFileName);
-//                    }
-//                    if (pdfPermission.isReadOnly()) {
-//                        System.out.println("isReadOnly");
-//                    }if (pdfPermission.canAssembleDocument()) {
-//                        System.out.println("canAssembleDocument");
-//                    }if (pdfPermission.canExtractContent()) {
-//                        System.out.println("canExtractContent");
-//                    }if (pdfPermission.canExtractForAccessibility()) {
-//                        System.out.println("canExtractForAccessibility");
-//                    }if (pdfPermission.canFillInForm()) {
-//                        System.out.println("canFillInForm");
-//                    }if (pdfPermission.canModify()) {
-//                        System.out.println("canModify");
-//                    }
                 } catch (IOException e) {
                     throw new WrongFileFormatException(orgFileName, e);
                 } finally {
