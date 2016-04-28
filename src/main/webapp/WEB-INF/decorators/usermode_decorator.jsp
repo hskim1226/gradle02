@@ -125,9 +125,11 @@
                             <li><spring:message code="L00035"/> <span><spring:message code="L00036"/></span></li>  <%--사업자등록번호--%>  <%--105-87-66045--%>
                         </ul>
                         <ul class="txt_list1">
-                            <li><spring:message code="L00037"/> <span><spring:message code="L00038"/></span></li>  <%--전화--%>  <%--1899-1016--%>
-                            <li><span><spring:message code="L00047"/></span></li>  <%--전화--%>  <%--다른전화--%>
-                            <li><span><spring:message code="L00048"/></span></li>  <%--전화--%>  <%--다른전화--%>
+                            <%--<li><spring:message code="L00037"/> <span><spring:message code="L00038"/></span></li>  &lt;%&ndash;전화&ndash;%&gt;  &lt;%&ndash;1899-1016&ndash;%&gt;--%>
+                            <%--<li><span><spring:message code="L00047"/></span></li>  &lt;%&ndash;전화&ndash;%&gt;  &lt;%&ndash;다른전화&ndash;%&gt;--%>
+                            <%--<li><span><spring:message code="L00048"/></span></li>  &lt;%&ndash;전화&ndash;%&gt;  &lt;%&ndash;다른전화&ndash;%&gt;--%>
+
+                            <li>Tel <span>070-8892-0533</span></li>
                         </ul>
                         <ul class="txt_list1">
                             <li><spring:message code="L00039"/> <span><spring:message code="L00040"/></span></li>  <%--통신판매업신고번호--%>  <%--서울마포-1109호--%>
