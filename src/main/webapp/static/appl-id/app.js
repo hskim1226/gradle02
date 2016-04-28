@@ -40,7 +40,7 @@ angularApp.controller('findController', ['$scope', '$http', 'applIdService', fun
 
     $http({
         method: 'GET',
-        url: "http://192.168.3.31:8080/yonsei/postApplication/applId?email=" + $scope.email
+        url: "/yonsei/postApplication/applId?email=" + $scope.email
     })
     .success( function(data, status, headers, config) {
         if (data) {
