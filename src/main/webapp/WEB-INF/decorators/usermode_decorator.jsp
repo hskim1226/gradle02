@@ -56,8 +56,8 @@
                 </div>
                 <div class="collapse navbar-collapse navbar-ex1-collapse">
                     <%--마감 공지 --%>
-                    <div class="spacer-tiny">&nbsp;</div>
-                    <span style="font-size: 2.5em; color: yellow; margin-top: 1.5em; padding-top: 3em;">Will be closed at 18:00 </span>
+                    <%--<div class="spacer-tiny">&nbsp;</div>--%>
+                    <%--<span style="font-size: 2.5em; color: yellow; margin-top: 1.5em; padding-top: 3em;">Will be closed at 18:00 </span>--%>
                     <%--마감 공지 --%>
                     <ul class="nav navbar-nav pull-right">
                         <%--<li><a id="nav-home" href="${contextPath}/index${requestScope.get('locale') == 'en' ? '-en' : ''}.html"><i class="fa fa-home"></i><spring:message code="L00009"/>&lt;%&ndash;Home&ndash;%&gt;</a> </li>--%>
