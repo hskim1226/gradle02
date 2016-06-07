@@ -199,4 +199,23 @@ public class FilePathUtil {
 
         return sb.toString();
     }
+
+    public static String getZippedFilePath(String midPath, Application application) {
+        int applNo = application.getApplNo();
+        String userId = application.getUserId();
+        String admsNo = application.getAdmsNo();
+        return new StringBuilder()
+                .append(midPath)
+                .append(SLASH)
+                .append(admsNo)
+                .append(SLASH)
+                .append(userId.substring(0, 1))
+                .append(SLASH)
+                .append(userId)
+                .append(SLASH)
+                .append(String.valueOf(applNo))
+                .append(SLASH)
+                .append(getZippedFileName(application))
+                .toString();
+    }
 }

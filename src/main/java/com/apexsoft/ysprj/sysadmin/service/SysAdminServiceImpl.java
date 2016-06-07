@@ -5,6 +5,7 @@ import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.exception.YSBizNoticeException;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
+import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.common.domain.FileMeta;
 import com.apexsoft.ysprj.applicants.common.domain.FileWrapper;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
@@ -41,6 +42,9 @@ public class SysAdminServiceImpl implements  SysAdminService {
 
     @Autowired
     private PDFService pdfService;
+
+    @Autowired
+    private DocumentService documentService;
 
     @Autowired
     private FilePersistenceService filePersistenceService;
@@ -132,13 +136,19 @@ public class SysAdminServiceImpl implements  SysAdminService {
             e.printStackTrace();
         }
 
-        AbstractS3Consumer s3Consumer = new ApplAllConsumer(midPath, backUpApplDocList.size(), backupDir);
+//        AbstractS3Consumer s3Consumer = new ApplAllConsumer(midPath, backUpApplDocList.size(), backupDir);
+        AbstractS3Consumer s3Consumer = new ZippedFileConsumer(midPath, backUpApplDocList.size(), backupDir);
+        s3Consumer.setFilePersistenceService(filePersistenceService);
         Map<String, String> resultMap = savePdf(s3Consumer, backUpApplDocList);
 
         ec.setResult(ExecutionContext.SUCCESS);
         ec.setData(resultMap);
 
         return ec;
+    }
+
+    private Map<String, String> saveAllPdf() {
+        return null;
     }
 
     @Override
@@ -154,6 +164,7 @@ public class SysAdminServiceImpl implements  SysAdminService {
         }
 
         AbstractS3Consumer s3Consumer = new ApplSlipConsumer(midPath, backUpApplDocList.size(), backupDir);
+        s3Consumer.setFilePersistenceService(filePersistenceService);
         s3Consumer.setBaseDir(fileBaseDir);
 //        s3Consumer.setMidPath(midPath);
         Map<String, String> resultMap = savePdf(s3Consumer, backUpApplDocList);

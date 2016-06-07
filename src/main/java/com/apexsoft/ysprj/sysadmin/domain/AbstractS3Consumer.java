@@ -5,7 +5,6 @@ import com.apexsoft.ysprj.applicants.common.domain.FileMeta;
 import com.apexsoft.ysprj.applicants.common.domain.FileWrapper;
 import com.apexsoft.ysprj.applicants.common.service.FilePersistenceService;
 import org.apache.commons.io.FileUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.util.concurrent.BlockingQueue;
@@ -18,7 +17,6 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public abstract class AbstractS3Consumer implements Runnable {
 
-    @Autowired
     private FilePersistenceService filePersistenceService;
 
     protected AtomicInteger count = new AtomicInteger();
@@ -40,6 +38,14 @@ public abstract class AbstractS3Consumer implements Runnable {
     protected abstract String getFilePath(BackUpApplDoc backUpApplDoc);
     protected abstract String getTargetFilePath(BackUpApplDoc backUpApplDoc);
     protected abstract void handleException(Exception e, BackUpApplDoc backUpApplDoc, BlockingQueue<BackUpApplDoc> applInfoQue);
+
+    public FilePersistenceService getFilePersistenceService() {
+        return filePersistenceService;
+    }
+
+    public void setFilePersistenceService(FilePersistenceService filePersistenceService) {
+        this.filePersistenceService = filePersistenceService;
+    }
 
     public BlockingQueue<BackUpApplDoc> getApplInfoQue() {
         return applInfoQue;
