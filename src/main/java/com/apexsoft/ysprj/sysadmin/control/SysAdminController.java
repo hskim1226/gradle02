@@ -377,6 +377,24 @@ public class SysAdminController {
 
 
 
+    @RequestMapping(value="/form-backup-all-zip")
+    public ModelAndView formBackupAllZip(ModelAndView mv) {
+        mv.setViewName("sysadmin/formBackupAllZip");
+        return mv;
+    }
+
+    @RequestMapping(value="/rslt-backup-all-zip")
+    public ModelAndView rsltBackupAllZip(ModelAndView mv) {
+        mv.setViewName("sysadmin/rsltBackupAllPdf");
+        ExecutionContext ec = sysAdminService.downloadAllZip();
+        Map<String, String> map = (Map<String, String>)ec.getData();
+        Set<Map.Entry<String, String>> entrySet = map.entrySet();
+        for (Map.Entry<String, String> item : entrySet) {
+            mv.addObject(item.getKey(), item.getValue());
+        }
+        return mv;
+    }
+
     @RequestMapping(value="/form-backup-all-pdf")
     public ModelAndView formBackupAllPdf(ModelAndView mv) {
         mv.setViewName("sysadmin/formBackupAllPdf");

@@ -28,6 +28,12 @@ public class ApplAllConsumer extends AbstractS3Consumer {
         application.setUserId(backUpApplDoc.getUserId());
         application.setAdmsNo(backUpApplDoc.getAdmsNo());
         String filePath = FilePathUtil.getFinalMergedFileFullPath(midPath, application);
+
+        if (backUpApplDoc instanceof BackUpApplDocExt) {
+            filePath = filePath.substring(0, filePath.lastIndexOf("/") + 1);
+            filePath = filePath + ((BackUpApplDocExt) backUpApplDoc).getFileName();
+        }
+
         return filePath;
     }
 
@@ -36,13 +42,21 @@ public class ApplAllConsumer extends AbstractS3Consumer {
         String applicantName = StringUtil.getEmptyIfNull(backUpApplDoc.getKorName()).equals(StringUtil.EMPTY_STRING) ?
                 backUpApplDoc.getEngName() + "-" + backUpApplDoc.getEngSur() :
                 backUpApplDoc.getKorName();
-        String targetFilePath = new StringBuilder().append(midPath).append("/")
+        StringBuilder sb = new StringBuilder().append(midPath).append("/")
                 .append(backUpApplDoc.getCampName()).append("/")
                 .append(backUpApplDoc.getCollName()).append("/")
                 .append(backUpApplDoc.getDeptName()).append("/")
-                .append(backUpApplDoc.getApplId()).append("_").append(applicantName).append(".pdf")
-                .toString();
-        return targetFilePath;
+                .append(backUpApplDoc.getApplId()).append("_").append(applicantName);
+
+
+
+        if (backUpApplDoc instanceof BackUpApplDocExt) {
+            sb.append("/").append(((BackUpApplDocExt) backUpApplDoc).getFileName());
+        } else {
+            sb.append(".pdf");
+        }
+
+        return sb.toString();
     }
 
     @Override

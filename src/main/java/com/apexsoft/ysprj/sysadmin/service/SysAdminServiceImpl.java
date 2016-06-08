@@ -6,6 +6,7 @@ import com.apexsoft.framework.exception.YSBizNoticeException;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
+import com.apexsoft.ysprj.applicants.application.service.RecommendationService;
 import com.apexsoft.ysprj.applicants.common.domain.FileMeta;
 import com.apexsoft.ysprj.applicants.common.domain.FileWrapper;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
@@ -33,7 +34,7 @@ import java.util.concurrent.BlockingQueue;
  * Created by hanmomhanda on 15. 4. 16.
  */
 @Service
-public class SysAdminServiceImpl implements  SysAdminService {
+public class SysAdminServiceImpl implements SysAdminService {
 
     private final static String NAME_SPACE = "com.apexsoft.ysprj.sysadmin.sqlmap.";
 
@@ -45,6 +46,9 @@ public class SysAdminServiceImpl implements  SysAdminService {
 
     @Autowired
     private DocumentService documentService;
+
+    @Autowired
+    private RecommendationService recommendationService;
 
     @Autowired
     private FilePersistenceService filePersistenceService;
@@ -63,7 +67,6 @@ public class SysAdminServiceImpl implements  SysAdminService {
 
     @Value("#{app['file.picturesDir']}")
     private String picturesDir;
-
 
 
     private static final Logger logger = LoggerFactory.getLogger(SysAdminServiceImpl.class);
@@ -110,9 +113,9 @@ public class SysAdminServiceImpl implements  SysAdminService {
         } catch (Exception e) {
             ecPdfMerge = new ExecutionContext(ExecutionContext.FAIL);
             if (e instanceof YSBizNoticeException) {
-                YSBizNoticeException ybne = (YSBizNoticeException)e;
+                YSBizNoticeException ybne = (YSBizNoticeException) e;
                 ExecutionContext ec = ybne.getExecutionContext();
-                List<Application> encryptedPdfList = (List<Application>)ec.getData();
+                List<Application> encryptedPdfList = (List<Application>) ec.getData();
                 map.put("encryptedPdfList", encryptedPdfList);
             }
         } finally {
@@ -136,8 +139,8 @@ public class SysAdminServiceImpl implements  SysAdminService {
             e.printStackTrace();
         }
 
-//        AbstractS3Consumer s3Consumer = new ApplAllConsumer(midPath, backUpApplDocList.size(), backupDir);
-        AbstractS3Consumer s3Consumer = new ZippedFileConsumer(midPath, backUpApplDocList.size(), backupDir);
+        AbstractS3Consumer s3Consumer = new ApplAllConsumer(midPath, backUpApplDocList.size(), backupDir);
+//        AbstractS3Consumer s3Consumer = new ZippedFileConsumer(midPath, backUpApplDocList.size(), backupDir);
         s3Consumer.setFilePersistenceService(filePersistenceService);
         Map<String, String> resultMap = savePdf(s3Consumer, backUpApplDocList);
 
@@ -147,8 +150,26 @@ public class SysAdminServiceImpl implements  SysAdminService {
         return ec;
     }
 
-    private Map<String, String> saveAllPdf() {
-        return null;
+    @Override
+    public ExecutionContext downloadAllZip() {
+
+        ExecutionContext ec = new ExecutionContext();
+        List<BackUpApplDoc> backUpApplDocList = null;
+
+        try {
+            backUpApplDocList = commonDAO.queryForList(NAME_SPACE + "SysAdminMapper.selectAllPdfInfo", BackUpApplDoc.class);
+        } catch (YSBizException e) {
+            e.printStackTrace();
+        }
+
+        AbstractS3Consumer s3Consumer = new ZippedFileConsumer(midPath, backUpApplDocList.size(), backupDir);
+        s3Consumer.setFilePersistenceService(filePersistenceService);
+        Map<String, String> resultMap = savePdf(s3Consumer, backUpApplDocList);
+
+        ec.setResult(ExecutionContext.SUCCESS);
+        ec.setData(resultMap);
+
+        return ec;
     }
 
     @Override
@@ -187,6 +208,13 @@ public class SysAdminServiceImpl implements  SysAdminService {
 
         System.out.println("job started : " + System.currentTimeMillis());
         ApplInfoProducer applInfoProducer = new ApplInfoProducer(applInfoQue, backUpApplDocList);
+
+        if (s3Consumer instanceof ApplAllConsumer) {
+            CustomApplInfoProducer customApplInfoProducer = new CustomApplInfoProducer(applInfoQue, backUpApplDocList);
+            customApplInfoProducer.setDocumentService(documentService);
+            applInfoProducer = customApplInfoProducer;
+        }
+
         new Thread(applInfoProducer).start();
 
 //        ApplInfoConsumer applInfoConsumer = new ApplInfoConsumer(applInfoQue, s3ObjQue, s3Client, backUpApplDocList.size());
@@ -195,7 +223,7 @@ public class SysAdminServiceImpl implements  SysAdminService {
 //        }
         s3Consumer.setApplInfoQue(applInfoQue);
 //        s3Consumer.setS3ObjQue(s3ObjQue);
-        for ( int i = 0 ; i < 8 ; i++ ) {
+        for (int i = 0; i < 8; i++) {
             new Thread(s3Consumer).start();
         }
 
@@ -235,7 +263,7 @@ public class SysAdminServiceImpl implements  SysAdminService {
         studentNumberList = commonDAO.queryForList(NAME_SPACE + "SysAdminMapper.selectStudentPicInfo", StudentNumber.class);
 
         String targetDirPath = picturesDir + "/" + midPath;
-long start = System.currentTimeMillis();
+        long start = System.currentTimeMillis();
 
         for (StudentNumber studentNumber : studentNumberList) {
             InputStream inputStream = null;
@@ -248,9 +276,9 @@ long start = System.currentTimeMillis();
                     String ext = type.substring(6);
                     if ("jpeg".equals(ext))
                         ext = "jpg";
-                        File targetFile = new File(targetDirPath, studentNumber.getStudNo() + "-" + studentNumber.getStudName() + "." + ext);
-                        FileUtils.copyInputStreamToFile(inputStream, targetFile);
-                        System.out.println("[LOCAL SAVE] " + ++count);
+                    File targetFile = new File(targetDirPath, studentNumber.getStudNo() + "-" + studentNumber.getStudName() + "." + ext);
+                    FileUtils.copyInputStreamToFile(inputStream, targetFile);
+                    System.out.println("[LOCAL SAVE] " + ++count);
 
                 }
             } catch (Exception e) {
@@ -258,10 +286,13 @@ long start = System.currentTimeMillis();
                 logger.error("Err in downaloadRenamedPictures() in SysAdminServiceImpl");
                 logger.error(e.getMessage());
                 logger.error("applId : [" + studentNumber.getApplId() + "]");
-                logger.error("filePath : [" + studentNumber.getFilePath() +"]");
+                logger.error("filePath : [" + studentNumber.getFilePath() + "]");
                 failureList.add(studentNumber.getApplId());
             } finally {
-                if (inputStream != null) try { inputStream.close(); } catch (IOException e) {}
+                if (inputStream != null) try {
+                    inputStream.close();
+                } catch (IOException e) {
+                }
             }
         }
 
@@ -270,12 +301,10 @@ long start = System.currentTimeMillis();
         resultMap.put("failureCount", failureList.size());
         resultMap.put("failureList", failureList);
         ec.setData(resultMap);
-System.out.println("Total Elapsed Time : " + (System.currentTimeMillis() - start)/1000);
+        System.out.println("Total Elapsed Time : " + (System.currentTimeMillis() - start) / 1000);
 
         return ec;
     }
-
-
 
 
 }

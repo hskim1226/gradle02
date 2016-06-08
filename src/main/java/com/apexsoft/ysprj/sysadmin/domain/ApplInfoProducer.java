@@ -13,6 +13,14 @@ public class ApplInfoProducer implements Runnable {
         this.backUpApplDocList = backUpApplDocList;
     }
 
+    protected BlockingQueue<BackUpApplDoc> getApplInfoQue() {
+        return applInfoQue;
+    }
+
+    protected List<BackUpApplDoc> getBackUpApplDocList() {
+        return backUpApplDocList;
+    }
+
     @Override
     public void run() {
         for (BackUpApplDoc backUpApplDoc : backUpApplDocList) {

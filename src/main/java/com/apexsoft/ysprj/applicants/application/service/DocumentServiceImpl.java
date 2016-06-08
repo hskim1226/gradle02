@@ -7,6 +7,7 @@ import com.apexsoft.framework.exception.YSBizNoticeException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
+import com.apexsoft.ysprj.applicants.common.domain.ParamForPDFDocument;
 import com.apexsoft.ysprj.applicants.common.service.FilePersistenceService;
 import com.apexsoft.ysprj.applicants.common.service.ZipService;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
@@ -1068,7 +1069,7 @@ public class DocumentServiceImpl implements DocumentService {
 //                    aCont.setDocName(aDoc.getDocName());
 //                    aCont.setFileExt(aDoc.getFileExt());
 //                    aCont.setImgYn(aDoc.getImgYn());
-//                    aCont.setFilePath(aDoc.getFilePath());
+//                    aCont.setFileName(aDoc.getFilePath());
 //                    aCont.setFileName(aDoc.getFileName());
 //                    aCont.setOrgFileName(aDoc.getOrgFileName());
 //                    aCont.setPageCnt(aDoc.getPageCnt());
@@ -1088,7 +1089,7 @@ public class DocumentServiceImpl implements DocumentService {
 //                    pCont.setDocName(aDoc.getDocName());
 //                    pCont.setFileExt(aDoc.getFileExt());
 //                    pCont.setImgYn(aDoc.getImgYn());
-//                    pCont.setFilePath(aDoc.getFilePath());
+//                    pCont.setFileName(aDoc.getFilePath());
 //                    pCont.setFileName(aDoc.getFileName());
 //                    pCont.setOrgFileName(aDoc.getOrgFileName());
 //                    pCont.setPageCnt(aDoc.getPageCnt());
@@ -1185,6 +1186,43 @@ public class DocumentServiceImpl implements DocumentService {
                 adjustAcademyDocByGrdaType( grdaType, aCont.getSubContainer());
             }
         }
+    }
+
+    /**
+     * Created by go2zo on 16.06.07
+     * @param applNo
+     * @return
+     */
+    @Override
+    public List<ApplicationDocument> retrieveApplicationDocuments(int applNo) {
+        ParamForPDFDocument param = new ParamForPDFDocument(applNo, "pdf");
+
+        // DB에서 첨부 파일 정보 조회
+        List<ApplicationDocument> pdfList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectPDFByApplNo", param, ApplicationDocument.class);
+        return pdfList;
+    }
+
+    /**
+     * Created by go2zo on 16.06.07
+     * @param applNo
+     * @return
+     */
+    @Override
+    public List<ApplicationDocument> retrieveRecommendationDocuments(int applNo) {
+        ExecutionContext ecRec = recommendationService.retrieveRecommendationList(applNo);
+        List<Recommendation> recList = (List<Recommendation>)ecRec.getData();
+        List<ApplicationDocument> result = new ArrayList<>();
+        for (Recommendation recommendation : recList) {
+            ParamForDocOfRecommend param = new ParamForDocOfRecommend();
+            param.setApplNo(applNo);
+            param.setDocGrp(recommendation.getRecNo());
+            ApplicationDocument aDoc = commonDAO.queryForObject(NAME_SPACE +
+                    "CustomApplicationDocumentMapper.selectApplicationDocumentOfRecommendation", param, ApplicationDocument.class);
+            if (aDoc != null) {
+                result.add(aDoc);
+            }
+        }
+        return result;
     }
 }
 

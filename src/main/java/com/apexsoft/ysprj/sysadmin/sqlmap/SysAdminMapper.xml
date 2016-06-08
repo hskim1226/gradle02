@@ -22,6 +22,7 @@
     and   B.COLL_CODE = C.COLL_CODE
     and   C.DEPT_CODE = D.DEPT_CODE
     and   D.APPL_STS_CODE = '00020'
+    and   (D.DEPT_CODE = '11508' || D.DEPT_CODE = '11509')
     order by 1, 2, 3, 4;
   </select>
 
