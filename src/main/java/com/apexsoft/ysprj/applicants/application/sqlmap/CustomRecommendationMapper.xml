@@ -10,7 +10,7 @@
         <id column="REC_NO" property="recNo" jdbcType="INTEGER" />
         <result column="APPL_NO" property="applNo" jdbcType="INTEGER" />
         <result column="REC_SEQ" property="recSeq" jdbcType="VARCHAR" />
-        <result column="USER_ID" property="applicantId" jdbcType="VARCHAR" />
+        <!-- <result column="USER_ID" property="applicantId" jdbcType="VARCHAR" /> -->
         <result column="PROF_NAME" property="profName" jdbcType="VARCHAR" />
         <result column="PROF_MAIL_ADDR" property="profMailAddr" jdbcType="VARCHAR" />
         <result column="PROF_INST" property="profInst" jdbcType="VARCHAR" />

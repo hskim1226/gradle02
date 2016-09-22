@@ -3,12 +3,12 @@
 <mapper namespace="com.apexsoft.ysprj.applicants.payment.sqlmap.CustomApplicationDocumentResultMapper" >
   <resultMap id="BaseResultMap" type="com.apexsoft.ysprj.applicants.payment.domain.CustomApplicationDocumentResult" >
     <id column="APPL_NO" property="applNo" jdbcType="INTEGER" />
-    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <!-- <result column="USER_ID" property="userId" jdbcType="VARCHAR" /> -->
     <result column="APPL_ID" property="applId" jdbcType="VARCHAR" />
   </resultMap>
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     *
     from APPL_DOC_RSLT
     where APPL_NO = #{applNo,jdbcType=INTEGER}

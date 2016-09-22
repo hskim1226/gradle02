@@ -24,8 +24,8 @@
     <result column="QUAL_EXAM_DAY" jdbcType="VARCHAR" property="qualExamDay" />
     <result column="QUAL_AREA_CODE" jdbcType="VARCHAR" property="qualAreaCode" />
     <result column="SCHL_CNTR_CODE" jdbcType="VARCHAR" property="schlCntrCode" />
-    <result column="ENG_CNTR_NAME" jdbcType="VARCHAR" property="engCntrName" />
-    <result column="KOR_CNTR_NAME" jdbcType="VARCHAR" property="korCntrName" />
+    <!-- <result column="ENG_CNTR_NAME" jdbcType="VARCHAR" property="engCntrName" /> -->
+    <!-- <result column="KOR_CNTR_NAME" jdbcType="VARCHAR" property="korCntrName" /> -->
     <result column="SCHL_ZIP_CODE" jdbcType="VARCHAR" property="schlZipCode" />
     <result column="SCHL_ADDR" jdbcType="VARCHAR" property="schlAddr" />
     <result column="SCHL_TEL" jdbcType="VARCHAR" property="schlTel" />

@@ -12,7 +12,7 @@
 
         <result column="GRP_LEVEL"     jdbcType="INTEGER" property="grpLevel" />
         <result column="DOC_ITEM_GRP"  jdbcType="INTEGER" property="docItemGrp" />
-        <result column="DOC_TYPE_GRP"  jdbcType="VARCHAR" property="docTypeGrp" />
+        <!-- <result column="DOC_TYPE_GRP"  jdbcType="VARCHAR" property="docTypeGrp" /> -->
         <result column="DOC_TYPE_CODE" jdbcType="VARCHAR" property="docTypeCode" />
         <result column="DOC_ITEM_CODE" jdbcType="VARCHAR" property="docItemCode" />
         <result column="DOC_ITEM_NAME" jdbcType="VARCHAR" property="docItemName" />
