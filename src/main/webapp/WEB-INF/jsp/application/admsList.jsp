@@ -52,7 +52,8 @@
                                 <input type="hidden" name="admsTypeCode" value="${admsForeign.admsType}" />
                             </form>
                         </tr>
-                        <%--2016-01은 조기 전형 없음--%>
+                        <%--2017-01은 조기 전형 없음--%>
+                        <!--
                         <tr>
                             <form id="earlyApplyForm" method="post">
                                 <td><spring:message code="L00409"/><%--조기--%></td>
@@ -65,6 +66,7 @@
                                 <input type="hidden" name="admsTypeCode" value="${admsEarly.admsType}" />
                             </form>
                         </tr>
+                        -->
                         </tbody>
                     </table>
                 </div>

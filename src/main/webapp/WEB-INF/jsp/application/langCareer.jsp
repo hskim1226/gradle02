@@ -968,14 +968,18 @@
                 container = container.parentNode;
             }
             var blocks = container.querySelectorAll('.form-group-block');
-            var originBlock = blocks[blocks.length - 1];
-            var $cloneObj;
-            if (originBlock) {
-                $cloneObj = $(originBlock).clone(true);
-                updateIdAndName($cloneObj[0], blocks.length);
-                resetBlockContents($cloneObj[0]);
-                container.insertBefore($cloneObj[0], originBlock.nextSibling);
+            if( blocks.length == 5) { alert("경력은 5개까지 입력가능합니다"); }
+            else {
+                var originBlock = blocks[blocks.length - 1];
+                var $cloneObj;
+                if (originBlock) {
+                    $cloneObj = $(originBlock).clone(true);
+                    updateIdAndName($cloneObj[0], blocks.length);
+                    resetBlockContents($cloneObj[0]);
+                    container.insertBefore($cloneObj[0], originBlock.nextSibling);
+                }
             }
+
         });
 
         $('.btn-remove').on('click', function(e) {

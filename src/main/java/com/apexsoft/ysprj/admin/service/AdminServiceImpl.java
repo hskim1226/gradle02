@@ -115,8 +115,8 @@ public class AdminServiceImpl implements AdminService{
             campList = commonService.retrieveCampus();
             List<ApplicationCheck> applChkList= null;
             admsList = commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectByYear", enterYear, Admission.class);
-            // 2016-01에는 조기 전형 없으므로 아래 행 주석 처리
-            admsList.addAll(commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectByYear",enterEarlyYear, Admission.class));
+            // 2017-01에는 조기 전형 없으므로 아래 행 주석 처리
+            //admsList.addAll(commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectByYear",enterEarlyYear, Admission.class));
             if( courseSearchPageForm.getAdmsNo()!= null) {
                 PageStatement tempStst = new PageStatement(NAME_SPACE+"retrieveApplicantCountByDept", NAME_SPACE+"retrieveApplicantListByDept");
 
@@ -305,8 +305,8 @@ public class AdminServiceImpl implements AdminService{
         List<Department> deptList = new ArrayList<Department>();
         campList = commonService.retrieveCampus();
         admsList = commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectAdmsNameByYear", enterYear, AdmissionName.class);
-        // 2016-1에는 조기전형 없으므로 아래 행 주석처리
-        admsList.addAll( commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectAdmsNameByYear", enterEarlyYear, AdmissionName.class));
+        // 2017-01에는 조기전형 없으므로 아래 행 주석처리
+        //admsList.addAll( commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectAdmsNameByYear", enterEarlyYear, AdmissionName.class));
         addShortAdmissionName(admsList);
         if(searchForm.getCampCode()!= null ) {
             collList = commonService.retrieveCollegeByCampus(searchForm.getCampCode());

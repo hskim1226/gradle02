@@ -59,7 +59,7 @@ public class PreApplicationController {
 
     @Autowired
     private CommonDAO commonDAO;
-    
+
     @Value("#{app['adms.general']}")
     private String admsGeneral;
 
@@ -82,8 +82,8 @@ public class PreApplicationController {
 
         mv.addObject("admsGeneral", admissionService.retrieveAdmissionByAdmsNo(admsGeneral));
         mv.addObject("admsForeign", admissionService.retrieveAdmissionByAdmsNo(admsForeign));
-        // 2016-01 은 조기 전형 없으므로 아래 행 주석 처리
-        mv.addObject("admsEarly", admissionService.retrieveAdmissionByAdmsNo(admsEarly));
+        // 2017-01 은 조기 전형 없으므로 아래 행 주석 처리
+        //mv.addObject("admsEarly", admissionService.retrieveAdmissionByAdmsNo(admsEarly));
 
         return mv;
     }
