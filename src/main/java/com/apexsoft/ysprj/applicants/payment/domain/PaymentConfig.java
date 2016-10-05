@@ -20,16 +20,12 @@ public class PaymentConfig {
 
     static public String LGD_TXNAME = "PaymentByKey";
 
-    //로컬 개발용
-    //static public String LGD_CASNOTEURL = "http://apexsoft-svr1.iptime.org:3355/ysproject/test/payment/casnote";
-    //static public String CONFIG_PATH = "c:/opt/ysproject/lgdacom";
-
     //DEV 서버 빌드용
-    //static public String LGD_CASNOTEURL = "http://apexsoft-svr1.iptime.org:8080/ysproject/test/payment/casnote";
-    //static public String CONFIG_PATH = "/opt/ysproject/lgdacom";
+//    static public String LGD_CASNOTEURL = "http://apexsoft.iptime.org:8080/ysproject/test/payment/casnote";
+//    static public String CONFIG_PATH = "/opt/ysproject/lgdacom";
 
-//    //TEST 서버 빌드용
-//    static public String LGD_CASNOTEURL = "http://apexsoft-svr1.iptime.org:9090/ysproject/test/payment/casnote";
+    //TEST 서버 빌드용
+//    static public String LGD_CASNOTEURL = "http://apexsoft.iptime.org:9090/ysproject/test/payment/casnote";
 //    static public String CONFIG_PATH = "/opt/ysproject/lgdacom";
 
 }
