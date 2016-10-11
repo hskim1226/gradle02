@@ -94,10 +94,10 @@
 
                         <ul class="txt_list1">
                             <li><span>(주)에이펙스소프트</span></li>
-                            <li>서울 마포구 양화로 156, 1121(동교동, 엘지팰리스)</li>
+                            <li>서울 마포구 양화로 156, 505호(동교동, 엘지팰리스)</li>
                             <li>대표이사 <span>김도훈</span></li>
                             <li>사업자등록번호 <span>105-87-66045</span></li>
-                            <li>전화 <span>1899-1016</span></li>
+                            <li>전화 <span>070-4327-9791</span></li>
                         </ul>
 
                         <ul class="txt_list1">
