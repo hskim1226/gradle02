@@ -113,6 +113,7 @@
                             </div>
                             <div class="spacer-small">&nbsp;</div>
 
+                            <!--  <hr style="display:block; border: dashed 1px black; margin-bottom:30px;"> -->
                             <hr/>
                             <h3 class="slogan"><spring:message code="YONSEI_AGR301"/><%--개인정보 취급 위탁 대한 동의--%></h3>
                             <div><spring:message code="YONSEI_AGR302"/><%--학생선발에 관한 사무를 위해 다음과 같이 개인정보를 위탁하고 있으며, 관계 법령에 따라 위탁 계약 시 개인정보가 안전하게 관리될 수 있도록 필요한 사항을 규정하고 있습니다.--%></div>
@@ -147,6 +148,44 @@
                                 </label>
                                 <div class="spacer-tiny">&nbsp;</div>
                                 <label class="col-md-offset-1 col-md-10 text-center mid-font slogan"><spring:message code="YONSEI_AGR314"/><%--개인정보 취급 위탁에 동의하지 않을 경우 원서를 접수할 수 없습니다.--%></label>
+                            </div>
+                            <div class="spacer-small">&nbsp;</div>
+
+                            <hr/>
+                            <h3 class="slogan"><spring:message code="YONSEI_AGR701"/><%--개인정보 제3자 제공에 대한 동의--%></h3>
+                            <div><spring:message code="YONSEI_AGR702"/><%--개인정보보호법등 관련 법령에 따라 아래와 같이 개인정보를 제 3자에게 제공하고 있습니다.--%></div>
+                            <div><spring:message code="YONSEI_AGR703"/><%--필요한 경우 관계 법령 등에 따라 아래와 같이 개인정보를 위탁하고 있으며, 위탁 계약 시 개인정보가 안전하게 관리될 수 있도록 필요한 사항을 규정하고 있습니다.--%></div>
+                            <div class="spacer-tiny">&nbsp;</div>
+                            <div class="col-md-offset-1 col-md-11">
+                                <table class="table table-stripped">
+                                    <thead>
+                                    <tr>
+                                        <th><spring:message code="YONSEI_AGR704"/><%--개인정보를 제공받는 자--%></th>
+                                        <th><spring:message code="YONSEI_AGR705"/><%--제공받는 자의 개인정보 이용목적--%></th>
+                                        <th><spring:message code="YONSEI_AGR706"/><%--제공하는 개인정보 항목--%></th>
+                                        <th><spring:message code="YONSEI_AGR707"/><%--개인정보 보유, 이용 기간--%></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td class="text-center"><spring:message code="YONSEI_AGR708"/><%--출신대학--%></td>
+                                        <td class="text-center"><spring:message code="YONSEI_AGR709"/><%--학력조회--%></td>
+                                        <td class="text-center"><spring:message code="YONSEI_AGR710"/><%--성명, 생년월일, 대학명, 단과대학명, 학과명, 졸업년월일, 학위등록번호--%></td>
+                                        <td class="text-center"><spring:message code="YONSEI_AGR711"/><%--처리 목적 달성 시까지--%></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="form-group row" align="center">
+                                <label class="col-md-offset-1 col-md-6 text-center big-font slogan"><spring:message code="YONSEI_AGR712"/><%--개인정보 제 3자 제공에 동의하십니까?--%></label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="radio6" value="0"><spring:message code="YONSEI_AGR713"/><%--동의함--%>
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="radio6" value="1" checked><spring:message code="YONSEI_AGR714"/><%--동의하지 않음--%>
+                                </label>
+                                <div class="spacer-tiny">&nbsp;</div>
+                                <label class="col-md-offset-1 col-md-10 text-center mid-font slogan"><spring:message code="YONSEI_AGR715"/><%--개인정보 제 3자 제공에 동의하지 않을 경우 원서를 접수할 수 없습니다.--%></label>
                             </div>
                             <div class="spacer-small">&nbsp;</div>
 
@@ -186,6 +225,7 @@
                                 <label class="col-md-offset-1 col-md-10 text-center mid-font slogan"><spring:message code="YONSEI_AGR507"/><%--확인하지 않을 경우 원서를 접수할 수 없습니다.--%></label>
                             </div>
                             <div class="spacer-small">&nbsp;</div>
+
                             <hr/>
                             <div class="form-group" align="center">
                                 <div class="col-md-12 text-center mid-font slogan"><label><spring:message code="YONSEI_AGR601"/><%--전체 동의--%> <input type="checkbox" id="checkAll" name="check1"></label></div>
