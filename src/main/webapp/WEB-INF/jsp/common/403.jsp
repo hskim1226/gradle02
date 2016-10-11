@@ -87,20 +87,34 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-9">
-
                         <ul class="txt_list1">
+                            <li><span><spring:message code="L00031"/></span></li>  <%--(주)에이펙스소프트--%>
+                            <li><spring:message code="L00032"/></li>  <%--서울 마포구 양화로 156, 505(동교동, 엘지팰리스)--%>
+                            <li><spring:message code="L00033"/> <span><spring:message code="L00034"/></span></li>  <%--대표이사--%>  <%--김도훈--%>
+                            <li><spring:message code="L00035"/> <span><spring:message code="L00036"/></span></li>  <%--사업자등록번호--%>  <%--105-87-66045--%>
+                        </ul>
+                        <ul class="txt_list1">
+                            <li><spring:message code="L00037"/> <span><spring:message code="L00038"/></span></li>
+                        </ul>
+                        <ul class="txt_list1">
+                            <li><spring:message code="L00039"/> <span><spring:message code="L00040"/></span></li>  <%--통신판매업신고번호--%>  <%--서울마포-1109호--%>
+                            <li><spring:message code="L00041"/> <span><spring:message code="L00042"/></span></li>  <%--개인정보관리책임자--%>  <%--김도훈--%>
+                            <li><spring:message code="L00043"/> <span><spring:message code="L00044"/></span></li>  <%--개인정보보유기간--%>  <%--회원 탈퇴시까지--%>
+                            <li><spring:message code="L00045"/> <span><spring:message code="L00046"/></span></li>  <%--문의--%>  <%--help@apexsoft.co.kr--%>
+                        </ul>
+<!--                         <ul class="txt_list1">
                             <li><span>(주)에이펙스소프트</span></li>
-                            <li>서울 마포구 양화로 156, 1121(동교동, 엘지팰리스)</li>
+                            <li>서울 마포구 양화로 156, 505(동교동, 엘지팰리스)</li>
                             <li>대표이사 <span>김도훈</span></li>
                             <li>사업자등록번호 <span>105-87-66045</span></li>
-                            <li>전화 <span>1899-1016</span></li>
+                            <li>전화 <span>070-4327-9791</span></li>
                         </ul>
 
                         <ul class="txt_list1">
                             <li>통신판매업신고번호 <span>서울마포-1109호</span></li>
                             <li>개인정보관리책임자 <span>김도훈</span></li>
                             <li>개인정보보유기간 <span>회원 탈퇴시까지</span></li>
-                        </ul>
+                        </ul> -->
                     </div>
                     <div class="col-md-3">
                         <p class="ft_right"><a href="http://bootstraptaste.com/" target="_blank" title="새창이동"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/footer_img1.png" alt="Designed by Bootstraptaste"></a></p>
