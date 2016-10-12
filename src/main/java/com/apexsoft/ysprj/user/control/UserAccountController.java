@@ -7,6 +7,8 @@ import com.apexsoft.ysprj.user.domain.User;
 import com.apexsoft.ysprj.user.service.UserAccountService;
 import com.apexsoft.ysprj.user.validator.UserModValidator;
 import com.apexsoft.ysprj.user.validator.UserValidator;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -90,7 +93,7 @@ public class UserAccountController {
                 bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"));
                 while( (content = bufferedReader.readLine()) != null ) {
                     content = content.trim();
-                    if( content != "" ) {
+                    if( !StringUtils.isEmpty(content) ) {
                         buffer.append(content).append("\n");
                     }
                 }

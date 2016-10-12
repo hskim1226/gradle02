@@ -706,7 +706,7 @@ public class DocumentServiceImpl implements DocumentService {
                 aSubDoc.setDocGrp(aAcad.getAcadSeq());
                 aSubDoc.setApplNo(applNo);
                 aSubDoc.setAdmsNo(admsNo);
-                if( aSubDoc.getMsgNo()!= null && aSubDoc.getMsgNo()!= "" ) {
+                if( !StringUtils.isEmpty(aSubDoc.getMsgNo()) ) {
                     aSubDoc.setMsg(MessageResolver.getMessage(aSubDoc.getMsgNo()));
                 }
                 aSubDoc.setSubContainer( getSubCodeDocumentContainer(aSubDoc,rList));
@@ -757,7 +757,7 @@ public class DocumentServiceImpl implements DocumentService {
                 aSubDoc.setDocGrp(aAcad.getAcadSeq());
                 aSubDoc.setApplNo(applNo);
                 aSubDoc.setAdmsNo(admsNo);
-                if( aSubDoc.getMsgNo()!= null && aSubDoc.getMsgNo()!= "" ) {
+                if( !StringUtils.isEmpty(aSubDoc.getMsgNo()) ) {
                     aSubDoc.setMsg(MessageResolver.getMessage(aSubDoc.getMsgNo()));
                 }
                 aSubDoc.setSubContainer( getSubCodeDocumentContainer(aSubDoc,rList));
@@ -797,7 +797,7 @@ public class DocumentServiceImpl implements DocumentService {
                 aSubDoc.setApplNo(applNo);
                 rList.add(aSubDoc);
                 aSubDoc.setAdmsNo(admsNo);
-                if( aSubDoc.getMsgNo()!= null && aSubDoc.getMsgNo()!= "" ) {
+                if( !StringUtils.isEmpty(aSubDoc.getMsgNo()) ) {
                     aSubDoc.setMsg(MessageResolver.getMessage(aSubDoc.getMsgNo()));
                 }
                 aSubDoc.setSubContainer(getSubCodeDocumentContainer(aSubDoc,rList));
@@ -825,7 +825,7 @@ public class DocumentServiceImpl implements DocumentService {
                 aSubDoc.setApplNo(applNo);
                 rList.add(aSubDoc);
                 aSubDoc.setAdmsNo(admsNo);
-                if( aSubDoc.getMsgNo()!= null && aSubDoc.getMsgNo()!= "" ) {
+                if( !StringUtils.isEmpty(aSubDoc.getMsgNo()) ) {
                     aSubDoc.setMsg(MessageResolver.getMessage(aSubDoc.getMsgNo()));
                 }
                 aSubDoc.setSubContainer(getSubCodeDocumentContainer(aSubDoc,rList));
@@ -851,7 +851,7 @@ public class DocumentServiceImpl implements DocumentService {
             aSubDoc.setCheckedFg(true);
             aSubDoc.setFileUploadFg(true);
             aSubDoc.setUploadYn("Y");
-            if( aSubDoc.getMsgNo()!= null && aSubDoc.getMsgNo()!= "" ) {
+            if( !StringUtils.isEmpty(aSubDoc.getMsgNo()) ) {
                 aSubDoc.setMsg(MessageResolver.getMessage(aSubDoc.getMsgNo()));
             }
         }
@@ -920,7 +920,7 @@ public class DocumentServiceImpl implements DocumentService {
         if (!"Y".equals( pCont.getLastYn())) {
             pCont.setGrpLabel(pCont.getDocItemName());
             pCont.setGrpLabelXxen(pCont.getDocItemNameXxen());
-            if( pCont.getMsgNo()!= null && pCont.getMsgNo()!= "" ) {
+            if( !StringUtils.isEmpty(pCont.getMsgNo()) ) {
                 pCont.setMsg(MessageResolver.getMessage(pCont.getMsgNo()));
             }
             pList.add(pCont);
@@ -934,15 +934,13 @@ public class DocumentServiceImpl implements DocumentService {
 
         }else{
             //pCont에 이미 APPL_DOC 정보를 join  해서 가져옴, 플래그 처리만 함
-            if( pCont.getDocSeq() !=null &&pCont.getDocSeq() > 0) {
+            if( pCont.getDocSeq() != null && pCont.getDocSeq() > 0) {
                 pCont.setFileUploadFg(true);
             }
             if( "DOC_ITEM".equals(pCont.getDocItemGrp()) && "00001".equals(pCont.getDocItemCode())){
                 pCont.setImgYn("Y");
             }
-//            if( pCont.getMsgNo()!= null && pCont.getMsgNo()!= "" ) { // 4/8에러 발생
-//            if( pCont.getMsgNo()!= null && "".equals(pCont.getMsgNo())) { // 4/8에러 고침
-            if( pCont.getMsgNo()!= null && !StringUtils.isEmpty(pCont.getMsgNo())) { // 4/8에러 고침
+            if( !StringUtils.isEmpty(pCont.getMsgNo())) { // 4/8에러 고침
                 pCont.setMsg(MessageResolver.getMessage(pCont.getMsgNo()));
             }
             pList.add(pCont);
@@ -957,7 +955,7 @@ public class DocumentServiceImpl implements DocumentService {
             pCont.setGrpLabel( pCont.getDocItemName());
             pCont.setGrpLabelXxen( pCont.getDocItemNameXxen());
             pList.add(pCont);
-            if( pCont.getMsgNo()!= null && pCont.getMsgNo()!= "" ) {
+            if( !StringUtils.isEmpty(pCont.getMsgNo()) ) {
                 pCont.setMsg(MessageResolver.getMessage(pCont.getMsgNo()));
             }
             rContList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectTotalCodeApplicationDocumentList", pCont, TotalApplicationDocumentContainer.class);
@@ -966,7 +964,7 @@ public class DocumentServiceImpl implements DocumentService {
                     aCont.setDocGrp(pCont.getDocGrp());
                     aCont.setApplNo(pCont.getApplNo());
                     aCont.setSubContainer(getSubCodeDocumentContainer(aCont, pList));
-                    if( aCont.getMsgNo()!= null && aCont.getMsgNo()!= "" ) {
+                    if( !StringUtils.isEmpty(aCont.getMsgNo()) ) {
                         aCont.setMsg(MessageResolver.getMessage(aCont.getMsgNo()));
                     }
                 }
@@ -1001,7 +999,7 @@ public class DocumentServiceImpl implements DocumentService {
                     pCont.setFileUploadFg(true);
                     System.out.println("");
                 }
-                if( pCont.getMsgNo()!= null && !"".equals(pCont.getMsgNo()) ) {
+                if( !StringUtils.isEmpty(pCont.getMsgNo()) ) {
                     pCont.setMsg(MessageResolver.getMessage(pCont.getMsgNo()));
                 }
                 pList.add(pCont);
@@ -1018,7 +1016,7 @@ public class DocumentServiceImpl implements DocumentService {
 //            pCont.setGrpLabel( pCont.getDocItemName());
 //            pCont.setGrpLabelXxen( pCont.getDocItemNameXxen());
 //            pList.add(pCont);
-//            if( pCont.getMsgNo()!= null && pCont.getMsgNo()!= "" ) {
+//            if( !StringUtils.isEmpty(pCont.getMsgNo()) ) {
 //                pCont.setMsg(MessageResolver.getMessage(pCont.getMsgNo()));
 //            }
 //            rContList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectTotalCodeApplicationDocumentList", pCont, TotalApplicationDocumentContainer.class);
@@ -1098,7 +1096,7 @@ public class DocumentServiceImpl implements DocumentService {
 //                    pCont.setFileUploadFg(true);
 //                    System.out.println("");
 //                }
-//                if (pCont.getMsgNo() != null && !"".equals(pCont.getMsgNo())) {
+//                if (!StringUtils.isEmpty(pCont.getMsgNo())) {
 //                    pCont.setMsg(MessageResolver.getMessage(pCont.getMsgNo()));
 //                }
 //                pList.add(pCont);

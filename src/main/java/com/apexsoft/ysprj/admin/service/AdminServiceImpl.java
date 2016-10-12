@@ -13,8 +13,9 @@ import com.apexsoft.ysprj.applicants.admission.domain.Admission;
 import com.apexsoft.ysprj.applicants.admission.domain.AdmissionName;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.common.domain.*;
-
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -183,7 +184,7 @@ public class AdminServiceImpl implements AdminService{
 
         if( applNo > 0){
             ec = getApplicantDetailByApplNo(applNo);
-        }else if(applId != null && applId != "") {
+        }else if( !StringUtils.isEmpty(applId) ) {
             ec = getApplicantDetailByApplId(applId);
         }else{
             ec = new ExecutionContext();
