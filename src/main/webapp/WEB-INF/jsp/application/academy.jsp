@@ -1067,6 +1067,9 @@
                             hideDialog('#modal_popup3');
                         });
                     }
+                },
+                error: function(xhr,status,error) {
+                	$('#bpopBtnSearch').removeAttr('disabled');
                 }
             });
         });
