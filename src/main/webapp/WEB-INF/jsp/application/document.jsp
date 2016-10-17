@@ -1597,10 +1597,13 @@
                 targetButtonContainerClass = '.' + this.getAttribute('data-button-container-class'),
                 targetFileUploadFg = document.getElementById(this.getAttribute('data-fileUploadFg-id'));
             if (confirm('<spring:message code="U04510"/>')) {//첨부한 파일을 삭제하시겠습니까?
+            	$this = $(this);
+            	$this.attr('disabled', 'disabled');
                 $.ajax({
                     type: 'POST',
                     url: this.href,
                     success: function (data) {
+                    	$this.removeAttr('disabled');
                         var data = JSON.parse(data),
                             $targetUploadButton = $(targetUploadButton);
                         if (data.result == 'SUCCESS') {
