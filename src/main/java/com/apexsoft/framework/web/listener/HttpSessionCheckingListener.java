@@ -12,10 +12,6 @@ public class HttpSessionCheckingListener implements HttpSessionListener {
 
 	private static final Logger logger = LoggerFactory.getLogger(HttpSessionCheckingListener.class);
 
-	public HttpSessionCheckingListener() {
-		logger.info("HttpSessionCheckingListener");
-	}
-
 	@Override
 	public void sessionCreated(HttpSessionEvent se) {
 		if (logger.isDebugEnabled()) {
