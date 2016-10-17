@@ -10,12 +10,15 @@ import com.apexsoft.ysprj.user.validator.UserValidator;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+import org.springframework.web.util.WebUtils;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +29,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -77,12 +81,18 @@ public class UserAccountController {
 
 
     @RequestMapping(value = "/agreement")
-    public String displaySignupAgreementForm(Model model, HttpServletResponse response) {
+    public String displaySignupAgreementForm(Model model, HttpServletRequest request, HttpServletResponse response) {
+    	Object locale = WebUtils.getSessionAttribute(request, SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
+    	String lang = "ko";
+    	if ( locale instanceof Locale ) {
+    		lang = ((Locale) locale).getLanguage();
+    	}
+
         Map<String, String> contentFiles = new HashMap<String, String>();
-        contentFiles.put("terms-of-service", "/WEB-INF/terms-of-service.txt");
-        contentFiles.put("privacy-policy1", "/WEB-INF/privacy-policy1.txt");
-        contentFiles.put("privacy-policy2", "/WEB-INF/privacy-policy2.txt");
-        contentFiles.put("privacy-policy3", "/WEB-INF/privacy-policy3.txt");
+        contentFiles.put("terms-of-service", "/WEB-INF/text/" + lang + "/terms-of-service.txt");
+        contentFiles.put("privacy-policy1", "/WEB-INF/text/" + lang + "/privacy-policy1.txt");
+        contentFiles.put("privacy-policy2", "/WEB-INF/text/" + lang + "/privacy-policy2.txt");
+        contentFiles.put("privacy-policy3", "/WEB-INF/text/" + lang + "/privacy-policy3.txt");
 
         BufferedReader bufferedReader;
         StringBuffer buffer = new StringBuffer();
@@ -104,7 +114,7 @@ public class UserAccountController {
             }
         }
         catch (Exception ignored) {
-            // ignore
+            System.out.println(ignored);
         }
 
         model.addAttribute("msg1", MessageResolver.getMessage("U101"));
