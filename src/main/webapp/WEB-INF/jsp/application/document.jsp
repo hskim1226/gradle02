@@ -1621,6 +1621,7 @@
                         $('#overlay').hide();
                     },
                     error: function (data, status, e) {
+                    	$this.removeAttr('disabled');
                         alert('<spring:message code="U04507"/>');//파일 삭제에 실패했습니다.
                     }
                 });
