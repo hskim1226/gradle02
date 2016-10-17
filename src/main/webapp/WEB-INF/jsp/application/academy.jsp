@@ -998,11 +998,12 @@
 
             $('#bpopResult').empty();
 
+            $('#bpopBtnSearch').attr('disabled', 'disabled');
             $.ajax({
                 type: 'GET',
                 url: url,
                 success: function(data) {
-
+                	$('#bpopBtnSearch').removeAttr('disabled');
                     var container = JSON.parse(data),
                         obj = JSON.parse(container.data),
                         record, i, l;

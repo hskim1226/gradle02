@@ -536,7 +536,7 @@
                                     </div>
                                     <div class="col-sm-2">
                                         <button id="upload-button-${lv1Status.index}-${lv2Status.index}"
-                                               class="btn btn-block btn-primary btn-upload"
+                                               class="btn btn-block btn-primary btn-upload disabled"
 
                                                data-checkbox-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.checkedFg"
 
@@ -684,7 +684,7 @@
                                             </div>
                                             <div class="col-sm-2">
                                                 <button id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
-                                                       class="btn btn-block btn-primary btn-upload"
+                                                       class="btn btn-block btn-primary btn-upload disabled"
 
                                                        data-checkbox-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.checkedFg"
 
@@ -821,7 +821,7 @@
                                                     </div>
                                                     <div class="col-sm-2">
                                                         <button id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
-                                                               class="btn btn-block btn-primary btn-upload"
+                                                               class="btn btn-block btn-primary btn-upload disabled"
 
                                                                data-checkbox-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.checkedFg"
 
@@ -999,7 +999,7 @@
                                         </div>
                                         <div class="col-sm-2">
                                             <button id="upload-button-${lv1Status.index}-${lv2EtcStatus.index}"
-                                                    class="btn btn-block btn-primary btn-upload"
+                                                    class="btn btn-block btn-primary btn-upload disabled"
 
                                                     data-checkbox-id="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.checkedFg"
 
@@ -1347,9 +1347,13 @@
 
         <%-- 파일 선택 버튼 이벤트 --%>
         $('.btn-file').on('change', function (e) { // 한번 업로드한 inputfile은 이벤트가 발생 안한다.
-//            var uploadButton = $(this.dataset.uploadButtonId);
+        	var fileName = $(this).val();
             var uploadButton = $(document.getElementById(this.getAttribute('data-upload-button-id')));
-            $(uploadButton).removeClass('disabled');
+        	if (fileName) {
+            	$(uploadButton).removeClass('disabled');
+        	} else {
+            	$(uploadButton).addClass('disabled');
+        	}
             $(uploadButton).val('올리기');
         });
         <%-- 파일 선택 버튼 이벤트 --%>
@@ -1371,7 +1375,7 @@
                     fileInputName = fileInput.getAttribute("name"),
 //                    file = fileInput.files[0],
 //                    fileName = file ? file.name : '',
-                    fileName = fileInput.files ? fileInput.files[0].name : fileInput.value ? fileInput.value : '',
+                    fileName = (fileInput.files && fileInput.files.length > 0) ? fileInput.files[0].name : fileInput.value ? fileInput.value : '',
                     imgYn = document.getElementById(this.getAttribute('data-img-yn-id')).value,
                     targetFileDownloadLinkId = this.getAttribute('data-file-download-link-id'),
                     targetFileDeleteLinkId = this.getAttribute('data-file-delete-link-id'),
@@ -1384,7 +1388,7 @@
                     targetButton = this,
 //                    fileNameWithoutFake = fileInput.files[0].name,
 //                    fileSize = file ? file.size : -1;
-                    fileSize = fileInput.files ? fileInput.files[0].size : -1; // IE9 이하는 서버에서 사이즈 체크하도록
+                    fileSize = (fileInput.files && fileInput.files.length > 0) ? fileInput.files[0].size : -1; // IE9 이하는 서버에서 사이즈 체크하도록
                     ;
 
             if (fileName.indexOf(':/') >= 0) {
@@ -1434,7 +1438,7 @@
 //console.dir(fileInput);
 //                fileInput.files.length = 0;
 //console.dir(fileInput);
-                fileInput.value = "";
+                fileInput.val('');
                 $('#overlay').hide();
                 return false;
             }
@@ -1563,6 +1567,8 @@
                             $('#overlay').hide();
                         }
                     });
+
+                    $(this).addClass('disabled');
                 }
 
             } else {
@@ -1591,10 +1597,13 @@
                 targetButtonContainerClass = '.' + this.getAttribute('data-button-container-class'),
                 targetFileUploadFg = document.getElementById(this.getAttribute('data-fileUploadFg-id'));
             if (confirm('<spring:message code="U04510"/>')) {//첨부한 파일을 삭제하시겠습니까?
+            	$this = $(this);
+            	$this.attr('disabled', 'disabled');
                 $.ajax({
                     type: 'POST',
                     url: this.href,
                     success: function (data) {
+                    	$this.removeAttr('disabled');
                         var data = JSON.parse(data),
                             $targetUploadButton = $(targetUploadButton);
                         if (data.result == 'SUCCESS') {
