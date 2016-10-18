@@ -8,7 +8,7 @@
         section.normal-white div.btn-group>label.btn {
             max-width: none;
         }
-        
+
         section.normal-white textarea.form-control[readonly] {
             cursor: default;
             resize: none;
@@ -142,6 +142,7 @@
                             </div>
                             <div class="col-sm-8 nopadding">
                                 <div><form:input type="text" cssClass="form-control numOnly phone" path="mobiNum" maxlength="20" placeholder="${msg.getMsg('U00127')}" /></div>  <%--숫자로만 입력해 주세요--%>
+                                <div class="input-info word-keep-all"><spring:message code="U00127"/></div>
                         <spring:bind path="mobiNum">
                             <c:if test="${status.error}">
                                 <div class="validation-error">${status.errorMessage}</div>
