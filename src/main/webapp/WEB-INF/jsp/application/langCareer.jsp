@@ -503,6 +503,7 @@
                             <div class="panel-heading"><spring:message code="L03201"/><%--경력 사항--%></div>
                             <div class="panel-body">
                                 <div id="career-container" class="form-group-block-list">
+                                	<c:set var="experienceSize" value="${langCareer.applicationExperienceList.size()}" />
                                     <c:forEach varStatus="stat" begin="0" end="${langCareer.applicationExperienceList.size() > 0 ? langCareer.applicationExperienceList.size() - 1 : 0}">
                                         <div class="form-group-block">
                                             <form:hidden path="applicationExperienceList[${stat.index}].exprSeq"/>
@@ -545,11 +546,14 @@
                                                 </spring:bind>
                                                     </div>
                                                     <div class="col-sm-2">
-                                                        <label class="radio-inline"><input type="radio" class="curr-radio" id="radioCurr-${stat.index}" name="radioCurrWork"
-                                                                                           data-curr-work-id="applicationExperienceList${stat.index}.currYn"
-                                                                                           ${langCareer.applicationExperienceList[stat.index].currYn == 'Y' ? 'checked' : ''} /><spring:message code="L03205"/><%--재직중--%></label>
+                                                    	<label class="checkbox-inline">
+                                                        	<input type="checkbox" class="curr-check" id="checkCurr-${stat.index}" name="checkCurrWork"
+																data-curr-work-id="applicationExperienceList${stat.index}.currYn"
+																${langCareer.applicationExperienceList[stat.index].currYn == 'Y' ? 'checked = true' : ''} />
+															<spring:message code="L03205"/><%--재직중--%>
+														</label>
                                                         <form:hidden path="applicationExperienceList[${stat.index}].currYn"/>
-                                                    </div>
+                                                     </div>
                                                 </div>
 
                                             </div>
@@ -853,19 +857,19 @@
 
         <%-- 재직중 처리 --%>
         var checkCurrentWorking = function () {
-            $('.curr-radio').each( function () {
+            $('.curr-check').each( function () {
                 var currWorkId = this.getAttribute('data-curr-work-id'),
                     currYn = document.getElementById(currWorkId);
                 if (this.checked) {
                     currYn.value = 'Y';
-                    this.value = 'on';
+                    $(this).attr('checked', true);
                 } else {
                     currYn.value = 'N';
-                    this.value = 'off';
+                    $(this).attr('checked', false);
                 }
             });
         };
-        $('.curr-radio').on('click', checkCurrentWorking);
+        $('.curr-check').on('click', checkCurrentWorking);
         <%-- 재직중 처리 --%>
 
         <%-- form-group-block 추가/삭제에 대한 처리 시작 --%>

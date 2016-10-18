@@ -858,7 +858,7 @@
                                         <label for="application.telNum" class="col-sm-2 control-label"><spring:message code="L01504"/><%--전화번호--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
-                                                <form:input path="application.telNum" cssClass="form-control numOnly phone" maxlength="20" placeholder="${msg.getMsg('U01503')}"/> <%--전화번호를 숫자로만 입력해주세요--%>
+                                                <form:input path="application.telNum" cssClass="form-control numOnly phone" maxlength="18" placeholder="${msg.getMsg('U01503')}"/> <%--전화번호를 숫자로만 입력해주세요--%>
                                             </div>
                                             <spring:bind path="application.telNum">
                                                 <c:if test="${status.error}">
@@ -874,7 +874,7 @@
                                         <label for="application.mobiNum" class="col-sm-2 control-label"><spring:message code="L01505"/><%--휴대폰--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
-                                                <form:input path="application.mobiNum" cssClass="form-control numOnly phone" maxlength="20" placeholder="${msg.getMsg('U01504')}"/> <%--휴대폰번호를 숫자로만 입력해주세요--%>
+                                                <form:input path="application.mobiNum" cssClass="form-control numOnly phone" maxlength="18" placeholder="${msg.getMsg('U01504')}"/> <%--휴대폰번호를 숫자로만 입력해주세요--%>
                                             </div>
                                             <spring:bind path="application.mobiNum">
                                                 <c:if test="${status.error}">
@@ -946,7 +946,7 @@
                                                 <label for="applicationGeneral.emerContTel" class="col-sm-2 control-label"><spring:message code="L01606"/><%--전화번호--%></label>
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-12">
-                                                        <form:input path="applicationGeneral.emerContTel" cssClass="form-control numOnly phone" maxlength="20" placeholder="${msg.getMsg('U01602')}"/> <%--전화(또는 휴대폰)번호를 숫자로만 입력해 주세요.--%>
+                                                        <form:input path="applicationGeneral.emerContTel" cssClass="form-control numOnly phone" maxlength="18" placeholder="${msg.getMsg('U01602')}"/> <%--전화(또는 휴대폰)번호를 숫자로만 입력해 주세요.--%>
                                                     </div>
                                                     <spring:bind path="applicationGeneral.emerContTel">
                                                         <c:if test="${status.error}">
@@ -1005,7 +1005,7 @@
                                                         <label for="applicationForeigner.korEmrgTel" class="col-sm-2 control-label"><spring:message code="L01606"/><%--전화번호--%></label>
                                                         <div class="col-sm-9">
                                                             <div class="col-sm-12">
-                                                                <form:input path="applicationForeigner.korEmrgTel" cssClass="form-control numOnly phone" maxlength="20" placeholder="${msg.getMsg('U01602')}"/> <%--전화(또는 휴대폰)번호를 숫자로만 입력해 주세요.--%>
+                                                                <form:input path="applicationForeigner.korEmrgTel" cssClass="form-control numOnly phone" maxlength="18" placeholder="${msg.getMsg('U01602')}"/> <%--전화(또는 휴대폰)번호를 숫자로만 입력해 주세요.--%>
                                                             </div>
                                                             <spring:bind path="applicationForeigner.korEmrgTel">
                                                                 <c:if test="${status.error}">
@@ -1322,6 +1322,7 @@
             var form, applStsCode;
             if ( confirm('<spring:message code="U01106"/>') ) { // 지원 사항을 취소하면 작성 중인 내용은 모두 삭제됩니다.
                 //TODO 지원 취소로 상태 변경 후 공고 목록으로 이동
+                apex.transKorPhoneNumber('phone');
                 form = document.getElementById('basis');
                 document.getElementById('applStsCode').value = '00022';
                 form.action = "${contextPath}/application/basis/cancel";

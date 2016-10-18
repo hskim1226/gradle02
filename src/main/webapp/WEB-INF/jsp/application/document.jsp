@@ -1247,7 +1247,10 @@
                 if (!checkDocChckYn.checked) {
                     alert('<spring:message code="U04501"/>');//첨부 파일 안내 사항 확인란에 체크 하셔야 합니다.
                     $('#overlay').hide();
-                    checkDocChckYn.focus();
+                    $(checkDocChckYn).focus();
+                    $('html, body').animate({
+                    	scrollTop: $(checkDocChckYn).parent().offset().top - $('#mainHeader').height()
+                    }, 1000);
                 } else {
                     if (!isSpecialCharactersInFileName) {
                         checkDocChckYn.value = "Y";

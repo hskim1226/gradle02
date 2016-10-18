@@ -10,6 +10,7 @@ import com.apexsoft.ysprj.applicants.application.validator.BasisValidator;
 import com.apexsoft.ysprj.applicants.common.util.CryptoUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import com.apexsoft.ysprj.applicants.common.util.WebUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.crypto.encrypt.Encryptors;
@@ -24,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.Principal;
@@ -202,7 +204,7 @@ public class BasisController {
             mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
             ExecutionContext ecRetrieve = basisService.retrieveBasis(formData);
             if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
-                Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();                
+                Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
                 mv.addAllObjects(map);
             } else {
                 mv = getErrorMV("common/error", ecRetrieve);
