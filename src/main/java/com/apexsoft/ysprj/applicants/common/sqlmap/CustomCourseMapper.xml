@@ -12,6 +12,7 @@
       AND A.ADMS_NO = #{admsNo,jdbcType=VARCHAR}
       AND A.DEPT_CODE = #{deptCode,jdbcType=VARCHAR}
       AND A.CORS_TYPE_CODE IN ('01','02','03')
+      ORDER BY A.CORS_TYPE_CODE
   </select>
 
   <select id="selectCommissionByAdmsDept"
@@ -24,6 +25,7 @@
       AND A.ADMS_NO = #{admsNo,jdbcType=VARCHAR}
       AND A.DEPT_CODE = #{deptCode,jdbcType=VARCHAR}
       AND A.CORS_TYPE_CODE IN ('07','08','09')
+      ORDER BY A.CORS_TYPE_CODE
   </select>
 
 
@@ -38,6 +40,7 @@
         AND A.DEPT_CODE = #{deptCode,jdbcType=VARCHAR}
         AND A.ARI_INST_CODE = #{ariInstCode,jdbcType=VARCHAR}
         AND A.CORS_TYPE_CODE IN ('04','05','06')
+        ORDER BY A.CORS_TYPE_CODE
   </select>
 
     <select id="selectNameByCode" resultType="com.apexsoft.ysprj.applicants.common.domain.CodeNameCourse" parameterType="java.lang.String">
@@ -57,6 +60,7 @@
         AND A.ADMS_NO = #{admsNo,jdbcType=VARCHAR}
         AND A.DEPT_CODE = #{deptCode,jdbcType=VARCHAR}
         AND A.CORS_TYPE_CODE IN ('10','11','12')
+        ORDER BY A.CORS_TYPE_CODE
     </select>
 
 </mapper>
