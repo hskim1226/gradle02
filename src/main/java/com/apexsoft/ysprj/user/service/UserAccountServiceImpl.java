@@ -63,10 +63,17 @@ public class UserAccountServiceImpl implements UserAccountService {
 
     @Override
 	public User retrieveUser(String userName) {
-        User user = commonDAO.queryForObject(NAME_SPACE+"selectByPk",userName, User.class);
+        User user = commonDAO.queryForObject(NAME_SPACE+"selectByPk", userName, User.class);
 
 		return user;
 	}
+
+    @Override
+    public List<User> retrieveEmails(String email) {
+    	List<User> users = commonDAO.queryForList(NAME_SPACE+"selectByEmail", email, User.class);
+
+    	return users;
+    }
 
     @Override
     public ExecutionContext retrieveUserId(User user) {
@@ -120,12 +127,26 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Override
     public ExecutionContext isUserIdAvailable(User user) {
         ExecutionContext context = new ExecutionContext();
+        context.setMessage( MessageResolver.getMessage("U00131") );  // 사용 가능한 ID 입니다.
+
         if( retrieveUser( user.getUserId() ) != null ) {
             context.setResult( ExecutionContext.FAIL );
             context.setMessage( MessageResolver.getMessage("U00132"));  // 이미 존재하는 ID 입니다.
         }
-        context.setMessage( MessageResolver.getMessage("U00131") );  // 사용 가능한 ID 입니다.
         return context;
+    }
+
+    @Override
+    public ExecutionContext isEmailAvailable(User user) {
+    	ExecutionContext context = new ExecutionContext();
+    	context.setMessage( MessageResolver.getMessage("U00136") );  // 사용 가능한 ID 입니다.
+
+    	List<User> retrieveEmail = retrieveEmails( user.getMailAddr() );
+    	if( retrieveEmail != null && retrieveEmail.size() > 0 ) {
+    		context.setResult( ExecutionContext.FAIL );
+    		context.setMessage( MessageResolver.getMessage("U00137"));  // 이미 존재하는 ID 입니다.
+    	}
+    	return context;
     }
 
 

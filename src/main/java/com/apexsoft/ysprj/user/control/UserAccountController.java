@@ -171,6 +171,11 @@ public class UserAccountController {
         return userAccountService.isUserIdAvailable(user);
     }
 
+    @RequestMapping(value="/emailCheck", method= RequestMethod.GET)
+    @ResponseBody
+    public ExecutionContext emailCheck(User user) {
+    	return userAccountService.isEmailAvailable(user);
+    }
 
     /**
      * 아이디 찾기 정보 입력 화면

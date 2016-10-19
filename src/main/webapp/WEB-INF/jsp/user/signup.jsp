@@ -93,31 +93,6 @@
                             </div>
                         </div>
                     </div>
-                    <%--preferrence language--%>
-                    <%--<div class="form-group text-gray">--%>
-                        <%--<div class="col-sm-offset-2 col-sm-8">--%>
-                            <%--<div class="form-group col-sm-4 required">--%>
-                                <%--<label class="control-label"><spring:message code="L120" /></label>--%>
-                            <%--</div>--%>
-                            <%--<div class="col-sm-8 nopadding">--%>
-                                <%--<div>--%>
-                                    <%--<div class="btn-group btn-group-justified" data-toggle="buttons">--%>
-                                        <%--<label class="btn btn-default active">--%>
-                                            <%--<input type="radio" name="prefLang" value="${app['lang.kr']}" checked /><spring:message code="L121" />--%>
-                                        <%--</label>--%>
-                                        <%--<label class="btn btn-default">--%>
-                                            <%--<input type="radio" name="prefLang" value="${app['lang.en']}" /><spring:message code="L122" />--%>
-                                        <%--</label>--%>
-                                    <%--</div>--%>
-                                <%--</div>--%>
-                                <%--<spring:bind path="prefLang">--%>
-                                    <%--<c:if test="${status.error}">--%>
-                                        <%--<div class="validation-error">${status.errorMessage}</div>--%>
-                                    <%--</c:if>--%>
-                                <%--</spring:bind>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
                     <%--email--%>
                     <div class="form-group text-gray">
                         <div class="col-sm-offset-2 col-sm-8">
@@ -125,7 +100,12 @@
                                 <label for="mailAddr" class="control-label"><spring:message code="L00125"/><%--이메일--%></label>
                             </div>
                             <div class="col-sm-8 nopadding">
-                                <div><form:input type="email" cssClass="form-control emailOnly" path="mailAddr" maxlength="50" placeholder="${msg.getMsg('U00126')}" /></div>  <%--이메일 주소를 입력해 주세요--%>
+                                <div class="input-group">
+                                    <form:input type="email" cssClass="form-control emailOnly" path="mailAddr" maxlength="50" placeholder="${msg.getMsg('U00126')}" />  <%--이메일 주소를 입력해 주세요--%>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-info" id="email-check-button"><spring:message code="L00131"/><%--Check--%></button>
+                                    </span>
+                                </div>
                         <spring:bind path="mailAddr">
                             <c:if test="${status.error}">
                                 <div class="validation-error">${status.errorMessage}</div>
@@ -218,7 +198,7 @@
                         <div class="col-sm-offset-2 col-sm-8">
                             <div class="col-sm-12 btn-group btn-group-justified">
                                 <div class="btn-group col-sm-12" id="warn-id-check">
-                                    <button id="btn-warn-id-check" class="btn btn-danger btn-lg"><spring:message code="U00129"/><%--ID 중복 체크를 해주세요.--%></button>
+                                    <button id="btn-warn-id-check" class="btn btn-danger btn-lg"><spring:message code="U00139"/><%--ID 및  Email 중복 체크를 해주세요.--%></button>
                                 </div>
                             </div>
                             <div class="col-sm-12 btn-group btn-group-justified">
@@ -237,40 +217,65 @@
 <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
-        var isIDChecked = false;
-        $("#sign-up-button").on("click", function(e){
+        var isUserIdChecked = false;
+        var isEmailChecked = false;
+        $('#sign-up-button').on('click', function(e){
 //            $('#sign-up-form').bootstrapValidator('validate');
             e.preventDefault();
             var pswd1 = document.getElementById('pswd1'),
                 pswd2 = document.getElementById('pswd2');
             if ( pswd1.value !== pswd2.value ) {
-                alert("<spring:message code="U00130"/>"); <%--패스워드가 일치하지 않습니다--%>
+                alert('<spring:message code="U00130"/>'); <%--패스워드가 일치하지 않습니다--%>
                 pswd1.focus();
                 return;
             } else if (pswd1.value.length == 0) {
-                alert("<spring:message code="U00124"/>"); <%--알파벳 대문자, 소문자, 숫자를 하나 이상 포함하여 8~16글자이어야 합니다.--%>
+                alert('<spring:message code="U00124"/>'); <%--알파벳 대문자, 소문자, 숫자를 하나 이상 포함하여 8~16글자이어야 합니다.--%>
                 pswd1.focus();
                 return;
             } else if (pswd2.value.length == 0) {
-                alert("<spring:message code="U00124"/>"); <%--알파벳 대문자, 소문자, 숫자를 하나 이상 포함하여 8~16글자이어야 합니다.--%>
+                alert('<spring:message code="U00124"/>'); <%--알파벳 대문자, 소문자, 숫자를 하나 이상 포함하여 8~16글자이어야 합니다.--%>
                 pswd2.focus();
                 return;
             } else {
                 apex.transKorPhoneNumber('phone');
-                document.forms[0].action = "${contextPath}/user/signup/save";
+                document.forms[0].action = '${contextPath}/user/signup/save';
                 document.forms[0].submit();
             }
         });
 
-        <%-- 아이디 체크 후 수정 시 재 체크 처리 --%>
-        var setUnavailableID = function () {
-            $("#sign-up-button").prop('disabled', true);
-            isIDChecked = false;
-            document.getElementById('btn-warn-id-check').style.display = 'block';
+        var setAvailable = function () {
+        	if (isUserIdChecked && isEmailChecked) {
+	            $('#sign-up-button').prop('disabled', false);	<%--회원 가입 활성화--%>
+	            $('#btn-warn-id-check').css('display', 'none');	<%--중복 체크를 하세요 HIDE--%>
+        	} else {
+	            $('#sign-up-button').prop('disabled', true);	<%--회원 가입 비활성화--%>
+	            $('#btn-warn-id-check').css('display', 'block');<%--중복 체크를 하세요 SHOW--%>
+	            if (isUserIdChecked) {
+		            $('#btn-warn-id-check').html('<spring:message code="U00138"/>');	<%--Email 중복 체크를 하세요.--%>
+	            } else if (isEmailChecked) {
+		            $('#btn-warn-id-check').html('<spring:message code="U00129"/>');	<%--ID 중복 체크를 하세요.--%>
+	            } else {
+		            $('#btn-warn-id-check').html('<spring:message code="U00139"/>');	<%--ID 및 Email 중복 체크를 하세요.--%>
+	            }
+        	}
         };
+
+        var setUnavailable = function () {
+            $('#sign-up-button').prop('disabled', true);
+            $('#btn-warn-id-check').css('display', 'block');
+            if (isEmailChecked) {
+	            $('#btn-warn-id-check').html('<spring:message code="U00129"/>');	<%--ID 중복 체크를 하세요.--%>
+            } else {
+	            $('#btn-warn-id-check').html('<spring:message code="U00139"/>');	<%--ID 및 Email 중복 체크를 하세요.--%>
+            }
+            <%-- document.getElementById('btn-warn-id-check').style.display = 'block'; --%>
+            isUserIdChecked = false;
+        };
+        <%-- 아이디 체크 후 수정 시 재 체크 처리 --%>
         $('#userId').on('change', function(e) {
-            if (isIDChecked) {
-                setUnavailableID();
+            if (isUserIdChecked) {
+            	isUserIdChecked = false;
+                setAvailable();
             }
         });
         <%-- 아이디 체크 후 수정 시 재 체크 처리 --%>
@@ -280,26 +285,25 @@
         <%-- 아이디 처리 --%>
 
         <%-- 아이디 중복 체크 --%>
-
-        $("#available-check-button").on("click", function(e){
+        $('#available-check-button').on('click', function(e){
             e.preventDefault();
             var idValue = document.getElementById('userId').value;
             if (idValue.length > 5) {
-                $.get("${contextPath}/user/idCheck",
-                        $("#sign-up-form").serialize(),
-                        function(data){
-                            var container = JSON.parse(data);
-                            if(container.result == "SUCCESS"){
-                                alert("<spring:message code="U00131"/>");  <%--사용가능한 username 입니다.--%>
-                                $("#sign-up-button").prop('disabled', false);
-                                isIDChecked = true;
-                                document.getElementById('btn-warn-id-check').style.display = 'none';
-                                document.getElementById('pswd1').focus();
-                            }else{
-                                alert("<spring:message code="U00132"/>");  <%--이미 사용 중인 username 입니다.--%>
-                                setUnavailableID();
-                            }
-                        }
+                $.get('${contextPath}/user/idCheck',
+					$('#sign-up-form').serialize(),
+					function(data){
+					    var container = JSON.parse(data);
+					    if(container.result == "SUCCESS"){
+					        alert(container.message);  <%--사용가능한 ID 입니다.--%>
+					        isUserIdChecked = true;
+					        setAvailable();
+					        $('#pswd1').focus();
+					    }else{
+					        alert(container.message);  <%--이미 사용 중인 ID 입니다.--%>
+					        isUserIdChecked = false;
+					        setAvailable();
+					    }
+					}
                 );
             } else {
                 alert('<spring:message code="U00133"/>');  <%--아이디는 6자 이상이어야 합니다.--%>
@@ -311,9 +315,51 @@
         apex.passwordCheck('passwd', '<spring:message code="U00124"/>');  <%--알파벳 대문자, 소문자, 숫자를 하나 이상 포함하여 8~16글자이어야 합니다.--%>
         <%-- 비밀 번호 validation --%>
 
-        <%-- 메일 주소 validation --%>
+        <%-- 이메일 체크 후 수정 시 재 체크 처리 --%>
+        var setUnavailableEmail = function () {
+            $('#sign-up-button').prop('disabled', true);
+            $('#btn-warn-id-check').css('display', 'block');
+            if (isUserIdChecked) {
+	            $('#btn-warn-id-check').html('<spring:message code="U00138"/>');	<%--Email 중복 체크를 하세요.--%>
+            } else{
+	            $('#btn-warn-id-check').html('<spring:message code="U00139"/>');	<%--ID 및 Email 중복 체크를 하세요.--%>
+            }
+            isEmailChecked = false;
+        };
+        $('#mailAddr').on('change', function(e) {
+            if (isEmailChecked) {
+            	isEmailChecked = false;
+            	setAvailable();
+            }
+        });
+        <%-- 이메일 체크 후 수정 시 재 체크 처리 --%>
+
+        <%-- 이메일 주소 validation --%>
         apex.emailCheck('emailOnly', '<spring:message code="U00134"/>');  <%--이메일 주소를 정확히 기재해 주세요--%>
-        <%-- 메일 주소 validation --%>
+        <%-- 이메일 주소 validation --%>
+
+        <%-- 이메일 중복 체크 --%>
+        $("#email-check-button").on("click", function(e){
+            e.preventDefault();
+            var mailAddr = document.getElementById('mailAddr').value;
+			$.get("${contextPath}/user/emailCheck",
+		        $("#sign-up-form").serialize(),
+		        function(data){
+		            var container = JSON.parse(data);
+		            if(container.result == "SUCCESS"){
+		                alert(container.message);  <%--사용가능한 Email 입니다.--%>
+		                isEmailChecked = true;
+		                setAvailable();
+		                $('#mobiNum').focus();
+		            }else{
+		                alert(container.message);  <%--이미 사용 중인 Email 입니다.--%>
+		                isEmailChecked = false;
+		                setAvailable();
+		            }
+		        }
+			);
+        });
+        <%-- 이메일 중복 체크 --%>
 
         <%-- 숫자만 입력 - 주민번호, 휴대폰, 전화번호 --%>
         apex.numCheck('numOnly', '<spring:message code="U00135"/>');
@@ -348,7 +394,11 @@
         <%-- ID 중복 체크 경고 버튼 클릭 시 ID 입력란에 focus --%>
         $('#btn-warn-id-check').on('click', function(e) {
             e.preventDefault();
-            $('#userId').focus();
+            if (isUserIdChecked) {
+	            $('#userId').focus();
+            } else if (isEmailChecked) {
+	            $('#mailAddr').focus();
+            }
         });
         <%-- ID 중복 체크 경고 버튼 클릭 시 ID 입력란에 focus --%>
 

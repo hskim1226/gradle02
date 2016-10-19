@@ -149,6 +149,15 @@
 		]]>
     </select>
 
+    <select id="selectByEmail" resultMap="user" parameterType="String">
+        <![CDATA[
+		  SELECT *
+		    FROM USER
+			WHERE 1=1
+			AND MAIL_ADDR = #{mailAddr}
+		]]>
+    </select>
+
     <select id="selectUsername" resultType="String" parameterType="com.apexsoft.ysprj.user.domain.User">
         <![CDATA[
           SELECT USER_ID
