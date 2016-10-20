@@ -183,6 +183,7 @@
         AND NAME = #{name,jdbcType=VARCHAR}
         AND BORN_DAY = #{bornDay,jdbcType=VARCHAR}
         AND MAIL_ADDR = #{mailAddr,jdbcType=VARCHAR}
+        ORDER BY CRE_DATE DESC LIMIT 1
     </select>
 
     <select id="changePasswd" resultType="java.lang.Integer" parameterType="com.apexsoft.ysprj.user.domain.User">
