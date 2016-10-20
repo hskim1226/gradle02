@@ -540,8 +540,7 @@ public class BasisServiceImpl implements BasisService {
 
     @Override
     public String findApplIdByEmail(String email) {
-        String applId = null;
-        applId = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.findApplIdByEmail", email, String.class);
-        return applId;
+        List<String> applIds = commonDAO.queryForList(NAME_SPACE + "ApplicationMapper.findApplIdByEmail", email, String.class);
+        return applIds != null ? applIds.get(0) : null;
     }
 }

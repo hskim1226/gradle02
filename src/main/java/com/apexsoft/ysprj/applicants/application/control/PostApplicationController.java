@@ -7,14 +7,17 @@ import com.apexsoft.ysprj.applicants.common.domain.BirtRequest;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -80,10 +83,9 @@ public class PostApplicationController {
     @ResponseBody
     public String findApplIdByEmailAddress(@RequestParam("email") String email) throws JsonProcessingException {
         String applId = basisService.findApplIdByEmail(email);
-        Application application = new Application();
-        application.setApplId(applId);
-        String result = jacksonObjectMapper.writeValueAsString(application);
-        return result;
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("applId", applId);
+        return jacksonObjectMapper.writeValueAsString(map);
     }
 
 }

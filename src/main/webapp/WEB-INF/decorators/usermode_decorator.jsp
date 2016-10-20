@@ -3,7 +3,7 @@
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator"	prefix="decorator"%>
 <%@ page import="java.util.Locale" %>
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" ng-app="angularApp">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
