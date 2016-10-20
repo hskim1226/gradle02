@@ -30,6 +30,7 @@
         <pattern>/common/transLang</pattern>
         <pattern>/user/*</pattern>
         <pattern>/sysadmin/*</pattern>
+        <pattern>/findApplId</pattern>
     </decorator>
 
     <decorator name="adminmode" page="adminmode_decorator.jsp">

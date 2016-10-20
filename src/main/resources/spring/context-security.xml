@@ -83,6 +83,7 @@
         <intercept-url pattern="/user/findPwd"  access="isAnonymous() or isAuthenticated()"/>
         <intercept-url pattern="/user/resetPwd"  access="isAnonymous() or isAuthenticated()"/>
         <intercept-url pattern="/user/savePwd"  access="isAnonymous() or isAuthenticated()"/>
+        <intercept-url pattern="/findApplId"  access="isAnonymous() or isAuthenticated()"/>
         <intercept-url pattern="/upload/**"  access="isAuthenticated()"/>
         <intercept-url pattern="/qna/**" access="isAnonymous() or isAuthenticated()" />
         <intercept-url pattern="/login"  access="isAnonymous() or isAuthenticated()"/>
