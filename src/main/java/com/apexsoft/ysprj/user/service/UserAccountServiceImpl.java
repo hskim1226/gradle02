@@ -39,6 +39,15 @@ public class UserAccountServiceImpl implements UserAccountService {
 
         user.setEnabled( true );
 
+        // 동일한 email로 가입 정보가 존재할 경우
+        List<User> users = retrieveEmails(user.getMailAddr());
+        if (users != null && users.size() > 0) {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(MessageResolver.getMessage("U104"));
+            ec.setErrCode(MessageResolver.getMessage("U111"));
+            return ec;
+        }
+
         rUserInsert = commonDAO.insert( NAME_SPACE + "insertUser", user);
 
         Authorities authVO = new Authorities();
