@@ -150,6 +150,37 @@
     </section>
     <!-- /main_content -->
 
+   <!-- Modal -->
+	<div id="notiModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h3 class="">공지 <span class="label label-danger">New</span></h3>
+				</div>
+				<div class="modal-body">
+					<p>Currently, Gradnet is <b style="color:red;">testing</b> for better service.</p>
+					<p>Please note that the data you entered prior to the formal opening will be <b style="color:red;">deleted altogether.</b></p>
+					<br/>
+					<div class="list-group list-group-horizontal" style="text-align:center">
+  						<div class="list-group-item active col-sm-6">
+							<h4 class="list-group-item-heading">Test open period</h4>
+							<p class="list-group-item-text">2016.10.31 까지</p>
+						</div>
+						<div class="list-group-item col-sm-6">
+							<h4 class="list-group-item-heading">Open season</h4>
+							<p class="list-group-item-text">2016.11.01 부터</p>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
     <!-- footer -->
     <footer>
         <section id="mainFooter">
@@ -201,6 +232,9 @@
 <script src="https://degssjxos9mty.cloudfront.net/static/js/jquery.word-break-keep-all.min.js"></script>
 <script src="https://degssjxos9mty.cloudfront.net/static/js/main.js"></script>
 <script>
+$(document).ready(function() {
+	$('#notiModal').modal();
+
     (function browser_check() {
         var agt = navigator.userAgent.toUpperCase();
         if( agt == null || typeof(agt) == "UNDEFINED" ) {
@@ -251,6 +285,7 @@
     });
 
     $('.word-keep-all').wordBreakKeepAll();
+});
 </script>
 </body>
 </html>
