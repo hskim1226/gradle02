@@ -41,140 +41,98 @@
                         <i class="fa fa-envelope-o fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b><spring:message code="L06501"/><%--추천서 요청--%></b></span>
                     </div>
                     <div class="spacer-small">&nbsp;</div>
-                    <div class="form-group required">
-                        <div class="col-sm-offset-1 col-sm-10">
-                            <div class="col-sm-3 text-gray">
-                                <label for="profName" class="control-label"><spring:message code="L06502"/><%--교수 이름--%></label>
-                            </div>
-                            <div class="col-sm-9">
-                                <div class="col-sm-12 nopadding input-group">
-                                    <form:input path="profName" cssClass="form-control input-text" maxlength="40" placeholder='${msg.getMsg("L06502")}' />  <%--교수 이름--%>
-                                </div>
-                        <spring:bind path="profName">
-                            <c:if test="${status.error}">
-                                <div class="col-sm-12 nopadding">
-                                    <div class="validation-error">${status.errorMessage}</div>
-                                </div>
-                            </c:if>
-                        </spring:bind>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group required">
-                        <div class="col-sm-offset-1 col-sm-10">
-                            <div class="col-sm-3 text-gray">
-                                <label for="profMailAddr" class="control-label"><spring:message code="L06503"/><%--교수 e-mail--%></label>
-                            </div>
-                            <div class="col-sm-9">
-                                <div class="col-sm-12 nopadding input-group">
-                                    <form:input path="profMailAddr" cssClass="form-control input-text emailOnly" maxlength="40" placeholder='${msg.getMsg("L06503")}' />  <%--교수 e-mail--%>
-                                </div>
-                        <spring:bind path="profMailAddr">
-                            <c:if test="${status.error}">
-                                <div class="col-sm-12 nopadding">
-                                    <div class="validation-error">${status.errorMessage}</div>
-                                </div>
-                            </c:if>
-                        </spring:bind>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group required">
-                        <div class="col-sm-offset-1 col-sm-10">
-                            <div class="col-sm-3 text-gray">
-                                <label for="profInst" class="control-label"><spring:message code="L06506"/><%--교수 소속 학교--%></label>
-                            </div>
-                            <div class="col-sm-9">
-                                <div class="col-sm-12 nopadding input-group">
-                                    <form:input path="profInst" cssClass="form-control input-text" maxlength="60" placeholder='${msg.getMsg("L06506")}' />  <%--교수 소속 학교--%>
-                                </div>
-                                <spring:bind path="profInst">
-                                    <c:if test="${status.error}">
-                                        <div class="col-sm-12 nopadding">
-                                            <div class="validation-error">${status.errorMessage}</div>
-                                        </div>
-                                    </c:if>
-                                </spring:bind>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-1 col-sm-10">
-                            <div class="col-sm-3 text-gray">
-                                <label for="profMaj" class="control-label"><spring:message code="L06507"/><%--교수 전공--%></label>
-                            </div>
-                            <div class="col-sm-9">
-                                <div class="col-sm-12 nopadding input-group">
-                                    <form:input path="profMaj" cssClass="form-control input-text" maxlength="60" placeholder='${msg.getMsg("L06507")}' />  <%--교수 전공--%>
-                                </div>
-                                <%--<spring:bind path="profMaj">--%>
-                                    <%--<c:if test="${status.error}">--%>
-                                        <%--<div class="col-sm-12 nopadding">--%>
-                                            <%--<div class="validation-error">${status.errorMessage}</div>--%>
-                                        <%--</div>--%>
-                                    <%--</c:if>--%>
-                                <%--</spring:bind>--%>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group required">
-                        <div class="col-sm-offset-1 col-sm-10">
-                            <div class="col-sm-3 text-gray">
-                                <label for="profPhone" class="control-label"><spring:message code="L06508"/><%--교수 연락처--%></label>
-                            </div>
-                            <div class="col-sm-9">
-                                <div class="col-sm-12 nopadding input-group">
-                                    <form:input path="profPhone" cssClass="form-control input-text" maxlength="40" placeholder='${msg.getMsg("L06508")}' />  <%--교수 연락처--%>
-                                </div>
-                                <%--<spring:bind path="profPhone">--%>
-                                    <%--<c:if test="${status.error}">--%>
-                                        <%--<div class="col-sm-12 nopadding">--%>
-                                            <%--<div class="validation-error">${status.errorMessage}</div>--%>
-                                        <%--</div>--%>
-                                    <%--</c:if>--%>
-                                <%--</spring:bind>--%>
-                            </div>
-                        </div>
-                    </div>
-                    <%-- 메일 제목과 요청 내용은 지원자가 작성하지 않고 시스템에서 작성하는 것으로 결정 --%>
-                    <%--<div class="form-group required">--%>
-                        <%--<div class="col-sm-offset-1 col-sm-10">--%>
-                            <%--<div class="col-sm-3 text-gray">--%>
-                                <%--<label for="reqSubject" class="control-label"><spring:message code="L06536"/>&lt;%&ndash;메일 제목&ndash;%&gt;</label>--%>
-                            <%--</div>--%>
-                            <%--<div class="col-sm-9">--%>
-                                <%--<div class="col-sm-12 nopadding input-group">--%>
-                                    <%--<form:input path="reqSubject" cssClass="form-control input-text" maxlength="40" placeholder='${msg.getMsg("U06511")}' />  &lt;%&ndash;메일 제목을 입력해 주세요&ndash;%&gt;--%>
-                                <%--</div>--%>
-                                <%--<spring:bind path="reqSubject">--%>
-                                    <%--<c:if test="${status.error}">--%>
-                                        <%--<div class="col-sm-12 nopadding">--%>
-                                            <%--<div class="validation-error">${status.errorMessage}</div>--%>
-                                        <%--</div>--%>
-                                    <%--</c:if>--%>
-                                <%--</spring:bind>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="form-group required">--%>
-                        <%--<div class="col-sm-offset-1 col-sm-10">--%>
-                            <%--<div class="col-sm-3 text-gray">--%>
-                                <%--<label for="reqText" class="control-label"><spring:message code="L06504"/>&lt;%&ndash;요청 내용&ndash;%&gt;</label>--%>
-                            <%--</div>--%>
-                            <%--<div class="col-sm-9">--%>
-                                <%--<div class="col-sm-12 nopadding input-group">--%>
-                                    <%--<form:textarea path="reqText" cssClass="form-control" rows="10" placeholder='${msg.getMsg("U06503")}'></form:textarea>  &lt;%&ndash;교수님께 보낼 메일 내용을 500자 이내로 입력해주세요.&ndash;%&gt;--%>
-                                <%--</div>--%>
-                        <%--<spring:bind path="reqText">--%>
-                            <%--<c:if test="${status.error}">--%>
-                                <%--<div class="col-sm-12 nopadding">--%>
-                                    <%--<div class="validation-error">${status.errorMessage}</div>--%>
-                                <%--</div>--%>
-                            <%--</c:if>--%>
-                        <%--</spring:bind>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
+                    <div class="col-sm-offset-1 col-sm-10">
+						<div class="panel panel-primary">
+							<div class="panel-heading"><spring:message code="L06509"/></div>
+							<div class="panel-body">
+			                    <div class="form-group required">
+		                            <div class="col-sm-3 text-gray">
+		                                <label for="profName" class="control-label"><spring:message code="L06502"/><%--교수 이름--%></label>
+		                            </div>
+		                            <div class="col-sm-9">
+		                                <div class="col-sm-12 nopadding input-group">
+		                                    <form:input path="profName" cssClass="form-control input-text" maxlength="40" placeholder='${msg.getMsg("L06502")}' />  <%--교수 이름--%>
+		                                </div>
+		                        <spring:bind path="profName">
+		                            <c:if test="${status.error}">
+		                                <div class="col-sm-12 nopadding">
+		                                    <div class="validation-error">${status.errorMessage}</div>
+		                                </div>
+		                            </c:if>
+		                        </spring:bind>
+		                            </div>
+			                    </div>
+			                    <div class="form-group required">
+		                            <div class="col-sm-3 text-gray">
+		                                <label for="profMailAddr" class="control-label"><spring:message code="L06503"/><%--교수 e-mail--%></label>
+		                            </div>
+		                            <div class="col-sm-9">
+		                                <div class="col-sm-12 nopadding input-group">
+		                                    <form:input path="profMailAddr" cssClass="form-control input-text emailOnly" maxlength="40" placeholder='${msg.getMsg("L06503")}' />  <%--교수 e-mail--%>
+		                                </div>
+		                        <spring:bind path="profMailAddr">
+		                            <c:if test="${status.error}">
+		                                <div class="col-sm-12 nopadding">
+		                                    <div class="validation-error">${status.errorMessage}</div>
+		                                </div>
+		                            </c:if>
+		                        </spring:bind>
+		                            </div>
+			                    </div>
+			                    <div class="form-group required">
+		                            <div class="col-sm-3 text-gray">
+		                                <label for="profPhone" class="control-label"><spring:message code="L06508"/><%--교수 연락처--%></label>
+		                            </div>
+		                            <div class="col-sm-9">
+		                                <div class="col-sm-12 nopadding input-group">
+		                                    <form:input path="profPhone" cssClass="form-control input-text" maxlength="40" placeholder='${msg.getMsg("L06508")}' />  <%--교수 연락처--%>
+		                                </div>
+		                                <%--<spring:bind path="profPhone">--%>
+		                                    <%--<c:if test="${status.error}">--%>
+		                                        <%--<div class="col-sm-12 nopadding">--%>
+		                                            <%--<div class="validation-error">${status.errorMessage}</div>--%>
+		                                        <%--</div>--%>
+		                                    <%--</c:if>--%>
+		                                <%--</spring:bind>--%>
+		                            </div>
+			                    </div>
+			                    <div class="form-group required">
+		                            <div class="col-sm-3 text-gray">
+		                                <label for="profInst" class="control-label"><spring:message code="L06506"/><%--교수 소속 학교--%></label>
+		                            </div>
+		                            <div class="col-sm-9">
+		                                <div class="col-sm-12 nopadding input-group">
+		                                    <form:input path="profInst" cssClass="form-control input-text" maxlength="60" placeholder='${msg.getMsg("L06506")}' />  <%--교수 소속 학교--%>
+		                                </div>
+	                            <spring:bind path="profInst">
+	                                <c:if test="${status.error}">
+	                                    <div class="col-sm-12 nopadding">
+	                                        <div class="validation-error">${status.errorMessage}</div>
+	                                    </div>
+	                                </c:if>
+	                            </spring:bind>
+		                            </div>
+			                    </div>
+			                    <div class="form-group">
+		                            <div class="col-sm-3 text-gray">
+		                                <label for="profMaj" class="control-label"><spring:message code="L06507"/><%--교수 전공--%></label>
+		                            </div>
+		                            <div class="col-sm-9">
+		                                <div class="col-sm-12 nopadding input-group">
+		                                    <form:input path="profMaj" cssClass="form-control input-text" maxlength="60" placeholder='${msg.getMsg("L06507")}' />  <%--교수 전공--%>
+		                                </div>
+		                                <%--<spring:bind path="profMaj">--%>
+		                                    <%--<c:if test="${status.error}">--%>
+		                                        <%--<div class="col-sm-12 nopadding">--%>
+		                                            <%--<div class="validation-error">${status.errorMessage}</div>--%>
+		                                        <%--</div>--%>
+		                                    <%--</c:if>--%>
+		                                <%--</spring:bind>--%>
+		                            </div>
+			                    </div>
+							</div>
+						</div>
+                	</div>
                     <div class="spacer-tiny">&nbsp;</div>
                     <div class="form-group">
                         <div class="col-sm-offset-1 col-sm-10 text-gray">
@@ -184,6 +142,7 @@
                             <div class="col-sm-12" style="text-align: left;"><b><spring:message code="U06517"/><%--GRADNET에서는 추천서 등록 마감일까지 완료되지 않은 요청건에 대해 메일을 재발송하여 추천인에게 알립니다.--%></b></div>
                             <div class="col-sm-12" style="text-align: left;"><b><spring:message code="U06518"/><%--GRADNET은 마감일까지 등록되지 않은 추천서에 대해 책임을 지지 않습니다.--%></b></div>
                             <div class="col-sm-12" style="text-align: left;"><b><spring:message code="U06519"/><%--지원자께서도 마감일까지 추천서가 등록되도록 추천인에게 개별적으로 연락하시길 부탁드립니다.--%></b></div>
+                            <div class="col-sm-12" style="text-align: left;"><b><spring:message code="U06520"/><%--지원자께서도 마감일까지 추천서가 등록되도록 추천인에게 개별적으로 연락하시길 부탁드립니다.--%></b></div>
                         </div>
                     </div>
                     <div class="spacer-tiny">&nbsp;</div>

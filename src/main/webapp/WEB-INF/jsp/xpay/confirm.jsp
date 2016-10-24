@@ -107,6 +107,21 @@
                 box-shadow: 0em -3em 0em 0em #55aaff, 2em -2em 0 -0.5em #55aaff, 3em 0em 0 -0.5em #55aaff, 2em 2em 0 -0.5em #55aaff, 0em 3em 0 -0.5em #55aaff, -2em 2em 0 0em #55aaff, -3em 0em 0 0em #55aaff, -2em -2em 0 0.2em #55aaff;
             }
         }
+
+		ul.dashed {
+			list-style: none;
+			margin-left: 0;
+    		padding-left: 1.1em;
+		}
+		ul.dashed > li {
+/* 			list-style-position: inside; */
+		}
+		ul.dashed > li:before {
+			content: "–"; /* en dash */
+			position: absolute;
+			margin-left: -1.1em;
+			text-margin
+		}
     </style>
 </head>
 <body>
@@ -132,7 +147,7 @@
                                     <tr><th class="header"><spring:message code="L05105"/><%--결제금액--%></th><td>${payment.LGD_AMOUNT} 원(Won)</td></tr>
                                 </table>
                                 <div>
-                                    <button class="btn btn-primary btn-lg btn-block ${payment.admsSts.equals("OP")?"":"disabled"}" id="processPayment"><spring:message code="L05106"/><%--결제하기--%></button>
+                                    <button class="btn btn-primary btn-lg btn-block ${payment.admsSts.equals('OP')?'':'disabled'}" id="processPayment"><spring:message code="L05106"/><%--결제하기--%></button>
                                 </div>
                             </div>
                             <div class="spacer-tiny">&nbsp;</div>
@@ -186,58 +201,110 @@
         </form>
     </div>
 
-    <div id="modal_popup3" class="popup1_wrap" style="display:none; margin-top:-250px; margin-left:-250px;">
-        <div id="bpopContent" class="popuphead">
-            <h1>
-                <label id="searchTitle"> <spring:message code="U05106"/> </label>
-            </h1>
-        </div>
-        <div class="popupbody" style="display:${pageContext.response.locale == 'en' ?'none':'visible'}">
-            <h4><strong>
-                1. 결제 모듈은 인터넷 익스플로러 (9.0 이상) 버전만 지원됩니다.<br>
-                2. 크롬, 사파리 등의 웹브라우저에서는 결제를 진행하실 수 없습니다.<br>
-                3. 국내 카드 및 VISA, MASTER, JCB, UnionPay 카드가 지원됩니다.<br>
-                4. 결제 프로그램의 설치에 관한 문제는 유플러스 전자결제(1544-7772)로 문의하시기 바랍니다.<br><br>
-                <font color="red" size="3"> [[ 결제가 불가능한 경우 ]] <br></font>
-                시스템에서 결제가 불가능한 경우 아래 계좌로 입금 해주시기 바랍니다.<br>
-                <span style="color: red;">입금 완료 후 반드시 다음의 내용을 payment@apexsoft.co.kr로 보내주시기 바랍니다.</span><br/>
-                - 아이디, 지원자명, 출금계좌 예금주명, 입금증빙(사진)<br>
-                (특히 자동화기기 송금, 해외 송금의 경우 입금증빙(사진) 필수)<br><br>
-                <font color="blue">&nbsp;&nbsp;입금은행 : 하나은행<br>
-                    &nbsp;&nbsp;계좌번호 : 178-910029-30904<br>
-                    &nbsp;&nbsp;예금주명 : 에이펙스소프트<br><br></font>
-                <span style="color: red;">해외에서 송금할 경우 GRADNET에 입금되는 원화금액이 전형료와 일치하도록, 송금 수수료를 발신자가 부담해야 합니다.</span><br/>
-                <span style="color: red;">GRADNET에 입금된 금액이 전형료와 맞지 않을 경우 지원 처리가 완료되지 않을 수 있으며,</span><br/>
-                <span style="color: red;">GRADNET은 이에 대해 어떠한 책임도 지지 않습니다.</span><br/>
+	<div class="modal fade" id="modal_popup3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="vertical-alignment-helper">
+			<div class="modal-dialog vertical-align-center">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+						</button>
+						<h2 class="modal-title" id="myModalLabel"><spring:message code="U05106" /></h2>
+					</div>
+					<div class="modal-body">
+						<ol style="list-style: decimal inside none">
+							<li class="text-left text-muted"><spring:message code="U07101" /></li>
+							<li class="text-left text-muted"><spring:message code="U07102" /></li>
+							<c:if test="${pageContext.response.locale.language == 'ko'}">
+							<li class="text-left text-muted"><spring:message code="U07103" /></li>
+							</c:if>
+							<li class="text-left text-muted"><spring:message code="U07104" /></li>
+							<li class="text-left text-muted"><spring:message code="U07105" />
+								<div class="col-sm-offset-1">
+									<b class="text-left text-primary"><spring:message code="U07106" /></b>
+									<ul class="dashed">
+										<li class="text-left text-primary"><spring:message code="U07107" /></li>
+										<c:if test="${pageContext.response.locale.language == 'en'}">
+										<li class="text-left text-primary"><spring:message code="U07108" /></li>
+										<li class="text-left text-primary"><spring:message code="U07109" /></li>
+										<li class="text-left text-primary"><spring:message code="U07110" /></li>
+										</c:if>
+										<li class="text-left text-primary"><spring:message code="U07111" /></li>
+										<li class="text-left text-primary"><spring:message code="U07112" /></li>
+									</ul>
+								</div>
+							</li>
+						</ol>
+						<span class="text-left text-muted"><spring:message code="U07113" /></span>
+						<span class="text-left text-muted"><spring:message code="U07114" /></span>
+						<span class="text-left text-muted"><spring:message code="U07115" /></span>
+						<div class="col-sm-offset-1">
+							<ul class="dashed">
+								<li class="text-left text-primary"><spring:message code="U07116" /></li>
+							</ul>
+						</div>
+					</div>
+					<div class="modal-footer">
+                    	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                	</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-            </strong></h4>
-        </div>
-        <div class="popupbody" style="display:${pageContext.response.locale == 'en' ?'visible':'none'}">
-            <h4><strong>
-                1. VISA, MASTER, JCB, UnionPay, Korean Local Card is supported.<br>
-                2. Only Internet Explorer (9.0 or above) is supported.<br>
-                3. Browsers except Internet Explorer (like Chrome, Safari, ...)<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;are NOT supported for payment.<br><br>
-                <font color="red" size="3"> [[ If the payment is NOT possible in the System ]] <br><br></font>
-                &nbsp;&nbsp;Please use Wire Transfer instead.<br/>
-                &nbsp;&nbsp;Information for Wire Transfer is as follows.<br/>
-                <font color="blue">&nbsp;&nbsp;&nbsp;&nbsp;-BANK NAME : HANA BANK<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;-BANK SWIFT :  HNBNKRSE XXX<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;-BRANCH ADDR.: 97, Wausan-ro, Mapo-gu, Seoul, KOREA<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;-BRANCH NAME : SEOGYODONG<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;-ACCOUNT NO. : 178-910029-30904<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;-ACCOUNT NAME : APEXSOFT<br><br></font>
-                    <span style="color: red;">You should pay for the charge of wire transfer, so that the final transferred money to GRADNET matches the Admission Fee.</span><br>
-                    <span style="color: red;">IF NOT, your application may NOT be processed.</span><br>
-                    <span style="color: red;">GRADNET is NOT responsible for the unprocessed application due to the inconsistency of the amount of transferred money.</span><br>
-                    <span style="color: red;">After the wire transfer, You should send an Email to payment@apexsoft.co.kr with the following information.</span><br/>
-                    &nbsp;&nbsp;- User ID, Applicant Name, Withdrawal Account Holder Name and Transfer Receipt(photo).<br>
+<!--     <div id="modal_popup3" class="popup1_wrap" style="display:none;"> -->
+<!--         <div id="bpopContent" class="popuphead"> -->
+<!--             <h1> -->
+<%--                 <label id="searchTitle"> <spring:message code="U05106"/> </label> --%>
+<!--             </h1> -->
+<!--         </div> -->
+<%--         <div class="popupbody" style="display:${pageContext.response.locale == 'en' ?'none':'visible'}"> --%>
+<!--             <h4><strong> -->
+<!--                 1. 결제 모듈은 인터넷 익스플로러 (9.0 이상) 버전만 지원됩니다.<br> -->
+<!--                 2. 크롬, 사파리 등의 웹브라우저에서는 결제를 진행하실 수 없습니다.<br> -->
+<!--                 3. 국내 카드 및 VISA, MASTER, JCB, UnionPay 카드가 지원됩니다.<br> -->
+<!--                 4. 결제 프로그램의 설치에 관한 문제는 유플러스 전자결제(1544-7772)로 문의하시기 바랍니다.<br><br> -->
+<!--                 <font color="red" size="3"> [[ 결제가 불가능한 경우 ]] <br></font> -->
+<!--                 시스템에서 결제가 불가능한 경우 아래 계좌로 입금 해주시기 바랍니다.<br> -->
+<!--                 <span style="color: red;">입금 완료 후 반드시 다음의 내용을 payment@apexsoft.co.kr로 보내주시기 바랍니다.</span><br/> -->
+<!--                 - 아이디, 지원자명, 출금계좌 예금주명, 입금증빙(사진)<br> -->
+<!--                 (특히 자동화기기 송금, 해외 송금의 경우 입금증빙(사진) 필수)<br><br> -->
+<!--                 <font color="blue">&nbsp;&nbsp;입금은행 : 하나은행<br> -->
+<!--                     &nbsp;&nbsp;계좌번호 : 178-910029-30904<br> -->
+<!--                     &nbsp;&nbsp;예금주명 : 에이펙스소프트<br><br></font> -->
+<!--                 <span style="color: red;">해외에서 송금할 경우 GRADNET에 입금되는 원화금액이 전형료와 일치하도록, 송금 수수료를 발신자가 부담해야 합니다.</span><br/> -->
+<!--                 <span style="color: red;">GRADNET에 입금된 금액이 전형료와 맞지 않을 경우 지원 처리가 완료되지 않을 수 있으며,</span><br/> -->
+<!--                 <span style="color: red;">GRADNET은 이에 대해 어떠한 책임도 지지 않습니다.</span><br/> -->
+
+<!--             </strong></h4> -->
+<!--         </div> -->
+<%--         <div class="popupbody" style="display:${pageContext.response.locale == 'en' ?'visible':'none'}"> --%>
+<!--             <h4><strong> -->
+<!--                 1. VISA, MASTER, JCB, UnionPay, Korean Local Card is supported.<br> -->
+<!--                 2. Only Internet Explorer (9.0 or above) is supported.<br> -->
+<!--                 3. Browsers except Internet Explorer (like Chrome, Safari, ...)<br> -->
+<!--                 &nbsp;&nbsp;&nbsp;&nbsp;are NOT supported for payment.<br><br> -->
+<!--                 <font color="red" size="3"> [[ If the payment is NOT possible in the System ]] <br><br></font> -->
+<!--                 &nbsp;&nbsp;Please use Wire Transfer instead.<br/> -->
+<!--                 &nbsp;&nbsp;Information for Wire Transfer is as follows.<br/> -->
+<!--                 <font color="blue">&nbsp;&nbsp;&nbsp;&nbsp;-BANK NAME : HANA BANK<br> -->
+<!--                     &nbsp;&nbsp;&nbsp;&nbsp;-BANK SWIFT :  HNBNKRSE XXX<br> -->
+<!--                     &nbsp;&nbsp;&nbsp;&nbsp;-BRANCH ADDR.: 97, Wausan-ro, Mapo-gu, Seoul, KOREA<br> -->
+<!--                     &nbsp;&nbsp;&nbsp;&nbsp;-BRANCH NAME : SEOGYODONG<br> -->
+<!--                     &nbsp;&nbsp;&nbsp;&nbsp;-ACCOUNT NO. : 178-910029-30904<br> -->
+<!--                     &nbsp;&nbsp;&nbsp;&nbsp;-ACCOUNT NAME : APEXSOFT<br><br></font> -->
+<!--                     <span style="color: red;">You should pay for the charge of wire transfer, so that the final transferred money to GRADNET matches the Admission Fee.</span><br> -->
+<!--                     <span style="color: red;">IF NOT, your application may NOT be processed.</span><br> -->
+<!--                     <span style="color: red;">GRADNET is NOT responsible for the unprocessed application due to the inconsistency of the amount of transferred money.</span><br> -->
+<!--                     <span style="color: red;">After the wire transfer, You should send an Email to payment@apexsoft.co.kr with the following information.</span><br/> -->
+<!--                     &nbsp;&nbsp;- User ID, Applicant Name, Withdrawal Account Holder Name and Transfer Receipt(photo).<br> -->
 
 
-            </strong></h4>
-        </div>
-        <a class="btn_close b-close" title="닫기"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/btn_close1.png" alt="닫기"></a>
-    </div>
+<!--             </strong></h4> -->
+<!--         </div> -->
+<%--         <a class="btn_close b-close" title="닫기"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/btn_close1.png" alt="닫기"></a> --%>
+<!--     </div> -->
+<!-- </div> -->
 
 </section>
 <content tag="local-script">
@@ -390,28 +457,12 @@
         };
 
         var hideDialog = function(obj) {
-            $("#overlay").hide();
             $(obj).fadeOut(300);
         };
 
         var showDialog = function(modal, obj) {
-            $("#overlay").show();
-            $(obj).fadeIn(300);
-
-            if (modal) {
-                $("#overlay").unbind("click");
-            }
-            else {
-                $("#overlay").click(function(e) {
-                    hideDialog(obj);
-                });
-            }
+        	$(obj).modal();
         };
-
-        $('.b-close').on('click', function(e) {
-            e.preventDefault();
-            hideDialog('#modal_popup3');
-        });
 
         $('#inform').click( function(e) {
             e.preventDefault();

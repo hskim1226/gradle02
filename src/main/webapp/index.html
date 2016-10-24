@@ -30,34 +30,70 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://degssjxos9mty.cloudfront.net/static/js/jquery.min.js"></script>
     <style>
-        /*.main_box1 {*/
-        #toMyList {
-            cursor: pointer;
-        }
-        .expire-notice {
-            width: 800px;
-            left: 50%;
-            margin-left: -400px;
-            margin-top: 200px;
-            position: fixed;
-            text-align: center;
-            z-index: 999;
-        }
-        #notice-container {
-            background-color: rgba(240, 240, 240, 0.7);
-            filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#a7ffffff', endColorstr='#a7ffffff'); /* IE */
-            padding-top: 6%;
-            padding-bottom: 6%;
-            color: #3355cc;
-            font-weight: 900;
-            font-size: 2em;
-            line-height: 1.5em;
-        }
+/*.main_box1 {*/
+#toMyList {
+	cursor: pointer;
+}
 
-        .find-appl-id {
-            font-size: 2.5vmax;
-        }
-    </style>
+.expire-notice {
+	width: 800px;
+	left: 50%;
+	margin-left: -400px;
+	margin-top: 200px;
+	position: fixed;
+	text-align: center;
+	z-index: 999;
+}
+
+#notice-container {
+	background-color: rgba(240, 240, 240, 0.7);
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
+		startColorstr='#a7ffffff', endColorstr='#a7ffffff'); /* IE */
+	padding-top: 6%;
+	padding-bottom: 6%;
+	color: #3355cc;
+	font-weight: 900;
+	font-size: 2em;
+	line-height: 1.5em;
+}
+
+.find-appl-id {
+	font-size: 2.5vmax;
+}
+
+.list-group-horizontal .list-group-item {
+ 	display: inline-block;
+}
+
+.list-group-horizontal .list-group-item {
+	margin-bottom: 0;
+	margin-left: -4px;
+	margin-right: 0;
+}
+
+.list-group-justified {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+}
+
+.list-group-justified .list-group-item {
+    display: table-cell;
+    float: none;
+    width: 1%;
+}
+
+.list-group-horizontal .list-group-item:first-child {
+	border-top-right-radius: 0;
+	border-bottom-left-radius: 4px;
+}
+
+.list-group-horizontal .list-group-item:last-child {
+	border-top-right-radius: 4px;
+	border-bottom-left-radius: 0;
+}
+</style>
 </head>
 <body data-spy="scroll" data-target="#scrollTarget" data-offset="150" style="background:#fff;padding-top:0;">
 <!-- globalWrapper -->
@@ -163,7 +199,45 @@
     </section>
     <!-- /main_content -->
 
-    <!-- footer -->
+   <!-- Modal -->
+	<div id="notiModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h3 class="">공지 <span class="label label-danger">New</span></h3>
+				</div>
+				<div class="modal-body">
+					<p>현재 Gradnet은 보다 나은 서비스를 위한 <b style="color:red;">테스트 오픈</b> 중 입니다.</p>
+					<p>정식 오픈 이전에 입력하신 데이터는 정식 오픈시 <b style="color:red;">모두 삭제</b>됨을 명지하여 주십시오.</p>
+					<br/>
+					<div class="list-group list-group-horizontal list-group-justified" style="text-align:center">
+  						<div id="test-item" class="list-group-item">
+							<h4 class="list-group-item-heading">테스트 오픈 기간</h4>
+							<p class="list-group-item-text">2016.10.31 까지</p>
+						</div>
+						<div id="open-item" class="list-group-item">
+							<h4 class="list-group-item-heading">정식 오픈 기간</h4>
+							<p class="list-group-item-text">2016.11.01 부터</p>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer" style="margin-top:0;">
+					<div style="float:left;">
+						<label class="btn">
+							<input type="checkbox" class="btn btn-info" id="closePopupNotToday">1시간 동안 열지 않기
+						</label>
+					</div>
+					<div style="float:right">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- footer -->
     <footer>
         <section id="mainFooter">
             <div class="container">
@@ -219,6 +293,60 @@
 <script src="https://degssjxos9mty.cloudfront.net/static/js/jquery.word-break-keep-all.min.js"></script>
 <script src="https://degssjxos9mty.cloudfront.net/static/js/main.js"></script>
 <script>
+$(document).ready(function() {
+	(function compare_date() {
+		var CurrentDate = new Date();
+		var SelectedDate = new Date(2016,10,2);
+		if (CurrentDate < SelectedDate) {
+			$('#test-item').addClass('active');
+			$('#open-item').removeClass('active');
+		} else {
+			$('#test-item').removeClass('active');
+			$('#open-item').addClass('active');
+		}
+		var $openItem = $('#open-item .list-group-item-heading');
+		var text = $openItem.text();
+		var dDay = SelectedDate.getDate() - CurrentDate.getDate();
+		text = text + ' (D' + (dDay < 0 ? "" : "+") + dDay + ')';
+		$openItem.text(text);
+	})();
+
+	if (getCookie('notToday') != 'Y') {
+		$('#notiModal').modal();
+	}
+
+	function setCookie(name, value, expirehours) {
+		var today = new Date();
+		    today.setHours(today.getHours() + expirehours);
+
+		    document.cookie = name + '=' + escape(value) + '; path=/; expires=' + today.toGMTString() + ';'
+	}
+
+	function getCookie(name)
+	{
+	    var cName = name + "=";
+	    var x = 0;
+	    while ( 0 < document.cookie.length )
+	    {
+	        var y = (x+cName.length);
+	        if ( document.cookie.substring( x, y ) == cName )
+	        {
+	            if ( (endOfCookie=document.cookie.indexOf( ";", y )) == -1 )
+	                endOfCookie = document.cookie.length;
+	            return unescape( document.cookie.substring( y, endOfCookie ) );
+	        }
+	        x = document.cookie.indexOf( " ", x ) + 1;
+	        if ( x == 0 )
+	            break;
+	    }
+	    return "";
+	}
+
+	$('#closePopupNotToday').on('click', function() {
+		setCookie('notToday','Y', 1);
+		$('#notiModal').modal('toggle');
+	});
+
     (function browser_check() {
         var agt = navigator.userAgent.toUpperCase();
         if( agt == null || typeof(agt) == "UNDEFINED" ) {
@@ -269,6 +397,7 @@
     });
 
     $('.word-keep-all').wordBreakKeepAll();
+});
 </script>
 </body>
 </html>
