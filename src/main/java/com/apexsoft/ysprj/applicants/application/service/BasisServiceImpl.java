@@ -524,7 +524,7 @@ public class BasisServiceImpl implements BasisService {
                     if (application.isForeignAppl()) {
                         CommonCode applAttr = newApplAttrList.get(i);
                         applAttr.setCodeVal("외국인 전형 지원자");
-                        applAttr.setCodeValXxen("Foreigner Applicants");
+                        applAttr.setCodeValXxen("International Student Track");
                     } else if (application.isEarlyAppl()) {
                         CommonCode applAttr = newApplAttrList.get(i);
                         applAttr.setCodeVal("조기 전형 지원자");
