@@ -52,7 +52,7 @@
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse"> <span class="sr-only">Toggle navigation</span> <img src="<spring:eval expression="@app.getProperty('path.static')" />/img/btn_menu1.png" alt="전체메뉴보기"> </button>
                         <%--<a class="navbar-brand" href="${contextPath}/index${requestScope.get('locale') == 'en' ? '-en' : ''}.html"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/logo.png" alt="gradnet"></a>--%>
-                        <a class="navbar-brand" href="${contextPath}/index${pageContext.response.locale == 'en' ? '-en' : ''}.html"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/logo.png" alt="gradnet"></a>
+                        <a class="navbar-brand" href="${contextPath}/index${pageContext.response.locale.language == 'en' ? '-en' : ''}.html"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/logo.png" alt="gradnet"></a>
                 </div>
                 <div class="collapse navbar-collapse navbar-ex1-collapse">
                     <%--마감 공지 --%>
@@ -61,7 +61,7 @@
                     <%--마감 공지 --%>
                     <ul class="nav navbar-nav pull-right">
                         <%--<li><a id="nav-home" href="${contextPath}/index${requestScope.get('locale') == 'en' ? '-en' : ''}.html"><i class="fa fa-home"></i><spring:message code="L00009"/>&lt;%&ndash;Home&ndash;%&gt;</a> </li>--%>
-                        <li><a id="nav-home" href="${contextPath}/index${pageContext.response.locale == 'en' ? '-en' : ''}.html"><i class="fa fa-home"></i><spring:message code="L00009"/><%--Home--%></a> </li>
+                        <li><a id="nav-home" href="${contextPath}/index${pageContext.response.locale.language == 'en' ? '-en' : ''}.html"><i class="fa fa-home"></i><spring:message code="L00009"/><%--Home--%></a> </li>
 
                         <%--마감 이후 링크 비활성화 --%>
                         <li><a id="nav-admsList" href="${contextPath}/application/admsList"><i class="fa fa-pencil-square-o"></i><spring:message code="L00003"/><%--원서접수--%></a> </li>

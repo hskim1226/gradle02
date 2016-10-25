@@ -68,8 +68,8 @@
                                             <tr>
                                                 <td colspan="6">
                                                     <div class="col-sm-12">
-                                                        <div class="col-sm-${(item.admsTypeCode=="C" || item.admsTypeCode=="D")?"3":"4"}">
-                                                            <button id="modify${itemStatus.index}" class="btn btn-block btn-warning modify ${item.applStsCode.lastIndexOf('0')==3?"":"disabled"}"
+                                                        <div class="col-sm-${(item.admsTypeCode=='C' || item.admsTypeCode=='D') ? '3':'4'}">
+                                                            <button id="modify${itemStatus.index}" class="btn btn-block btn-warning modify ${item.applStsCode.lastIndexOf('0')==3?'':'disabled'}"
                                                                     data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}"
                                                                     data-admsTypeCode="${item.admsTypeCode}" <c:if test="${item.applStsCode.lastIndexOf('0')!=3}">disabled</c:if> ><spring:message code="L00308"/><%--원서 수정하기--%><span class="my-tooltip">작성 중인 상태에서만 수정 가능합니다.</span></button>
                                                                     <%-- 마감 이후 버튼 비활성화 --%>
@@ -77,22 +77,22 @@
                                                         </div>
                                                         <c:if test="${(item.admsTypeCode=='C' || item.admsTypeCode=='D')}">
                                                             <div class="col-sm-3">
-                                                                <button id="recommendation${itemStatus.index}" class="btn btn-block btn-info recommendation ${(item.admsTypeCode=="C" || item.admsTypeCode=="D")?"":"disabled"}"
+                                                                <button id="recommendation${itemStatus.index}" class="btn btn-block btn-info recommendation ${(item.admsTypeCode=='C' || item.admsTypeCode=='D') ? '':'disabled'}"
                                                                         data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}"
                                                                         data-admsTypeCode="${item.admsTypeCode}"><spring:message code="L00315"/><%--추천서 요청--%></button>
                                                             </div>
                                                         </c:if>
-                                                        <div class="col-sm-${(item.admsTypeCode=="C" || item.admsTypeCode=="D")?"3":"4"}">
-                                                            <button id="pay${itemStatus.index}" class="btn btn-block btn-primary pay ${item.applStsCode=="00010"?"":(item.applStsCode=="00021"?"":"disabled")}"
+                                                        <div class="col-sm-${(item.admsTypeCode=='C' || item.admsTypeCode=='D') ? '3':'4'}">
+                                                            <button id="pay${itemStatus.index}" class="btn btn-block btn-primary pay ${item.applStsCode=='00010' ? '':(item.applStsCode=='00021' ? '':'disabled')}"
                                                                     name="${item.entrYear} ${pageContext.response.locale == 'en' ? item.campNameXxen : item.campName} ${pageContext.response.locale == 'en' ? item.admsTypeNameXxen : item.admsTypeName} ${pageContext.response.locale == 'en' ? item.deptNameXxen : item.deptName} ${pageContext.response.locale == 'en' ? item.corsTypeNameXxen : item.corsTypeName}"
                                                                     data-applNo="${item.applNo}"
                                                                     data-userId="${item.userId}"
                                                                     value="${item.admsFee}"
                                                                     <c:if test="${item.applStsCode!='00010' && item.applStsCode!='00021'}">disabled</c:if> ><spring:message code="L00310"/><%--전형료 결제하기--%></button>
                                                         </div>
-                                                        <div class="col-sm-${(item.admsTypeCode=="C" || item.admsTypeCode=="D")?"3":"4"}">
+                                                        <div class="col-sm-${(item.admsTypeCode=='C' || item.admsTypeCode=='D') ? '3':'4'}">
                                                             <div class="btn-group btn-block">
-                                                                <a type="button${itemStatus.index}" class="btn btn-block btn-success dropdown-toggle ${item.applStsCode=="00020"?"":"disabled"}" <c:if test="${item.applStsCode!='00020'}">disabled</c:if> data-toggle="dropdown" data-target="#"><spring:message code="L00311"/><%--지원서 보기--%><span class="caret"></span></a>
+                                                                <a type="button${itemStatus.index}" class="btn btn-block btn-success dropdown-toggle ${item.applStsCode=='00020' ? '':'disabled'}" <c:if test="${item.applStsCode!='00020'}">disabled</c:if> data-toggle="dropdown" data-target="#"><spring:message code="L00311"/><%--지원서 보기--%><span class="caret"></span></a>
                                                                 <ul class="dropdown-menu" role="menu">
                                                                     <li><a class="print" data-userid="${item.userId}" data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-admsTypeCode="${item.admsTypeCode}" data-reqType="form"><spring:message code="L00312"/><%--지원서(PDF)--%></a></li>
                                                                     <li><a class="print" data-userid="${item.userId}" data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-admsTypeCode="${item.admsTypeCode}" data-reqType="slip"><spring:message code="L00313"/><%--수험표(PDF)--%></a></li>

@@ -11,12 +11,14 @@ import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.framework.persistence.file.exception.EncryptedPDFException;
 import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
 import com.apexsoft.framework.persistence.file.model.FileInfo;
+import com.apexsoft.framework.util.DateUtils;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.common.domain.MailContentsParamKey;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.applicants.common.util.CryptoUtil;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import com.apexsoft.ysprj.applicants.common.util.MailFactory;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.ServletContext;
+
 import java.io.IOException;
 import java.util.*;
 import java.util.zip.DataFormatException;
@@ -78,6 +81,10 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     private static final Logger logger = LoggerFactory.getLogger(RecommendationServiceImpl.class);
 
+    private String getRecDueDate() {
+    	return DateUtils.convertTimeZone(REC_DUE_DATE, "UTC");
+    }
+
     @Override
     public ExecutionContext retrieveRecommendation(int recNo) {
         ExecutionContext ec = new ExecutionContext();
@@ -118,7 +125,7 @@ public class RecommendationServiceImpl implements RecommendationService {
         recommendation.setReqSubject(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_SUBJECT",
                 new Object[]{INST_NAME_EN}));
         recommendation.setRecKey(sampleRecKey);
-        recommendation.setDueDate(REC_DUE_DATE);
+        recommendation.setDueDate(getRecDueDate());
         fillEtcInfo(recommendation);
 
         Mail mail = MailFactory.create(MailType.RECOMMENDATION_REQUEST);
@@ -153,7 +160,7 @@ public class RecommendationServiceImpl implements RecommendationService {
 
 //        recommendation.setMailContents(makeLinkText(recommendation, true));
         recommendation.setMailContents(mail.getContents());
-        recommendation.setDueDate(REC_DUE_DATE);
+        recommendation.setDueDate(getRecDueDate());
         recommendation.setRecStsCode(RecommendStatus.TEMP.codeVal());
 
         boolean isUpdate = recSeq > 0;
@@ -224,11 +231,11 @@ public class RecommendationServiceImpl implements RecommendationService {
         Object obj = ec0.getData();
         if (obj != null) {
             recommendation = (Recommendation) obj;
-            recommendation.setDueDate(REC_DUE_DATE);
+            recommendation.setDueDate(getRecDueDate());
             recommendation.setRecStsCode(RecommendStatus.SENT.codeVal());
         } else {
 
-            recommendation.setDueDate(REC_DUE_DATE);
+            recommendation.setDueDate(getRecDueDate());
             recommendation.setRecStsCode(RecommendStatus.SENT.codeVal());
             recommendation.setReqSubject(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_SUBJECT",
                     new Object[]{INST_NAME_EN}));
@@ -246,7 +253,7 @@ public class RecommendationServiceImpl implements RecommendationService {
         mail.withContentsParam("contextPath", context.getContextPath())
                 .withContentsParam("siteURL", SITE_URL)
                 .withContentsParam("alternativeURL", recommendAlternativeURL)
-                .withContentsParam("dueTime", REC_DUE_DATE);
+                .withContentsParam("dueTime", getRecDueDate());
         mail.makeContents();
         recommendation.setMailContents(mail.getContents());
 
@@ -629,7 +636,7 @@ public class RecommendationServiceImpl implements RecommendationService {
                     .withContentsParam("siteURL", SITE_URL)
                     .withContentsParam("alternativeURL", recommendAlternativeURL)
                     .withContentsParam("instNameEN", INST_NAME_EN)
-                    .withContentsParam("dueTime", REC_DUE_DATE);
+                    .withContentsParam("dueTime", getRecDueDate());
             mailToProf.makeContents();
             if (!sendUrgeMail(mailToProf)) {
                 // 수신자 주소가 잘못되어있더라도 failedList에는 들어오지 않음

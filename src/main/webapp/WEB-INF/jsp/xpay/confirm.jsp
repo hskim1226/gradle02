@@ -235,9 +235,10 @@
 								</div>
 							</li>
 						</ol>
-						<span class="text-left text-muted"><spring:message code="U07113" /></span>
-						<span class="text-left text-muted"><spring:message code="U07114" /></span>
-						<span class="text-left text-muted"><spring:message code="U07115" /></span>
+						<div>&nbsp;</div>
+						<div class="text-left text-muted"><spring:message code="U07113" /></div>
+						<div class="text-left text-muted"><spring:message code="U07114" /></div>
+						<div class="text-left text-muted"><spring:message code="U07115" arguments="<br/><span class='text-danger'>${dueDate}</span>,${dueDateKorea}" /></div>
 						<div class="col-sm-offset-1">
 							<ul class="dashed">
 								<li class="text-left text-primary"><spring:message code="U07116" /></li>
