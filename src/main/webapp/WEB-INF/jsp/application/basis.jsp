@@ -1519,7 +1519,7 @@
                                 var tr = this;
 
                                 // 국가 검색이고 locale == en 일 때 targetNode2 인 citzCntrName에 영어 국가명을 넣게함
-                                if ('${pageContext.response.locale == 'en'}' === 'true' && category.isCountry)
+                                if ("${pageContext.response.locale == 'en'}" === 'true' && category.isCountry)
                                     targetInputId[2] = document.getElementById('targetNode2').value;
 
                                 for ( var i = 0 , len = tr.children.length; i < len; i++ ) {
@@ -1678,35 +1678,6 @@
         var showDaumPostcode = function () {
             new daum.Postcode({
                 oncomplete: function(data) {
-                    // 다음 주소 검색 v2 적용으로 아래 제거
-
-                    // 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-                    // 우편번호와 주소 및 영문주소 정보를 해당 필드에 넣는다.
-//                        document.getElementById('postcode1').value = data.postcode1;
-//                        document.getElementById('postcode2').value = data.postcode2;
-                    <%--if (isStreetAddress(data.address1)) {--%>
-                        <%--document.getElementById('zipCode').value = data.postcode1 + data.postcode2;--%>
-                        <%--document.getElementById('address').value = data.address1;--%>
-                        <%--document.getElementById('addressDetail').focus();--%>
-                        <%--// iframe을 넣은 element를 안보이게 한다.--%>
-                        <%--closeDaumPostCode();--%>
-                    <%--} else {--%>
-                        <%--// iframe을 넣은 element를 안보이게 한다.--%>
-                        <%--closeDaumPostCode();--%>
-                        <%--confirm('<spring:message code="U01501"/>'); // 주소를 다시 검색해서 도로명 주소를 사용해 주시기 바랍니다.--%>
-                        <%--document.getElementById('zipCode').value = '';--%>
-                        <%--document.getElementById('zipCode').setAttribute('value', '');--%>
-                        <%--document.getElementById('address').value = '';--%>
-                        <%--document.getElementById('address').setAttribute('value', '');--%>
-                        <%--$('#searchAddress').trigger('click');--%>
-                    <%--}--%>
-
-//                    document.getElementById('zipCode').value = data.postcode1 + data.postcode2;
-//                    document.getElementById('address').value = data.address;
-//                    document.getElementById('addressDetail').focus();
-//                    // iframe을 넣은 element를 안보이게 한다.
-//                    closeDaumPostCode();
-
                     // 다음 주소 검색 v2 적용
                     // 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
@@ -1951,7 +1922,7 @@
                     '00002': {targetId: 'ariInstCode', valueKey: 'ariInstCode', labelKey: 'ariInstName', url: '/ariInst'}, // applAttrCode == '02'
                     targetId: 'campCode',
                     valueKey: 'campCode',
-                    labelKey: '${pageContext.response.locale == 'en' ? 'campNameXxen' : 'campName'}',
+                    labelKey: "${pageContext.response.locale == 'en' ? 'campNameXxen' : 'campName'}",
                     clean: ['collCode', 'ariInstCode', 'deptCode', 'corsTypeCode', 'detlMajCode'],
                     url: '/campus'
                 }
@@ -1963,7 +1934,7 @@
                     targetId: 'collCode',
                     valueKey: 'collCode',
 //                    labelKey: 'collName',
-                    labelKey: '${pageContext.response.locale == 'en' ? 'collNameXxen' : 'collName'}',
+                    labelKey: "${pageContext.response.locale == 'en' ? 'collNameXxen' : 'collName'}",
                     // clean: ['ariInstCode', 'deptCode', 'corsTypeCode', 'detlMajCode'],
                     url: function(arg) {
                         return '/admscollege/' + admsNo + '/' + arg;
@@ -1977,7 +1948,7 @@
                     targetId: 'deptCode',
                     valueKey: 'deptCode',
 //                    labelKey: 'deptName',
-                    labelKey: '${pageContext.response.locale == 'en' ? 'deptNameXxen' : 'deptName'}',
+                    labelKey: "${pageContext.response.locale == 'en' ? 'deptNameXxen' : 'deptName'}",
                     // clean: ['corsTypeCode', 'detlMajCode'],
                     url: function(arg) {
                         var admsNo = $('#admsNo').val();
@@ -1992,7 +1963,7 @@
                     targetId: 'deptCode',
                     valueKey: 'deptCode',
 //                    labelKey: 'deptName',
-                    labelKey: '${pageContext.response.locale == 'en' ? 'deptNameXxen' : 'deptName'}',
+                    labelKey: "${pageContext.response.locale == 'en' ? 'deptNameXxen' : 'deptName'}",
                     // clean: ['corsTypeCode', 'detlMajCode'],
                     url: function(arg) {
                         var admsNo = $('#admsNo').val();
@@ -2007,7 +1978,7 @@
                     targetId: 'corsTypeCode',
                     valueKey: 'corsTypeCode',
 //                    labelKey: 'codeVal',
-                    labelKey: '${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}',
+                    labelKey: "${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}",
                     // clean: ['detlMajCode'],
                     url: function(arg) {   <%-- 지원과정 조회 --%>
                         var admsNo = $('#admsNo').val();
@@ -2031,7 +2002,7 @@
                     targetId: 'detlMajCode',
                     valueKey: 'detlMajCode',
 //                    labelKey: 'detlMajName',
-                    labelKey: '${pageContext.response.locale == 'en' ? 'detlMajNameXxen' : 'detlMajName'}',
+                    labelKey: "${pageContext.response.locale == 'en' ? 'detlMajNameXxen' : 'detlMajName'}",
                     url: function(arg) {
                         var admsNo = $('#admsNo').val();
                         var applAttrCode = $('#applAttrCode').val();
