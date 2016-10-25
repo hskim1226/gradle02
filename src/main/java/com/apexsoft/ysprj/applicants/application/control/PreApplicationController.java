@@ -5,6 +5,7 @@ import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.mail.Mail;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
+import com.apexsoft.framework.util.DateUtils;
 import com.apexsoft.ysprj.applicants.admission.service.AdmissionService;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.RecommendationService;
@@ -12,6 +13,7 @@ import com.apexsoft.ysprj.applicants.application.validator.RecommendationValidat
 import com.apexsoft.ysprj.applicants.common.util.CryptoUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,7 @@ import org.springframework.web.util.WebUtils;
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+
 import java.security.Principal;
 import java.util.List;
 import java.util.Locale;
@@ -69,6 +72,8 @@ public class PreApplicationController {
     @Value("#{app['adms.early']}")
     private String admsEarly;
 
+    @Value("#{app['recommendation.duedate']}")
+    private String recDueDate;
 
     private static final Logger logger = LoggerFactory.getLogger(PreApplicationController.class);
     /**
@@ -206,6 +211,10 @@ public class PreApplicationController {
             mv.addObject("recommendation", recommendation);
         }
 
+        // 2016.10.25, go2zo, 마감 시간 입력방법 수정
+        mv.addObject("dueDate", DateUtils.convertTimeZone(recDueDate, "UTC"));
+        mv.addObject("dueDateKorea", DateUtils.convertTimeZoneAndFormat(recDueDate, "Asia/Seoul", "HH:mm"));
+
         return mv;
     }
 
@@ -261,6 +270,10 @@ public class PreApplicationController {
         Recommendation result = (Recommendation)ec.getData();
         mv.addObject("recommendation", result);
         mv.addObject("resultMsg", ec.getMessage());
+
+        // 2016.10.25, go2zo, 마감 시간 입력방법 수정
+        mv.addObject("dueDate", DateUtils.convertTimeZone(recDueDate, "UTC"));
+        mv.addObject("dueDateKorea", DateUtils.convertTimeZoneAndFormat(recDueDate, "Asia/Seoul", "HH:mm"));
 
         return mv;
     }

@@ -5,6 +5,7 @@ import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.security.UserSessionVO;
+import com.apexsoft.framework.util.DateUtils;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.Basis;
 import com.apexsoft.ysprj.applicants.common.util.WebUtil;
@@ -15,6 +16,7 @@ import com.apexsoft.ysprj.applicants.payment.domain.TransactionVO;
 import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +34,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -57,6 +60,9 @@ public class PaymentController {
 
     @Value("#{app['pay.casnoteurl']}")
     private String casnoteURL;
+
+    @Value("#{app['application.duedate']}")
+    private String applDueDate;
 
     @Autowired
     WebUtil webUtil;
@@ -123,6 +129,12 @@ public class PaymentController {
 //            retPage = "xpay/confirm";
             mv.setViewName("xpay/confirm");
         }
+
+        // 2016.10.25, go2zo, 마감 시간 입력방법 수정
+        mv.addObject("dueDate", DateUtils.convertTimeZone(applDueDate, "UTC"));
+        mv.addObject("dueDateKorea", DateUtils.convertTimeZoneAndFormat(applDueDate, "Asia/Seoul", "HH:mm"));
+
+
         return mv;
     }
 
