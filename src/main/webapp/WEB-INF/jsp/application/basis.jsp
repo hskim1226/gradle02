@@ -1325,18 +1325,18 @@
 
         <%-- 국가/학교 검색 시작 --%>
         var hideDialog = function(obj) {
-            $("#overlay").hide();
+            $('#overlay').hide();
             $(obj).fadeOut(300);
         };
         var showDialog = function(modal, obj) {
-            $("#overlay").show();
+            $('#overlay').show();
             $(obj).fadeIn(300);
 
             if (modal) {
-                $("#overlay").unbind("click");
+                $('#overlay').off('click');
             }
             else {
-                $("#overlay").click(function(e) {
+                $('#overlay').on('click', function(e) {
                     hideDialog(obj);
                 });
             }
@@ -1344,7 +1344,7 @@
 
         $('.bpopper').on('click', function(e) {
             e.preventDefault();
-            showDialog(true, "#modal_popup3");
+            showDialog(true, '#modal_popup3');
             $('#bpopResult').empty();
             var bpopText = document.getElementById('bpop');
             bpopText.value="";
@@ -1387,7 +1387,7 @@
             $(bpopText).focus().focus();
         });
 
-        $('#bpopBtnSearch').on('click', function(e) {
+        var bpopBtnSearchClicked = function(e) {
             e.preventDefault();
             var baseUrl = '${contextPath}/common/code', url;
             var dataCategory = $('#bpopContent').attr('data-category'), category;
@@ -1399,12 +1399,11 @@
 
             $('#bpopResult').empty();
 
-            $('#bpopBtnSearch').attr('disabled', 'disabled');
+            $('#bpopBtnSearch').off('click');
             $.ajax({
                 type: 'GET',
                 url: url,
                 success: function(data) {
-                	$('#bpopBtnSearch').removeAttr('disabled');
 //                    var obj = JSON.parse(data.data), record, i, l;
                     var container = JSON.parse(data),
                         obj = JSON.parse(container.data),
@@ -1473,10 +1472,14 @@
                     }
                 },
                 error: function(xhr,status,error) {
-                	$('#bpopBtnSearch').removeAttr('disabled');
+                },
+                complete: function(xhr, status) {
+                	$('#bpopBtnSearch').on('click', bpopBtnSearchClicked);
                 }
             });
-        });
+        };
+
+        $('#bpopBtnSearch').on('click', bpopBtnSearchClicked);
 
         $('#bpop').on('keyup', function(e) {
             if(e.keyCode == 13) {

@@ -740,30 +740,6 @@
     </div> <%--container--%>
 
     <%-- 국가/학교 검색 팝업 --%>
-    <%--<div id="bpopContainer" class="bpopContainer">--%>
-        <%--<span class="button b-close"><span>X</span></span>--%>
-        <%--<div id="bpopContent">--%>
-            <%--<div class="form-group">--%>
-                <%--<label id="searchTitle"></label>--%>
-            <%--</div>--%>
-            <%--<div class="form-group">--%>
-                <%--<div class="col-sm-10">--%>
-                    <%--<input type="text" id="bpop" name="bpop" class="form-control ime-mode-kr" />--%>
-                <%--</div>--%>
-                <%--<button id="bpopBtnSearch" class="btn btn-info col-sm-2">검색</button>--%>
-            <%--</div>--%>
-            <%--<div class="form-group">--%>
-                <%--<div class="col-sm-12" style="overflow-y: auto; height: 300px;">--%>
-                    <%--<table class="table table-stripped">--%>
-                        <%--<thead id="bpopHead">--%>
-                        <%--</thead>--%>
-                        <%--<tbody id="bpopResult">--%>
-                        <%--</tbody>--%>
-                    <%--</table>--%>
-                <%--</div>--%>
-            <%--</div>--%>
-        <%--</div>--%>
-    <%--</div>--%>
     <!-- 모달팝업:팝업창 시작 -->
     <div id="modal_popup3" class="popup1_wrap" style="display:none; margin-top:-240px; margin-left:-250px;">
         <div id="bpopContent" class="popuphead">
@@ -993,7 +969,7 @@
             $(bpopSearchText).focus().focus();
         });
 
-        $('#bpopBtnSearch').on('click', function(e) {
+        var bpopBtnSearchClicked = function(e) {
             e.preventDefault();
             var baseUrl = '${contextPath}/common/code', url;
             var dataCategory = $('#bpopContent').attr('data-category'), category;
@@ -1005,7 +981,7 @@
 
             $('#bpopResult').empty();
 
-            $('#bpopBtnSearch').attr('disabled', 'disabled');
+            $('#bpopBtnSearch').off('click');
             $.ajax({
                 type: 'GET',
                 url: url,
@@ -1076,10 +1052,14 @@
                     }
                 },
                 error: function(xhr,status,error) {
-                	$('#bpopBtnSearch').removeAttr('disabled');
+                },
+                complete: function(xhr, status) {
+                	$('#bpopBtnSearch').on('click', bpopBtnSearchClicked);
                 }
             });
-        });
+        };
+
+        $('#bpopBtnSearch').on('click', bpopBtnSearchClicked);
 
         $('#bpop').on('keyup', function(e) {
             if(e.keyCode == 13) {
