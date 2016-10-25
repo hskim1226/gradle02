@@ -218,7 +218,7 @@
 <%-- SYSADMIN 일 경우 안내 배너 표시 --%>
 <section class="application">
     <div class="container">
-        <p id="stepStatusTitle" colspan=4 align="center" height="70px">${msg.getMsg('L01001', locale)}<%--원서 작성 현황--%></p>
+        <p id="stepStatusTitle" align="center">${msg.getMsg('L01001', locale)}<%--원서 작성 현황--%></p>
         <!-- 진행상태바 시작 -->
         <div class="step_wrap">
             <ul class="step_box" id="step_box">
@@ -260,6 +260,8 @@
             </ul>
         </div>
         <!-- 모바일 탭메뉴 끝 -->
+        <c:set var="localeCode" value="${pageContext.response.locale.language}" />
+        <c:set var="corsTypeCode" value="${academy.application.corsTypeCode}"/>
         <form:form commandName="academy" cssClass="form-horizontal" method="post" role="form">
             <form:hidden path="application.applNo" id="applNo" />
             <form:hidden path="application.userId" id="userId" />
@@ -268,7 +270,6 @@
             <form:hidden path="application.entrYear" id="entrYear" />
             <form:hidden path="application.admsTypeCode" id="admsTypeCode" />
             <form:hidden path="application.corsTypeCode" id="corsTypeCode" />
-        <c:set var="corsTypeCode" value="${academy.application.corsTypeCode}"/>
             <div id="myTabContent" class="tab-content">
                 <div class="spacer-tiny"></div>
                 <div class="row">
@@ -295,7 +296,7 @@
                                                 </div>
                                                 <div class="col-sm-9">
                                                     <form:hidden path="collegeList[${stat.index}].schlCntrCode" />
-                                                    <form:input path="collegeList[${stat.index}].korCntrName" value="${pageContext.response.locale == 'en' ? academy.collegeList[stat.index].engCntrName : academy.collegeList[stat.index].korCntrName}" class="form-control" readonly="true"/>
+                                                    <form:input path="collegeList[${stat.index}].korCntrName" value="${localeCode == 'en' ? academy.collegeList[stat.index].engCntrName : academy.collegeList[stat.index].korCntrName}" class="form-control" readonly="true"/>
                                                 </div>
                                         <spring:bind path="collegeList[${stat.index}].schlCntrCode">
                                             <c:if test="${status.error}">
@@ -354,7 +355,7 @@
                                                         <form:select path="collegeList[${stat.index}].grdaTypeCode" cssClass="form-control grad-type">
                                                             <form:option value="" label="--${msg.getMsg('L01011', locale)}--" />
                                                             <form:options items="${selection.grdaTypeList}" itemValue="code"
-                                                                          itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
+                                                                          itemLabel="${localeCode == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                         </form:select>
                                                     </div>
                                             <spring:bind path="collegeList[${stat.index}].grdaTypeCode">
@@ -457,7 +458,7 @@
                                                                      data-grad-avr="collegeList${stat.index}.gradAvr" data-grad-full="collegeList${stat.index}.gradFull">
                                                             <form:option value="" label="--${msg.getMsg('L01011', locale)}--" />
                                                             <form:options items="${selection.gradFormList}" itemValue="code"
-                                                                          itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
+                                                                          itemLabel="${localeCode == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                         </form:select>
                                                     </div>
                                             <spring:bind path="collegeList[${stat.index}].gradFormCode">
@@ -507,9 +508,11 @@
                         </div>
                         <div class="panel panel-darkgray0">
                             <div class="panel-heading"><spring:message code="L02201"/><%--대학원--%></div>
+                            <c:if test="${(academy.application.admsTypeCode == 'C') || (academy.application.admsTypeCode == 'D')}">
                             <div class="panel-body grad-notice" style="padding-bottom: 0px;">
                                 <div class="col-sm-12"><label><spring:message code="U02201"/></label></div>    <%--박사 과정에 지원한 경우에는 대학원 최종 학교가 사정 기준이 됩니다.--%>
                             </div>
+                            </c:if>
                             <div class="panel-body">
                                 <div class="form-group-block-list">
                                     <c:forEach begin="0" end="${academy.graduateList.size() > 0 ? academy.graduateList.size() - 1 : 0}" varStatus="stat">
@@ -527,7 +530,7 @@
                                                 </div>
                                                 <div class="col-sm-9">
                                                     <form:hidden path="graduateList[${stat.index}].schlCntrCode" />
-                                                    <form:input path="graduateList[${stat.index}].korCntrName" class="form-control" value="${pageContext.response.locale == 'en' ? academy.graduateList[stat.index].engCntrName : academy.graduateList[stat.index].korCntrName}" readonly="true"/>
+                                                    <form:input path="graduateList[${stat.index}].korCntrName" class="form-control" value="${localeCode == 'en' ? academy.graduateList[stat.index].engCntrName : academy.graduateList[stat.index].korCntrName}" readonly="true"/>
                                                 </div>
                                         <spring:bind path="graduateList[${stat.index}].schlCntrCode">
                                             <c:if test="${status.error}">
@@ -585,7 +588,7 @@
                                                     <form:select path="graduateList[${stat.index}].grdaTypeCode" cssClass="form-control grad-type">
                                                         <form:option value="" label="--${msg.getMsg('L01011', locale)}--" />
                                                         <form:options items="${selection.grdaTypeList}" itemValue="code"
-                                                                      itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
+                                                                      itemLabel="${localeCode == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                     </form:select>
                                                 </div>
                                                 <div class="col-sm-8">
@@ -677,7 +680,7 @@
                                                                      data-grad-avr="graduateList${stat.index}.gradAvr" data-grad-full="graduateList${stat.index}.gradFull">
                                                             <form:option value="" label="--${msg.getMsg('L01011', locale)}--" />
                                                             <form:options items="${selection.gradFormList}" itemValue="code"
-                                                                          itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
+                                                                          itemLabel="${localeCode == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                         </form:select>
                                                     </div>
                                             <spring:bind path="graduateList[${stat.index}].gradFormCode">
@@ -873,13 +876,13 @@
                     isCollegeLastSchlChecked = true;
             });
 
-            <c:if test="${corsTypeCode.equals('02') || corsTypeCode.equals('06') || corsTypeCode.equals('08') || corsTypeCode.equals('11')}">
-            isGraduateLastSchlChecked = false;
-            $('.graduate-radio').each( function () {
-                if (this.value == 'on' && this.checked == true)
-                    isGraduateLastSchlChecked = true;
-            });
-            </c:if>
+            if("${corsTypeCode.equals('02') || corsTypeCode.equals('06') || corsTypeCode.equals('08') || corsTypeCode.equals('11')}" === 'true') {
+	            isGraduateLastSchlChecked = false;
+	            $('.graduate-radio').each( function () {
+	                if (this.value == 'on' && this.checked == true)
+	                    isGraduateLastSchlChecked = true;
+	            });
+            }
 
             $('.gradFull').each( function() {
                 var gradAvgInput = document.getElementById(this.getAttribute('data-gradAvr-id'));
@@ -908,7 +911,11 @@
             }
 
             if (!isCollegeLastSchlChecked || !isGraduateLastSchlChecked) {
-                alert('<spring:message code="U02114"/> ');//최종학교를 선택해 주세요.
+            	if (!isCollegeLastSchlChecked) {
+	                alert('<spring:message code="U02114"/> ');//대학교 중 최종학교를 선택해 주세요.
+            	} else {
+	                alert('<spring:message code="U02115"/> ');//대학교 중 최종학교를 선택해 주세요.
+            	}
                 $("#overlay").hide();
                 return false;
             }
@@ -1026,7 +1033,7 @@
                                 var tr = this;
 
                                 // 국가 검색이고 locale == en 일 때 targetNode2 인 citzCntrName에 영어 국가명을 넣게함
-                                if ('${pageContext.response.locale == 'en'}' === 'true' && category.isCountry)
+                                if ("${localeCode == 'en'}" === 'true' && category.isCountry)
                                     targetInputId[2] = document.getElementById('targetNode2').value;
 
                                 for ( var i = 0 , len = tr.children.length; i < len; i++ ) {
@@ -1266,7 +1273,7 @@
                     var regexp = /^\d+/;
                     if (!regexp.test(this.value) && this.value != '') {
                         validFlag.value = false;
-                        alert('<spring:message code="U02115"/>');    /*숫자로만 입력해 주세요*/
+                        alert('<spring:message code="U02116"/>');    /*숫자로만 입력해 주세요*/
                         this.focus();
                     } else {
                         validFlag.value = true;
@@ -1293,7 +1300,7 @@
                     var regexp = /^\d+/;
                     if (!regexp.test(this.value) && this.value != '') {
                         validFlag.value = false;
-                        alert('<spring:message code="U02115"/>');    /*숫자로만 입력해 주세요*/
+                        alert('<spring:message code="U02116"/>');    /*숫자로만 입력해 주세요*/
                         this.focus();
                     } else {
                         validFlag.value = true;

@@ -221,7 +221,7 @@
 <%-- SYSADMIN 일 경우 안내 배너 표시 --%>
 <section class="application">
     <div class="container">
-        <p id="stepStatusTitle" colspan=4 align="center" height="70px">${msg.getMsg('L01001', locale)}<%--원서 작성 현황--%></p>
+        <p id="stepStatusTitle" align="center">${msg.getMsg('L01001', locale)}<%--원서 작성 현황--%></p>
         <!-- 진행상태바 시작 -->
         <div class="step_wrap">
             <ul class="step_box" id="step_box">
@@ -263,6 +263,7 @@
             </ul>
         </div>
         <!-- 모바일 탭메뉴 끝 -->
+        <c:set var="localeCode" value="${pageContext.response.locale.language}" />
         <form:form commandName="langCareer" cssClass="form-horizontal" method="post" role="form">
             <form:hidden path="application.applNo" id="applNo" />
             <form:hidden path="application.userId" id="userId" />
@@ -279,7 +280,7 @@
                             <div class="panel-body" id="english-score-list">
                                 <c:forEach items="${langCareer.languageGroupList}" var="langGroup" varStatus="langGroupStat">
                                     <div class="panel panel-darkgray1">
-                                        <div class="panel-heading">${pageContext.response.locale == 'en' ? langGroup.examGrpNameXxen : langGroup.examGrpName}</div>
+                                        <div class="panel-heading">${localeCode == 'en' ? langGroup.examGrpNameXxen : langGroup.examGrpName}</div>
                                         <div class="panel-body" id="languageGroupList${langGroupStat.index}.list">
                                             <form:hidden path="languageGroupList[${langGroupStat.index}].examGrpName" value="${langGroup.examGrpName}" />
                                             <form:hidden path="languageGroupList[${langGroupStat.index}].examGrpNameXxen" value="${langGroup.examGrpNameXxen}" />
@@ -287,7 +288,7 @@
                                             <form:hidden path="languageGroupList[${langGroupStat.index}].multiYn" value="${langGroup.multiYn}"/>
                                             <c:forEach items="${langGroup.langList}" var="langList" varStatus="langListStat">
                                                 <div class="panel panel-default">
-                                                    <div class="panel-heading">${pageContext.response.locale == 'en' ? langList.itemNameXxen : langList.itemName}</div>
+                                                    <div class="panel-heading">${localeCode == 'en' ? langList.itemNameXxen : langList.itemName}</div>
                                                     <div class="panel-body" id="languageGroupList${langGroupStat.index}.langList${langListStat.index}.list">
                                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].itemName" value="${langList.itemName}"/>
                                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].itemNameXxen" value="${langList.itemNameXxen}"/>
@@ -325,7 +326,7 @@
                                                                                                    id="checkForlExmp-${langGroupStat.index}"
                                                                                                    name="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].checkedFg"
                                                                                                    ${subContainer.checkedFg == true ? 'checked' : ''}/>
-                                                                                            ${pageContext.response.locale == 'en' ? subContainer.itemNameXxen : subContainer.itemName}
+                                                                                            ${localeCode == 'en' ? subContainer.itemNameXxen : subContainer.itemName}
                                                                                         </label>
                                                                                     </c:when>
                                                                                     <c:when test='${langGroup.multiYn == "Y"}'>
@@ -334,7 +335,7 @@
                                                                                                    id="checkLang-${langGroupStat.index}-${langListStat.index}-${subContainerStat.index}"
                                                                                                    name="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].checkedFg"
                                                                                                     ${subContainer.checkedFg == true ? 'checked' : ''}/>
-                                                                                            ${pageContext.response.locale == 'en' ? subContainer.itemNameXxen : subContainer.itemName}
+                                                                                            ${localeCode == 'en' ? subContainer.itemNameXxen : subContainer.itemName}
                                                                                         </label>
                                                                                     </c:when>
                                                                                     <c:otherwise>
@@ -343,7 +344,7 @@
                                                                                                    id="radioLang-${langGroupStat.index}-${langListStat.index}-${subContainerStat.index}"
                                                                                                    name="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].checkedFg"
                                                                                                     ${subContainer.checkedFg == true ? 'checked' : ''}/>
-                                                                                            ${pageContext.response.locale == 'en' ? subContainer.itemNameXxen : subContainer.itemName}
+                                                                                            ${localeCode == 'en' ? subContainer.itemNameXxen : subContainer.itemName}
                                                                                         </label>
                                                                                     </c:otherwise>
                                                                                 </c:choose>
@@ -354,13 +355,13 @@
                                                                 <c:choose>
                                                                     <%--<c:when test='${subContainer.canYn == "Y"}'>--%>
                                                                     <c:when test='${langList.itemCode == "00001"}'>
-                                                                        <div class="col-sm-2 langDetail-${langGroupStat.index}-${langListStat.index}-${subContainerStat.index} langDetail-${langGroupStat.index}" style='display: ${subContainer.checkedFg == true ? 'block;' : 'none;'}'>
+                                                                        <div class="col-sm-2 langDetail-${langGroupStat.index}-${langListStat.index}-${subContainerStat.index} langDetail-${langGroupStat.index}" style="display: ${subContainer.checkedFg == true ? 'block;' : 'none;'}">
                                                                             <%--<c:if test="${subContainer.itemGrpCode == 'LANG_EXAM' && subContainer.itemCode == '00001'}">--%>
                                                                                 <%--<div class="input-group">--%>
                                                                                     <%--<form:select path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].toflTypeCode" cssClass="form-control forlInput-${langGroupStat.index}">--%>
                                                                                         <%--<form:option value="" label="--선택--" />--%>
                                                                                         <%--<form:options items="${common.toflTypeList}" itemValue="code"--%>
-                                                                                                      <%--itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>--%>
+                                                                                                      <%--itemLabel="${localeCode == 'en' ? 'codeValXxen' : 'codeVal'}"/>--%>
                                                                                     <%--</form:select>--%>
                                                                                 <%--</div>--%>
                                                                                 <%--<spring:bind path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].toflTypeCode">--%>
@@ -376,7 +377,7 @@
                                                                                             cssClass="form-control forlInput-${langGroupStat.index}">
                                                                                         <form:option value="" label="--${msg.getMsg('L01011', locale)}--" />
                                                                                         <form:options items="${langCareer.languageGroupList[langGroupStat.index].langList[langListStat.index].subContainer[subContainerStat.index].subCodeList}" itemValue="code"
-                                                                                                      itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
+                                                                                                      itemLabel="${localeCode == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                                                     </form:select>
                                                                                 </div>
                                                                                 </c:if>
@@ -456,7 +457,7 @@
                                                                                     <form:option value="" label="--${msg.getMsg('L01011', locale)}--" />
                                                                                     <%--<form:options items="${common.fornExmpList}" itemValue="code"--%>
                                                                                     <form:options items="${langCareer.languageGroupList[langGroupStat.index].langList[langListStat.index].subContainer[subContainerStat.index].subCodeList}" itemValue="code"
-                                                                                                  itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
+                                                                                                  itemLabel="${localeCode == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                                                 </form:select>
                                                                             </div>
                                                                             <spring:bind path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].subCode">
