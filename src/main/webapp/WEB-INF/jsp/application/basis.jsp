@@ -326,7 +326,7 @@
                                                     <form:option value="" label="--${msg.getMsg('L01011', locale)}--" />
                                                     <c:if test="${basis.application.applAttrCode == '00002'}">
                                                     <form:options items="${selection.ariInstList}" itemValue="ariInstCode"
-                                                                  itemLabel="${localeCode == 'en'} ? 'ariInstNameXxen' : 'ariInstName'"/>
+                                                                  itemLabel="ariInstName"/>
                                                     </c:if>
                                                 </form:select>
                                             </div>
