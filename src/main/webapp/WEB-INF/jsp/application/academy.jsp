@@ -508,7 +508,7 @@
                         </div>
                         <div class="panel panel-darkgray0">
                             <div class="panel-heading"><spring:message code="L02201"/><%--대학원--%></div>
-                            <c:if test="${(academy.application.admsTypeCode == 'C') || (academy.application.admsTypeCode == 'D')}">
+                            <c:if test="${(academy.application.admsTypeCode != 'C') && (academy.application.admsTypeCode != 'D')}">
                             <div class="panel-body grad-notice" style="padding-bottom: 0px;">
                                 <div class="col-sm-12"><label><spring:message code="U02201"/></label></div>    <%--박사 과정에 지원한 경우에는 대학원 최종 학교가 사정 기준이 됩니다.--%>
                             </div>
