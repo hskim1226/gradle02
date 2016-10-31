@@ -74,9 +74,9 @@ public class MailUrgeRecommendationToProf extends Mail {
                 .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_LINK",
                         new Object[]{ linkText }))
                 .append(NEW_LINE2)
-                .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_ALTERNATIVE_LINK",
-                        new Object[]{ alternativeLinkText }))
-                .append(NEW_LINE2)
+//                .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_ALTERNATIVE_LINK",
+//                        new Object[]{ alternativeLinkText }))
+//                .append(NEW_LINE2)
                 .append(MessageResolver.getMessage("MAIL_URGENCY_RECOMMENDATION_BODY_LINK_NOT_WORK_01"))
                 .append(NEW_LINE2)
                 .append(MessageResolver.getMessage("MAIL_URGENCY_RECOMMENDATION_BODY_LINK_NOT_WORK_02"))
