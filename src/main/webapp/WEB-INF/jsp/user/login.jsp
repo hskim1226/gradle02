@@ -191,7 +191,7 @@
                     </ul>
                     <ul class="txt_list1">
                         <li>전화 <span>070-4327-9791</span></li>
-                        <li><span>070-4327-8476</span></li>
+<!--                         <li><span>070-4327-8475</span></li> -->
                         <li><span>070-4327-8477</span></li>
                     </ul>
                     <ul class="txt_list1">
