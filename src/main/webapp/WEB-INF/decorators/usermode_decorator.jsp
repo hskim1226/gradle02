@@ -74,7 +74,7 @@
                         <sec:authorize access="!isAuthenticated()">
                         <li><a id="nav-logIn" href="${contextPath}/user/login"><i class="fa fa-sign-in"></i><spring:message code="L00081"/><%--로그인--%></a> </li>
                         </sec:authorize>
-                        <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_SYSADMIN')">
+                        <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SYSADMIN')">
                         <li><a id="nav-logOut" href="${contextPath}/logout"><i class="fa fa-sign-out"></i><spring:message code="L00011"/><%--로그아웃--%></a> </li>
                         </sec:authorize>
                         <sec:authorize access="hasRole('ROLE_SYSADMIN')">
