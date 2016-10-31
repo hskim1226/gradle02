@@ -135,7 +135,7 @@
                     <div class="spacer-tiny col-sm-12">&nbsp;</div>
                     <div>
                         <div class="col-sm-offset-1 col-sm-10">
-                            <button id='btnLogin' class="btn btn-danger btn-block btn-lg btn-block"><spring:message code="U00083"/><%--아직 시스템이 오픈되지 않았습니다.--%></button>
+                            <button id='btnLogin' class="btn btn-danger btn-block btn-lg btn-block"><spring:message code="U00084"/><%--아직 시스템이 오픈되지 않았습니다.--%></button>
                         </div>
                     </div>
                     <div class="spacer-tiny col-sm-12">&nbsp;</div>

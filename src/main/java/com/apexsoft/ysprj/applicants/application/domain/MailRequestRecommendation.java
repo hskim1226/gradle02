@@ -73,9 +73,9 @@ public class MailRequestRecommendation extends Mail {
                 .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_LINK",
                         new Object[]{ linkText }))
                 .append(NEW_LINE2)
-                .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_ALTERNATIVE_LINK",
-                        new Object[]{ alternativeLinkText }))
-                .append(NEW_LINE2)
+//                .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_ALTERNATIVE_LINK",
+//                        new Object[]{ alternativeLinkText }))
+//                .append(NEW_LINE2)
                 .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_STEP00"))
                 .append(NEW_LINE1)
                 .append(TAB)

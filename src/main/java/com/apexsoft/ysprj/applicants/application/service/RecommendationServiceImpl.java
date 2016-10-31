@@ -69,6 +69,9 @@ public class RecommendationServiceImpl implements RecommendationService {
     @Value("#{app['recommendation.alternative.url']}")
     private String recommendAlternativeURL;
 
+    @Value("#{app['path.static']}")
+    private String staticPath;
+
     private final String APP_NULL_STATUS = "00000";      // 에러일 때 반환값
 
     @Autowired
@@ -636,7 +639,8 @@ public class RecommendationServiceImpl implements RecommendationService {
                     .withContentsParam("siteURL", SITE_URL)
                     .withContentsParam("alternativeURL", recommendAlternativeURL)
                     .withContentsParam("instNameEN", INST_NAME_EN)
-                    .withContentsParam("dueTime", getRecDueDate());
+                    .withContentsParam("dueTime", getRecDueDate())
+                    .withContentsParam("staticPath", staticPath);
             mailToProf.makeContents();
             if (!sendUrgeMail(mailToProf)) {
                 // 수신자 주소가 잘못되어있더라도 failedList에는 들어오지 않음

@@ -127,7 +127,7 @@
                         </ul>
                         <ul class="txt_list1">
                             <li><spring:message code="L00037"/> <span><spring:message code="L00038"/></span></li>
-                            <li><span><spring:message code="L00047"/></span></li>
+<%--                             <li><span><spring:message code="L00047"/></span></li> --%>
                             <li><span><spring:message code="L00048"/></span></li>
                         </ul>
                         <ul class="txt_list1">
