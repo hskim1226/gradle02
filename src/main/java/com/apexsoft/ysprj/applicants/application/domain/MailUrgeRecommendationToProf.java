@@ -11,6 +11,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
+
 /**
  * Created by hanmomhanda on 15. 9. 13.
  */
@@ -81,7 +83,8 @@ public class MailUrgeRecommendationToProf extends Mail {
                 .append(NEW_LINE2)
                 .append(MessageResolver.getMessage("MAIL_URGENCY_RECOMMENDATION_BODY_LINK_NOT_WORK_02"))
                 .append(NEW_LINE2)
-                .append(MessageResolver.getMessage("MAIL_URGENCY_RECOMMENDATION_BODY_TEMPLATE_LINK"))
+                .append(MessageResolver.getMessage("MAIL_URGENCY_RECOMMENDATION_BODY_TEMPLATE_LINK",
+                		new Object[] { contentsParam.get("staticPath") }))
                 .append(NEW_LINE2)
                 .append(MessageResolver.getMessage("MAIL_URGENCY_RECOMMENDATION_BODY_LINK_NOT_WORK_03"))
                 .append(NEW_LINE2)

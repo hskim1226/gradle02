@@ -81,7 +81,7 @@
                                 <label class="text-gray"><spring:message code="L06736"/><%--추천서 양식--%></label>
                             </div>
                             <div class="col-sm-6 text-gray">
-                                <a style='vertical-align: bottom;' href="<spring:eval expression="@app.getProperty(\"path.static\")" />/etc/LetterOfRecommendation.docx"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/logo-ms-word.jpg"/> LetterOfRecommendation.docx</a>
+                                <a style='vertical-align: bottom;' href="<spring:eval expression="@app.getProperty(\"path.static\")" />/recommend/LetterOfRecommendation.docx"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/logo-ms-word.jpg"/> LetterOfRecommendation.docx</a>
                             </div>
                             <div class="spacer-tiny">&nbsp;</div>
                             <div class="col-sm-6 text-gray">
