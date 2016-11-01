@@ -135,9 +135,38 @@
                     <div class="spacer-tiny col-sm-12">&nbsp;</div>
                     <div>
                         <div class="col-sm-offset-1 col-sm-10">
-                            <button id='btnLogin' class="btn btn-danger btn-block btn-lg btn-block"><spring:message code="U00083"/><%--아직 시스템이 오픈되지 않았습니다.--%></button>
+                            <button id='btnLogin' class="btn btn-primary btn-lg btn-block btn-login"><spring:message code="L00089"/><%--로그인--%></button>
                         </div>
                     </div>
+                    <div class="spacer-tiny col-sm-12">&nbsp;</div>
+                    <div>
+                        <div class="col-sm-offset-1 col-sm-10">
+                            <button id='btnSignUp' class="btn btn-info btn-lg btn-block btn-signup"><spring:message code="L00083"/><%--회원가입--%></button>
+                        </div>
+                    </div>
+                    <%-- 로케일 설정을 로그인이 아닌 인트로에서 하기로 하여 아래 내용 제거 --%>
+                    <%--<div class="spacer-tiny col-sm-12">&nbsp;</div>--%>
+                    <%--<div>--%>
+                        <%--<div class="col-sm-offset-1 col-sm-10">--%>
+                            <%--<button class="btn btn-primary btn-lg btn-block btn-login" data-lang="ko"><spring:message code="L00087"/>&lt;%&ndash;로그인(한국어)&ndash;%&gt;</button>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
+                    <%--<div class="spacer-tiny col-sm-12">&nbsp;</div>                    --%>
+                    <%--<div>--%>
+                        <%--<div class="col-sm-offset-1 col-sm-10">--%>
+                            <%--<button class="btn btn-success btn-lg btn-block btn-login" data-lang="en"><spring:message code="L00088"/>&lt;%&ndash;로그인(영어)&ndash;%&gt;</button>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
+                    <c:if test="${loginMessage.length() > 0}">
+                        <div class="spacer-tiny col-sm-12">&nbsp;</div>
+                        <div class="col-sm-offset-1 col-sm-10">
+                            <div class="panel panel-danger text-warning">${loginMessage}</div>
+                        </div>
+                    </c:if>
+                    <%--<div class="spacer-tiny col-sm-12">&nbsp;</div>--%>
+                    <%--<div class="col-sm-offset-1 col-sm-10">--%>
+                        <%--<div class="text-gray"><spring:message code="L00082"/>&lt;%&ndash;아직 회원이 아니세요?&ndash;%&gt; <a href="${contextPath}/user/agreement"><spring:message code="L00083"/>&lt;%&ndash;회원 가입&ndash;%&gt;</a></div>--%>
+                    <%--</div>--%>
                     <div class="spacer-tiny col-sm-12">&nbsp;</div>
                     <div class="col-sm-offset-1 col-sm-10">
                         <div class="text-gray"><spring:message code="L00084"/><%--아이디/비밀번호를 잊으셨나요?--%> <a href="${contextPath}/user/findId"><spring:message code="L00085"/><%--아이디 찾기--%></a>&nbsp;<a href="${contextPath}/user/findPwd"><spring:message code="L00086"/><%--비밀번호 찾기--%></a></div>
@@ -194,10 +223,23 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
+
     $('#btnLogin').on('click', function(e) {
         e.preventDefault();
+        // 로케일을 인트로에서 하기로 해서 아래 내용 제거
+//        var lang = this.getAttribute('data-lang'),
+//            form = document.getElementById('loginForm');
+        <%--form.action = "${contextPath}/j_spring_security_check.do?lang=" + lang;--%>
+        var form = document.getElementById('loginForm');
+        <%--form.action = "${contextPath}/j_spring_security_check.do"; // Spring Security 4 에서는 /login 으로 변경--%>
+        form.action = "${contextPath}/login";
+        form.submit();
     });
 
+    $('#btnSignUp').on('click', function(e) {
+        e.preventDefault();
+        location.href='${contextPath}/user/agreement';
+    });
     <%-- action 성공 여부 알림 처리 --%>
     var showActionResult = function() {
         var msg = '${resultMsg}';
