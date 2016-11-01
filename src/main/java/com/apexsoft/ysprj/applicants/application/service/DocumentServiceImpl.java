@@ -308,6 +308,47 @@ public class DocumentServiceImpl implements DocumentService {
         String fixedOrgFileName = FilePathUtil.recoverSingleQuote(FilePathUtil.recoverAmpersand(orgFileName));
         oneDocument.setOrgFileName(fixedOrgFileName);
 
+        // 20161101 go2z, APPL_DOC 파일경로에 콤마(,) 포함되는 에러
+        boolean commaFlag = false;
+        String commaString = "Comma suffixed: {";
+        // FILE_EXT
+        String tempFileExt = oneDocument.getFileExt();
+        if (tempFileExt.endsWith(",")) {
+        	tempFileExt = tempFileExt.substring(0, tempFileExt.lastIndexOf(","));
+        	commaFlag = true;
+        	commaString += "fileExt: " + oneDocument.getFileExt() + ", ";
+        	oneDocument.setFileExt(tempFileExt);
+        }
+        // FILE_PATH
+        String tempFilePath = oneDocument.getFilePath();
+        if (tempFilePath.endsWith(",")) {
+        	tempFilePath = tempFilePath.substring(0, tempFilePath.lastIndexOf(","));
+        	commaFlag = true;
+        	commaString += "filePath: " + oneDocument.getFilePath() + ", ";
+        	oneDocument.setFilePath(tempFilePath);
+        }
+        // FILE_NAME
+        String tempFileName = oneDocument.getFileName();
+        if (tempFileName.endsWith(",")) {
+        	tempFileName = tempFileName.substring(0, tempFileName.lastIndexOf(","));
+        	commaFlag = true;
+        	commaString += "fileName: " + oneDocument.getFileName() + ", ";
+        	oneDocument.setFileName(tempFileName);
+        }
+        // ORI_FILE_NAME
+        String tempOriFileName = oneDocument.getOrgFileName();
+        if (tempOriFileName.endsWith(",")) {
+        	tempOriFileName = tempOriFileName.substring(0, tempOriFileName.lastIndexOf(","));
+        	commaFlag = true;
+        	commaString += "orgFileName: " + oneDocument.getOrgFileName() + ", ";
+        	oneDocument.setOrgFileName(tempOriFileName);
+        }
+        commaString += "}";
+
+        if (commaFlag) {
+        	logger.error(commaString);
+        }
+
         //기존 파일이 업로드 되어 있는 경우
         if( oneDocument.isFileUploadFg()){
             rUpdate++;
