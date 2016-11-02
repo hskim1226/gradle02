@@ -346,6 +346,10 @@ public class DocumentServiceImpl implements DocumentService {
         commaString += "}";
 
         if (commaFlag) {
+        	StackTraceElement[] elements = Thread.currentThread().getStackTrace();
+        	for (int i = 0; i < 5 || i < elements.length; i++) {
+        		System.out.println(elements[i].toString());
+        	}
         	logger.error(commaString);
         }
 

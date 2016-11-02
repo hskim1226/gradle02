@@ -1,35 +1,33 @@
 package com.apexsoft.framework.persistence.file.receiver;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.apexsoft.framework.persistence.file.model.FileItem;
+import com.apexsoft.framework.persistence.file.exception.FileUploadException;
+import com.apexsoft.framework.persistence.file.model.MultiPartInfo;
+import org.apache.commons.fileupload.FileItemIterator;
+import org.apache.commons.fileupload.FileItemStream;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.fileupload.util.Streams;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.lang.ArrayUtils;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequest;
 
-import com.apexsoft.framework.persistence.file.exception.FileUploadException;
-import com.apexsoft.framework.persistence.file.model.FileItem;
-import com.apexsoft.framework.persistence.file.model.MultiPartInfo;
+import javax.servlet.http.HttpServletRequest;
+import java.io.*;
+import java.net.URLDecoder;
+import java.util.*;
 
 /**
- *
+ * 
  *  {@link MultiPartReceiver} 의 구현체
  *
  */
 public class MultiPartReceiverImpl implements MultiPartReceiver {
-	private static final Logger logger = LoggerFactory.getLogger(MultiPartReceiverImpl.class);
 
 	/*
 	 * (non-Javadoc)
@@ -65,13 +63,9 @@ public class MultiPartReceiverImpl implements MultiPartReceiver {
                 org.apache.commons.fileupload.FileItem fileItem = ((CommonsMultipartFile) file).getFileItem();
 				IOUtils.copyLarge(file.getInputStream(), fos);
 				files.add(new FileItem(entry.getKey(), fileItem.getName(), f));
-				// 20161101 go2zo, Comma suffiex 에러 임시
-				if (fileItem.getName() != null && fileItem.getName().endsWith(",")) {
-					logger.error("Comma suffixed: {FieldName:{}, FileName:{}}", new Object[] {entry.getKey(), fileItem.getName() });
-				}
 			}
 		}
-
+		
 		return new MultiPartInfo(attributes, files);
 	}
 
