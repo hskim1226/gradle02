@@ -92,16 +92,22 @@ var apex = {
             var valLength = this.value.length;
             if (valLength > 0) {
                 if (valLength < min || valLength > max) {
+                	var msg;
                     if (min == max) {
-                        alert(min + msg1); // 자로 입력해 주세요.
+                        msg = min + msg1; // 자로 입력해 주세요.
                     } else if (min < 0) {
-                        alert(max + msg2); // 자 이하로 입력해 주세요.
+                        msg = max + msg2; // 자 이하로 입력해 주세요.
                     } else if (max > 9999) {
-                        alert(min + msg3); // 자 이상 입력해 주세요.
+                        msg = min + msg3; // 자 이상 입력해 주세요.
                     } else {
-                        alert(min + msg4 + max + msg5); // 자 이상, 자 이하로 입력해 주세요.
+                        msg = min + msg4 + max + msg5; // 자 이상, 자 이하로 입력해 주세요.
                     }
-                    this.focus();
+
+                    alert(msg);
+                    var $this = $(this);
+                    setTimeout(function() {
+                    	$this.focus();
+                    }, 100);
                 }
             }
         });
