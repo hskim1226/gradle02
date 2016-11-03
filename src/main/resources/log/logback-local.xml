@@ -26,6 +26,11 @@
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="FILE" />
     </logger>
+    <logger name="com.apexsoft.ysprj.applicants.application" additivity="false">
+        <level value="INFO" />
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE" />
+    </logger>
 
     <logger name="net.sf.ehcache" additivity="false">
         <level value="WARN" />

@@ -11,8 +11,10 @@ import com.apexsoft.ysprj.applicants.common.domain.ParamForPDFDocument;
 import com.apexsoft.ysprj.applicants.common.service.FilePersistenceService;
 import com.apexsoft.ysprj.applicants.common.service.ZipService;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.ServletContext;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -274,6 +277,8 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public ExecutionContext saveOneDocument(TotalApplicationDocument oneDocument ) {
 
+    	// 임시 로그
+    	logger.info("DOC_1" + ReflectionToStringBuilder.toString(oneDocument));
 
         ExecutionContext ec = new ExecutionContext();
         int rUpdate = 0, rInsert = 0,applNo = oneDocument.getApplNo();
@@ -307,6 +312,9 @@ public class DocumentServiceImpl implements DocumentService {
         String orgFileName = oneDocument.getOrgFileName();
         String fixedOrgFileName = FilePathUtil.recoverSingleQuote(FilePathUtil.recoverAmpersand(orgFileName));
         oneDocument.setOrgFileName(fixedOrgFileName);
+
+    	// 임시 로그
+    	logger.info("DOC_2" + ReflectionToStringBuilder.toString(oneDocument));
 
         // 20161101 go2z, APPL_DOC 파일경로에 콤마(,) 포함되는 에러
         boolean commaFlag = false;
@@ -348,7 +356,7 @@ public class DocumentServiceImpl implements DocumentService {
         if (commaFlag) {
         	StackTraceElement[] elements = Thread.currentThread().getStackTrace();
         	for (int i = 0; i < 5 || i < elements.length; i++) {
-        		System.out.println(elements[i].toString());
+        		commaString += ("\n" + elements[i].toString());
         	}
         	logger.error(commaString);
         }
