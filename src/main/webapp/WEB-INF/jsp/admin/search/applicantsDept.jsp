@@ -156,9 +156,9 @@
         </div>
 
 
-        <%--<div id="LblockcChgInfoBtn" class="con_btn text-right">--%>
-        <%--<a class="btn_set btnBlueS" id="downBtn"  href="#"><span>엑셀파일 다운로드</span></a>--%>
-        <%--</div>--%>
+        <div id="LblockcChgInfoBtn" class="con_btn text-right">
+        	<a class="btn_set btnBlueS" id="downBtn"  href="#"><span>엑셀파일 다운로드</span></a>
+        </div>
 
 
     </div>
