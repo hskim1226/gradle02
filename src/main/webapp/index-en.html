@@ -119,14 +119,14 @@
         <!--</div>-->
     <!--</div>-->
 
-    <!-- expire-notice -->
-    <!--<div class="expire-notice">-->
-    <!--<div class="col-sm-12" id="notice-container">-->
-    <!--<div class="col-sm-12">Application period is over.</div>-->
-    <!--<div class="col-sm-12">Only submitted application can be accessed through 'My List'</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--
+   <!-- expire-notice -->
+	<div class="expire-notice">
+		<div class="col-sm-12" id="notice-container">
+			<div class="col-sm-12">Application period is over.</div>
+			<div class="col-sm-12">Only submitted application can be accessed through 'My List'</div>
+		</div>
+	</div>
+	<!--
     <div class="expire-notice">
         <div class="col-sm-12" id="notice-container">
             <div class="col-sm-12">System will be available at 2015-10-05 09:30(KST)</div>
@@ -368,24 +368,25 @@ $(document).ready(function() {
             hiddenLang = document.getElementById('lang');
     hiddenLang.value = 'en';
 
-    $('#toAdmsList').click(function(e){
-        e.preventDefault();
-        form.action = '/yonsei/application/admsList';
-        form.method = 'post';
-        form.submit();
-    });
+<!--    $('#toAdmsList').click(function(e){-->
+<!--        e.preventDefault();-->
+<!--        form.action = '/yonsei/application/admsList';-->
+<!--        form.method = 'post';-->
+<!--        form.submit();-->
+<!--    });-->
     $('#toMyList').click(function(e){
         e.preventDefault();
         form.action = '/yonsei/application/mylist';
         form.method = 'post';
         form.submit();
     });
-    $('#toSignUp').click(function(e){
-        e.preventDefault();
-        form.action = '/yonsei/user/agreement';
-        form.method = 'post';
-        form.submit();
-    });
+<!--    $('#toSignUp').click(function(e){-->
+<!--        e.preventDefault();-->
+<!--        form.action = '/yonsei/user/agreement';-->
+<!--        form.method = 'post';-->
+<!--        form.submit();-->
+<!--    });-->
+
 
     $('.word-keep-all').wordBreakKeepAll();
 });
