@@ -77,11 +77,11 @@ public class UserAccountController {
                                    HttpServletRequest request) {
     	Date dueDate = DateUtils.getDate(applDueDate);
     	Date now = new Date();
-    	if (now.before(dueDate)) {
+//    	if (now.before(dueDate)) {
     		mv.setViewName("user/login");
-    	} else {
-    		mv.setViewName("user/login-post");
-    	}
+//    	} else {
+//    		mv.setViewName("user/login-post");
+//    	}
         if (bindingResult.hasErrors()) return mv;
 
         if (request.getAttribute("LOGIN_FAILURE") == Boolean.TRUE || "fail".equals(request.getParameter("auth")))
