@@ -2,6 +2,7 @@ package com.apexsoft.ysprj.user.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
+import com.apexsoft.framework.util.DateUtils;
 import com.apexsoft.ysprj.applicants.common.util.WebUtil;
 import com.apexsoft.ysprj.user.domain.User;
 import com.apexsoft.ysprj.user.service.UserAccountService;
@@ -9,7 +10,9 @@ import com.apexsoft.ysprj.user.validator.UserModValidator;
 import com.apexsoft.ysprj.user.validator.UserValidator;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.birt.report.engine.util.DataUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cglib.core.Local;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -28,6 +31,8 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -60,14 +65,23 @@ public class UserAccountController {
     @Autowired
     private WebUtil webUtil;
 
+
+    @Value("#{app['application.duedate']}")
+    private String applDueDate;
+
 //    @RequestMapping(value="/login", method= RequestMethod.GET)
     @RequestMapping(value="/login", method= RequestMethod.GET)
     public ModelAndView displayLoginForm(User user,
                                    BindingResult bindingResult,
                                    ModelAndView mv,
                                    HttpServletRequest request) {
-
-        mv.setViewName("user/login");
+    	Date dueDate = DateUtils.getDate(applDueDate);
+    	Date now = new Date();
+    	if (now.before(dueDate)) {
+    		mv.setViewName("user/login");
+    	} else {
+    		mv.setViewName("user/login-post");
+    	}
         if (bindingResult.hasErrors()) return mv;
 
         if (request.getAttribute("LOGIN_FAILURE") == Boolean.TRUE || "fail".equals(request.getParameter("auth")))

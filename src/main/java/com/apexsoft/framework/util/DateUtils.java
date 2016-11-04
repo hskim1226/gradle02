@@ -9,6 +9,17 @@ public class DateUtils {
 
 	private final static String DEFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm z";
 
+	public static Date getDate(String dateInString) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
+		Date date = null;
+		try {
+			date = dateFormat.parse(dateInString);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return date;
+	}
+
 	/**
 	 * @param dateInString "yyyy-MM-dd HH:mm (z)"
 	 * @param timeZoneId
