@@ -110,7 +110,7 @@ public class ApplicantListExcelDownloadView extends AbstractXlsView {
             rows.createCell(0).setCellValue(aAppl.getApplId());
             rows.createCell(1).setCellValue(aAppl.getAdmsType());
             rows.createCell(2).setCellValue(aAppl.getCampName());//"캠퍼스"
-            rows.createCell(3).setCellValue(aAppl.getAriInstCode());//"연구소"
+            rows.createCell(3).setCellValue(aAppl.getAriInstName());//"연구소"
             rows.createCell(4).setCellValue(aAppl.getDeptCode());//"학과매핑코드"
             rows.createCell(5).setCellValue(aAppl.getDetlMajName());//"세부전공"
             rows.createCell(6).setCellValue(aAppl.getKorName());//"한국성명"
