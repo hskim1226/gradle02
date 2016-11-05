@@ -4,27 +4,37 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.apexsoft.ysprj.admin.control.form.CourseSearchForm;
 import com.apexsoft.ysprj.admin.domain.ApplicantInfoEntire;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationLanguage;
-import com.apexsoft.ysprj.applicants.application.domain.CustomApplicationLanguage;
+
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.springframework.web.servlet.view.document.AbstractExcelView;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.web.servlet.view.document.AbstractXlsView;
 /**
  * Created by Dhkim on 2015-03-05.
  */
-public class ApplicantListExcelDownloadView extends AbstractExcelView{
+public class ApplicantListExcelDownloadView extends AbstractXlsView {
 
+	@Override
+	protected void buildExcelDocument(Map<String, Object> model, Workbook workbook,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		// TODO Auto-generated method stub
 
-    @Override
-    protected void buildExcelDocument(Map<String, Object> model, HSSFWorkbook workbook,
-                                      HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
+//	}
+//
+//    @Override
+//    protected void buildExcelDocument(Map<String, Object> model, HSSFWorkbook workbook,
+//                                      HttpServletRequest request, HttpServletResponse response)
+//            throws Exception {
 
         @SuppressWarnings("unchecked")
         List<ApplicantInfoEntire> applList =  (List<ApplicantInfoEntire> )model.get("applList");
@@ -54,9 +64,11 @@ public class ApplicantListExcelDownloadView extends AbstractExcelView{
         }
         response.setHeader("Content-Disposition", "attachment; filename=\""+fileName+".xls\"");
         //create a wordsheet
-        HSSFSheet sheet = workbook.createSheet("Revenue Report");
+//        HSSFSheet sheet = workbook.createSheet("Revenue Report");
+        Sheet sheet = workbook.createSheet("Revenue Report");
 
-        HSSFRow rows = sheet.createRow(0);
+//        HSSFRow rows = sheet.createRow(0);
+        Row rows = sheet.createRow(0);
         rows.createCell(0).setCellValue("수험번호");
         rows.createCell(1).setCellValue("모집구분");
         rows.createCell(2).setCellValue("캠퍼스");

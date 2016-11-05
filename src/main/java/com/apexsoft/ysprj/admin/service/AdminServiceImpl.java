@@ -1,6 +1,8 @@
 package com.apexsoft.ysprj.admin.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +16,7 @@ import com.apexsoft.ysprj.applicants.admission.domain.AdmissionName;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.common.domain.*;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
+import com.apexsoft.ysprj.applicants.common.util.CryptoUtil;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,7 @@ import com.apexsoft.framework.persistence.dao.page.PageStatement;
 import com.apexsoft.ysprj.admin.domain.*;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletContext;
 
 
 @Service
@@ -39,6 +43,8 @@ public class AdminServiceImpl implements AdminService{
     private final static String ADMS_NAME_SPACE = "com.apexsoft.ysprj.applicants.admission.sqlmap.";
     private final static String COMMON_NAME_SPACE = "com.apexsoft.ysprj.applicants.common.sqlmap.";
 
+    @Autowired
+    private ServletContext context;
     @Autowired
     private CommonDAO commonDAO;
 
@@ -354,6 +360,32 @@ public class AdminServiceImpl implements AdminService{
                 tempInfoList = commonDAO.queryForList(NAME_SPACE + "retrieveApplicantEntireListByDept", courseSearchPageForm, ApplicantInfoEntire.class);
 
                 for( ApplicantInfoEntire aInfo : tempInfoList ) {
+                	if (!"C".equalsIgnoreCase(aInfo.getAdmsType()) && !"D".equalsIgnoreCase(aInfo.getAdmsType())) {
+                		// 내국인
+                		aInfo.setRgstNo(aInfo.getRgstBornDate() + CryptoUtil.getCryptedString(context, aInfo.getRgstEncr(), false));
+                	} else {
+                		// 외국인
+                        ApplicationForeigner applForn = commonDAO.queryForObject(APPL_NAME_SPACE + "ApplicationForeignerMapper.selectByPrimaryKey",
+                                aInfo.getApplNo(), ApplicationForeigner.class);
+                        if (!StringUtils.isEmpty(applForn.getFornRgstNoEncr())) {
+                        	// 외국인 등록번호 존재
+                        	aInfo.setRgstNo(CryptoUtil.getCryptedString(context, applForn.getFornRgstNoEncr(), false));
+                        } else {
+                        	// 1900년대, 2000년대 태생에 대한 구분이 불가능
+//                        	int bornYear = Integer.parseInt(aInfo.getRgstBornDate().substring(0, 2));
+//                        	int nowYear = Calendar.getInstance().get(Calendar.YEAR);
+//                        	if (bornYear > (nowYear % 100)) {
+//                        		bornYear += ((int) (nowYear / 100 - 1) * 100);
+//                        	} else {
+//                        		bornYear += ((int) (nowYear / 100) * 100);
+//                        	}
+
+                        	int gendNo = "m".equalsIgnoreCase(aInfo.getGend()) ? 1 : 2;
+//                        			(bornYear < 2000 ? 1 : 3) : (bornYear < 2000 ? 2 : 4);
+
+                        	aInfo.setRgstNo(aInfo.getRgstBornDate() + gendNo + "000000");
+                        }
+                	}
                     aInfo.setAcadList(commonDAO.queryForList(APPL_NAME_SPACE + "CustomApplicationAcademyMapper.selectByApplNo", aInfo.getApplNo(), CustomApplicationAcademy.class));
                     aInfo.setLangList(commonDAO.queryForList(APPL_NAME_SPACE + "CustomApplicationLanguageMapper.selectByApplNo", aInfo.getApplNo(), ApplicationLanguage.class));
                     aInfo.setExprList(commonDAO.queryForList(APPL_NAME_SPACE + "CustomApplicationExperienceMapper.selectByApplNo", aInfo.getApplNo(), CustomApplicationExperience.class));

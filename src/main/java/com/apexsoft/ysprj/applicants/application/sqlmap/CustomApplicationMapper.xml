@@ -465,5 +465,10 @@
         and   b.APPL_ID = 'NONE'
     </select>
 
+    <select id="selectAllApplNo" resultType="int">
+    	select APPL_NO
+    	from APPL
+    </select>
+
 
 </mapper>

@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 public class ApplicantInfo {
-    
+
     private int applNo;
     private String userId;
 	private String admsNo;
@@ -17,39 +17,41 @@ public class ApplicantInfo {
     private String applAttrName;
 	private String campName;
     private String collName;
-    private String deptCode;    
-    private String deptName;        
+    private String deptCode;
+    private String deptName;
     private String ariInstCode;
-    private String ariInstName;  //  
-    private String corsTypeCode;  //   
-    private String corsTypeName;  //      
-    private String detlMajCode;  //     
+    private String ariInstName;  //
+    private String corsTypeCode;  //
+    private String corsTypeName;  //
+    private String detlMajCode;  //
     private String inpDetlMaj;
     private String detlMajName; //
-    
+
 	private String korName;  //
-    private String engSur;  // 
-    private String engName;  //     
+    private String engSur;  //
+    private String engName;  //
     private String rgstNo;  //
     private String rgstBornDate;//RGST_BORN_DATE
+    private String rgstEncr;//RGST_ENCR
+    private String rgstHash;//RGST_HASH
     private String bornDay;//BORN_DAY
     private String citzCntrCode;//CITZ_CNTR_CODE
     private String fornTypeCode;
     private String gend;//GEND
 
-    private String telNum;  //  
-    private String addr; 
-    private String detlAddr;      
+    private String telNum;  //
+    private String addr;
+    private String detlAddr;
 
 	private String mobiNum;
     private String mailAddr;
     private String emerContCode;
-	private String emerContName; 
-    private String emerContTel;      
-    
+	private String emerContName;
+    private String emerContTel;
 
-	private String applId;    
-    private String applStsCode; 
+
+	private String applId;
+    private String applStsCode;
     private String applStsName;
     private String payTypeCode;
     private String payTypeName;
@@ -251,7 +253,23 @@ public class ApplicantInfo {
         this.rgstBornDate = rgstBornDate;
     }
 
-    public String getBornDay() {
+    public String getRgstEncr() {
+		return rgstEncr;
+	}
+
+	public void setRgstEncr(String rgstEncr) {
+		this.rgstEncr = rgstEncr;
+	}
+
+	public String getRgstHash() {
+		return rgstHash;
+	}
+
+	public void setRgstHash(String rgstHash) {
+		this.rgstHash = rgstHash;
+	}
+
+	public String getBornDay() {
         return bornDay;
     }
 
