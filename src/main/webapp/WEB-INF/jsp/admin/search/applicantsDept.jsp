@@ -24,14 +24,7 @@
 
                 <form:select path="admsNo" id="admsNo" class="ipt_slt1">
                     <form:option value="" label="--전체--" />
-                    <form:options items="${selection.admsList}" itemValue="admsNo" itemLabel="admsName"/>
-                </form:select>&nbsp;&nbsp;&nbsp;
-
-                <label for="admsNo"><strong>지원자분류</strong></label>
-
-                <form:select path="applAttrCode" id="applAttrCode" class="ipt_slt1">
-                    <form:option value="" label="--전체--" />
-                    <form:options items="${selection.applAttrList}" itemValue="code" itemLabel="codeVal"/>
+                    <form:options items="${selection.admsList}" itemValue="admsNo" itemLabel="admsNo"/>
                 </form:select>&nbsp;&nbsp;&nbsp;
 
                 <label for="campCode"><strong>캠퍼스</strong></label>
@@ -138,7 +131,7 @@
             <c:if test="${indexCount != 0}">
             <a class="Lbegin"><span><a href="#" class="end" onclick="movePage(1); return false;">1page</a>
         <c:if test="${searchPageForm.page.no-1 > 0}">
-           <a href="#" onclick="movePage(${searchPageForm.page.no-1}); return false;"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/repository/list_page_previous.gif" alt="이전페이지" /></a>
+            <a href="#" onclick="movePage(${searchPageForm.page.no-1}); return false;"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/repository/list_page_previous.gif" alt="이전페이지" /></a>
         </c:if>
         <c:forEach begin="1" end="${indexCount}" var="pageNumIndex">
             <c:if test="${searchPageForm.page.no==pageNumIndex}">
@@ -157,7 +150,7 @@
 
 
         <div id="LblockcChgInfoBtn" class="con_btn text-right">
-        	<a class="btn_set btnBlueS" id="downBtn"  href="#"><span>엑셀파일 다운로드</span></a>
+            <a class="btn_set btnBlueS" id="downBtn"  href="#"><span>엑셀파일 다운로드</span></a>
         </div>
 
 
