@@ -27,6 +27,8 @@ import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.framework.persistence.dao.page.PageInfo;
 import com.apexsoft.framework.persistence.dao.page.PageStatement;
 import com.apexsoft.ysprj.admin.domain.*;
+import com.apexsoft.ysprj.admin.domain.ApplicantInfo;
+import com.apexsoft.ysprj.admin.domain.ApplicantInfoEntire;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
@@ -66,16 +68,16 @@ public class AdminServiceImpl implements AdminService{
         Map<String, Object> ecDataMap = new HashMap<String, Object>();
         Map<String, Object> selectionMap = new HashMap<String, Object>();
 
-        PageInfo<ApplicantInfo>  tempPageInfo =null;
+        PageInfo<ApplicantInfoEntire>  tempPageInfo =null;
         try{
 
             if( courseSearchPageForm.getKorName()!= null || courseSearchPageForm.getApplId()!= null) {
                 PageStatement tempStst = new PageStatement(NAME_SPACE+"retrieveApplicantCountByName", NAME_SPACE+"retrieveApplicantListByName");
 
                 tempPageInfo = commonDAO.queryForPagenatedList( tempStst, courseSearchPageForm, courseSearchPageForm.getPage().getNo(), courseSearchPageForm.getPage().getRows() );
-                List<ApplicantInfo> tempInfoList = tempPageInfo.getData();
+                List<ApplicantInfoEntire> tempInfoList = tempPageInfo.getData();
                 for( int idx=0; idx< tempInfoList.size(); idx++) {
-                    ApplicantInfo tempInfo = tempInfoList.get(idx);
+                	ApplicantInfoEntire tempInfo = tempInfoList.get(idx);
                     int applNo = tempInfo.getApplNo();
                     tempInfo.setAdmsName(abridgeAdmsCodeName(tempInfo.getAdmsNo()));
                     tempInfo.setDocList(commonDAO.queryForList(NAME_SPACE + "selectByApplNo", applNo, ApplicationDocument.class));
@@ -112,7 +114,7 @@ public class AdminServiceImpl implements AdminService{
         List<College> collList = null;
         List<CodeNameDepartment> deptList = null;
 
-        PageInfo<ApplicantInfo>  tempPageInfo =null;
+        PageInfo<ApplicantInfoEntire>  tempPageInfo =null;
         try{
 
             ParamForSetupCourses param = new ParamForSetupCourses();
@@ -128,9 +130,9 @@ public class AdminServiceImpl implements AdminService{
                 PageStatement tempStst = new PageStatement(NAME_SPACE+"retrieveApplicantCountByDept", NAME_SPACE+"retrieveApplicantListByDept");
 
                 tempPageInfo = commonDAO.queryForPagenatedList( tempStst, courseSearchPageForm, courseSearchPageForm.getPage().getNo(), courseSearchPageForm.getPage().getRows() );
-                List<ApplicantInfo> tempInfoList = tempPageInfo.getData();
+                List<ApplicantInfoEntire> tempInfoList = tempPageInfo.getData();
                 for( int idx=0; idx< tempInfoList.size(); idx++) {
-                    ApplicantInfo tempInfo = tempInfoList.get(idx);
+                	ApplicantInfoEntire tempInfo = tempInfoList.get(idx);
                     int applNo = tempInfo.getApplNo();
                     tempInfo.setAdmsName(abridgeAdmsCodeName(tempInfo.getAdmsNo()));
                     tempInfo.setDocList(commonDAO.queryForList(NAME_SPACE + "selectByApplNo", applNo, ApplicationDocument.class));
@@ -367,23 +369,28 @@ public class AdminServiceImpl implements AdminService{
                 		// 외국인
                         ApplicationForeigner applForn = commonDAO.queryForObject(APPL_NAME_SPACE + "ApplicationForeignerMapper.selectByPrimaryKey",
                                 aInfo.getApplNo(), ApplicationForeigner.class);
+                        // 외국인 등록번호
                         if (!StringUtils.isEmpty(applForn.getFornRgstNoEncr())) {
-                        	// 외국인 등록번호 존재
                         	aInfo.setRgstNo(CryptoUtil.getCryptedString(context, applForn.getFornRgstNoEncr(), false));
                         } else {
-                        	// 1900년대, 2000년대 태생에 대한 구분이 불가능
-//                        	int bornYear = Integer.parseInt(aInfo.getRgstBornDate().substring(0, 2));
-//                        	int nowYear = Calendar.getInstance().get(Calendar.YEAR);
-//                        	if (bornYear > (nowYear % 100)) {
-//                        		bornYear += ((int) (nowYear / 100 - 1) * 100);
-//                        	} else {
-//                        		bornYear += ((int) (nowYear / 100) * 100);
-//                        	}
-
                         	int gendNo = "m".equalsIgnoreCase(aInfo.getGend()) ? 1 : 2;
-//                        			(bornYear < 2000 ? 1 : 3) : (bornYear < 2000 ? 2 : 4);
-
                         	aInfo.setRgstNo(aInfo.getRgstBornDate() + gendNo + "000000");
+                        }
+
+                        // visa 번호
+                        if (!StringUtils.isEmpty(applForn.getVisaNo())) {
+                        	aInfo.setVisaNo(applForn.getVisaNo());
+                        } else {
+                        	String visaNoEncr = !StringUtils.isEmpty(aInfo.getVisaNoEncr()) ? aInfo.getVisaNoEncr() : applForn.getVisaNoEncr();
+                        	aInfo.setVisaNo(CryptoUtil.getCryptedString(context, visaNoEncr, false));
+                        }
+
+                        // 여권번호
+                        if (!StringUtils.isEmpty(applForn.getPaspNo())) {
+                        	aInfo.setPaspNo(applForn.getPaspNo());
+                        } else {
+                        	String paspNoEncr = !StringUtils.isEmpty(aInfo.getPaspNoEncr()) ? aInfo.getPaspNoEncr() : applForn.getPaspNoEncr();
+                        	aInfo.setPaspNo(CryptoUtil.getCryptedString(context, paspNoEncr, false));
                         }
                 	}
                     aInfo.setAcadList(commonDAO.queryForList(APPL_NAME_SPACE + "CustomApplicationAcademyMapper.selectByApplNo", aInfo.getApplNo(), CustomApplicationAcademy.class));

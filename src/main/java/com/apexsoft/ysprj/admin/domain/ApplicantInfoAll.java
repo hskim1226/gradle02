@@ -2,113 +2,221 @@ package com.apexsoft.ysprj.admin.domain;
 
 public class ApplicantInfoAll extends ApplicantInfo{
 	  
-	private String EmerContCode;//    EMER_CONT_CODE
-	private String EmerContCodeName;
-	private String EmerContName; //    EMER_CONT_NAME
-	private String EmerContTel;//    EMER_CONT_TEL
-    private String ForlExmpCode;//FORL_EXMP_CODE
+	private String emerContCode;//
+    private String emerContCodeName;// //   EMER_CONT_CODE_Name
+	private String emerContName; //   EMER_CONT_NAME
 
-	private String FornTypeCode; //    FORN_TYPE_CODE
-	private String BornCntrCode;//    BORN_CNTR_CODE
-	private String CitzCntrCode;//    CITZ_CNTR_CODE
-	private String FornTypeCodeName;
-	private String BornCntrCodeName;
-	private String CitzCntrCodeName;
-	private String PaspNo;//    PASP_NO
-	private String KorEmrgName;//    KOR_EMRG_NAME
-	private String KorEmrgTel;//    KOR_EMRG_TEL
-	private String KorEmrgRela;//    KOR_EMRG_RELA    
-	
-	public String getEmerContCode() {
-		return EmerContCode;
-	}
-	public void setEmerContCode(String emerContCode) {
-		EmerContCode = emerContCode;
-	}
-	public String getEmerContCodeName() {
-		return EmerContCodeName;
-	}
-	public void setEmerContCodeName(String emerContCodeName) {
-		EmerContCodeName = emerContCodeName;
-	}
-	public String getEmerContName() {
-		return EmerContName;
-	}
-	public void setEmerContName(String emerContName) {
-		EmerContName = emerContName;
-	}
-	public String getEmerContTel() {
-		return EmerContTel;
-	}
-	public void setEmerContTel(String emerContTel) {
-		EmerContTel = emerContTel;
-	}
-	public String getFornTypeCode() {
-		return FornTypeCode;
-	}
-	public void setFornTypeCode(String fornTypeCode) {
-		FornTypeCode = fornTypeCode;
-	}
-	public String getBornCntrCode() {
-		return BornCntrCode;
-	}
-	public void setBornCntrCode(String bornCntrCode) {
-		BornCntrCode = bornCntrCode;
-	}
-	public String getCitzCntrCode() {
-		return CitzCntrCode;
-	}
-	public void setCitzCntrCode(String citzCntrCode) {
-		CitzCntrCode = citzCntrCode;
-	}
-	public String getFornTypeCodeName() {
-		return FornTypeCodeName;
-	}
-	public void setFornTypeCodeName(String fornTypeCodeName) {
-		FornTypeCodeName = fornTypeCodeName;
-	}
-	public String getBornCntrCodeName() {
-		return BornCntrCodeName;
-	}
-	public void setBornCntrCodeName(String bornCntrCodeName) {
-		BornCntrCodeName = bornCntrCodeName;
-	}
-	public String getCitzCntrCodeName() {
-		return CitzCntrCodeName;
-	}
-	public void setCitzCntrCodeName(String citzCntrCodeName) {
-		CitzCntrCodeName = citzCntrCodeName;
-	}
-	public String getPaspNo() {
-		return PaspNo;
-	}
-	public void setPaspNo(String paspNo) {
-		PaspNo = paspNo;
-	}
-	public String getKorEmrgName() {
-		return KorEmrgName;
-	}
-	public void setKorEmrgName(String korEmrgName) {
-		KorEmrgName = korEmrgName;
-	}
-	public String getKorEmrgTel() {
-		return KorEmrgTel;
-	}
-	public void setKorEmrgTel(String korEmrgTel) {
-		KorEmrgTel = korEmrgTel;
-	}
-	public String getKorEmrgRela() {
-		return KorEmrgRela;
-	}
-	public void setKorEmrgRela(String korEmrgRela) {
-		KorEmrgRela = korEmrgRela;
-	}
+    private String hndcGrad;
+    private String hndcType;
+    private String hndcTypeName;
 
-    public String getForlExmpCode() {
-        return ForlExmpCode;
+    private String bornCntrCode;
+    private String bornCntrCodeName;
+    private String fornRgstNo;
+    private String fornRgstNoEncr;
+    private String paspNo;
+    private String paspNoEncr;
+    private String visaNo;
+    private String visaNoEncr;
+    private String visaTypeCode;
+    private String visaTypeEtc;
+    private String visaExprDay;
+    private String homeAddr;
+    private String homeTel;
+    private String homeEmrgName;
+    private String homeEmrgTel;
+    private String homeEmrgRela;
+    private String homeEmrgRelaName;
+
+
+
+
+    @Override
+    public String getEmerContCode() {
+        return emerContCode;
     }
 
-    public void setForlExmpCode(String forlExmpCode) {
-        ForlExmpCode = forlExmpCode;
+    @Override
+    public void setEmerContCode(String emerContCode) {
+        this.emerContCode = emerContCode;
+    }
+
+    public String getEmerContCodeName() {
+        return emerContCodeName;
+    }
+
+    public void setEmerContCodeName(String emerContCodeName) {
+        this.emerContCodeName = emerContCodeName;
+    }
+
+    @Override
+    public String getEmerContName() {
+        return emerContName;
+    }
+
+    @Override
+    public void setEmerContName(String emerContName) {
+        this.emerContName = emerContName;
+    }
+
+    public String getHndcGrad() {
+        return hndcGrad;
+    }
+
+    public void setHndcGrad(String hndcGrad) {
+        this.hndcGrad = hndcGrad;
+    }
+
+    public String getHndcType() {
+        return hndcType;
+    }
+
+    public void setHndcType(String hndcType) {
+        this.hndcType = hndcType;
+    }
+
+    public String getBornCntrCodeName() {
+        return bornCntrCodeName;
+    }
+
+    public void setBornCntrCodeName(String bornCntrCodeName) {
+        this.bornCntrCodeName = bornCntrCodeName;
+    }
+
+    public String getFornRgstNo() {
+        return fornRgstNo;
+    }
+
+    public void setFornRgstNo(String fornRgstNo) {
+        this.fornRgstNo = fornRgstNo;
+    }
+
+    public String getFornRgstNoEncr() {
+        return fornRgstNoEncr;
+    }
+
+    public void setFornRgstNoEncr(String fornRgstNoEncr) {
+        this.fornRgstNoEncr = fornRgstNoEncr;
+    }
+
+    public String getPaspNo() {
+        return paspNo;
+    }
+
+    public void setPaspNo(String paspNo) {
+        this.paspNo = paspNo;
+    }
+
+    public String getPaspNoEncr() {
+        return paspNoEncr;
+    }
+
+    public void setPaspNoEncr(String paspNoEncr) {
+        this.paspNoEncr = paspNoEncr;
+    }
+
+    public String getVisaNo() {
+        return visaNo;
+    }
+
+    public void setVisaNo(String visaNo) {
+        this.visaNo = visaNo;
+    }
+
+    public String getVisaNoEncr() {
+        return visaNoEncr;
+    }
+
+    public void setVisaNoEncr(String visaNoEncr) {
+        this.visaNoEncr = visaNoEncr;
+    }
+
+    public String getVisaTypeCode() {
+        return visaTypeCode;
+    }
+
+    public void setVisaTypeCode(String visaTypeCode) {
+        this.visaTypeCode = visaTypeCode;
+    }
+
+    public String getVisaTypeEtc() {
+        return visaTypeEtc;
+    }
+
+    public void setVisaTypeEtc(String visaTypeEtc) {
+        this.visaTypeEtc = visaTypeEtc;
+    }
+
+    public String getVisaExprDay() {
+        return visaExprDay;
+    }
+
+    public void setVisaExprDay(String visaExprDay) {
+        this.visaExprDay = visaExprDay;
+    }
+
+    public String getHomeAddr() {
+        return homeAddr;
+    }
+
+    public void setHomeAddr(String homeAddr) {
+        this.homeAddr = homeAddr;
+    }
+
+    public String getHomeTel() {
+        return homeTel;
+    }
+
+    public void setHomeTel(String homeTel) {
+        this.homeTel = homeTel;
+    }
+
+    public String getHomeEmrgName() {
+        return homeEmrgName;
+    }
+
+    public void setHomeEmrgName(String homeEmrgName) {
+        this.homeEmrgName = homeEmrgName;
+    }
+
+    public String getHomeEmrgTel() {
+        return homeEmrgTel;
+    }
+
+    public void setHomeEmrgTel(String homeEmrgTel) {
+        this.homeEmrgTel = homeEmrgTel;
+    }
+
+    public String getHomeEmrgRela() {
+        return homeEmrgRela;
+    }
+
+    public void setHomeEmrgRela(String homeEmrgRela) {
+        this.homeEmrgRela = homeEmrgRela;
+    }
+
+    public String getHomeEmrgRelaName() {
+        return homeEmrgRelaName;
+    }
+
+    public void setHomeEmrgRelaName(String homeEmrgRelaName) {
+        this.homeEmrgRelaName = homeEmrgRelaName;
+    }
+
+
+    public String getBornCntrCode() {
+        return bornCntrCode;
+    }
+
+    public void setBornCntrCode(String bornCntrCode) {
+        this.bornCntrCode = bornCntrCode;
+    }
+
+    public String getHndcTypeName() {
+        return hndcTypeName;
+    }
+
+    public void setHndcTypeName(String hndcTypeName) {
+        this.hndcTypeName = hndcTypeName;
     }
 }
