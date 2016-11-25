@@ -17,6 +17,7 @@ import com.apexsoft.ysprj.admin.control.form.CourseSearchForm;
 import com.apexsoft.ysprj.admin.domain.ApplicantInfoEntire;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationLanguage;
 import com.apexsoft.ysprj.applicants.application.domain.CustomApplicationAcademy;
+import com.apexsoft.ysprj.applicants.common.domain.CommonCode;
 /**
  * Created by Dhkim on 2015-03-05.
  */
@@ -29,6 +30,7 @@ public class ApplicantListExcelDownloadView extends AbstractXlsView {
         @SuppressWarnings("unchecked")
         List<ApplicantInfoEntire> applList =  (List<ApplicantInfoEntire> )model.get("applList");
         CourseSearchForm searchForm =  (CourseSearchForm)model.get("searchForm");
+        Map<String, String> topikLevelMap = (Map<String, String>) model.get("topikLevelMap");
         String fileName ="";
 
         DateFormat df = new SimpleDateFormat("yyyymmdd");
@@ -96,28 +98,30 @@ public class ApplicantListExcelDownloadView extends AbstractXlsView {
         rows.createCell(32).setCellValue("GRE성적");
         rows.createCell(33).setCellValue("IELT응시일");
         rows.createCell(34).setCellValue("IELT성적");
+        rows.createCell(35).setCellValue("TOPIK응시일");
+        rows.createCell(36).setCellValue("TOPIK성적");
 
-        rows.createCell(35).setCellValue("핸드폰");
-        rows.createCell(36).setCellValue("집전화");
-        rows.createCell(37).setCellValue("이메일");
-        rows.createCell(38).setCellValue("우편번호");
-        rows.createCell(39).setCellValue("주소");
-        rows.createCell(40).setCellValue("비상연락처(이름)");
-        rows.createCell(41).setCellValue("비상연락처(관계)");
-        rows.createCell(42).setCellValue("본국-비상연락처(전화번호)");
-        rows.createCell(43).setCellValue("비상연락처(전화번호)");
-        rows.createCell(44).setCellValue("학위");
-        rows.createCell(45).setCellValue("면제사유");
+        rows.createCell(37).setCellValue("핸드폰");
+        rows.createCell(38).setCellValue("집전화");
+        rows.createCell(39).setCellValue("이메일");
+        rows.createCell(40).setCellValue("우편번호");
+        rows.createCell(41).setCellValue("주소");
+        rows.createCell(42).setCellValue("비상연락처(이름)");
+        rows.createCell(43).setCellValue("비상연락처(관계)");
+        rows.createCell(44).setCellValue("본국-비상연락처(전화번호)");
+        rows.createCell(45).setCellValue("비상연락처(전화번호)");
+        rows.createCell(46).setCellValue("학위");
+        rows.createCell(47).setCellValue("면제사유");
 
-        rows.createCell(46).setCellValue("장애사항");
-        rows.createCell(47).setCellValue("여권번호");
-        rows.createCell(48).setCellValue("비자정보");
-        rows.createCell(49).setCellValue("비자종류");
-        rows.createCell(50).setCellValue("비자번호");
-        rows.createCell(51).setCellValue("비자만료일");
-        rows.createCell(52).setCellValue("비고");
-        rows.createCell(53).setCellValue("자격구분");
-        rows.createCell(54).setCellValue("END");
+        rows.createCell(48).setCellValue("장애사항");
+        rows.createCell(49).setCellValue("여권번호");
+        rows.createCell(50).setCellValue("비자정보");
+        rows.createCell(51).setCellValue("비자종류");
+        rows.createCell(52).setCellValue("비자번호");
+        rows.createCell(53).setCellValue("비자만료일");
+        rows.createCell(54).setCellValue("비고");
+        rows.createCell(55).setCellValue("자격구분");
+        rows.createCell(56).setCellValue("END");
 
 
         int index = 0;
@@ -279,9 +283,6 @@ public class ApplicantListExcelDownloadView extends AbstractXlsView {
                         rows.createCell(24).setCellValue(aLang.getSubCode());//"토플종류"
                         rows.createCell(25).setCellValue(aLang.getExamDay());//"토플시행일"
                         rows.createCell(26).setCellValue(aLang.getLangGrad());//"토플성적"
-                    } else if ("00004".equals(aLang.getLangExamCode())) {//IELT
-                        rows.createCell(33).setCellValue(aLang.getExamDay());//"IELT응시일"
-                        rows.createCell(34).setCellValue(aLang.getLangGrad());//"IELT성적"
                     } else if ("00002".equals(aLang.getLangExamCode())) {//토익
                         rows.createCell(27).setCellValue(aLang.getExamDay());//"토익시행일"
                         rows.createCell(28).setCellValue(aLang.getLangGrad());//"토익성적"
@@ -291,9 +292,14 @@ public class ApplicantListExcelDownloadView extends AbstractXlsView {
                     } else if ("00005".equals(aLang.getLangExamCode())) {//GRE
                         rows.createCell(31).setCellValue(aLang.getExamDay());//"GRE시행일"
                         rows.createCell(32).setCellValue(aLang.getLangGrad());//"GRE성적"
+                    } else if ("00004".equals(aLang.getLangExamCode())) {//IELT
+                    	rows.createCell(33).setCellValue(aLang.getExamDay());//"IELT응시일"
+                    	rows.createCell(34).setCellValue(aLang.getLangGrad());//"IELT성적"
                     }
                 }else if("KORN_EXAM".equals(aLang.getLangExamGrp())){
-                   // rows.createCell(32).setCellValue(aLang.getLangGrad());//"토킥 안쓴다"
+                	rows.createCell(35).setCellValue(aLang.getExamDay());//"TOPIK응시일"
+                    rows.createCell(36).setCellValue(topikLevelMap.get(aLang.getLangGrad()));//"TOPIK성적"
+
                 }else if ( "EXMP_TYPE".equals(aLang.getLangExamGrp())){
 
                     if("00001".equals(aLang.getSubCode()) ){
@@ -313,25 +319,25 @@ public class ApplicantListExcelDownloadView extends AbstractXlsView {
                     }else if("00008".equals(aLang.getSubCode()) ){
                         exmpName= "구사능력증빙";
                     }
-                    rows.createCell(45).setCellValue( exmpName);//"면제사유"
+                    rows.createCell(47).setCellValue( exmpName);//"면제사유"
 
                 }
             }
 
 
-            rows.createCell(35).setCellValue(aAppl.getMobiNum());//"핸드폰");
+            rows.createCell(37).setCellValue(aAppl.getMobiNum());//"핸드폰");
 
-            rows.createCell(37).setCellValue(aAppl.getMailAddr());//"이메일");
-            rows.createCell(38).setCellValue(aAppl.getZipCode());//"우편번호");
+            rows.createCell(39).setCellValue(aAppl.getMailAddr());//"이메일");
+            rows.createCell(40).setCellValue(aAppl.getZipCode());//"우편번호");
 
             //TODO 하드코딩 바꿔야 함
             if("17C".equals(aAppl.getAdmsNo())) {
-                rows.createCell(36).setCellValue(aAppl.getHomeEmrgTel());//"전화");
-                rows.createCell(39).setCellValue(aAppl.getHomeAddr());//"주소");
-                rows.createCell(40).setCellValue(aAppl.getHomeEmrgName());//"비상연락처(이름)");
-                rows.createCell(41).setCellValue(aAppl.getHomeEmrgRelaName());//"비상연락처(관계)");
-                rows.createCell(42).setCellValue(aAppl.getHomeEmrgTel());//"비상연락처(전화번호)");
-                rows.createCell(44).setCellValue("");
+                rows.createCell(38).setCellValue(aAppl.getHomeEmrgTel());//"전화");
+                rows.createCell(41).setCellValue(aAppl.getHomeAddr());//"주소");
+                rows.createCell(42).setCellValue(aAppl.getHomeEmrgName());//"비상연락처(이름)");
+                rows.createCell(43).setCellValue(aAppl.getHomeEmrgRelaName());//"비상연락처(관계)");
+                rows.createCell(44).setCellValue(aAppl.getHomeEmrgTel());//"비상연락처(전화번호)");
+                rows.createCell(46).setCellValue("");
             }else{
 
                 String addr="";
@@ -342,14 +348,14 @@ public class ApplicantListExcelDownloadView extends AbstractXlsView {
                 if( aAppl.getDetlAddr()!=null) {
                     detlAddr = aAppl.getDetlAddr();
                 }
-                rows.createCell(36).setCellValue(aAppl.getTelNum());//"전화");
-                rows.createCell(39).setCellValue((addr + " " + detlAddr).trim());//"주소");
-                rows.createCell(40).setCellValue(aAppl.getEmerContName());//"비상연락처(이름)");
-                rows.createCell(41).setCellValue(aAppl.getEmerContCodeName());//"비상연락처(관계)");
-                rows.createCell(42).setCellValue("");
+                rows.createCell(38).setCellValue(aAppl.getTelNum());//"전화");
+                rows.createCell(41).setCellValue((addr + " " + detlAddr).trim());//"주소");
+                rows.createCell(42).setCellValue(aAppl.getEmerContName());//"비상연락처(이름)");
+                rows.createCell(43).setCellValue(aAppl.getEmerContCodeName());//"비상연락처(관계)");
                 rows.createCell(44).setCellValue("");
+                rows.createCell(46).setCellValue("");
             }
-            rows.createCell(43).setCellValue(aAppl.getEmerContTel());//"비상연락처(전화번호)");
+            rows.createCell(45).setCellValue(aAppl.getEmerContTel());//"비상연락처(전화번호)");
 
             String hndcGrad="";
             String hndcTypeName="";
@@ -359,8 +365,8 @@ public class ApplicantListExcelDownloadView extends AbstractXlsView {
             if( aAppl.getHndcTypeName()!=null) {
                 hndcTypeName = aAppl.getHndcTypeName();
             }
-            rows.createCell(46).setCellValue((hndcGrad+" "+hndcTypeName).trim());//"장애사항(전화번호)");
-            rows.createCell(47).setCellValue(aAppl.getPaspNo());//"여권번호");
+            rows.createCell(48).setCellValue((hndcGrad+" "+hndcTypeName).trim());//"장애사항(전화번호)");
+            rows.createCell(49).setCellValue(aAppl.getPaspNo());//"여권번호");
 
             String visaNo="";
             String visaTypeCode="";
@@ -379,18 +385,18 @@ public class ApplicantListExcelDownloadView extends AbstractXlsView {
                     }
                 }
             }
-            rows.createCell(48).setCellValue((visaNo+" "+visaTypeCode).trim());//"비자정보");
-            rows.createCell(49).setCellValue(visaTypeCode);//"비자종류");
-            rows.createCell(50).setCellValue(visaNo);//"비자번호");
-            rows.createCell(51).setCellValue(aAppl.getVisaExprDay());//"비자만료일");
-            rows.createCell(52).setCellValue("");
+            rows.createCell(50).setCellValue((visaNo+" "+visaTypeCode).trim());//"비자정보");
+            rows.createCell(51).setCellValue(visaTypeCode);//"비자종류");
+            rows.createCell(52).setCellValue(visaNo);//"비자번호");
+            rows.createCell(53).setCellValue(aAppl.getVisaExprDay());//"비자만료일");
+            rows.createCell(54).setCellValue("");
             if("00001".equals(aAppl.getFornTypeCode())){
-                rows.createCell(53).setCellValue("외국인");
+                rows.createCell(55).setCellValue("외국인");
             }else if("00002".equals(aAppl.getFornTypeCode())){
-                rows.createCell(53).setCellValue("16년 해외거주");
+                rows.createCell(55).setCellValue("16년 해외거주");
             }
 
-            rows.createCell(54).setCellValue("END");
+            rows.createCell(56).setCellValue("END");
         }
 
 

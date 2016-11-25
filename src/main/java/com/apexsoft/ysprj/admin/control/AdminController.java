@@ -14,15 +14,19 @@ import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.common.domain.AdmsNo;
+import com.apexsoft.ysprj.applicants.common.domain.CommonCode;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
+import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.applicants.common.service.ZipService;
 import com.apexsoft.ysprj.applicants.common.util.FilePathUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import com.apexsoft.ysprj.user.domain.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -35,6 +39,7 @@ import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -60,6 +65,9 @@ public class AdminController {
 
     @Autowired
     private AdminService adminService;
+
+    @Autowired
+    private CommonService commonService;
 
     @Autowired
     CommonDAO commonDAO;
@@ -404,6 +412,15 @@ public class AdminController {
         mv.setViewName("ApplicantListDownload");
         mv.addObject("applList", map.get("applList"));
         mv.addObject("searchForm", map.get("searchForm"));
+
+        Map<String, String> topikLevelMap = new HashMap<String, String>();
+        List<CommonCode> topikLevelList = commonService.retrieveCommonCodeByCodeGroup("TOPK_LEVL");
+        for (CommonCode topikLevel : topikLevelList) {
+        	topikLevelMap.put(topikLevel.getCode(), !StringUtils.isEmpty(topikLevel.getCodeVal()) ?
+        			topikLevel.getCodeVal() : topikLevel.getCodeValXxen());
+        }
+
+        mv.addObject("topikLevelMap", topikLevelMap);
         return mv;
 
     }
