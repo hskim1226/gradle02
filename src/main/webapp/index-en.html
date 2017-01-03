@@ -128,12 +128,12 @@
 <!-- 	</div> -->
 
    <!-- expire-notice -->
-	<div class="expire-notice">
-		<div class="col-sm-12" id="notice-container">
-			<div class="col-sm-12">Application period is over.</div>
-			<div class="col-sm-12">If you wish to print the application slip, you can download and print from the 'My List > Verify " menu.</div>
-		</div>
-	</div>
+<!-- 	<div class="expire-notice"> -->
+<!-- 		<div class="col-sm-12" id="notice-container"> -->
+<!-- 			<div class="col-sm-12">Application period is over.</div> -->
+<!-- 			<div class="col-sm-12">If you wish to print the application slip, you can download and print from the 'My List > Verify " menu.</div> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
 
 	<!--
     <div class="expire-notice">
@@ -377,24 +377,24 @@ $(document).ready(function() {
             hiddenLang = document.getElementById('lang');
     hiddenLang.value = 'en';
 
-<!--    $('#toAdmsList').click(function(e){-->
-<!--        e.preventDefault();-->
-<!--        form.action = '/yonsei/application/admsList';-->
-<!--        form.method = 'post';-->
-<!--        form.submit();-->
-<!--    });-->
+    $('#toAdmsList').click(function(e){
+        e.preventDefault();
+        form.action = '/yonsei/application/admsList';
+        form.method = 'post';
+        form.submit();
+    });
     $('#toMyList').click(function(e){
         e.preventDefault();
         form.action = '/yonsei/application/mylist';
         form.method = 'post';
         form.submit();
     });
-<!--    $('#toSignUp').click(function(e){-->
-<!--        e.preventDefault();-->
-<!--        form.action = '/yonsei/user/agreement';-->
-<!--        form.method = 'post';-->
-<!--        form.submit();-->
-<!--    });-->
+    $('#toSignUp').click(function(e){
+        e.preventDefault();
+        form.action = '/yonsei/user/agreement';
+        form.method = 'post';
+        form.submit();
+    });
 
 
     $('.word-keep-all').wordBreakKeepAll();

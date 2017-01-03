@@ -138,12 +138,12 @@
 <!--     </div> -->
 
     <!-- expire-notice -->
-    <div class="expire-notice">
-        <div class="col-sm-12" id="notice-container">
-            <div class="col-sm-12">원서 접수가 마감되었습니다.</div>
-            <div class="col-sm-12">수험표 출력을 원하시는 경우 내원서 > 지원서보기 메뉴에서 수험표를 다운로드 받아 출력할 수 있습니다.</div>
-        </div>
-    </div>
+<!--     <div class="expire-notice"> -->
+<!--         <div class="col-sm-12" id="notice-container"> -->
+<!--             <div class="col-sm-12">원서 접수가 마감되었습니다.</div> -->
+<!--             <div class="col-sm-12">수험표 출력을 원하시는 경우 내원서 > 지원서보기 메뉴에서 수험표를 다운로드 받아 출력할 수 있습니다.</div> -->
+<!--         </div> -->
+<!--     </div> -->
 
     <!-- expire-notice -->
     <!--<div class="expire-notice">-->
@@ -388,24 +388,24 @@ $(document).ready(function() {
             hiddenLang = document.getElementById('lang');
     hiddenLang.value = 'ko';
 
-<!--    $('#toAdmsList').click(function(e){-->
-<!--        e.preventDefault();-->
-<!--        form.action = '/yonsei/application/admsList';-->
-<!--        form.method = 'post';-->
-<!--        form.submit();-->
-<!--    });-->
+    $('#toAdmsList').click(function(e){
+        e.preventDefault();
+        form.action = '/yonsei/application/admsList';
+        form.method = 'post';
+        form.submit();
+    });
     $('#toMyList').click(function(e){
         e.preventDefault();
         form.action = '/yonsei/application/mylist';
         form.method = 'post';
         form.submit();
     });
-<!--    $('#toSignUp').click(function(e){-->
-<!--        e.preventDefault();-->
-<!--        form.action = '/yonsei/user/agreement';-->
-<!--        form.method = 'post';-->
-<!--        form.submit();-->
-<!--    });-->
+    $('#toSignUp').click(function(e){
+        e.preventDefault();
+        form.action = '/yonsei/user/agreement';
+        form.method = 'post';
+        form.submit();
+    });
 
     $('.word-keep-all').wordBreakKeepAll();
 });
