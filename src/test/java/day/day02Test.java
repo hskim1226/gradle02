@@ -14,7 +14,7 @@ public class day02Test {
     public void subtest() {
         day02 day =new day02();
 
-        assertThat("3-1=2",day.sub(3,1),is(equalTo(2)));
+        assertThat(day.sub(3,1),is(equalTo(2)));
 
     }
 }
