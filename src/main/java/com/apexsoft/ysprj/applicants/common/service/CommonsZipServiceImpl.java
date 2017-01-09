@@ -64,7 +64,7 @@ public class CommonsZipServiceImpl implements ZipService {
     public File appendFilesToZipFile(List<File> fileList, File zipFile) throws IOException, InterruptedException {
 
         String zipFilePath = zipFile.getAbsolutePath();
-        String zipFileDir = zipFilePath.substring(0, zipFilePath.lastIndexOf("/"));
+        String zipFileDir = zipFilePath.substring(0, zipFilePath.lastIndexOf(File.separator));
         File tempZipFile = new File(zipFileDir, "temp.zip");
         FileUtils.copyFile(zipFile, tempZipFile);
         zipFile.delete();
