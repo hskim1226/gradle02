@@ -69,11 +69,11 @@
                                                 <td colspan="6">
                                                     <div class="col-sm-12">
                                                         <div class="col-sm-${(item.admsTypeCode=='C' || item.admsTypeCode=='D') ? '3':'4'}">
-                                                            <button id="modify${itemStatus.index}" class="btn btn-block btn-warning modify ${item.applStsCode.lastIndexOf('0')==3?'':'disabled'}"
+                                                            <button id="modify${itemStatus.index}" class="btn btn-block btn-warning modify <c:if test="${(item.applStsCode.lastIndexOf('0')==3)}">disabled</c:if>"
                                                                     data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}"
-                                                                    data-admsTypeCode="${item.admsTypeCode}"
+                                                                    data-admsTypeCode="${item.admsTypeCode}" data-applStsCode="${item.applStsCode.lastIndexOf('0')!=3}"
                                                                     <sec:authorize access="hasRole('ROLE_SYSADMIN')"><c:if test="${item.applStsCode.lastIndexOf('0')!=3}">disabled</c:if></sec:authorize>
-                                                                    <sec:authorize access="hasRole('ROLE_USER')">disabled</sec:authorize> >
+                                                                    <%--<sec:authorize access="hasRole('ROLE_USER')">disabled</sec:authorize>--%>>
                                                             	<spring:message code="L00308"/><%-- 원서 수정하기 --%><span class="my-tooltip">작성 중인 상태에서만 수정 가능합니다.</span>
                                                             </button>
                                                                     <%-- 마감 이후 버튼 비활성화 --%>
