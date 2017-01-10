@@ -1,8 +1,11 @@
 package com.apexsoft.ysprj.applicants.common.util;
 
-import com.apexsoft.ysprj.applicants.application.domain.Application;
+import java.io.File;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
+
+import com.apexsoft.ysprj.applicants.application.domain.Application;
 
 /**
  * Created by hanmomhanda on 15. 2. 24.
@@ -99,7 +102,32 @@ public class FilePathUtil {
                 .append("application_form_").append(userId).append(".pdf").toString();
     }
 
+    public static String separatorsToSystem(String path) {
+    	if (path == null) {
+    		return null;
+    	}
+    	if (File.separatorChar == '\\') {
+    		return path.replace('/', File.separatorChar);
+    	} else {
+    		return path.replace('\\', File.separatorChar);
+    	}
+    }
+
+    public static String separatorsToUnix(String path) {
+    	if (path == null) {
+    		return null;
+    	}
+    	if (File.separatorChar == '\\') {
+    		int index = path.indexOf(":");
+    		if (index > -1) {
+    			path = path.substring(index + 1);
+    		}
+    	}
+    	return path.replace(File.separatorChar, '/');
+    }
+
     public static String getS3PathFromLocalFullPath(String localFullPath, String baseDir) {
+    	localFullPath = separatorsToUnix(localFullPath);
         return localFullPath.substring(baseDir.length() + 1);
     }
 
