@@ -72,12 +72,12 @@
                                                             <button id="modify${itemStatus.index}" class="btn btn-block btn-warning modify ${item.applStsCode.lastIndexOf('0')==3?'':'disabled'}"
                                                                     data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}"
                                                                     data-admsTypeCode="${item.admsTypeCode}"
-                                                                    <sec:authorize access="hasRole('ROLE_SYSADMIN')"><c:if test="${item.applStsCode.lastIndexOf('0')!=3}">disabled</c:if></sec:authorize>
-                                                                    <sec:authorize access="hasRole('ROLE_USER')">disabled</sec:authorize> >
+                                                                    <%-- 마감 이후 버튼 비활성화 --%>
+                                                                    <c:if test="${item.applStsCode.lastIndexOf('0')!=3}">disabled</c:if>
+                                                                    <%-- <sec:authorize access="hasRole('ROLE_SYSADMIN')"><c:if test="${item.applStsCode.lastIndexOf('0')!=3}">disabled</c:if></sec:authorize>
+                                                                    <sec:authorize access="hasRole('ROLE_USER')">disabled</sec:authorize> --%> >
                                                             	<spring:message code="L00308"/><%-- 원서 수정하기 --%><span class="my-tooltip">작성 중인 상태에서만 수정 가능합니다.</span>
                                                             </button>
-                                                                    <%-- 마감 이후 버튼 비활성화 --%>
-                                                                    <%-- disabled data-admsTypeCode="${item.admsTypeCode}"><spring:message code="L00308"/>원서 수정하기<span class="my-tooltip">작성 중인 상태에서만 수정 가능합니다.</span></button> --%>
                                                         </div>
                                                         <c:if test="${(item.admsTypeCode=='C' || item.admsTypeCode=='D')}">
                                                             <div class="col-sm-3">
@@ -92,8 +92,10 @@
                                                                     data-applNo="${item.applNo}"
                                                                     data-userId="${item.userId}"
                                                                     value="${item.admsFee}"
-                                                                    <sec:authorize access="hasRole('ROLE_SYSADMIN')"><c:if test="${item.applStsCode!='00010' && item.applStsCode!='00021'}">disabled</c:if></sec:authorize>
-                                                                    <sec:authorize access="hasRole('ROLE_USER')">disabled</sec:authorize> >
+                                                                    <%-- 마감 이후 버튼 비활성화 --%>
+                                                                    <c:if test="${item.applStsCode!='00010' && item.applStsCode!='00021'}">disabled</c:if>
+                                                                    <%-- <sec:authorize access="hasRole('ROLE_SYSADMIN')"><c:if test="${item.applStsCode!='00010' && item.applStsCode!='00021'}">disabled</c:if></sec:authorize>
+                                                                    <sec:authorize access="hasRole('ROLE_USER')">disabled</sec:authorize> --%> >
                                                             	<spring:message code="L00310"/><%--전형료 결제하기--%>
                                                             </button>
                                                         </div>
